@@ -74,7 +74,7 @@ class _LoginPage extends State<LoginPage> {
         email: email,
         password: password,
       );
-      print('Logged in');
+      print('Logged in ');
 
       loggedIn(ctx);
     } catch (err) {
