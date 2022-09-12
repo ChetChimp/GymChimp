@@ -1,37 +1,37 @@
 {
   "project_info": {
-    "project_number": "1063285549929",
-    "project_id": "gymchimp-d7f8e",
-    "storage_bucket": "gymchimp-d7f8e.appspot.com"
+    "project_number": "647270617312",
+    "project_id": "gymchimp-9e06e",
+    "storage_bucket": "gymchimp-9e06e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1063285549929:android:b228ede68f78fd57e4abf8",
+        "mobilesdk_app_id": "1:647270617312:android:bdbc855878c80ffb728085",
         "android_client_info": {
           "package_name": "com.example.gymchimp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1063285549929-h357njkr493dp3bfq8gr7hbnruaoot4d.apps.googleusercontent.com",
+          "client_id": "647270617312-brghifbiul0j68cv1q8ck2j8quuo7ntu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAGbolVklqidbX1mCqLSkOzMonmXGyyl6Q"
+          "current_key": "AIzaSyAXvZ3OTEgGnbRrrDgDQz8jbRMaW-fEEhw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1063285549929-h357njkr493dp3bfq8gr7hbnruaoot4d.apps.googleusercontent.com",
+              "client_id": "647270617312-brghifbiul0j68cv1q8ck2j8quuo7ntu.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1063285549929-kb281ucm7t1csubnb18fd8usq734ncnq.apps.googleusercontent.com",
+              "client_id": "647270617312-u2a94dov6ab9i582c87uma6paalq7db2.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.example.gymchimp"

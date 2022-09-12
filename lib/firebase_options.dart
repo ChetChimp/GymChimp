@@ -44,41 +44,39 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD7lcOI4z7oKvlO-6qnRPWY_ok9g_1Ji1g',
-    appId: '1:1063285549929:web:35eaf319cb51c570e4abf8',
-    messagingSenderId: '1063285549929',
-    projectId: 'gymchimp-d7f8e',
-    authDomain: 'gymchimp-d7f8e.firebaseapp.com',
-    storageBucket: 'gymchimp-d7f8e.appspot.com',
+    apiKey: 'AIzaSyBHFsg8XRl3mYLKUlGzpTb7ncm91cTMG2Y',
+    appId: '1:647270617312:web:6d93cfb54e10ac80728085',
+    messagingSenderId: '647270617312',
+    projectId: 'gymchimp-9e06e',
+    authDomain: 'gymchimp-9e06e.firebaseapp.com',
+    storageBucket: 'gymchimp-9e06e.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAGbolVklqidbX1mCqLSkOzMonmXGyyl6Q',
-    appId: '1:1063285549929:android:b228ede68f78fd57e4abf8',
-    messagingSenderId: '1063285549929',
-    projectId: 'gymchimp-d7f8e',
-    storageBucket: 'gymchimp-d7f8e.appspot.com',
+    apiKey: 'AIzaSyAXvZ3OTEgGnbRrrDgDQz8jbRMaW-fEEhw',
+    appId: '1:647270617312:android:bdbc855878c80ffb728085',
+    messagingSenderId: '647270617312',
+    projectId: 'gymchimp-9e06e',
+    storageBucket: 'gymchimp-9e06e.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBDPdR0dQxGWfHYjK_pzTA0EuEznsjO_qg',
-    appId: '1:1063285549929:ios:315f3284699487e6e4abf8',
-    messagingSenderId: '1063285549929',
-    projectId: 'gymchimp-d7f8e',
-    storageBucket: 'gymchimp-d7f8e.appspot.com',
-    iosClientId:
-        '1063285549929-kb281ucm7t1csubnb18fd8usq734ncnq.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBkgOwkbvC4C2DVPTTiCPGdR5yqAxPN8WA',
+    appId: '1:647270617312:ios:6ebdc2c078ff18ae728085',
+    messagingSenderId: '647270617312',
+    projectId: 'gymchimp-9e06e',
+    storageBucket: 'gymchimp-9e06e.appspot.com',
+    iosClientId: '647270617312-u2a94dov6ab9i582c87uma6paalq7db2.apps.googleusercontent.com',
     iosBundleId: 'com.example.gymchimp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBDPdR0dQxGWfHYjK_pzTA0EuEznsjO_qg',
-    appId: '1:1063285549929:ios:315f3284699487e6e4abf8',
-    messagingSenderId: '1063285549929',
-    projectId: 'gymchimp-d7f8e',
-    storageBucket: 'gymchimp-d7f8e.appspot.com',
-    iosClientId:
-        '1063285549929-kb281ucm7t1csubnb18fd8usq734ncnq.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBkgOwkbvC4C2DVPTTiCPGdR5yqAxPN8WA',
+    appId: '1:647270617312:ios:6ebdc2c078ff18ae728085',
+    messagingSenderId: '647270617312',
+    projectId: 'gymchimp-9e06e',
+    storageBucket: 'gymchimp-9e06e.appspot.com',
+    iosClientId: '647270617312-u2a94dov6ab9i582c87uma6paalq7db2.apps.googleusercontent.com',
     iosBundleId: 'com.example.gymchimp',
   );
 }
