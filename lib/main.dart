@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:gymchimp/openingScreens/sign_up_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: const LoginPage(),
+      home: const FirstLogIn(),
     );
   }
 }
