@@ -24,7 +24,9 @@ class _LoginPage extends State<LoginPage> {
 
   Route _createRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
+      pageBuilder: (context, animation, secondaryAnimation) => const HomePage(
+        selectedIndex: 0,
+      ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;
@@ -92,7 +94,7 @@ class _LoginPage extends State<LoginPage> {
         );
       });
       overlaystate?.insert(overlayEntry);
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 6));
 
       overlayEntry.remove();
     }

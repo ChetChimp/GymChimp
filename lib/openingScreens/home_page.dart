@@ -10,24 +10,43 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/openingScreens/home_page.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:gymchimp/openingScreens/sign_up_page.dart';
+import 'package:gymchimp/openingScreens/workout_page.dart';
 import '../firebase_options.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final int selectedIndex;
+  const HomePage({Key? key, required this.selectedIndex}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePage();
+  _HomePage createState() => _HomePage(selectedIndex: this.selectedIndex);
 }
 
 class _HomePage extends State<HomePage> {
-  void backToLogin(BuildContext ctx) {
-    Navigator.of(ctx).push(_createRoute());
-  }
+  int selectedIndex;
+  _HomePage({required this.selectedIndex});
+
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    WorkoutPage(),
+    Text(
+      'Index 1: Stats',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: Nutrition',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 3: Plan',
+      style: optionStyle,
+    ),
+  ];
 
   Route _createRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          const LoginPage(),
+          const HomePage(selectedIndex: 0),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;
@@ -44,32 +63,60 @@ class _HomePage extends State<HomePage> {
     );
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    return Container(
-      color: Colors.white,
-      child: Container(
-        margin: EdgeInsets.only(
-            top: size.width * 1 / 2.75, left: size.width * 1 / 16),
-        alignment: Alignment.bottomLeft,
-        child: Material(
-          child: IconButton(
-            // pressedOpacity: 100,
-            color: Color.fromARGB(255, 79, 79, 79),
-
-            padding: EdgeInsets.only(
-                left: size.width * 1 / 16,
-                right: size.width * 1 / 16,
-                top: 3,
-                bottom: 10),
-            icon: const Icon(Icons.lock),
-            onPressed: () {
-              backToLogin(context);
-            }, //validation(context),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      body: Center(
+        child: _widgetOptions.elementAt(selectedIndex),
+      ),
+      appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
+        //toolbarHeight: 30,
+        elevation: 0,
+        leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_outlined,
+              color: Colors.black,
+            ),
+            onPressed: () {}),
+        backgroundColor: Colors.transparent,
+        actions: <Widget>[
+          IconButton(
+              color: Colors.black,
+              icon: const Icon(Icons.settings_outlined),
+              onPressed: () {}),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.fitness_center_outlined),
+            label: 'Workout',
           ),
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.insights_outlined),
+            label: 'Stats',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.restaurant_outlined),
+            label: 'Nutrition',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.edit),
+            label: 'Plan',
+          ),
+        ],
+        currentIndex: selectedIndex,
+        selectedItemColor: Color.fromARGB(255, 35, 178, 90),
+        onTap: _onItemTapped,
       ),
     );
   }

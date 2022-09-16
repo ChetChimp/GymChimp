@@ -1,40 +1,77 @@
 {
   "project_info": {
-    "project_number": "1063285549929",
-    "project_id": "gymchimp-d7f8e",
-    "storage_bucket": "gymchimp-d7f8e.appspot.com"
+    "project_number": "170096254745",
+    "firebase_url": "https://gymchimp-3bb5e-default-rtdb.firebaseio.com",
+    "project_id": "gymchimp-3bb5e",
+    "storage_bucket": "gymchimp-3bb5e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1063285549929:android:b228ede68f78fd57e4abf8",
+        "mobilesdk_app_id": "1:170096254745:android:c67f59407afe52efe22f88",
         "android_client_info": {
           "package_name": "com.example.gymchimp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1063285549929-h357njkr493dp3bfq8gr7hbnruaoot4d.apps.googleusercontent.com",
+          "client_id": "170096254745-klh7bvq9idencsj0ofbvvkgjcsjuku1s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAGbolVklqidbX1mCqLSkOzMonmXGyyl6Q"
+          "current_key": "AIzaSyAGMl_Tw0K4yyAr7deGLgNV_LpZL2Jj9tY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1063285549929-h357njkr493dp3bfq8gr7hbnruaoot4d.apps.googleusercontent.com",
+              "client_id": "170096254745-klh7bvq9idencsj0ofbvvkgjcsjuku1s.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1063285549929-kb281ucm7t1csubnb18fd8usq734ncnq.apps.googleusercontent.com",
+              "client_id": "170096254745-n8vdrj0ffimpvbv1r6t9sa27ikbq4tr9.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.gymchimp"
+                "bundle_id": "com.example.workoutApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:170096254745:android:3cd0e036d0a13cb9e22f88",
+        "android_client_info": {
+          "package_name": "com.example.workout_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "170096254745-klh7bvq9idencsj0ofbvvkgjcsjuku1s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGMl_Tw0K4yyAr7deGLgNV_LpZL2Jj9tY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "170096254745-klh7bvq9idencsj0ofbvvkgjcsjuku1s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "170096254745-n8vdrj0ffimpvbv1r6t9sa27ikbq4tr9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.workoutApp"
               }
             }
           ]
