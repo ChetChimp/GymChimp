@@ -11,6 +11,7 @@ import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:gymchimp/openingScreens/home_page.dart';
 import 'package:gymchimp/openingScreens/sign_up_page.dart';
 import '../firebase_options.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -42,20 +43,17 @@ class _LoginPage extends State<LoginPage> {
     );
   }
 
-  Route _backToMain() {
+  Route _backToMain(Widget page) {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const FirstLogIn(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(0.0, 1.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionDuration: Duration(milliseconds: 1),
+      transitionsBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation, Widget child) {
+        return new SlideTransition(
+          position: new Tween<Offset>(
+            begin: const Offset(-1.0, 0.0),
+            end: Offset.zero,
+          ).animate(animation),
           child: child,
         );
       },
@@ -63,7 +61,7 @@ class _LoginPage extends State<LoginPage> {
   }
 
   void goBack(BuildContext ctx) {
-    Navigator.of(ctx).push(_backToMain());
+    Navigator.of(ctx).push(_backToMain(FirstLogIn()));
   }
 
   void toSignUp(BuildContext ctx) {
@@ -132,8 +130,8 @@ class _LoginPage extends State<LoginPage> {
           begin: Alignment.topLeft,
           end: Alignment(0.8, 1),
           colors: <Color>[
-            Color.fromARGB(211, 204, 227, 255),
             Color.fromARGB(233, 228, 240, 255),
+            Color.fromARGB(211, 204, 227, 255),
           ], // Gradient from https://learnui.design/tools/gradient-generator.html
           tileMode: TileMode.mirror,
         ),
@@ -150,17 +148,36 @@ class _LoginPage extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Icon(
+                    shadows: <Shadow>[
+                      Shadow(
+                          color: Colors.black.withOpacity(0.4),
+                          offset: const Offset(7, 7),
+                          blurRadius: 5),
+                    ],
                     color: Colors.black,
                     Icons.lock_open_sharp,
                     size: size.width / 2,
                   ),
-                  const Center(
-                    child: Card(
-                      shadowColor: Colors.transparent,
-                      color: Color.fromARGB(0, 255, 255, 255),
-                      child: Text(
-                        'Log In',
-                        style: TextStyle(fontSize: 40),
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: size.width * 1 / 8,
+                        right: size.width * 1 / 8,
+                        bottom: size.width * 1 / 32),
+                    child: Text(
+                      'Login',
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                            // shadows: <Shadow>[
+                            //   Shadow(
+                            //       color: Colors.black.withOpacity(0.4),
+                            //       offset: const Offset(7, 7),
+                            //       blurRadius: 50),
+                            // ],
+                            fontWeight: FontWeight.bold,
+                            fontSize: 45,
+                            color: Colors.black,
+                            letterSpacing: .5,
+                            decoration: TextDecoration.none),
                       ),
                     ),
                   ),
@@ -241,8 +258,8 @@ class _LoginPage extends State<LoginPage> {
                     padding: EdgeInsets.only(
                         left: size.width * 1 / 8,
                         right: size.width * 1 / 8,
-                        top: 5,
-                        bottom: 5),
+                        top: size.height * 1 / 80,
+                        bottom: size.height * 1 / 80),
                     child: Icon(
                       Icons.check,
                       size: 25,

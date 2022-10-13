@@ -1,24 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
+import 'package:gymchimp/openingScreens/sign_up_page.dart';
 
 class FirstLogIn extends StatelessWidget {
   const FirstLogIn({Key? key}) : super(key: key);
 
-  void loggedIn(BuildContext ctx) {
-    Navigator.of(ctx).push(_createRoute());
-  }
-
-  Route _createRoute() {
+  Route createRoute(Widget page) {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const LoginPage(),
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionDuration: Duration(milliseconds: 1),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(0.0, 1.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
+        const begin = Offset(5, 0);
+        const end = Offset(0, 0);
+        const curve = Curves.decelerate;
 
         var tween =
             Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
@@ -29,6 +27,14 @@ class FirstLogIn extends StatelessWidget {
         );
       },
     );
+  }
+
+  void loggedIn(BuildContext ctx) {
+    Navigator.of(ctx).push(createRoute(LoginPage()));
+  }
+
+  void signup(BuildContext ctx) {
+    Navigator.of(ctx).push(createRoute(SignUpPage()));
   }
 
   @override
@@ -63,9 +69,9 @@ class FirstLogIn extends StatelessWidget {
                         textStyle: TextStyle(
                             shadows: <Shadow>[
                               Shadow(
-                                  color: Colors.black.withOpacity(0.4  ),
+                                  color: Colors.black.withOpacity(0.4),
                                   offset: const Offset(7, 7),
-                                  blurRadius: 20),
+                                  blurRadius: 30),
                             ],
                             fontSize: 60,
                             fontWeight: FontWeight.bold,
@@ -97,7 +103,9 @@ class FirstLogIn extends StatelessWidget {
                         ), // <-- Text
                         backgroundColor: Color.fromARGB(255, 255, 255, 255),
 
-                        onPressed: () {},
+                        onPressed: () {
+                          signup(context);
+                        },
                       ),
                     ),
                   ],
