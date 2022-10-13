@@ -41,8 +41,8 @@ class FirstLogIn extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment(0.8, 1),
             colors: <Color>[
-              Color.fromARGB(211, 204, 227, 255),
               Color.fromARGB(233, 228, 240, 255),
+              Color.fromARGB(211, 204, 227, 255),
             ], // Gradient from https://learnui.design/tools/gradient-generator.html
             tileMode: TileMode.mirror,
           ),
@@ -63,9 +63,9 @@ class FirstLogIn extends StatelessWidget {
                         textStyle: TextStyle(
                             shadows: <Shadow>[
                               Shadow(
-                                  color: Colors.black.withOpacity(0.4),
+                                  color: Colors.black.withOpacity(0.4  ),
                                   offset: const Offset(7, 7),
-                                  blurRadius: 30),
+                                  blurRadius: 20),
                             ],
                             fontSize: 60,
                             fontWeight: FontWeight.bold,
@@ -77,6 +77,8 @@ class FirstLogIn extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(top: size.height / 15),
                       child: FloatingActionButton.extended(
+                        heroTag: "btn1",
+
                         extendedPadding: EdgeInsets.only(
                             left: size.width / 8,
                             right: size.width / 8,
@@ -104,6 +106,7 @@ class FirstLogIn extends StatelessWidget {
             ),
             Container(
               child: FloatingActionButton.extended(
+                heroTag: "btn2",
                 extendedPadding: EdgeInsets.only(
                     left: size.width / 22,
                     right: size.width / 22,
