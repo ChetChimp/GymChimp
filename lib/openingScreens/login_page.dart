@@ -204,11 +204,12 @@ class _LoginPage extends State<LoginPage> {
                       suffix: Material(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                         child: IconButton(
-                            iconSize: 18,
-                            onPressed: () {
-                              _emailController.clear();
-                            },
-                            icon: const Icon(Icons.clear)),
+                          iconSize: 18,
+                          onPressed: () {
+                            _emailController.clear();
+                          },
+                          icon: const Icon(Icons.clear),
+                        ),
                       ),
                     ),
                   ),

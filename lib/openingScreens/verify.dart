@@ -53,16 +53,17 @@ class _VerificationState extends State<Verification> {
       ),
       child: Column(
         children: [
-          Container(
-            margin: EdgeInsets.only(top: size.width * 1 / 1.5),
-            child: Icon(
-              color: Colors.black,
-              size: size.width / 3,
-              Icons.check_box_rounded,
-            ),
-          ),
-          const Center(
+          // Container(
+          //   margin: EdgeInsets.only(top: size.width * 1 / 1.5),
+          //   child: Icon(
+          //     color: Colors.black,
+          //     size: size.width / 3,
+          //     Icons.check_box_rounded,
+          //   ),
+          // ),
+          Center(
             child: Card(
+              margin: EdgeInsets.only(top: size.height * 1 / 2.5),
               shadowColor: Colors.transparent,
               color: Color.fromARGB(0, 255, 255, 255),
               child: Text(
@@ -91,11 +92,30 @@ class _VerificationState extends State<Verification> {
     await user.reload();
     if (user.emailVerified) {
       timer.cancel();
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => LoginPage(),
-        ),
+      var alertDialog = Material(
+        color: Colors.redAccent.withOpacity(0),
+        child: IconButton(
+            color: Colors.greenAccent[700],
+            iconSize: MediaQuery.of(context).size.width / 2,
+            icon: Icon(Icons.check_circle),
+            onPressed: () {
+              toLoginPage(context);
+            }),
       );
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alertDialog;
+          });
     }
+  }
+
+  void toLoginPage(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => LoginPage(),
+      ),
+    );
   }
 }
