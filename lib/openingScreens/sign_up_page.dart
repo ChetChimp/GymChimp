@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
+import 'package:gymchimp/openingScreens/verify.dart';
 import '../firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,6 +26,10 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void goBack(BuildContext ctx) {
     Navigator.of(ctx).push(createRoute(FirstLogIn()));
+  }
+
+  void toVerify(BuildContext ctx) {
+    Navigator.of(ctx).push(createRoute(Verification()));
   }
 
   Route createRoute(Widget page) {
@@ -56,7 +61,6 @@ class _SignUpPageState extends State<SignUpPage> {
     try {
       //email.trim();
       print(email);
-
       result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -66,6 +70,7 @@ class _SignUpPageState extends State<SignUpPage> {
           .doc(result.user.uid)
           .set({'email': email, 'password': password});
       print('Signed Up');
+      toVerify(ctx);
     } catch (err) {
       OverlayState? overlaystate = Overlay.of(ctx);
       OverlayEntry overlayEntry = OverlayEntry(builder: (ctx) {
@@ -82,7 +87,6 @@ class _SignUpPageState extends State<SignUpPage> {
       });
       overlaystate?.insert(overlayEntry);
       await Future.delayed(Duration(seconds: 4));
-
       overlayEntry.remove();
     }
   }
@@ -133,10 +137,8 @@ class _SignUpPageState extends State<SignUpPage> {
   validation(BuildContext context) {
     if (!email.contains('@')) {
       invalidEmailOverlay(context, 'Invalid Email');
-      //resetEmail();
     } else if (email != confirmEmail) {
       invalidEmailOverlay(context, 'Emails do not match');
-      //ngub24@ resetEmail();
     } else if (password.length < 7) {
       invalidEmailOverlay(context, 'Password is too short');
       resetPass();
