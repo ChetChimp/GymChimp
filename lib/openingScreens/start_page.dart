@@ -1,25 +1,14 @@
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:gymchimp/openingScreens/home_page.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
-import 'package:gymchimp/openingScreens/sign_up_page.dart';
-import '../firebase_options.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class StartPage extends StatefulWidget {
+  const StartPage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePage();
+  State<StartPage> createState() => _HomePage();
 }
 
-class _HomePage extends State<HomePage> {
+class _HomePage extends State<StartPage> {
   void backToLogin(BuildContext ctx) {
     Navigator.of(ctx).push(_createRoute());
   }

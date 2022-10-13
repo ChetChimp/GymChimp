@@ -1,16 +1,9 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
-import 'package:gymchimp/openingScreens/home_page.dart';
-import 'package:gymchimp/openingScreens/sign_up_page.dart';
-import '../firebase_options.dart';
+import 'package:gymchimp/openingScreens/start_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
@@ -21,29 +14,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
+  //initialize instance of firebase user
   final _auth = FirebaseAuth.instance;
+  //initialize instance of firebase firestore
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Route _createRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(0.0, 1.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
-
-  Route _backToMain(Widget page) {
+/*
+  -animation for page change, used for majority of navigation
+  -changes pages instantly
+  -will be cleaned up, animaitons are not necessary
+*/
+  Route navigate(Widget page) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionDuration: Duration(milliseconds: 1),
@@ -60,32 +41,33 @@ class _LoginPage extends State<LoginPage> {
     );
   }
 
+/*
+  -called when back arrow IconButton is pushed, 
+  -makes call to createRoute method to take user to firsTimeLogin page
+*/
   void goBack(BuildContext ctx) {
-    Navigator.of(ctx).push(_backToMain(FirstLogIn()));
+    Navigator.of(ctx).push(navigate(FirstLogIn()));
   }
 
-  void toSignUp(BuildContext ctx) {
-    Navigator.of(ctx).push(
-      MaterialPageRoute(
-        builder: (_) {
-          return SignUpPage();
-        },
-      ),
-    );
-  }
-
+/*
+  -called when checkMark IconButton is pushed, 
+  -makes call to createRoute method to take user to start page
+*/
   void loggedIn(BuildContext ctx) {
-    Navigator.of(ctx).push(_createRoute());
+    Navigator.of(ctx).push(navigate(StartPage()));
   }
 
-  var _emailConfirmController = TextEditingController();
+  /*
+  Initializing controllers to take and store user input inside textfields
+  */
   var _emailController = TextEditingController();
   var _passController = TextEditingController();
-  var _passConfirmController = TextEditingController();
   String email = '';
-  String confirmEmail = '';
   String password = '';
-  String confirmPassword = '';
+
+  /*
+  Method to verify user input with database an log the user in
+  */
   @override
   void _submitForm(
     String email,
@@ -93,14 +75,16 @@ class _LoginPage extends State<LoginPage> {
     BuildContext ctx,
   ) async {
     try {
+      //attemps to verify user-input, if data matches database --> takes user to login page
       var result = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      print('Logged in ');
-
       loggedIn(ctx);
     } catch (err) {
+      //if there is an error with the user's input, return the error String to the user as a popup
+      //pop up duration lasts for 2 seconds
+      //plan is to improve error handling and return custom messages that are easier to understand
       OverlayState? overlaystate = Overlay.of(ctx);
       OverlayEntry overlayEntry = OverlayEntry(builder: (ctx) {
         return Container(
@@ -116,14 +100,19 @@ class _LoginPage extends State<LoginPage> {
       });
       overlaystate?.insert(overlayEntry);
       await Future.delayed(Duration(seconds: 2));
-
       overlayEntry.remove();
     }
   }
 
+  /*
+  Overarching structure of page layout
+  */
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    /*
+    -Container used for background with light gray to gray gradient
+    -Child: container
+    */
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -137,16 +126,31 @@ class _LoginPage extends State<LoginPage> {
         ),
       ),
       height: size.height,
-      // width: size.width / 1.5,
+      /*
+      Container with column as child
+      -inset margin size 25% of the height of the screen
+      */
       child: Container(
         margin: EdgeInsets.only(top: size.width * 1 / 4),
+        /*
+          Column with a 3 containers, cupertinoButton and IconButton
+        */
         child: Column(
           children: [
+            /*
+            Container with column child
+            */
             Container(
               height: size.height - (size.height * 1 / 5),
+              /*
+              Column with Icon and Container (text)
+              */
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+                  /*
+                  Icon: Open Lock Icon, drop shadow, color = black, size = half of the width
+                  */
                   Icon(
                     shadows: <Shadow>[
                       Shadow(
@@ -158,12 +162,19 @@ class _LoginPage extends State<LoginPage> {
                     Icons.lock_open_sharp,
                     size: size.width / 2,
                   ),
+                  /*
+                  Container for text, has margins
+                  */
                   Container(
                     margin: EdgeInsets.only(
                         left: size.width * 1 / 8,
                         right: size.width * 1 / 8,
                         bottom: size.width * 1 / 32),
-                    child: Text(
+                    child:
+                        /*
+                    Text: "Login", font = lato, fontSize = 45, color = black
+                    */
+                        Text(
                       'Login',
                       style: GoogleFonts.lato(
                         textStyle: TextStyle(
@@ -181,12 +192,22 @@ class _LoginPage extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  //////// Email /////////
+                  //Container for cupertinoTextField, has margins
                   Container(
                     margin: EdgeInsets.only(
                         left: size.width * 1 / 8,
                         right: size.width * 1 / 8,
                         bottom: size.width * 1 / 32),
+                    /*
+                    CuperTinoTextField: 
+                    -takes input into _emailController
+                    -when value is changed email variable is updated
+                    -"Email" placeholder, gray text, fontSize = 18
+                    -rounded
+                    -IconButton suffix
+                            - "X" icon
+                            - when pressed, clears textField
+                    */
                     child: CupertinoTextField(
                       controller: _emailController,
                       onChanged: (value) {
@@ -214,12 +235,22 @@ class _LoginPage extends State<LoginPage> {
                     ),
                   ),
 
-                  //////// Password /////////
+                  //Container with cupertinoTextField
                   Container(
                     margin: EdgeInsets.only(
                         left: size.width * 1 / 8,
                         right: size.width * 1 / 8,
                         bottom: size.width * 1 / 32),
+                    /*
+                    CuperTinoTextField: 
+                    -takes input into _passController
+                    -when value is changed password variable is updated
+                    -"Password:" placeholder, gray text, fontSize = 18
+                    -rounded
+                    -IconButton suffix
+                            - "X" icon
+                            - when pressed, clears textField
+                    */
                     child: CupertinoTextField(
                       obscureText: true,
                       controller: _passController,
@@ -248,10 +279,14 @@ class _LoginPage extends State<LoginPage> {
                     ),
                   ),
 
-                  //////// Button //////////
-
+                  /*
+                    CupertinoButton:
+                    - color = black
+                    - contains checkmark icon
+                    - when pressed calls submitForm method which verifies all of the user's input
+                      with the database
+                  */
                   CupertinoButton(
-                    // pressedOpacity: 100,
                     color: Color.fromARGB(255, 0, 0, 0),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(20.0),
@@ -272,6 +307,11 @@ class _LoginPage extends State<LoginPage> {
                 ],
               ),
             ),
+            /*
+            Material/Container with IconButton.
+            -IconButton is a "back arrow"
+            -When pressed, calls goBack() method, takes user to previous page
+            */
             Material(
               type: MaterialType.transparency,
               child: Container(
