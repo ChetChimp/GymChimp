@@ -1,15 +1,10 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:gymchimp/openingScreens/home_page.dart';
-import 'package:gymchimp/openingScreens/sign_up_page.dart';
-import '../firebase_options.dart';
+import 'package:gymchimp/openingScreens/first_time_login.dart';
+import 'package:gymchimp/openingScreens/start_page.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -19,50 +14,60 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
+  //initialize instance of firebase user
   final _auth = FirebaseAuth.instance;
+  //initialize instance of firebase firestore
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Route _createRoute() {
+/*
+  -animation for page change, used for majority of navigation
+  -changes pages instantly
+  -will be cleaned up, animaitons are not necessary
+*/
+  Route navigate(Widget page) {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(0.0, 1.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionDuration: Duration(milliseconds: 1),
+      transitionsBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation, Widget child) {
+        return new SlideTransition(
+          position: new Tween<Offset>(
+            begin: const Offset(-1.0, 0.0),
+            end: Offset.zero,
+          ).animate(animation),
           child: child,
         );
       },
     );
   }
 
-  void toSignUp(BuildContext ctx) {
-    Navigator.of(ctx).push(
-      MaterialPageRoute(
-        builder: (_) {
-          return SignUpPage();
-        },
-      ),
-    );
+/*
+  -called when back arrow IconButton is pushed, 
+  -makes call to createRoute method to take user to firsTimeLogin page
+*/
+  void goBack(BuildContext ctx) {
+    Navigator.of(ctx).push(navigate(FirstLogIn()));
   }
 
+/*
+  -called when checkMark IconButton is pushed, 
+  -makes call to createRoute method to take user to start page
+*/
   void loggedIn(BuildContext ctx) {
-    Navigator.of(ctx).push(_createRoute());
+    Navigator.of(ctx).push(navigate(StartPage()));
   }
 
-  var _emailConfirmController = TextEditingController();
+  /*
+  Initializing controllers to take and store user input inside textfields
+  */
   var _emailController = TextEditingController();
   var _passController = TextEditingController();
-  var _passConfirmController = TextEditingController();
   String email = '';
-  String confirmEmail = '';
   String password = '';
-  String confirmPassword = '';
+
+  /*
+  Method to verify user input with database an log the user in
+  */
   @override
   void _submitForm(
     String email,
@@ -70,14 +75,16 @@ class _LoginPage extends State<LoginPage> {
     BuildContext ctx,
   ) async {
     try {
+      //attemps to verify user-input, if data matches database --> takes user to login page
       var result = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      print('Logged in ');
-
       loggedIn(ctx);
     } catch (err) {
+      //if there is an error with the user's input, return the error String to the user as a popup
+      //pop up duration lasts for 2 seconds
+      //plan is to improve error handling and return custom messages that are easier to understand
       OverlayState? overlaystate = Overlay.of(ctx);
       OverlayEntry overlayEntry = OverlayEntry(builder: (ctx) {
         return Container(
@@ -93,153 +100,234 @@ class _LoginPage extends State<LoginPage> {
       });
       overlaystate?.insert(overlayEntry);
       await Future.delayed(Duration(seconds: 2));
-
       overlayEntry.remove();
     }
   }
 
+  /*
+  Overarching structure of page layout
+  */
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    /*
+    -Container used for background with light gray to gray gradient
+    -Child: container
+    */
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment(0.8, 1),
           colors: <Color>[
-            Color.fromARGB(255, 6, 184, 107),
-            Color.fromARGB(255, 197, 193, 190),
+            Color.fromARGB(233, 228, 240, 255),
+            Color.fromARGB(211, 204, 227, 255),
           ], // Gradient from https://learnui.design/tools/gradient-generator.html
           tileMode: TileMode.mirror,
         ),
       ),
       height: size.height,
-      // width: size.width / 1.5,
+      /*
+      Container with column as child
+      -inset margin size 25% of the height of the screen
+      */
       child: Container(
         margin: EdgeInsets.only(top: size.width * 1 / 4),
+        /*
+          Column with a 3 containers, cupertinoButton and IconButton
+        */
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Icon(
-              color: Colors.black,
-              Icons.lock_open_sharp,
-              size: size.width / 2,
-            ),
-            const Center(
-              child: Card(
-                shadowColor: Colors.transparent,
-                color: Color.fromARGB(0, 255, 255, 255),
-                child: Text(
-                  'Log In',
-                  style: TextStyle(fontSize: 40),
-                ),
-              ),
-            ),
-            //////// Email /////////
+          children: [
+            /*
+            Container with column child
+            */
             Container(
-              margin: EdgeInsets.only(
-                  left: size.width * 1 / 8,
-                  right: size.width * 1 / 8,
-                  bottom: size.width * 1 / 32),
-              child: CupertinoTextField(
-                controller: _emailController,
-                onChanged: (value) {
-                  email = value;
-                },
-                placeholder: 'Email:',
-                placeholderStyle: TextStyle(
-                  color: Color.fromARGB(255, 73, 73, 73),
-                  fontSize: 18,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                suffix: Material(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  child: IconButton(
-                      iconSize: 18,
-                      onPressed: () {
-                        _emailController.clear();
+              height: size.height - (size.height * 1 / 5),
+              /*
+              Column with Icon and Container (text)
+              */
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  /*
+                  Icon: Open Lock Icon, drop shadow, color = black, size = half of the width
+                  */
+                  Icon(
+                    shadows: <Shadow>[
+                      Shadow(
+                          color: Colors.black.withOpacity(0.4),
+                          offset: const Offset(7, 7),
+                          blurRadius: 5),
+                    ],
+                    color: Colors.black,
+                    Icons.lock_open_sharp,
+                    size: size.width / 2,
+                  ),
+                  /*
+                  Container for text, has margins
+                  */
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: size.width * 1 / 8,
+                        right: size.width * 1 / 8,
+                        bottom: size.width * 1 / 32),
+                    child:
+                        /*
+                    Text: "Login", font = lato, fontSize = 45, color = black
+                    */
+                        Text(
+                      'Login',
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                            // shadows: <Shadow>[
+                            //   Shadow(
+                            //       color: Colors.black.withOpacity(0.4),
+                            //       offset: const Offset(7, 7),
+                            //       blurRadius: 50),
+                            // ],
+                            fontWeight: FontWeight.bold,
+                            fontSize: 45,
+                            color: Colors.black,
+                            letterSpacing: .5,
+                            decoration: TextDecoration.none),
+                      ),
+                    ),
+                  ),
+                  //Container for cupertinoTextField, has margins
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: size.width * 1 / 8,
+                        right: size.width * 1 / 8,
+                        bottom: size.width * 1 / 32),
+                    /*
+                    CuperTinoTextField: 
+                    -takes input into _emailController
+                    -when value is changed email variable is updated
+                    -"Email" placeholder, gray text, fontSize = 18
+                    -rounded
+                    -IconButton suffix
+                            - "X" icon
+                            - when pressed, clears textField
+                    */
+                    child: CupertinoTextField(
+                      controller: _emailController,
+                      onChanged: (value) {
+                        email = value;
                       },
-                      icon: const Icon(Icons.clear)),
-                ),
-              ),
-            ),
+                      placeholder: 'Email:',
+                      placeholderStyle: TextStyle(
+                        color: Color.fromARGB(255, 73, 73, 73),
+                        fontSize: 18,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      suffix: Material(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        child: IconButton(
+                          iconSize: 18,
+                          onPressed: () {
+                            _emailController.clear();
+                          },
+                          icon: const Icon(Icons.clear),
+                        ),
+                      ),
+                    ),
+                  ),
 
-            //////// Password /////////
-            Container(
-              margin: EdgeInsets.only(
-                  left: size.width * 1 / 8,
-                  right: size.width * 1 / 8,
-                  bottom: size.width * 1 / 32),
-              child: CupertinoTextField(
-                obscureText: true,
-                controller: _passController,
-                onChanged: (value) {
-                  password = value;
-                },
-                placeholder: 'Password:',
-                placeholderStyle: TextStyle(
-                  color: Color.fromARGB(255, 73, 73, 73),
-                  fontSize: 18,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                suffix: Material(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  child: IconButton(
-                      iconSize: 18,
-                      onPressed: () {
-                        _passController.clear();
-                        password = '';
+                  //Container with cupertinoTextField
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: size.width * 1 / 8,
+                        right: size.width * 1 / 8,
+                        bottom: size.width * 1 / 32),
+                    /*
+                    CuperTinoTextField: 
+                    -takes input into _passController
+                    -when value is changed password variable is updated
+                    -"Password:" placeholder, gray text, fontSize = 18
+                    -rounded
+                    -IconButton suffix
+                            - "X" icon
+                            - when pressed, clears textField
+                    */
+                    child: CupertinoTextField(
+                      obscureText: true,
+                      controller: _passController,
+                      onChanged: (value) {
+                        password = value;
                       },
-                      icon: const Icon(Icons.clear)),
-                ),
+                      placeholder: 'Password:',
+                      placeholderStyle: TextStyle(
+                        color: Color.fromARGB(255, 73, 73, 73),
+                        fontSize: 18,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      suffix: Material(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        child: IconButton(
+                            iconSize: 18,
+                            onPressed: () {
+                              _passController.clear();
+                              password = '';
+                            },
+                            icon: const Icon(Icons.clear)),
+                      ),
+                    ),
+                  ),
+
+                  /*
+                    CupertinoButton:
+                    - color = black
+                    - contains checkmark icon
+                    - when pressed calls submitForm method which verifies all of the user's input
+                      with the database
+                  */
+                  CupertinoButton(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(20.0),
+                    ),
+                    padding: EdgeInsets.only(
+                        left: size.width * 1 / 8,
+                        right: size.width * 1 / 8,
+                        top: size.height * 1 / 80,
+                        bottom: size.height * 1 / 80),
+                    child: Icon(
+                      Icons.check,
+                      size: 25,
+                    ),
+                    onPressed: () {
+                      _submitForm(email, password, context);
+                    }, //validation(context),
+                  ),
+                ],
               ),
             ),
-
-            //////// Button //////////
-
-            CupertinoButton(
-              // pressedOpacity: 100,
-              color: Color.fromARGB(255, 0, 0, 0),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(20.0),
-              ),
-              padding: EdgeInsets.only(
-                  left: size.width * 1 / 8,
-                  right: size.width * 1 / 8,
-                  top: 5,
-                  bottom: 5),
-              child: Icon(
-                Icons.check,
-                size: 25,
-              ),
-              onPressed: () {
-                _submitForm(email, password, context);
-              }, //validation(context),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: size.height * 1 / 3.5),
-              child: CupertinoButton(
-                // pressedOpacity: 100,
-                color: Color.fromARGB(255, 77, 77, 77),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20.0),
-                ),
-                padding: EdgeInsets.only(
-                    left: size.width * 1 / 8,
-                    right: size.width * 1 / 8,
-                    top: 5,
-                    bottom: 5),
-                child: Text("Don't Have an Account? Sign Up!"),
+            /*
+            Material/Container with IconButton.
+            -IconButton is a "back arrow"
+            -When pressed, calls goBack() method, takes user to previous page
+            */
+            Material(
+              type: MaterialType.transparency,
+              child: Container(
+                  child: IconButton(
                 onPressed: () {
-                  toSignUp(context);
-                }, //validation(context),
-              ),
+                  goBack(context);
+                },
+                color: Color.fromARGB(255, 0, 0, 0),
+
+                highlightColor:
+                    Color.fromARGB(255, 135, 135, 135), //<-- SEE HERE
+                iconSize: 30,
+                icon: Icon(
+                  Icons.arrow_back,
+                ),
+              )),
             ),
           ],
         ),

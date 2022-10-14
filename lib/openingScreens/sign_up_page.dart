@@ -1,14 +1,10 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:gymchimp/openingScreens/login_page.dart';
-import '../firebase_options.dart';
+import 'package:gymchimp/openingScreens/first_time_login.dart';
+import 'package:gymchimp/openingScreens/verify.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -21,18 +17,22 @@ class _SignUpPageState extends State<SignUpPage> {
   final _auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  void backToLogin(BuildContext ctx) {
-    Navigator.of(ctx).push(_createRoute());
+  void goBack(BuildContext ctx) {
+    Navigator.of(ctx).push(createRoute(FirstLogIn()));
   }
 
-  Route _createRoute() {
+  void toVerify(BuildContext ctx) {
+    Navigator.of(ctx).push(createRoute(Verification()));
+  }
+
+  Route createRoute(Widget page) {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const LoginPage(),
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionDuration: Duration(milliseconds: 1),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(0.0, 1.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
+        const begin = Offset(5, 0);
+        const end = Offset(0, 0);
+        const curve = Curves.decelerate;
 
         var tween =
             Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
@@ -54,7 +54,6 @@ class _SignUpPageState extends State<SignUpPage> {
     try {
       //email.trim();
       print(email);
-
       result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -64,6 +63,7 @@ class _SignUpPageState extends State<SignUpPage> {
           .doc(result.user.uid)
           .set({'email': email, 'password': password});
       print('Signed Up');
+      toVerify(ctx);
     } catch (err) {
       OverlayState? overlaystate = Overlay.of(ctx);
       OverlayEntry overlayEntry = OverlayEntry(builder: (ctx) {
@@ -80,7 +80,6 @@ class _SignUpPageState extends State<SignUpPage> {
       });
       overlaystate?.insert(overlayEntry);
       await Future.delayed(Duration(seconds: 4));
-
       overlayEntry.remove();
     }
   }
@@ -131,10 +130,8 @@ class _SignUpPageState extends State<SignUpPage> {
   validation(BuildContext context) {
     if (!email.contains('@')) {
       invalidEmailOverlay(context, 'Invalid Email');
-      //resetEmail();
     } else if (email != confirmEmail) {
       invalidEmailOverlay(context, 'Emails do not match');
-      //ngub24@ resetEmail();
     } else if (password.length < 7) {
       invalidEmailOverlay(context, 'Password is too short');
       resetPass();
@@ -155,8 +152,8 @@ class _SignUpPageState extends State<SignUpPage> {
           begin: Alignment.topLeft,
           end: Alignment(0.8, 1),
           colors: <Color>[
-            Color.fromARGB(255, 6, 184, 107),
-            Color.fromARGB(255, 197, 193, 190),
+            Color.fromARGB(233, 228, 240, 255),
+            Color.fromARGB(211, 204, 227, 255),
           ], // Gradient from https://learnui.design/tools/gradient-generator.html
           tileMode: TileMode.mirror,
         ),
@@ -169,17 +166,38 @@ class _SignUpPageState extends State<SignUpPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Icon(
+              shadows: <Shadow>[
+                Shadow(
+                    color: Colors.black.withOpacity(0.4),
+                    offset: const Offset(7, 7),
+                    blurRadius: 5),
+              ],
               color: Colors.black,
               Icons.send,
               size: size.width / 2,
             ),
-            const Center(
+            Center(
               child: Card(
                 shadowColor: Colors.transparent,
                 color: Color.fromARGB(0, 255, 255, 255),
-                child: Text(
-                  'Sign Up',
-                  style: TextStyle(fontSize: 40),
+                child: Container(
+                  child: Text(
+                    'Sign-Up',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                          // shadows: <Shadow>[
+                          //   Shadow(
+                          //       color: Colors.black.withOpacity(0.4),
+                          //       offset: const Offset(7, 7),
+                          //       blurRadius: 50),
+                          // ],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 45,
+                          color: Colors.black,
+                          letterSpacing: .5,
+                          decoration: TextDecoration.none),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -333,24 +351,23 @@ class _SignUpPageState extends State<SignUpPage> {
               }, //validation(context),
             ),
             Container(
-              margin: EdgeInsets.only(
-                  top: size.width * 1 / 2.75, left: size.width * 1 / 16),
-              alignment: Alignment.bottomLeft,
-              child: CupertinoButton(
-                // pressedOpacity: 100,
-                color: Color.fromARGB(255, 79, 79, 79),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20.0),
-                ),
-                padding: EdgeInsets.only(
-                    left: size.width * 1 / 16,
-                    right: size.width * 1 / 16,
-                    top: 3,
-                    bottom: 3),
-                child: Text("Back"),
-                onPressed: () {
-                  backToLogin(context);
-                }, //validation(context),
+              margin: EdgeInsets.only(top: size.width * 1 / 3),
+              child: Material(
+                type: MaterialType.transparency,
+                child: Container(
+                    child: IconButton(
+                  onPressed: () {
+                    goBack(context);
+                  },
+                  color: Color.fromARGB(255, 0, 0, 0),
+
+                  highlightColor:
+                      Color.fromARGB(255, 135, 135, 135), //<-- SEE HERE
+                  iconSize: 30,
+                  icon: Icon(
+                    Icons.arrow_back,
+                  ),
+                )),
               ),
             ),
           ],
