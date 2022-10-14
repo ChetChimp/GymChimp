@@ -109,8 +109,8 @@ class _LoginPage extends State<LoginPage> {
           begin: Alignment.topLeft,
           end: Alignment(0.8, 1),
           colors: <Color>[
-            Color.fromARGB(255, 6, 184, 107),
-            Color.fromARGB(255, 197, 193, 190),
+            Color.fromARGB(233, 228, 240, 255),
+            Color.fromARGB(211, 204, 227, 255),
           ], // Gradient from https://learnui.design/tools/gradient-generator.html
           tileMode: TileMode.mirror,
         ),

@@ -11,6 +11,7 @@ import 'package:gymchimp/openingScreens/home_page.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:gymchimp/openingScreens/sign_up_page.dart';
 import '../firebase_options.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({Key? key}) : super(key: key);
@@ -35,8 +36,8 @@ class _StartPage extends State<StartPage> {
               begin: Alignment.topLeft,
               end: Alignment(0.8, 1),
               colors: <Color>[
-                Color.fromARGB(255, 36, 193, 213),
-                Color.fromARGB(255, 197, 193, 190),
+                Color.fromARGB(233, 228, 240, 255),
+                Color.fromARGB(211, 204, 227, 255),
               ], // Gradient from https://learnui.design/tools/gradient-generator.html
               tileMode: TileMode.mirror,
             ),
@@ -48,17 +49,26 @@ class _StartPage extends State<StartPage> {
                 Text(
                   "Welcome Back Chet",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none),
+                  style: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                        shadows: <Shadow>[
+                          Shadow(
+                              color: Colors.black.withOpacity(0.4),
+                              offset: const Offset(7, 7),
+                              blurRadius: 30),
+                        ],
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        letterSpacing: .5,
+                        decoration: TextDecoration.none),
+                  ),
                 ),
                 Spacer(flex: 1),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    OutlinedButton(
+                    ElevatedButton(
                         style: TextButton.styleFrom(
                             minimumSize: Size(150, 150),
                             backgroundColor: Colors.white),
@@ -70,11 +80,14 @@ class _StartPage extends State<StartPage> {
                             Icon(
                               Icons.fitness_center_outlined,
                               size: 100,
+                              color: Colors.blue,
                             ),
                             SizedBox(height: 5),
                             Text(
                               "Workout",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue),
                             )
                           ],
                         )),
