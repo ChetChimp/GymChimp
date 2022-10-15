@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/openingScreens/home_page.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
+import 'package:gymchimp/openingScreens/plan_page.dart';
 import 'package:gymchimp/openingScreens/sign_up_page.dart';
 import 'package:gymchimp/openingScreens/start_page.dart';
 import 'package:gymchimp/openingScreens/workout_page.dart';
@@ -23,9 +24,7 @@ class HomePage extends StatefulWidget {
 }
 
 void goBack(BuildContext ctx) {
-  Navigator.of(ctx).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => StartPage()),
-      ModalRoute.withName("/Home"));
+  Navigator.of(ctx).pop();
 }
 
 class _HomePage extends State<HomePage> {
@@ -34,6 +33,8 @@ class _HomePage extends State<HomePage> {
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
+  // List of 4 pages
   static const List<Widget> _widgetOptions = <Widget>[
     WorkoutPage(),
     Text(
@@ -44,10 +45,7 @@ class _HomePage extends State<HomePage> {
       'Index 2: Nutrition',
       style: optionStyle,
     ),
-    Text(
-      'Index 3: Plan',
-      style: optionStyle,
-    ),
+    PlanPage(),
   ];
 
   Route _createRoute() {
