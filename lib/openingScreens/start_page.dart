@@ -33,6 +33,7 @@ void logOutUser(BuildContext ctx) {
 }
 
 class _StartPage extends State<StartPage> {
+  var user = FirebaseAuth.instance.currentUser;
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Container(
@@ -64,11 +65,11 @@ class _StartPage extends State<StartPage> {
                 ),
                 Spacer(flex: 3),
                 Text(
-                  "Welcome",
+                  "Welcome, " + user!.email.toString(),
                   textAlign: TextAlign.center,
                   style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
-                        fontSize: 45,
+                        fontSize: 30,
                         fontWeight: FontWeight.normal,
                         color: Colors.black,
                         letterSpacing: .5,

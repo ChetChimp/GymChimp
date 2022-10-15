@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
+import 'package:gymchimp/openingScreens/forgot_pass.dart';
 import 'package:gymchimp/openingScreens/start_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,6 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPage extends State<LoginPage> {
   //initialize instance of firebase user
   final _auth = FirebaseAuth.instance;
+
   //initialize instance of firebase firestore
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -47,6 +49,10 @@ class _LoginPage extends State<LoginPage> {
 */
   void goBack(BuildContext ctx) {
     Navigator.of(ctx).push(navigate(FirstLogIn()));
+  }
+
+  void forgotPass(BuildContext ctx) {
+    Navigator.of(ctx).push(navigate(ForgotPassWord()));
   }
 
 /*
@@ -296,6 +302,40 @@ class _LoginPage extends State<LoginPage> {
             Spacer(
               flex: 5,
             ),
+            Container(
+              /*
+              Floating Action Button with tag "btn2"
+              -preset space between button text and border
+              -Text: "Already have an account? Log in here!", font = lato, fontSize = 16,
+                      color = black
+              -background = white
+              -when pressed make call to loggedIn(), takes user to login page
+              */
+              child: FloatingActionButton.extended(
+                heroTag: "btn2",
+                extendedPadding: EdgeInsets.only(
+                    left: size.width / 22,
+                    right: size.width / 22,
+                    top: size.width / 16,
+                    bottom: size.width / 16),
+                label: Text(
+                  'Forgot password?',
+                  style: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                        letterSpacing: .5,
+                        decoration: TextDecoration.none),
+                  ),
+                ), // <-- Text
+                backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                onPressed: () {
+                  forgotPass(context);
+                },
+              ),
+            ),
+            Spacer(flex: 1),
             Material(
                 type: MaterialType.transparency,
                 child: IconButton(
