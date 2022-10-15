@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:gymchimp/openingScreens/home_page.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:gymchimp/openingScreens/sign_up_page.dart';
@@ -23,6 +24,12 @@ class StartPage extends StatefulWidget {
 void toHomePage(BuildContext ctx, int page) {
   Navigator.of(ctx).push(
       MaterialPageRoute(builder: (context) => HomePage(selectedIndex: page)));
+}
+
+void logOutUser(BuildContext ctx) {
+  final auth = FirebaseAuth.instance;
+  auth.signOut();
+  Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => FirstLogIn()));
 }
 
 class _StartPage extends State<StartPage> {
@@ -44,7 +51,19 @@ class _StartPage extends State<StartPage> {
           child: Container(
             child: Column(
               children: <Widget>[
-                Spacer(flex: 5),
+                Container(
+                  alignment: Alignment.topRight,
+                  margin: EdgeInsets.all(30),
+                  child: Material(
+                      color: Colors.black.withOpacity(0),
+                      child: IconButton(
+                        icon: Icon(Icons.lock),
+                        onPressed: () {
+                          logOutUser(context);
+                        },
+                      )),
+                ),
+                Spacer(flex: 4),
                 Text(
                   "Welcome Back Chet",
                   textAlign: TextAlign.center,
