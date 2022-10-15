@@ -35,7 +35,6 @@ void logOutUser(BuildContext ctx) {
 class _StartPage extends State<StartPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Welcome to Flutter',
       home: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -53,7 +52,7 @@ class _StartPage extends State<StartPage> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.topRight,
-                  margin: EdgeInsets.all(30),
+                  margin: EdgeInsets.only(top: 30, left: 30, right: 30),
                   child: Material(
                       color: Colors.black.withOpacity(0),
                       child: IconButton(
@@ -63,20 +62,14 @@ class _StartPage extends State<StartPage> {
                         },
                       )),
                 ),
-                Spacer(flex: 4),
+                Spacer(flex: 3),
                 Text(
-                  "Welcome Back Chet",
+                  "Welcome",
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.lato(
+                  style: GoogleFonts.quicksand(
                     textStyle: TextStyle(
-                        shadows: <Shadow>[
-                          Shadow(
-                              color: Colors.black.withOpacity(0.4),
-                              offset: const Offset(7, 7),
-                              blurRadius: 30),
-                        ],
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 45,
+                        fontWeight: FontWeight.normal,
                         color: Colors.black,
                         letterSpacing: .5,
                         decoration: TextDecoration.none),

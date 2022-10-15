@@ -137,68 +137,49 @@ class _LoginPage extends State<LoginPage> {
         */
         child: Column(
           children: [
+            Spacer(flex: 3),
+
             /*
             Container with column child
             */
-            Container(
-              height: size.height - (size.height * 1 / 5),
-              /*
+
+            /*
               Column with Icon and Container (text)
               */
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  /*
-                  Icon: Open Lock Icon, drop shadow, color = black, size = half of the width
-                  */
-                  Icon(
-                    shadows: <Shadow>[
-                      Shadow(
-                          color: Colors.black.withOpacity(0.4),
-                          offset: const Offset(7, 7),
-                          blurRadius: 5),
-                    ],
-                    color: Colors.black,
-                    Icons.lock_open_sharp,
-                    size: size.width / 2,
-                  ),
-                  /*
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                /*
                   Container for text, has margins
                   */
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: size.width * 1 / 8,
-                        right: size.width * 1 / 8,
-                        bottom: size.width * 1 / 32),
-                    child:
-                        /*
+                Container(
+                  margin: EdgeInsets.only(
+                      left: size.width * 1 / 8,
+                      right: size.width * 1 / 8,
+                      bottom: size.width * 1 / 32),
+                  child:
+                      /*
                     Text: "Login", font = lato, fontSize = 45, color = black
                     */
-                        Text(
-                      'Login',
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                            // shadows: <Shadow>[
-                            //   Shadow(
-                            //       color: Colors.black.withOpacity(0.4),
-                            //       offset: const Offset(7, 7),
-                            //       blurRadius: 50),
-                            // ],
-                            fontWeight: FontWeight.bold,
-                            fontSize: 45,
-                            color: Colors.black,
-                            letterSpacing: .5,
-                            decoration: TextDecoration.none),
-                      ),
+                      Text(
+                    'Login',
+                    style: GoogleFonts.quicksand(
+                      textStyle: TextStyle(
+                          fontSize: 45,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.black,
+                          letterSpacing: .5,
+                          decoration: TextDecoration.none),
                     ),
                   ),
-                  //Container for cupertinoTextField, has margins
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: size.width * 1 / 8,
-                        right: size.width * 1 / 8,
-                        bottom: size.width * 1 / 32),
-                    /*
+                ),
+                //Container for cupertinoTextField, has margins
+                Container(
+                  margin: EdgeInsets.only(
+                      left: size.width * 1 / 8,
+                      right: size.width * 1 / 8,
+                      bottom: size.width * 1 / 32),
+                  /*
                     CuperTinoTextField: 
                     -takes input into _emailController
                     -when value is changed email variable is updated
@@ -208,40 +189,40 @@ class _LoginPage extends State<LoginPage> {
                             - "X" icon
                             - when pressed, clears textField
                     */
-                    child: CupertinoTextField(
-                      controller: _emailController,
-                      onChanged: (value) {
-                        email = value;
-                      },
-                      placeholder: 'Email:',
-                      placeholderStyle: TextStyle(
-                        color: Color.fromARGB(255, 73, 73, 73),
-                        fontSize: 18,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      suffix: Material(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        child: IconButton(
-                          iconSize: 18,
-                          onPressed: () {
-                            _emailController.clear();
-                          },
-                          icon: const Icon(Icons.clear),
-                        ),
+                  child: CupertinoTextField(
+                    controller: _emailController,
+                    onChanged: (value) {
+                      email = value;
+                    },
+                    placeholder: 'Email:',
+                    placeholderStyle: TextStyle(
+                      color: Color.fromARGB(255, 73, 73, 73),
+                      fontSize: 18,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    suffix: Material(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      child: IconButton(
+                        iconSize: 18,
+                        onPressed: () {
+                          _emailController.clear();
+                        },
+                        icon: const Icon(Icons.clear),
                       ),
                     ),
                   ),
+                ),
 
-                  //Container with cupertinoTextField
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: size.width * 1 / 8,
-                        right: size.width * 1 / 8,
-                        bottom: size.width * 1 / 32),
-                    /*
+                //Container with cupertinoTextField
+                Container(
+                  margin: EdgeInsets.only(
+                      left: size.width * 1 / 8,
+                      right: size.width * 1 / 8,
+                      bottom: size.width * 1 / 32),
+                  /*
                     CuperTinoTextField: 
                     -takes input into _passController
                     -when value is changed password variable is updated
@@ -251,84 +232,87 @@ class _LoginPage extends State<LoginPage> {
                             - "X" icon
                             - when pressed, clears textField
                     */
-                    child: CupertinoTextField(
-                      obscureText: true,
-                      controller: _passController,
-                      onChanged: (value) {
-                        password = value;
-                      },
-                      placeholder: 'Password:',
-                      placeholderStyle: TextStyle(
-                        color: Color.fromARGB(255, 73, 73, 73),
-                        fontSize: 18,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      suffix: Material(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        child: IconButton(
-                            iconSize: 18,
-                            onPressed: () {
-                              _passController.clear();
-                              password = '';
-                            },
-                            icon: const Icon(Icons.clear)),
-                      ),
+                  child: CupertinoTextField(
+                    obscureText: true,
+                    controller: _passController,
+                    onChanged: (value) {
+                      password = value;
+                    },
+                    placeholder: 'Password:',
+                    placeholderStyle: TextStyle(
+                      color: Color.fromARGB(255, 73, 73, 73),
+                      fontSize: 18,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    suffix: Material(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      child: IconButton(
+                          iconSize: 18,
+                          onPressed: () {
+                            _passController.clear();
+                            password = '';
+                          },
+                          icon: const Icon(Icons.clear)),
                     ),
                   ),
+                ),
 
-                  /*
+                /*
                     CupertinoButton:
                     - color = black
                     - contains checkmark icon
                     - when pressed calls submitForm method which verifies all of the user's input
                       with the database
                   */
-                  CupertinoButton(
-                    color: Color.fromARGB(255, 0, 0, 0),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(20.0),
-                    ),
-                    padding: EdgeInsets.only(
-                        left: size.width * 1 / 8,
-                        right: size.width * 1 / 8,
-                        top: size.height * 1 / 80,
-                        bottom: size.height * 1 / 80),
-                    child: Icon(
-                      Icons.check,
-                      size: 25,
-                    ),
-                    onPressed: () {
-                      _submitForm(email, password, context);
-                    }, //validation(context),
+                CupertinoButton(
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20.0),
                   ),
-                ],
-              ),
+                  padding: EdgeInsets.only(
+                      left: size.width * 1 / 8,
+                      right: size.width * 1 / 8,
+                      top: size.height * 1 / 80,
+                      bottom: size.height * 1 / 80),
+                  child: Icon(
+                    Icons.check,
+                    size: 25,
+                  ),
+                  onPressed: () {
+                    _submitForm(email, password, context);
+                  }, //validation(context),
+                ),
+              ],
             ),
+
             /*
             Material/Container with IconButton.
             -IconButton is a "back arrow"
             -When pressed, calls goBack() method, takes user to previous page
             */
-            Material(
-              type: MaterialType.transparency,
-              child: Container(
-                  child: IconButton(
-                onPressed: () {
-                  goBack(context);
-                },
-                color: Color.fromARGB(255, 0, 0, 0),
-
-                highlightColor:
-                    Color.fromARGB(255, 135, 135, 135), //<-- SEE HERE
-                iconSize: 30,
-                icon: Icon(
-                  Icons.arrow_back,
-                ),
-              )),
+            Spacer(
+              flex: 5,
             ),
+            Material(
+                type: MaterialType.transparency,
+                child: IconButton(
+                  splashRadius: 20,
+                  onPressed: () {
+                    goBack(context);
+                  },
+                  color: Color.fromARGB(255, 0, 0, 0),
+
+                  highlightColor:
+                      Color.fromARGB(255, 135, 135, 135), //<-- SEE HERE
+                  iconSize: 40,
+                  icon: Icon(
+                    Icons.arrow_back,
+                  ),
+                )),
+            Spacer(flex: 1),
           ],
         ),
       ),

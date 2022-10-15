@@ -112,16 +112,10 @@ class FirstLogIn extends StatelessWidget {
                     */
                     Text(
                       'GymChimp',
-                      style: GoogleFonts.lato(
+                      style: GoogleFonts.quicksand(
                         textStyle: TextStyle(
-                            shadows: <Shadow>[
-                              Shadow(
-                                  color: Colors.black.withOpacity(0.4),
-                                  offset: const Offset(7, 7),
-                                  blurRadius: 30),
-                            ],
                             fontSize: 60,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                             color: Colors.black,
                             letterSpacing: .5,
                             decoration: TextDecoration.none),
@@ -132,7 +126,7 @@ class FirstLogIn extends StatelessWidget {
                     -contains FloatingActionButton
                     */
                     Container(
-                      margin: EdgeInsets.only(top: size.height / 15),
+                      margin: EdgeInsets.only(top: size.height / 25),
                       /*
                         FloatingActionButton with tag "btn1"
                         -preset space inside of button between border and text

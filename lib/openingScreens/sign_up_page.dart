@@ -165,17 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Icon(
-              shadows: <Shadow>[
-                Shadow(
-                    color: Colors.black.withOpacity(0.4),
-                    offset: const Offset(7, 7),
-                    blurRadius: 5),
-              ],
-              color: Colors.black,
-              Icons.send,
-              size: size.width / 2,
-            ),
+            Spacer(flex: 2),
             Center(
               child: Card(
                 shadowColor: Colors.transparent,
@@ -183,16 +173,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Container(
                   child: Text(
                     'Sign-Up',
-                    style: GoogleFonts.lato(
+                    style: GoogleFonts.quicksand(
                       textStyle: TextStyle(
-                          // shadows: <Shadow>[
-                          //   Shadow(
-                          //       color: Colors.black.withOpacity(0.4),
-                          //       offset: const Offset(7, 7),
-                          //       blurRadius: 50),
-                          // ],
-                          fontWeight: FontWeight.bold,
                           fontSize: 45,
+                          fontWeight: FontWeight.normal,
                           color: Colors.black,
                           letterSpacing: .5,
                           decoration: TextDecoration.none),
@@ -350,26 +334,27 @@ class _SignUpPageState extends State<SignUpPage> {
                 validation(context);
               }, //validation(context),
             ),
+            Spacer(flex: 1),
             Container(
               margin: EdgeInsets.only(top: size.width * 1 / 3),
               child: Material(
-                type: MaterialType.transparency,
-                child: Container(
-                    child: IconButton(
-                  onPressed: () {
-                    goBack(context);
-                  },
-                  color: Color.fromARGB(255, 0, 0, 0),
+                  type: MaterialType.transparency,
+                  child: IconButton(
+                    splashRadius: 20,
+                    onPressed: () {
+                      goBack(context);
+                    },
+                    color: Color.fromARGB(255, 0, 0, 0),
 
-                  highlightColor:
-                      Color.fromARGB(255, 135, 135, 135), //<-- SEE HERE
-                  iconSize: 30,
-                  icon: Icon(
-                    Icons.arrow_back,
-                  ),
-                )),
-              ),
+                    highlightColor:
+                        Color.fromARGB(255, 135, 135, 135), //<-- SEE HERE
+                    iconSize: 40,
+                    icon: Icon(
+                      Icons.arrow_back,
+                    ),
+                  )),
             ),
+            Spacer(flex: 1)
           ],
         ),
       ),
