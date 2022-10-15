@@ -32,9 +32,9 @@ class MyApp extends StatelessWidget {
     bool loggedIn = false;
     if (FirebaseAuth.instance.currentUser != null) {
       //await
-      loggedIn = false;
-    } else {
       loggedIn = true;
+    } else {
+      loggedIn = false;
     }
 
     return MaterialApp(
