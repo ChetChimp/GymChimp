@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/openingScreens/home_page.dart';
+import 'package:gymchimp/openingScreens/forgot_pass.dart';
 import 'package:gymchimp/openingScreens/sign_up_page.dart';
 import '../firebase_options.dart';
 
@@ -20,6 +21,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPage extends State<LoginPage> {
   final _auth = FirebaseAuth.instance;
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Route _createRoute() {
@@ -51,6 +53,10 @@ class _LoginPage extends State<LoginPage> {
         },
       ),
     );
+  }
+
+  void forgotPass(BuildContext ctx) {
+    Navigator.of(ctx).push(navigate(ForgotPassWord()));
   }
 
   void loggedIn(BuildContext ctx) {
@@ -203,46 +209,93 @@ class _LoginPage extends State<LoginPage> {
               ),
             ),
 
-            //////// Button //////////
+                /*
+                    CupertinoButton:
+                    - color = black
+                    - contains checkmark icon
+                    - when pressed calls submitForm method which verifies all of the user's input
+                      with the database
+                  */
+                CupertinoButton(
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20.0),
+                  ),
+                  padding: EdgeInsets.only(
+                      left: size.width * 1 / 8,
+                      right: size.width * 1 / 8,
+                      top: size.height * 1 / 80,
+                      bottom: size.height * 1 / 80),
+                  child: Icon(
+                    Icons.check,
+                    size: 25,
+                  ),
+                  onPressed: () {
+                    _submitForm(email, password, context);
+                  }, //validation(context),
+                ),
+              ],
+            ),
 
-            CupertinoButton(
-              // pressedOpacity: 100,
-              color: Color.fromARGB(255, 0, 0, 0),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(20.0),
-              ),
-              padding: EdgeInsets.only(
-                  left: size.width * 1 / 8,
-                  right: size.width * 1 / 8,
-                  top: 5,
-                  bottom: 5),
-              child: Icon(
-                Icons.check,
-                size: 25,
-              ),
-              onPressed: () {
-                _submitForm(email, password, context);
-              }, //validation(context),
+            /*
+            Material/Container with IconButton.
+            -IconButton is a "back arrow"
+            -When pressed, calls goBack() method, takes user to previous page
+            */
+            Spacer(
+              flex: 5,
             ),
             Container(
-              margin: EdgeInsets.only(top: size.height * 1 / 3.5),
-              child: CupertinoButton(
-                // pressedOpacity: 100,
-                color: Color.fromARGB(255, 77, 77, 77),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20.0),
-                ),
-                padding: EdgeInsets.only(
-                    left: size.width * 1 / 8,
-                    right: size.width * 1 / 8,
-                    top: 5,
-                    bottom: 5),
-                child: Text("Don't Have an Account? Sign Up!"),
+              /*
+              Floating Action Button with tag "btn2"
+              -preset space between button text and border
+              -Text: "Already have an account? Log in here!", font = lato, fontSize = 16,
+                      color = black
+              -background = white
+              -when pressed make call to loggedIn(), takes user to login page
+              */
+              child: FloatingActionButton.extended(
+                heroTag: "btn2",
+                extendedPadding: EdgeInsets.only(
+                    left: size.width / 22,
+                    right: size.width / 22,
+                    top: size.width / 16,
+                    bottom: size.width / 16),
+                label: Text(
+                  'Forgot password?',
+                  style: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                        letterSpacing: .5,
+                        decoration: TextDecoration.none),
+                  ),
+                ), // <-- Text
+                backgroundColor: Color.fromARGB(255, 255, 255, 255),
                 onPressed: () {
-                  toSignUp(context);
-                }, //validation(context),
+                  forgotPass(context);
+                },
               ),
             ),
+            Spacer(flex: 1),
+            Material(
+                type: MaterialType.transparency,
+                child: IconButton(
+                  splashRadius: 20,
+                  onPressed: () {
+                    goBack(context);
+                  },
+                  color: Color.fromARGB(255, 0, 0, 0),
+
+                  highlightColor:
+                      Color.fromARGB(255, 135, 135, 135), //<-- SEE HERE
+                  iconSize: 40,
+                  icon: Icon(
+                    Icons.arrow_back,
+                  ),
+                )),
+            Spacer(flex: 1),
           ],
         ),
       ),

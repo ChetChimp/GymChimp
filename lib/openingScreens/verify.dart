@@ -92,7 +92,7 @@ class _VerificationState extends State<Verification> {
       var alertDialog = Material(
         color: Colors.redAccent.withOpacity(0),
         child: IconButton(
-            color: Colors.greenAccent[700],
+            color: Color.fromARGB(255, 0, 255, 106),
             iconSize: MediaQuery.of(context).size.width / 2,
             icon: Icon(Icons.check_circle),
             onPressed: () {
