@@ -42,8 +42,13 @@ class _HomePage extends State<HomePage> {
       style: optionStyle,
     ),
     Text(
-      'Index 2: Nutrition',
-      style: optionStyle,
+      'Coming soon :)',
+      style: TextStyle(
+          fontSize: 45,
+          fontWeight: FontWeight.normal,
+          color: Colors.black,
+          letterSpacing: .5,
+          decoration: TextDecoration.none),
     ),
     PlanPage(),
   ];
