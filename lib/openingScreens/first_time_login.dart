@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
@@ -29,6 +30,16 @@ class FirstLogIn extends StatelessWidget {
         );
       },
     );
+  }
+
+  void test() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        print('User is signed in!');
+      }
+    });
   }
 
 /*

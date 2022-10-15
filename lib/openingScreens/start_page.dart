@@ -21,9 +21,8 @@ class StartPage extends StatefulWidget {
 }
 
 void toHomePage(BuildContext ctx, int page) {
-  Navigator.of(ctx).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => HomePage(selectedIndex: page)),
-      ModalRoute.withName("/Home"));
+  Navigator.of(ctx).push(
+      MaterialPageRoute(builder: (context) => HomePage(selectedIndex: page)));
 }
 
 class _StartPage extends State<StartPage> {
@@ -68,8 +67,11 @@ class _StartPage extends State<StartPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    // Workout Button
                     ElevatedButton(
                         style: TextButton.styleFrom(
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(10)),
                             minimumSize: Size(150, 150),
                             backgroundColor: Colors.white),
                         onPressed: () {
@@ -92,8 +94,11 @@ class _StartPage extends State<StartPage> {
                           ],
                         )),
                     SizedBox(width: 10),
-                    OutlinedButton(
+                    // Stats Button
+                    ElevatedButton(
                         style: TextButton.styleFrom(
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(10)),
                             minimumSize: Size(150, 150),
                             backgroundColor: Colors.white),
                         onPressed: () {
@@ -104,11 +109,14 @@ class _StartPage extends State<StartPage> {
                             Icon(
                               Icons.insights_outlined,
                               size: 100,
+                              color: Colors.blue,
                             ),
                             SizedBox(height: 5),
                             Text(
                               "Stats",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue),
                             )
                           ],
                         )),
@@ -118,8 +126,11 @@ class _StartPage extends State<StartPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    OutlinedButton(
+                    // Nutrition Button
+                    ElevatedButton(
                         style: TextButton.styleFrom(
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(10)),
                             minimumSize: Size(150, 150),
                             backgroundColor: Colors.white),
                         onPressed: () {
@@ -130,17 +141,23 @@ class _StartPage extends State<StartPage> {
                             Icon(
                               Icons.restaurant_outlined,
                               size: 100,
+                              color: Colors.blue,
                             ),
                             SizedBox(height: 5),
                             Text(
                               "Nutrition",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue),
                             )
                           ],
                         )),
                     SizedBox(width: 10),
-                    OutlinedButton(
+                    // Plan Button
+                    ElevatedButton(
                         style: TextButton.styleFrom(
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(10)),
                             minimumSize: Size(150, 150),
                             backgroundColor: Colors.white),
                         onPressed: () {
@@ -151,11 +168,14 @@ class _StartPage extends State<StartPage> {
                             Icon(
                               Icons.edit,
                               size: 100,
+                              color: Colors.blue,
                             ),
                             SizedBox(height: 5),
                             Text(
                               "Plan",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue),
                             )
                           ],
                         )),

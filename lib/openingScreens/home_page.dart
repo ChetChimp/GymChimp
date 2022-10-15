@@ -10,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/openingScreens/home_page.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:gymchimp/openingScreens/sign_up_page.dart';
+import 'package:gymchimp/openingScreens/start_page.dart';
 import 'package:gymchimp/openingScreens/workout_page.dart';
 import '../firebase_options.dart';
 
@@ -19,6 +20,12 @@ class HomePage extends StatefulWidget {
 
   @override
   _HomePage createState() => _HomePage(selectedIndex: this.selectedIndex);
+}
+
+void goBack(BuildContext ctx) {
+  Navigator.of(ctx).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => StartPage()),
+      ModalRoute.withName("/Home"));
 }
 
 class _HomePage extends State<HomePage> {
@@ -85,7 +92,9 @@ class _HomePage extends State<HomePage> {
               Icons.arrow_back_outlined,
               color: Colors.black,
             ),
-            onPressed: () {}),
+            onPressed: () {
+              goBack(context);
+            }),
         backgroundColor: Colors.transparent,
         actions: <Widget>[
           IconButton(
