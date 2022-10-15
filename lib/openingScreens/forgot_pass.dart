@@ -36,7 +36,7 @@ Route navigate(Widget page) {
   );
 }
 
-void goBack(BuildContext ctx) {
+void goBackToLogin(BuildContext ctx) {
   Navigator.of(ctx).push(navigate(LoginPage()));
 }
 
@@ -162,7 +162,7 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
               child: IconButton(
                 splashRadius: 20,
                 onPressed: () {
-                  goBack(context);
+                  goBackToLogin(context);
                 },
                 color: Color.fromARGB(255, 0, 0, 0),
 
