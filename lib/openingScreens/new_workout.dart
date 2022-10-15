@@ -13,30 +13,23 @@ import 'package:gymchimp/openingScreens/plan_page.dart';
 import 'package:gymchimp/openingScreens/sign_up_page.dart';
 import '../firebase_options.dart';
 
-class WorkoutPage extends StatefulWidget {
-  const WorkoutPage({Key? key}) : super(key: key);
+class NewWorkout extends StatefulWidget {
+  const NewWorkout({Key? key}) : super(key: key);
 
   @override
-  State<WorkoutPage> createState() => _WorkoutPage();
+  State<NewWorkout> createState() => _NewWorkout();
 }
 
-class _WorkoutPage extends State<WorkoutPage> {
+class _NewWorkout extends State<NewWorkout> {
   Widget build(BuildContext context) {
-    return Navigator(
-      onGenerateRoute: (settings) {
-        return MaterialPageRoute(
-            builder: (_) => MaterialApp(
-                  title: 'Welcome to Flutter',
-                  home: Scaffold(
-                    appBar: MyAppBar(context),
-                    body: const Center(
-                      child: Text('Welcome to Workout Page'),
-                    ),
-                  ),
-                ));
-        // WidgetBuilder builder;
-        // builder = (BuildContext _) =>
-      },
+    return MaterialApp(
+      title: 'Welcome to Flutter',
+      home: Scaffold(
+        appBar: MyAppBar(context),
+        body: const Center(
+          child: Text('New Workout Page'),
+        ),
+      ),
     );
   }
 }

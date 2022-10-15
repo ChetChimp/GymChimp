@@ -76,31 +76,23 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget page = _widgetOptions.elementAt(selectedIndex);
+    var testKey;
     return Scaffold(
       extendBodyBehindAppBar: true,
-      body: Center(
-        child: _widgetOptions.elementAt(selectedIndex),
-      ),
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-        //toolbarHeight: 30,
-        elevation: 0,
-        leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_outlined,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              goBack(context);
-            }),
-        backgroundColor: Colors.transparent,
-        actions: <Widget>[
-          IconButton(
-              color: Colors.black,
-              icon: const Icon(Icons.settings_outlined),
-              onPressed: () {}),
-        ],
-      ),
+
+      body: _widgetOptions.elementAt(selectedIndex),
+      // Navigator(
+      //   onGenerateRoute: (settings) {
+      //     return MaterialPageRoute(
+      //         builder: (_) => _widgetOptions.elementAt(selectedIndex));
+      //   },
+      // ),
+
+      // body: Center(
+      //   child: _widgetOptions.elementAt(selectedIndex),
+      // ),
+
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
