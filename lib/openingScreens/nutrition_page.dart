@@ -13,14 +13,14 @@ import 'package:gymchimp/openingScreens/plan_page.dart';
 import 'package:gymchimp/openingScreens/sign_up_page.dart';
 import '../firebase_options.dart';
 
-class WorkoutPage extends StatefulWidget {
-  const WorkoutPage({Key? key}) : super(key: key);
+class NutritionPage extends StatefulWidget {
+  const NutritionPage({Key? key}) : super(key: key);
 
   @override
-  State<WorkoutPage> createState() => _WorkoutPage();
+  State<NutritionPage> createState() => _NutritionPage();
 }
 
-class _WorkoutPage extends State<WorkoutPage> {
+class _NutritionPage extends State<NutritionPage> {
   Widget build(BuildContext context) {
     return Navigator(
       onGenerateRoute: (settings) {
@@ -30,7 +30,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                   home: Scaffold(
                     appBar: MyAppBar(context),
                     body: const Center(
-                      child: Text('Welcome to Workout Page'),
+                      child: Text('Welcome to Nutrition Page'),
                     ),
                   ),
                 ));
