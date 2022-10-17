@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/openingScreens/check_pass_email.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 
+var b = "ff";
+
 class ForgotPassWord extends StatefulWidget {
   const ForgotPassWord({Key? key}) : super(key: key);
 

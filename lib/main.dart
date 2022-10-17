@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gymchimp/openingScreens/home_page.dart';
 import 'package:gymchimp/openingScreens/start_page.dart';
 import 'firebase_options.dart';
 
@@ -38,16 +39,9 @@ class MyApp extends StatelessWidget {
     }
 
     return MaterialApp(
-      title: 'GymChimp',
+        title: 'GymChimp',
 
-      // initialRoute: FirebaseAuth.instance.currentUser() == null
-      //     ? const FirstLogIn()
-      //     : const StartPage(),
-      // routes: {
-      //   FirstLogIn.id: (context) => FirstLogIn(),
-      //   StartPage.id: (context) => StartPage()
-      // },
-      home: loggedIn ? const StartPage() : const FirstLogIn(),
-    );
+        //home: loggedIn ? const StartPage() : const FirstLogIn(),
+        home: HomePage(selectedIndex: 3));
   }
 }
