@@ -4,7 +4,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gymchimp/openingScreens/check_pass_email.dart';
+import 'package:gymchimp/Sign%20up/check_pass_email.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 
 class ForgotPassWord extends StatefulWidget {
@@ -37,7 +37,7 @@ Route navigate(Widget page) {
 }
 
 void goBackToLogin(BuildContext ctx) {
-  Navigator.of(ctx).push(navigate(LoginPage()));
+  Navigator.of(ctx).pop();
 }
 
 void toCheckPass(BuildContext ctx) {

@@ -7,13 +7,15 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:gymchimp/openingScreens/home_page.dart';
+import 'package:gymchimp/Main%20App%20Body/home_page.dart';
+import 'package:gymchimp/Main%20App%20Body/stats/stats_page.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
-import 'package:gymchimp/openingScreens/plan_page.dart';
-import 'package:gymchimp/openingScreens/sign_up_page.dart';
-import 'package:gymchimp/openingScreens/start_page.dart';
-import 'package:gymchimp/openingScreens/workout_page.dart';
+import 'package:gymchimp/Main%20App%20Body/plan/plan_page.dart';
+import 'package:gymchimp/Sign%20up/sign_up_page.dart';
+import 'package:gymchimp/Main%20App%20Body/start_page.dart';
+import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import '../firebase_options.dart';
+import 'nutrition/nutrition_page.dart';
 
 class HomePage extends StatefulWidget {
   final int selectedIndex;
@@ -37,41 +39,10 @@ class _HomePage extends State<HomePage> {
   // List of 4 pages
   static const List<Widget> _widgetOptions = <Widget>[
     WorkoutPage(),
-    Text(
-      'Index 1: Stats',
-      style: optionStyle,
-    ),
-    Text(
-      'Coming soon :)',
-      style: TextStyle(
-          fontSize: 45,
-          fontWeight: FontWeight.normal,
-          color: Colors.black,
-          letterSpacing: .5,
-          decoration: TextDecoration.none),
-    ),
+    StatsPage(),
+    NutritionPage(),
     PlanPage(),
   ];
-
-  Route _createRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const HomePage(selectedIndex: 0),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(0.0, 1.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -81,11 +52,10 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget page = _widgetOptions.elementAt(selectedIndex);
-    var testKey;
+    //Widget page = _widgetOptions.elementAt(selectedIndex);
+    // var testKey;
     return Scaffold(
       extendBodyBehindAppBar: true,
-
       body: _widgetOptions.elementAt(selectedIndex),
       // Navigator(
       //   onGenerateRoute: (settings) {

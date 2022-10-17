@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
-import 'package:gymchimp/openingScreens/verify.dart';
+import 'package:gymchimp/Sign%20up/verify.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -18,7 +18,7 @@ class _SignUpPageState extends State<SignUpPage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   void goBack(BuildContext ctx) {
-    Navigator.of(ctx).push(createRoute(FirstLogIn()));
+    Navigator.of(ctx).pop();
   }
 
   void toVerify(BuildContext ctx) {

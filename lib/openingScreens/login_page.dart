@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:gymchimp/openingScreens/forgot_pass.dart';
-import 'package:gymchimp/openingScreens/start_page.dart';
+import 'package:gymchimp/Main%20App%20Body/start_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
@@ -47,19 +47,14 @@ class _LoginPage extends State<LoginPage> {
   -makes call to createRoute method to take user to firsTimeLogin page
 */
   void goBack(BuildContext ctx) {
-    Navigator.of(ctx).push(navigate(FirstLogIn()));
+    Navigator.of(ctx).pop();
   }
 
-  void forgotPass(BuildContext ctx) {
-    Navigator.of(ctx).push(navigate(ForgotPassWord()));
-  }
-
-/*
-  -called when checkMark IconButton is pushed, 
-  -makes call to createRoute method to take user to start page
-*/
-  void loggedIn(BuildContext ctx) {
-    Navigator.of(ctx).push(navigate(StartPage()));
+  void changePage(BuildContext ctx, Widget page) {
+    Navigator.of(ctx).pushAndRemoveUntil(
+      MaterialPageRoute<void>(builder: (BuildContext context) => page),
+      ModalRoute.withName('/'),
+    );
   }
 
   /*
@@ -84,7 +79,7 @@ class _LoginPage extends State<LoginPage> {
         email: email,
         password: password,
       );
-      loggedIn(ctx);
+      changePage(ctx, StartPage());
     } catch (err) {
       //if there is an error with the user's input, return the error String to the user as a popup
       //pop up duration lasts for 2 seconds
@@ -324,7 +319,7 @@ class _LoginPage extends State<LoginPage> {
                 ), // <-- Text
                 backgroundColor: Color.fromARGB(255, 255, 255, 255),
                 onPressed: () {
-                  forgotPass(context);
+                  changePage(context, ForgotPassWord());
                 },
               ),
             ),
