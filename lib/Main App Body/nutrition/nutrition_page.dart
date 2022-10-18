@@ -21,10 +21,23 @@ class _NutritionPageState extends State<NutritionPage> {
         return MaterialPageRoute(
             builder: (_) => MaterialApp(
                   title: 'Welcome to Flutter',
-                  home: Scaffold(
-                    appBar: MyAppBar(context),
-                    body: const Center(
-                      child: Text('Coming soon :)'),
+                  home: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: <Color>[
+                          Color.fromARGB(255, 228, 240, 255),
+                          Color.fromARGB(255, 169, 188, 211),
+                        ], // Gradient from https://learnui.design/tools/gradient-generator.html
+                        tileMode: TileMode.mirror,
+                      ),
+                    ),
+                    child: Scaffold(
+                      appBar: MyAppBar(context),
+                      body: const Center(
+                        child: Text('Coming soon :)'),
+                      ),
                     ),
                   ),
                 ));

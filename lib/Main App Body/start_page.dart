@@ -49,8 +49,8 @@ class _StartPage extends State<StartPage> {
           begin: Alignment.topLeft,
           end: Alignment(0.8, 1),
           colors: <Color>[
-            Color.fromARGB(233, 228, 240, 255),
-            Color.fromARGB(211, 204, 227, 255),
+            Color.fromARGB(255, 228, 240, 255),
+            Color.fromARGB(255, 204, 227, 255),
           ], // Gradient from https://learnui.design/tools/gradient-generator.html
           tileMode: TileMode.mirror,
         ),

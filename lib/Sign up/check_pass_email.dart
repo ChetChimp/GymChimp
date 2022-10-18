@@ -7,25 +7,9 @@ import 'package:gymchimp/openingScreens/login_page.dart';
 class CheckPassEmail extends StatelessWidget {
   const CheckPassEmail({Key? key}) : super(key: key);
 
-  Route navigate(Widget page) {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => page,
-      transitionDuration: Duration(milliseconds: 1),
-      transitionsBuilder: (BuildContext context, Animation<double> animation,
-          Animation<double> secondaryAnimation, Widget child) {
-        return new SlideTransition(
-          position: new Tween<Offset>(
-            begin: const Offset(-1.0, 0.0),
-            end: Offset.zero,
-          ).animate(animation),
-          child: child,
-        );
-      },
-    );
-  }
-
   void backToLogin(BuildContext ctx) {
-    Navigator.of(ctx).push(navigate(LoginPage()));
+    Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (context) => LoginPage()));
   }
 
   @override
@@ -38,8 +22,8 @@ class CheckPassEmail extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment(0.8, 1),
           colors: <Color>[
-            Color.fromARGB(233, 228, 240, 255),
-            Color.fromARGB(211, 204, 227, 255),
+            Color.fromARGB(255, 228, 240, 255),
+            Color.fromARGB(255, 169, 188, 211),
           ], // Gradient from https://learnui.design/tools/gradient-generator.html
           tileMode: TileMode.mirror,
         ),

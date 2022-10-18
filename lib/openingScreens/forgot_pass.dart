@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/Sign%20up/check_pass_email.dart';
+import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 
 class ForgotPassWord extends StatefulWidget {
@@ -16,32 +17,15 @@ class ForgotPassWord extends StatefulWidget {
 
 Future _submitForm(String email, BuildContext context) async {
   await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-  toCheckPass(context);
+  changePage(context, CheckPassEmail());
 }
 
-Route navigate(Widget page) {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => page,
-    transitionDuration: Duration(milliseconds: 1),
-    transitionsBuilder: (BuildContext context, Animation<double> animation,
-        Animation<double> secondaryAnimation, Widget child) {
-      return new SlideTransition(
-        position: new Tween<Offset>(
-          begin: const Offset(-1.0, 0.0),
-          end: Offset.zero,
-        ).animate(animation),
-        child: child,
-      );
-    },
-  );
+void changePage(BuildContext ctx, Widget page) {
+  Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => page));
 }
 
-void goBackToLogin(BuildContext ctx) {
+void goBackToLogin(BuildContext ctx) async {
   Navigator.of(ctx).pop();
-}
-
-void toCheckPass(BuildContext ctx) {
-  Navigator.of(ctx).push(navigate(CheckPassEmail()));
 }
 
 class _ForgotPassWordState extends State<ForgotPassWord> {
@@ -57,8 +41,8 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
           begin: Alignment.topLeft,
           end: Alignment(0.8, 1),
           colors: <Color>[
-            Color.fromARGB(233, 228, 240, 255),
-            Color.fromARGB(211, 204, 227, 255),
+            Color.fromARGB(255, 228, 240, 255),
+            Color.fromARGB(255, 169, 188, 211),
           ], // Gradient from https://learnui.design/tools/gradient-generator.html
           tileMode: TileMode.mirror,
         ),

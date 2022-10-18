@@ -21,28 +21,8 @@ class _SignUpPageState extends State<SignUpPage> {
     Navigator.of(ctx).pop();
   }
 
-  void toVerify(BuildContext ctx) {
-    Navigator.of(ctx).push(createRoute(Verification()));
-  }
-
-  Route createRoute(Widget page) {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => page,
-      transitionDuration: Duration(milliseconds: 1),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(5, 0);
-        const end = Offset(0, 0);
-        const curve = Curves.decelerate;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
+  void changePage(BuildContext ctx, Widget page) {
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => page));
   }
 
   var result;
@@ -63,7 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
           .doc(result.user.uid)
           .set({'email': email, 'password': password});
       print('Signed Up');
-      toVerify(ctx);
+      changePage(ctx, Verification());
     } catch (err) {
       OverlayState? overlaystate = Overlay.of(ctx);
       OverlayEntry overlayEntry = OverlayEntry(builder: (ctx) {
@@ -152,8 +132,8 @@ class _SignUpPageState extends State<SignUpPage> {
           begin: Alignment.topLeft,
           end: Alignment(0.8, 1),
           colors: <Color>[
-            Color.fromARGB(233, 228, 240, 255),
-            Color.fromARGB(211, 204, 227, 255),
+            Color.fromARGB(255, 228, 240, 255),
+            Color.fromARGB(255, 169, 188, 211),
           ], // Gradient from https://learnui.design/tools/gradient-generator.html
           tileMode: TileMode.mirror,
         ),

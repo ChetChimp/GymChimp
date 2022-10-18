@@ -21,28 +21,6 @@ class _LoginPage extends State<LoginPage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 /*
-  -animation for page change, used for majority of navigation
-  -changes pages instantly
-  -will be cleaned up, animaitons are not necessary
-*/
-  Route navigate(Widget page) {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => page,
-      transitionDuration: Duration(milliseconds: 1),
-      transitionsBuilder: (BuildContext context, Animation<double> animation,
-          Animation<double> secondaryAnimation, Widget child) {
-        return new SlideTransition(
-          position: new Tween<Offset>(
-            begin: const Offset(-1.0, 0.0),
-            end: Offset.zero,
-          ).animate(animation),
-          child: child,
-        );
-      },
-    );
-  }
-
-/*
   -called when back arrow IconButton is pushed, 
   -makes call to createRoute method to take user to firsTimeLogin page
 */
@@ -55,6 +33,11 @@ class _LoginPage extends State<LoginPage> {
       MaterialPageRoute<void>(builder: (BuildContext context) => page),
       ModalRoute.withName('/'),
     );
+  }
+
+  void forgotPass(BuildContext ctx) {
+    Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (context) => ForgotPassWord()));
   }
 
   /*
@@ -118,8 +101,8 @@ class _LoginPage extends State<LoginPage> {
           begin: Alignment.topLeft,
           end: Alignment(0.8, 1),
           colors: <Color>[
-            Color.fromARGB(233, 228, 240, 255),
-            Color.fromARGB(211, 204, 227, 255),
+            Color.fromARGB(255, 228, 240, 255),
+            Color.fromARGB(255, 169, 188, 211),
           ], // Gradient from https://learnui.design/tools/gradient-generator.html
           tileMode: TileMode.mirror,
         ),
@@ -319,7 +302,7 @@ class _LoginPage extends State<LoginPage> {
                 ), // <-- Text
                 backgroundColor: Color.fromARGB(255, 255, 255, 255),
                 onPressed: () {
-                  changePage(context, ForgotPassWord());
+                  forgotPass(context);
                 },
               ),
             ),

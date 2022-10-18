@@ -42,8 +42,8 @@ class _VerificationState extends State<Verification> {
           begin: Alignment.topLeft,
           end: Alignment(0.8, 1),
           colors: <Color>[
-            Color.fromARGB(233, 228, 240, 255),
-            Color.fromARGB(211, 204, 227, 255),
+            Color.fromARGB(255, 228, 240, 255),
+            Color.fromARGB(255, 169, 188, 211),
           ], // Gradient from https://learnui.design/tools/gradient-generator.html
           tileMode: TileMode.mirror,
         ),
@@ -109,10 +109,8 @@ class _VerificationState extends State<Verification> {
   }
 
   void toLoginPage(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => LoginPage(),
-      ),
-    );
+    void changePage(BuildContext ctx, Widget page) {
+      Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => page));
+    }
   }
 }
