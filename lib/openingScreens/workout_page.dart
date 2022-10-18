@@ -28,6 +28,7 @@ class _WorkoutPage extends State<WorkoutPage> {
             builder: (_) => MaterialApp(
                   title: 'Welcome to Flutter',
                   home: Scaffold(
+                    backgroundColor: Colors.blue,
                     appBar: MyAppBar(context),
                     body: const Center(
                       child: Text('Welcome to Workout Page'),

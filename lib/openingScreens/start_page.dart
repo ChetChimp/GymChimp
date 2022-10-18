@@ -27,9 +27,9 @@ void toHomePage(BuildContext ctx, int page) {
 }
 
 void logOutUser(BuildContext ctx) {
+  Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => FirstLogIn()));
   final auth = FirebaseAuth.instance;
   auth.signOut();
-  Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => FirstLogIn()));
 }
 
 class _StartPage extends State<StartPage> {

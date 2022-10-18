@@ -40,8 +40,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
         title: 'GymChimp',
-
-        //home: loggedIn ? const StartPage() : const FirstLogIn(),
-        home: HomePage(selectedIndex: 3));
+        home: loggedIn ? const StartPage() : const FirstLogIn());
+    //home: HomePage(selectedIndex: 3));
   }
 }

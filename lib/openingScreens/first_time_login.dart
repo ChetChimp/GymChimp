@@ -32,16 +32,6 @@ class FirstLogIn extends StatelessWidget {
     );
   }
 
-  void test() {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-      }
-    });
-  }
-
 /*
   -called when "Already have an account" button is pushed, 
   -makes call to createRoute method to take user to login page
@@ -112,10 +102,16 @@ class FirstLogIn extends StatelessWidget {
                     */
                     Text(
                       'GymChimp',
-                      style: GoogleFonts.quicksand(
+                      style: GoogleFonts.lato(
                         textStyle: TextStyle(
+                            shadows: <Shadow>[
+                              Shadow(
+                                  color: Colors.black.withOpacity(0.4),
+                                  offset: const Offset(7, 7),
+                                  blurRadius: 30),
+                            ],
                             fontSize: 60,
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.bold,
                             color: Colors.black,
                             letterSpacing: .5,
                             decoration: TextDecoration.none),
@@ -126,7 +122,7 @@ class FirstLogIn extends StatelessWidget {
                     -contains FloatingActionButton
                     */
                     Container(
-                      margin: EdgeInsets.only(top: size.height / 25),
+                      margin: EdgeInsets.only(top: size.height / 15),
                       /*
                         FloatingActionButton with tag "btn1"
                         -preset space inside of button between border and text
