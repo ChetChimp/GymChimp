@@ -1,7 +1,7 @@
-GymChimp, a gym workout app.
+#GymChimp, a gym workout app.#
 
-Founded by: 
+##Founded by:## 
 
-Aditya Nair
-Nir Guberman
-Ryan Yavari
+Aditya Nair\n
+Nir Guberman\n
+Ryan Yavari\n
