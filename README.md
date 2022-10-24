@@ -1,7 +1,7 @@
-#GymChimp, a gym workout app.#
+# GymChimp, a gym workout app.
 
-##Founded by:## 
+## Founded by:
 
-Aditya Nair\n
-Nir Guberman\n
-Ryan Yavari\n
+ * Aditya Nair
+ * Nir Guberman
+ * Ryan Yavari
