@@ -1,44 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gymchimp/Main%20App%20Body/start_page.dart';
 import '../openingScreens/first_time_login.dart';
+import 'package:gymchimp/main.dart';
 
 void logOutUser(BuildContext ctx) {
   final auth = FirebaseAuth.instance;
   auth.signOut();
-  Navigator.of(ctx, rootNavigator: true)
-      .pushReplacement(createRoute(new FirstLogIn()));
-}
-
-Route createRoute(Widget page) {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => page,
-    transitionDuration: Duration(milliseconds: 1),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1, 0);
-      const end = Offset(0, 0);
-      const curve = Curves.decelerate;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
+  Navigator.pushReplacement<void, void>(
+    ctx,
+    MaterialPageRoute<void>(
+      builder: (BuildContext context) => new FirstLogIn(),
+    ),
   );
 }
-
-var kg = true;
-var input = 'Imperial';
-var user = FirebaseAuth.instance.currentUser;
 
 class MyAppBar extends AppBar {
   //@override
   //Widget build(BuildContext context) {
-  MyAppBar(BuildContext ctx)
-      : super(
+  MyAppBar(
+    BuildContext ctx,
+  ) : super(
           systemOverlayStyle: SystemUiOverlayStyle.dark,
           elevation: 0,
           leading: IconButton(
@@ -115,13 +97,13 @@ class MyAppBar extends AppBar {
                                   setState(() {
                                     kg = value;
                                   });
-                                  if (input == 'Imperial') {
+                                  if (input == 'inches/Lbs') {
                                     setState(() {
-                                      input = 'Metric';
+                                      input = 'cm/Kgs';
                                     });
                                   } else {
                                     setState(() {
-                                      input = 'Imperial';
+                                      input = 'inches/Lbs';
                                     });
                                   }
                                 },

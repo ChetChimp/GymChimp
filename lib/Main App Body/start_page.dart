@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gymchimp/Main%20App%20Body/account_settings.dart';
 import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:gymchimp/Main%20App%20Body/home_page.dart';
@@ -14,6 +15,8 @@ import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:gymchimp/Sign%20up/sign_up_page.dart';
 import '../firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../main.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({Key? key}) : super(key: key);
@@ -41,20 +44,14 @@ void extraPopOut(BuildContext ctx) {
   }
 }
 
+class MyAppBar2 extends MyAppBar {
+  MyAppBar2(BuildContext ctx) : super(ctx);
+}
+
 class _StartPage extends State<StartPage> {
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment(0.8, 1),
-          colors: <Color>[
-            Color.fromARGB(255, 228, 240, 255),
-            Color.fromARGB(255, 204, 227, 255),
-          ], // Gradient from https://learnui.design/tools/gradient-generator.html
-          tileMode: TileMode.mirror,
-        ),
-      ),
+      decoration: backGround(),
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -75,6 +72,9 @@ class _StartPage extends State<StartPage> {
                       child: ListTile(
                         leading: Icon(Icons.person_outline),
                         title: Text('Account'),
+                        onTap: () {
+                          changePage(context, AccountSettings());
+                        },
                       ),
                     ),
                   ),
@@ -121,13 +121,13 @@ class _StartPage extends State<StartPage> {
                                   setState(() {
                                     kg = value;
                                   });
-                                  if (input == 'Imperial') {
+                                  if (input == 'Inches/Lbs') {
                                     setState(() {
-                                      input = 'Metric';
+                                      input = 'cm/Kg';
                                     });
                                   } else {
                                     setState(() {
-                                      input = 'Imperial';
+                                      input = 'Inches/Lbs';
                                     });
                                   }
                                 },

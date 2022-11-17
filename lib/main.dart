@@ -14,6 +14,28 @@ void main() async {
   runApp(const MyApp());
 }
 
+var user = FirebaseAuth.instance.currentUser;
+var kg = true;
+var input = 'inches/Lbs';
+
+void changePage(BuildContext ctx, Widget page) {
+  Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => page));
+}
+
+BoxDecoration backGround() {
+  return BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment(0.8, 1),
+      colors: <Color>[
+        Color.fromARGB(255, 228, 240, 255),
+        Color.fromARGB(255, 204, 227, 255),
+      ], // Gradient from https://learnui.design/tools/gradient-generator.html
+      tileMode: TileMode.mirror,
+    ),
+  );
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
