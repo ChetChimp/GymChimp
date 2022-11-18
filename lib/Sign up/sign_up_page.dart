@@ -38,7 +38,6 @@ class _SignUpPageState extends State<SignUpPage> {
           .collection('users')
           .doc(result.user.uid)
           .set({'email': email, 'password': password});
-      print('Signed Up');
       changePage(ctx, Verification());
     } catch (err) {
       OverlayState? overlaystate = Overlay.of(ctx);

@@ -73,6 +73,7 @@ class _StartPage extends State<StartPage> {
                         leading: Icon(Icons.person_outline),
                         title: Text('Account'),
                         onTap: () {
+                          getName();
                           changePage(context, AccountSettings());
                         },
                       ),

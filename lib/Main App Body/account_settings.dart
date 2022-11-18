@@ -11,10 +11,16 @@ class AccountSettings extends StatefulWidget {
   State<AccountSettings> createState() => _AccountSettingsState();
 }
 
+String name = "";
+TextEditingController nameEditController = TextEditingController(text: "");
 bool nameEditActive = false;
 Icon nameEditIcon = Icon(Icons.edit);
-String name = user!.email.toString();
-TextEditingController nameEditController = TextEditingController(text: name);
+void getName() {
+  nameEditIcon = Icon(Icons.edit);
+  nameEditActive = false;
+  name = user!.email.toString();
+  nameEditController = TextEditingController(text: name);
+}
 
 bool ageEditActive = false;
 Icon ageEditIcon = Icon(Icons.edit);
