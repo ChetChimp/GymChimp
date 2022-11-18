@@ -2,72 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
-import 'package:gymchimp/questionnairePages/askName_page.dart';
-import 'package:gymchimp/questionnairePages/askName_page.dart';
-import 'package:gymchimp/openingScreens/sign_up_page.dart';
+import 'package:gymchimp/Sign%20up/sign_up_page.dart';
 
 import '../questionnairePages/askName_page.dart';
+
 
 class FirstLogIn extends StatelessWidget {
   const FirstLogIn({Key? key}) : super(key: key);
 
-/*
-  -animation for page change, used for majority of navigation
-  -changes pages instantly
-  -will be cleaned up, animaitons are not necessary
-*/
-  Route createRoute(Widget page) {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => page,
-      transitionDuration: Duration(milliseconds: 1),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(1, 0);
-        const end = Offset(0, 0);
-        const curve = Curves.decelerate;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-    );
-  }
-
-  void test() {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-      }
-    });
-  }
-
-/*
-  -called when "Already have an account" button is pushed, 
-  -makes call to createRoute method to take user to login page
-*/
-  void loggedIn(BuildContext ctx) {
-    Navigator.of(ctx).push(createRoute(LoginPage()));
-  }
-
-/*
-  -called when "GetStarted" button is pushed, 
-  -makes call to createRoute method to take user to signup page
-*/
-  void signup(BuildContext ctx) {
-    Navigator.of(ctx).push(createRoute(SignUpPage()));
-  }
-
-  /*
-  -called when "GetStarted" button is pushed, 
-  -makes call to createRoute method to take user to askName page
-*/
-  void askNameRoute(BuildContext ctx) {
-    Navigator.push(ctx, MaterialPageRoute(builder: (ctx) => const askName()));
+  void changePage(BuildContext ctx, Widget page) {
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => page));
   }
 
 /*
@@ -88,8 +32,8 @@ class FirstLogIn extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: <Color>[
-              Color.fromARGB(233, 228, 240, 255),
-              Color.fromARGB(211, 204, 227, 255),
+              Color.fromARGB(255, 228, 240, 255),
+              Color.fromARGB(255, 169, 188, 211),
             ], // Gradient from https://learnui.design/tools/gradient-generator.html
             tileMode: TileMode.mirror,
           ),
@@ -166,8 +110,7 @@ class FirstLogIn extends StatelessWidget {
                         ), // <-- Text
                         backgroundColor: Color.fromARGB(255, 255, 255, 255),
                         onPressed: () {
-                          //signup(context); Replaced with askName
-                          askNameRoute(context);
+                          changePage(context, SignUpPage());
                         },
                       ),
                     ),
@@ -207,10 +150,10 @@ class FirstLogIn extends StatelessWidget {
                 ), // <-- Text
                 backgroundColor: Color.fromARGB(255, 255, 255, 255),
                 onPressed: () {
-                  loggedIn(context);
+                  changePage(context, LoginPage());
                 },
               ),
-            ),
+            )
           ],
         ),
       ),
