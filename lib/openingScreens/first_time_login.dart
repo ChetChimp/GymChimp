@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:gymchimp/Sign%20up/sign_up_page.dart';
 
+import '../questionnairePages/askName_page.dart';
+
 class FirstLogIn extends StatelessWidget {
   const FirstLogIn({Key? key}) : super(key: key);
 
