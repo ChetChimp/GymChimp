@@ -2,7 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
+import 'package:gymchimp/questionnairePages/askName_page.dart';
+import 'package:gymchimp/questionnairePages/askName_page.dart';
 import 'package:gymchimp/openingScreens/sign_up_page.dart';
+
+import '../questionnairePages/askName_page.dart';
 
 class FirstLogIn extends StatelessWidget {
   const FirstLogIn({Key? key}) : super(key: key);
@@ -56,6 +60,14 @@ class FirstLogIn extends StatelessWidget {
 */
   void signup(BuildContext ctx) {
     Navigator.of(ctx).push(createRoute(SignUpPage()));
+  }
+
+  /*
+  -called when "GetStarted" button is pushed, 
+  -makes call to createRoute method to take user to askName page
+*/
+  void askNameRoute(BuildContext ctx) {
+    Navigator.push(ctx, MaterialPageRoute(builder: (ctx) => const askName()));
   }
 
 /*
@@ -154,7 +166,8 @@ class FirstLogIn extends StatelessWidget {
                         ), // <-- Text
                         backgroundColor: Color.fromARGB(255, 255, 255, 255),
                         onPressed: () {
-                          signup(context);
+                          //signup(context); Replaced with askName
+                          askNameRoute(context);
                         },
                       ),
                     ),
@@ -197,7 +210,7 @@ class FirstLogIn extends StatelessWidget {
                   loggedIn(context);
                 },
               ),
-            )
+            ),
           ],
         ),
       ),
