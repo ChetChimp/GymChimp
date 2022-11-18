@@ -6,6 +6,11 @@ import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:gymchimp/openingScreens/verify.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../questionnairePages/askGoal_page.dart';
+import '../questionnairePages/askLevel_page.dart';
+import '../questionnairePages/askName_page.dart';
+import '../questionnairePages/askSex.dart';
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
@@ -58,10 +63,14 @@ class _SignUpPageState extends State<SignUpPage> {
         email: email,
         password: password,
       );
-      await firestore
-          .collection('users')
-          .doc(result.user.uid)
-          .set({'email': email, 'password': password});
+      await firestore.collection('users').doc(result.user.uid).set({
+        'email': email,
+        'password': password,
+        'name': name,
+        'gender': gender,
+        'level': level,
+        'goal': goal
+      });
       print('Signed Up');
       toVerify(ctx);
     } catch (err) {
