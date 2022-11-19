@@ -10,13 +10,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gymchimp/openingScreens/home_page.dart';
+import 'package:gymchimp/Sign%20up/sign_up_page.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:gymchimp/questionnairePages/askBody_page.dart';
 import 'package:gymchimp/questionnairePages/askGoal_page.dart';
 import 'package:gymchimp/questionnairePages/askLevel_page.dart';
-import 'package:gymchimp/openingScreens/sign_up_page.dart';
 import '../firebase_options.dart';
+import '../main.dart';
 
 class askSex extends StatefulWidget {
   const askSex({Key? key}) : super(key: key);
@@ -60,18 +60,7 @@ class _askSex extends State<askSex> {
     Size size = MediaQuery.of(context).size;
     return MaterialApp(
       home: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            //Background color
-            colors: <Color>[
-              Color.fromARGB(233, 228, 240, 255),
-              Color.fromARGB(211, 204, 227, 255),
-            ], // Gradient from https://learnui.design/tools/gradient-generator.html
-            tileMode: TileMode.mirror,
-          ),
-        ),
+        decoration: backGround(),
         child: Scaffold(
           backgroundColor: Color.fromRGBO(0, 0, 0, 0),
           appBar: AppBar(
@@ -145,7 +134,7 @@ class _askSex extends State<askSex> {
                     backgroundColor: Color.fromARGB(255, 73, 102, 219),
                     onPressed: () {
                       gender = "Male";
-                      Navigator.of(context).push(navigate(askBody()));
+                      Navigator.of(context).push(navigate(SignUpPage()));
                     },
                   ),
                 ),
@@ -171,7 +160,7 @@ class _askSex extends State<askSex> {
                   backgroundColor: Color.fromARGB(255, 234, 157, 206),
                   onPressed: () {
                     gender = "Female";
-                    Navigator.of(context).push(navigate(askBody()));
+                    Navigator.of(context).push(navigate(SignUpPage()));
                   },
                 ),
                 Spacer(flex: 8),

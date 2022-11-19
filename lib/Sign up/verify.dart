@@ -109,8 +109,7 @@ class _VerificationState extends State<Verification> {
   }
 
   void toLoginPage(BuildContext context) {
-    void changePage(BuildContext ctx, Widget page) {
-      Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => page));
-    }
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => LoginPage()));
   }
 }

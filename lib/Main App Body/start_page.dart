@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,6 @@ void toHomePage(BuildContext ctx, int page) {
 }
 
 void extraPopOut(BuildContext ctx) {
-  print("entered");
   Widget build(BuildContext context) {
     return (PopupMenuButton(
       itemBuilder: (_) {
@@ -50,6 +50,12 @@ class MyAppBar2 extends MyAppBar {
 
 class _StartPage extends State<StartPage> {
   Widget build(BuildContext context) {
+    fetchName().then((String result) {
+      setState(() {
+        userName = result;
+      });
+    });
+
     return Container(
       decoration: backGround(),
       child: Scaffold(
@@ -163,7 +169,7 @@ class _StartPage extends State<StartPage> {
             children: <Widget>[
               Spacer(flex: 1),
               Text(
-                "Welcome, " + user!.email.toString(),
+                "Welcome, " + userName,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.quicksand(
                   textStyle: TextStyle(

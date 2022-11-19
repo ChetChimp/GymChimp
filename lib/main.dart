@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
@@ -36,6 +37,17 @@ BoxDecoration backGround() {
   );
 }
 
+FirebaseFirestore firestore = FirebaseFirestore.instance;
+String userName = "";
+
+Future<String> fetchName() async {
+  var firebaseUser = await FirebaseAuth.instance.currentUser!;
+  await firestore.collection('users').doc(firebaseUser.uid).get().then((value) {
+    userName = value.get('name');
+  });
+  return userName;
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -52,6 +64,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool loggedIn = false;
+    fetchName();
+
     if (FirebaseAuth.instance.currentUser != null) {
       //await
       loggedIn = true;

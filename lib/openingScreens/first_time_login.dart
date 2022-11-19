@@ -109,7 +109,7 @@ class FirstLogIn extends StatelessWidget {
                         ), // <-- Text
                         backgroundColor: Color.fromARGB(255, 255, 255, 255),
                         onPressed: () {
-                          changePage(context, SignUpPage());
+                          changePage(context, askName());
                         },
                       ),
                     ),

@@ -18,9 +18,10 @@ class SignUpPage extends StatefulWidget {
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
+FirebaseFirestore firestore = FirebaseFirestore.instance;
+
 class _SignUpPageState extends State<SignUpPage> {
   final _auth = FirebaseAuth.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   void goBack(BuildContext ctx) {
     Navigator.of(ctx).pop();
