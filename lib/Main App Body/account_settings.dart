@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -11,6 +13,8 @@ class AccountSettings extends StatefulWidget {
   State<AccountSettings> createState() => _AccountSettingsState();
 }
 
+FirebaseFirestore firestore = FirebaseFirestore.instance;
+
 String name = "";
 TextEditingController nameEditController = TextEditingController(text: "");
 bool nameEditActive = false;
@@ -18,7 +22,7 @@ Icon nameEditIcon = Icon(Icons.edit);
 void getName() {
   nameEditIcon = Icon(Icons.edit);
   nameEditActive = false;
-  name = user!.email.toString();
+  name = userName;
   nameEditController = TextEditingController(text: name);
 }
 
@@ -26,6 +30,13 @@ bool ageEditActive = false;
 Icon ageEditIcon = Icon(Icons.edit);
 String age = user!.email.toString();
 TextEditingController ageEditController = TextEditingController(text: age);
+
+void updateName() async {
+  var firebaseUser = await FirebaseAuth.instance.currentUser!;
+  await firestore.collection('users').doc(firebaseUser.uid).update(({
+        'name': nameEditController.text,
+      }));
+}
 
 class _AccountSettingsState extends State<AccountSettings> {
   @override
@@ -80,6 +91,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                           if (nameEditActive) {
                             nameEditIcon = Icon(Icons.check);
                           } else {
+                            updateName();
                             nameEditIcon = Icon(Icons.edit);
                           }
                         });
