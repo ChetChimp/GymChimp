@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
 import 'package:gymchimp/Main%20App%20Body/home_page.dart';
 import 'package:gymchimp/Main%20App%20Body/stats/stats_page.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
@@ -29,6 +30,8 @@ void goBack(BuildContext ctx) {
   Navigator.of(ctx).pop();
 }
 
+var currentIndex = 0;
+
 class _HomePage extends State<HomePage> {
   int selectedIndex;
   _HomePage({required this.selectedIndex});
@@ -45,6 +48,7 @@ class _HomePage extends State<HomePage> {
   ];
 
   void _onItemTapped(int index) {
+    currentIndex = index;
     setState(() {
       selectedIndex = index;
     });
@@ -55,7 +59,8 @@ class _HomePage extends State<HomePage> {
     //Widget page = _widgetOptions.elementAt(selectedIndex);
     // var testKey;
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      appBar: MyAppBar(context),
+      extendBodyBehindAppBar: false,
       body: _widgetOptions.elementAt(selectedIndex),
       // Navigator(
       //   onGenerateRoute: (settings) {

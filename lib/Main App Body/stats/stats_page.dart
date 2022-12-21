@@ -28,7 +28,6 @@ class _StatsPageState extends State<StatsPage> {
         return MaterialPageRoute(
             builder: (_) => MaterialApp(
                   home: Scaffold(
-                    appBar: MyAppBar(context),
                     body: const Center(
                       child: Text('Stats Page'),
                     ),

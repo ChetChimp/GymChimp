@@ -17,7 +17,7 @@ void main() async {
 
 var user = FirebaseAuth.instance.currentUser;
 var kg = true;
-var input = 'inches/Lbs';
+var input = '';
 
 void changePage(BuildContext ctx, Widget page) {
   Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => page));
@@ -39,13 +39,20 @@ BoxDecoration backGround() {
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 String userName = "";
-
-Future<String> fetchName() async {
+Future<String> fetchInfo(String info) async {
+  String output = "";
   var firebaseUser = await FirebaseAuth.instance.currentUser!;
   await firestore.collection('users').doc(firebaseUser.uid).get().then((value) {
-    userName = value.get('name');
+    output = value.get(info);
   });
-  return userName;
+  return output;
+}
+
+void updateInfo(String label, String text) async {
+  var firebaseUser = await FirebaseAuth.instance.currentUser!;
+  await firestore.collection('users').doc(firebaseUser.uid).update(({
+        label: text,
+      }));
 }
 
 class MyApp extends StatelessWidget {
@@ -64,11 +71,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool loggedIn = false;
-    fetchName();
 
     if (FirebaseAuth.instance.currentUser != null) {
       //await
       loggedIn = true;
+      fetchInfo('name');
     } else {
       loggedIn = false;
     }

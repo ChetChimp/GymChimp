@@ -34,7 +34,6 @@ class _NutritionPageState extends State<NutritionPage> {
                       ),
                     ),
                     child: Scaffold(
-                      appBar: MyAppBar(context),
                       body: const Center(
                         child: Text('Coming soon :)'),
                       ),

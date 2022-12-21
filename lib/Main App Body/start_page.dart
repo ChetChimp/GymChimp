@@ -50,12 +50,25 @@ class MyAppBar2 extends MyAppBar {
 
 class _StartPage extends State<StartPage> {
   Widget build(BuildContext context) {
-    fetchName().then((String result) {
-      setState(() {
-        userName = result;
-      });
+    fetchInfo('name').then((String result) {
+      if (mounted) {
+        setState(() {
+          userName = result;
+        });
+      }
     });
-
+    fetchInfo('unit').then((String result) {
+      if (mounted) {
+        setState(() {
+          input = result;
+          if (input == 'inches/Lbs') {
+            kg = true;
+          } else {
+            kg = false;
+          }
+        });
+      }
+    });
     return Container(
       decoration: backGround(),
       child: Scaffold(
@@ -85,27 +98,27 @@ class _StartPage extends State<StartPage> {
                       ),
                     ),
                   ),
-                  PopupMenuItem(
-                    child: new Container(
-                      color: Colors.transparent,
-                      width: 1000,
-                      child: ListTile(
-                        onTap: () {},
-                        leading: Icon(Icons.notifications_outlined),
-                        title: PopupMenuButton(
-                          child: Text("Notifications"),
-                          itemBuilder: (_) {
-                            return [
-                              PopupMenuItem(
-                                  child: ListTile(leading: Text("Item2"))),
-                              PopupMenuItem(child: Text("Item3"))
-                            ];
-                          },
-                        ),
-                      ),
-                    ),
-                    onTap: () {},
-                  ),
+                  // PopupMenuItem(
+                  //   child: new Container(
+                  //     color: Colors.transparent,
+                  //     width: 1000,
+                  //     child: ListTile(
+                  //       onTap: () {},
+                  //       leading: Icon(Icons.notifications_outlined),
+                  //       title: PopupMenuButton(
+                  //         child: Text("Notifications"),
+                  //         itemBuilder: (_) {
+                  //           return [
+                  //             PopupMenuItem(
+                  //                 child: ListTile(leading: Text("Item2"))),
+                  //             PopupMenuItem(child: Text("Item3"))
+                  //           ];
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ),
+                  //   onTap: () {},
+                  // ),
                   PopupMenuItem(
                     enabled: true,
                     child: StatefulBuilder(
@@ -122,21 +135,18 @@ class _StartPage extends State<StartPage> {
                                 activeColor: Colors.blue,
                                 inactiveThumbColor: Colors.red,
                                 inactiveTrackColor:
-                                    Color.fromARGB(131, 255, 73, 73),
+                                    Color.fromRGBO(255, 73, 73, 0.514),
                                 onChanged: (bool value) {
                                   // This is called when the user toggles the switch.
                                   setState(() {
                                     kg = value;
-                                  });
-                                  if (input == 'Inches/Lbs') {
-                                    setState(() {
+                                    if (value) {
+                                      input = 'inches/Lbs';
+                                    } else {
                                       input = 'cm/Kg';
-                                    });
-                                  } else {
-                                    setState(() {
-                                      input = 'Inches/Lbs';
-                                    });
-                                  }
+                                    }
+                                    updateInfo('unit', input);
+                                  });
                                 },
                               ),
                             ),

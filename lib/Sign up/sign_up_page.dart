@@ -45,7 +45,8 @@ class _SignUpPageState extends State<SignUpPage> {
         'name': name,
         'gender': gender,
         'level': level,
-        'goal': goal
+        'goal': goal,
+        'unit': 'inches/Lbs'
       });
       changePage(ctx, Verification());
     } catch (err) {

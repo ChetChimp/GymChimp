@@ -58,6 +58,7 @@ Route navigate(Widget page) {
 class _askSex extends State<askSex> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return MaterialApp(
       home: Container(
         decoration: backGround(),

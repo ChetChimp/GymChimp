@@ -26,7 +26,6 @@ class _NewWorkout extends State<NewWorkout> {
     return MaterialApp(
       title: 'Welcome to Flutter',
       home: Scaffold(
-        appBar: MyAppBar(context),
         body: const Center(
           child: Text('New Workout Page'),
         ),

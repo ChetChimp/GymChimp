@@ -1,23 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gymchimp/Main%20App%20Body/home_page.dart';
 import '../openingScreens/first_time_login.dart';
 import 'package:gymchimp/main.dart';
 
 void logOutUser(BuildContext ctx) {
   final auth = FirebaseAuth.instance;
   auth.signOut();
-  Navigator.pushReplacement<void, void>(
-    ctx,
-    MaterialPageRoute<void>(
-      builder: (BuildContext context) => new FirstLogIn(),
-    ),
-  );
+
+  Navigator.pushAndRemoveUntil(
+      ctx,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => new FirstLogIn(),
+      ),
+      (route) => false);
 }
 
 class MyAppBar extends AppBar {
-  //@override
-  //Widget build(BuildContext context) {
   MyAppBar(
     BuildContext ctx,
   ) : super(
@@ -54,27 +54,27 @@ class MyAppBar extends AppBar {
                       ),
                     ),
                   ),
-                  PopupMenuItem(
-                    child: new Container(
-                      color: Colors.transparent,
-                      width: 1000,
-                      child: ListTile(
-                        onTap: () {},
-                        leading: Icon(Icons.notifications_outlined),
-                        title: PopupMenuButton(
-                          child: Text("Notifications"),
-                          itemBuilder: (_) {
-                            return [
-                              PopupMenuItem(
-                                  child: ListTile(leading: Text("Item2"))),
-                              PopupMenuItem(child: Text("Item3"))
-                            ];
-                          },
-                        ),
-                      ),
-                    ),
-                    onTap: () {},
-                  ),
+                  // PopupMenuItem(
+                  //   child: new Container(
+                  //     color: Colors.transparent,
+                  //     width: 1000,
+                  //     child: ListTile(
+                  //       onTap: () {},
+                  //       leading: Icon(Icons.notifications_outlined),
+                  //       title: PopupMenuButton(
+                  //         child: Text("Notifications"),
+                  //         itemBuilder: (_) {
+                  //           return [
+                  //             PopupMenuItem(
+                  //                 child: ListTile(leading: Text("Item2"))),
+                  //             PopupMenuItem(child: Text("Item3"))
+                  //           ];
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ),
+                  //   onTap: () {},
+                  // ),
                   PopupMenuItem(
                     enabled: true,
                     child: StatefulBuilder(
@@ -96,16 +96,13 @@ class MyAppBar extends AppBar {
                                   // This is called when the user toggles the switch.
                                   setState(() {
                                     kg = value;
-                                  });
-                                  if (input == 'inches/Lbs') {
-                                    setState(() {
-                                      input = 'cm/Kgs';
-                                    });
-                                  } else {
-                                    setState(() {
+                                    if (value) {
                                       input = 'inches/Lbs';
-                                    });
-                                  }
+                                    } else {
+                                      input = 'cm/Kg';
+                                    }
+                                    updateInfo('unit', input);
+                                  });
                                 },
                               ),
                             ),
