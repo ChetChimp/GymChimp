@@ -83,11 +83,11 @@ class MyAppBar extends AppBar {
                           child: ListTile(
                             onTap: () {},
                             leading: Icon(Icons.scale_outlined),
-                            title: Text(input),
+                            title: Text(weightUnit),
                             trailing: Container(
                               child: Switch(
                                 // This bool value toggles the switch.
-                                value: kg,
+                                value: imperialSystem,
                                 activeColor: Colors.blue,
                                 inactiveThumbColor: Colors.red,
                                 inactiveTrackColor:
@@ -95,13 +95,13 @@ class MyAppBar extends AppBar {
                                 onChanged: (bool value) {
                                   // This is called when the user toggles the switch.
                                   setState(() {
-                                    kg = value;
+                                    imperialSystem = value;
                                     if (value) {
-                                      input = 'inches/Lbs';
+                                      weightUnit = 'inches/Lbs';
                                     } else {
-                                      input = 'cm/Kg';
+                                      weightUnit = 'cm/Kg';
                                     }
-                                    updateInfo('unit', input);
+                                    updateInfo('unit', weightUnit);
                                   });
                                 },
                               ),

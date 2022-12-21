@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 
 class CheckPassEmail extends StatelessWidget {
@@ -15,29 +16,10 @@ class CheckPassEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment(0.8, 1),
-          colors: <Color>[
-            Color.fromARGB(255, 228, 240, 255),
-            Color.fromARGB(255, 169, 188, 211),
-          ], // Gradient from https://learnui.design/tools/gradient-generator.html
-          tileMode: TileMode.mirror,
-        ),
-      ),
+      decoration: backGround(),
       child: Column(
         children: [
-          // Container(
-          //   margin: EdgeInsets.only(top: size.width * 1 / 1.5),
-          //   child: Icon(
-          //     color: Colors.black,
-          //     size: size.width / 3,
-          //     Icons.check_box_rounded,
-          //   ),
-          // ),
           Center(
             child: Card(
               margin: EdgeInsets.only(top: size.height * 1 / 2.5),
@@ -49,7 +31,6 @@ class CheckPassEmail extends StatelessWidget {
               ),
             ),
           ),
-
           Container(
             margin: EdgeInsets.all(30),
             /*

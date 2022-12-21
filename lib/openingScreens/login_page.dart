@@ -40,16 +40,14 @@ class _LoginPage extends State<LoginPage> {
         .push(MaterialPageRoute(builder: (context) => ForgotPassWord()));
   }
 
-  /*
-  Initializing controllers to take and store user input inside textfields
-  */
+  //Initializing controllers to take and store user input inside textfields
   var _emailController = TextEditingController();
   var _passController = TextEditingController();
   String email = '';
   String password = '';
-  /*
-  Method to verify user input with database an log the user in
-  */
+
+  //***************************************************//
+  //Method to verify user input with database an log the user in
   @override
   void _submitForm(
     String email,
@@ -85,6 +83,7 @@ class _LoginPage extends State<LoginPage> {
       overlayEntry.remove();
     }
   }
+//***************************************************//
 
   /*
   Overarching structure of page layout

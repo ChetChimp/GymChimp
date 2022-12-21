@@ -15,16 +15,25 @@ void main() async {
   runApp(const MyApp());
 }
 
-var user = FirebaseAuth.instance.currentUser;
-var kg = true;
-var input = '';
+//***************************************************//
+//Global Variables
+var userInstance = FirebaseAuth.instance.currentUser;
+var imperialSystem = true;
+var weightUnit = '';
+String userName = "";
+//***************************************************//
 
+//***************************************************//
+//Global changepage method
 void changePage(BuildContext ctx, Widget page) {
   Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => page));
 }
+//***************************************************//
 
+//***************************************************//
+//Default background for entire app
 BoxDecoration backGround() {
-  return BoxDecoration(
+  return const BoxDecoration(
     gradient: LinearGradient(
       begin: Alignment.topLeft,
       end: Alignment(0.8, 1),
@@ -36,9 +45,11 @@ BoxDecoration backGround() {
     ),
   );
 }
+//***************************************************//
 
+//***************************************************//
+//Global method to fetch a user data from database
 FirebaseFirestore firestore = FirebaseFirestore.instance;
-String userName = "";
 Future<String> fetchInfo(String info) async {
   String output = "";
   var firebaseUser = await FirebaseAuth.instance.currentUser!;
@@ -47,49 +58,32 @@ Future<String> fetchInfo(String info) async {
   });
   return output;
 }
+//***************************************************//
 
+//***************************************************//
+//Global method to updates user data on database
 void updateInfo(String label, String text) async {
   var firebaseUser = await FirebaseAuth.instance.currentUser!;
   await firestore.collection('users').doc(firebaseUser.uid).update(({
         label: text,
       }));
 }
+//***************************************************//
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
-  // isLoggedIn() async {
-  //   if (await FirebaseAuth.instance.currentUser != null) {
-  //     print('User is currently signed out!');
-  //     loggedIn = false;
-  //   } else {
-  //     loggedIn = true;
-  //   }
-  // }
-
   // This widget is the root of your application. Launches firstLogin page
   @override
   Widget build(BuildContext context) {
     bool loggedIn = false;
-
     if (FirebaseAuth.instance.currentUser != null) {
-      //await
       loggedIn = true;
       fetchInfo('name');
     } else {
       loggedIn = false;
     }
-
     return MaterialApp(
       title: 'GymChimp',
-
-      // initialRoute: FirebaseAuth.instance.currentUser() == null
-      //     ? const FirstLogIn()
-      //     : const StartPage(),
-      // routes: {
-      //   FirstLogIn.id: (context) => FirstLogIn(),
-      //   StartPage.id: (context) => StartPage()
-      // },
       home: loggedIn ? const StartPage() : const FirstLogIn(),
     );
   }

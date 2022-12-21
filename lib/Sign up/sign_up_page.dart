@@ -27,6 +27,10 @@ class _SignUpPageState extends State<SignUpPage> {
     Navigator.of(ctx).pop();
   }
 
+  //***************************************************//
+  //called when all input is valid, submits info to
+  //database for storage and creates a new user.
+  //then requests user to verify email.
   var result;
   void _submitForm(
     String email,
@@ -34,11 +38,12 @@ class _SignUpPageState extends State<SignUpPage> {
     BuildContext ctx,
   ) async {
     try {
-      //email.trim();
+      //creates an user with inputted email and password
       result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      //adds user input to database to store
       await firestore.collection('users').doc(result.user.uid).set({
         'email': email,
         'password': password,
@@ -48,8 +53,10 @@ class _SignUpPageState extends State<SignUpPage> {
         'goal': goal,
         'unit': 'inches/Lbs'
       });
+      //sends user to the verification page
       changePage(ctx, Verification());
     } catch (err) {
+      //incase there is an error, return as an overlay
       OverlayState? overlaystate = Overlay.of(ctx);
       OverlayEntry overlayEntry = OverlayEntry(builder: (ctx) {
         return Container(
@@ -63,21 +70,24 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         );
       });
+      //create and remove overlay after 4 seconds
       overlaystate?.insert(overlayEntry);
       await Future.delayed(Duration(seconds: 4));
       overlayEntry.remove();
     }
   }
+//***************************************************//
 
-  var _emailConfirmController = TextEditingController();
-  var _emailController = TextEditingController();
-  var _passController = TextEditingController();
-  var _passConfirmController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passController = TextEditingController();
+  final _passConfirmController = TextEditingController();
   String email = '';
-  String confirmEmail = '';
   String password = '';
   String confirmPassword = '';
 
+  //***************************************************//
+  //Displays an overlay with a message to user, has a 3 second delay
+  //before removed
   invalidEmailOverlay(BuildContext ctx, String input) async {
     OverlayState? overlaystate = Overlay.of(ctx);
     OverlayEntry overlayEntry = OverlayEntry(builder: (ctx) {
@@ -92,11 +102,14 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       );
     });
+    //displays overlay
     overlaystate?.insert(overlayEntry);
+    //3 second delay
     await Future.delayed(Duration(seconds: 3));
-
+    //removes overlay
     overlayEntry.remove();
   }
+  //***************************************************//
 
   void resetPass() {
     password = '';
@@ -107,16 +120,15 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void resetEmail() {
     email = '';
-    confirmEmail = '';
     _emailController.clear();
-    _emailConfirmController.clear();
   }
 
+//***************************************************//
+//Validates info on signup page, if everything is valid, submits info
+//if not valid, displays overlay explaining error to user
   validation(BuildContext context) {
     if (!email.contains('@')) {
       invalidEmailOverlay(context, 'Invalid Email');
-    } else if (email != confirmEmail) {
-      invalidEmailOverlay(context, 'Emails do not match');
     } else if (password.length < 7) {
       invalidEmailOverlay(context, 'Password is too short');
       resetPass();
@@ -127,6 +139,7 @@ class _SignUpPageState extends State<SignUpPage> {
       _submitForm(email, password, context);
     }
   }
+//***************************************************//
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +183,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
             ),
-            //////// Email /////////
+            //////// Email label and textfield/////////
             Container(
               margin: EdgeInsets.only(
                   left: size.width * 1 / 8,
@@ -201,39 +214,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
             ),
-            /////// Confirm Email //////////
-            Container(
-              margin: EdgeInsets.only(
-                  left: size.width * 1 / 8,
-                  right: size.width * 1 / 8,
-                  bottom: size.width * 1 / 32),
-              child: CupertinoTextField(
-                controller: _emailConfirmController,
-                onChanged: (value) {
-                  confirmEmail = value;
-                },
-                placeholder: 'Confirm Email',
-                placeholderStyle: TextStyle(
-                  color: Color.fromARGB(255, 73, 73, 73),
-                  fontSize: 18,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                suffix: Material(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  child: IconButton(
-                      iconSize: 18,
-                      onPressed: () {
-                        _emailConfirmController.clear();
-                        confirmEmail = '';
-                      },
-                      icon: const Icon(Icons.clear)),
-                ),
-              ),
-            ),
-            //////// Password /////////
+            //***************************************************//
+            ////////// Password label and texfield/////////
             Container(
               margin: EdgeInsets.only(
                   left: size.width * 1 / 8,
@@ -266,7 +248,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
             ),
-            ////////// Confirm Pass Wordddddd//////
+            //***************************************************//
+            //////////// Confirm Password label and textfield//////
             Container(
               margin: EdgeInsets.only(
                   left: size.width * 1 / 8,
@@ -299,7 +282,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
             ),
-            //////// Button //////////
+            //***************************************************//
+            //////////// Confirm Button 'check' //////////
             CupertinoButton(
               // pressedOpacity: 100,
               color: Color.fromARGB(255, 0, 0, 0),

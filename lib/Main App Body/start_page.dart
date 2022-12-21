@@ -60,11 +60,11 @@ class _StartPage extends State<StartPage> {
     fetchInfo('unit').then((String result) {
       if (mounted) {
         setState(() {
-          input = result;
-          if (input == 'inches/Lbs') {
-            kg = true;
+          weightUnit = result;
+          if (weightUnit == 'inches/Lbs') {
+            imperialSystem = true;
           } else {
-            kg = false;
+            imperialSystem = false;
           }
         });
       }
@@ -127,11 +127,11 @@ class _StartPage extends State<StartPage> {
                           child: ListTile(
                             onTap: () {},
                             leading: Icon(Icons.scale_outlined),
-                            title: Text(input),
+                            title: Text(weightUnit),
                             trailing: Container(
                               child: Switch(
                                 // This bool value toggles the switch.
-                                value: kg,
+                                value: imperialSystem,
                                 activeColor: Colors.blue,
                                 inactiveThumbColor: Colors.red,
                                 inactiveTrackColor:
@@ -139,13 +139,13 @@ class _StartPage extends State<StartPage> {
                                 onChanged: (bool value) {
                                   // This is called when the user toggles the switch.
                                   setState(() {
-                                    kg = value;
+                                    imperialSystem = value;
                                     if (value) {
-                                      input = 'inches/Lbs';
+                                      weightUnit = 'inches/Lbs';
                                     } else {
-                                      input = 'cm/Kg';
+                                      weightUnit = 'cm/Kg';
                                     }
-                                    updateInfo('unit', input);
+                                    updateInfo('unit', weightUnit);
                                   });
                                 },
                               ),
