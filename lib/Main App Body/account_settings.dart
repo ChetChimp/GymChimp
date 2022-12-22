@@ -16,16 +16,10 @@ class AccountSettings extends StatefulWidget {
 
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-String name = "";
-TextEditingController nameEditController = TextEditingController(text: "");
-bool nameEditActive = false;
+var name = userName;
+TextEditingController nameEditController = TextEditingController(text: name);
+bool nameEditActive = true;
 Icon nameEditIcon = Icon(Icons.edit);
-void getName() {
-  nameEditIcon = Icon(Icons.edit);
-  nameEditActive = false;
-  name = userName;
-  nameEditController = TextEditingController(text: name);
-}
 
 Color notSelected = Color.fromARGB(255, 140, 140, 143);
 Color selected = Color.fromARGB(255, 11, 214, 79);
@@ -69,7 +63,6 @@ class _AccountSettingsState extends State<AccountSettings> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     fetchInfo('gender').then((String result) {
       if (mounted) {
         setState(() {

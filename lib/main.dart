@@ -20,7 +20,7 @@ void main() async {
 var userInstance = FirebaseAuth.instance.currentUser;
 var imperialSystem = true;
 var weightUnit = '';
-String userName = "";
+var userName = "";
 //***************************************************//
 
 //***************************************************//
