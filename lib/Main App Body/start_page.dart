@@ -44,10 +44,6 @@ void extraPopOut(BuildContext ctx) {
   }
 }
 
-class MyAppBar2 extends MyAppBar {
-  MyAppBar2(BuildContext ctx) : super(ctx);
-}
-
 class _StartPage extends State<StartPage> {
   Widget build(BuildContext context) {
     fetchInfo('name').then((String result) {
@@ -72,107 +68,7 @@ class _StartPage extends State<StartPage> {
     return Container(
       decoration: backGround(),
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          systemOverlayStyle: SystemUiOverlayStyle.dark,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          actions: <Widget>[
-            Container(
-              child: PopupMenuButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                itemBuilder: (
-                  BuildContext context,
-                ) =>
-                    <PopupMenuEntry>[
-                  PopupMenuItem(
-                    child: Container(
-                      child: ListTile(
-                        leading: Icon(Icons.person_outline),
-                        title: Text('Account'),
-                        onTap: () {
-                          getName();
-                          changePage(context, AccountSettings());
-                        },
-                      ),
-                    ),
-                  ),
-                  // PopupMenuItem(
-                  //   child: new Container(
-                  //     color: Colors.transparent,
-                  //     width: 1000,
-                  //     child: ListTile(
-                  //       onTap: () {},
-                  //       leading: Icon(Icons.notifications_outlined),
-                  //       title: PopupMenuButton(
-                  //         child: Text("Notifications"),
-                  //         itemBuilder: (_) {
-                  //           return [
-                  //             PopupMenuItem(
-                  //                 child: ListTile(leading: Text("Item2"))),
-                  //             PopupMenuItem(child: Text("Item3"))
-                  //           ];
-                  //         },
-                  //       ),
-                  //     ),
-                  //   ),
-                  //   onTap: () {},
-                  // ),
-                  PopupMenuItem(
-                    enabled: true,
-                    child: StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState) {
-                        return Container(
-                          child: ListTile(
-                            onTap: () {},
-                            leading: Icon(Icons.scale_outlined),
-                            title: Text(weightUnit),
-                            trailing: Container(
-                              child: Switch(
-                                // This bool value toggles the switch.
-                                value: imperialSystem,
-                                activeColor: Colors.blue,
-                                inactiveThumbColor: Colors.red,
-                                inactiveTrackColor:
-                                    Color.fromRGBO(255, 73, 73, 0.514),
-                                onChanged: (bool value) {
-                                  // This is called when the user toggles the switch.
-                                  setState(() {
-                                    imperialSystem = value;
-                                    if (value) {
-                                      weightUnit = 'inches/Lbs';
-                                    } else {
-                                      weightUnit = 'cm/Kg';
-                                    }
-                                    updateInfo('unit', weightUnit);
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  PopupMenuItem(
-                    child: Container(
-                      child: ListTile(
-                        leading: Icon(Icons.lock_outline),
-                        title: Text('Sign Out'),
-                        onTap: () {
-                          logOutUser(context);
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-                splashRadius: 20,
-                icon: Icon(color: Colors.black, Icons.settings_outlined),
-              ),
-            ),
-          ],
-        ),
+        appBar: MyAppBar(context, false),
         backgroundColor: Colors.transparent,
         body: Container(
           child: Column(

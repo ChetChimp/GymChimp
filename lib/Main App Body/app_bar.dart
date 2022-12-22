@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gymchimp/Main%20App%20Body/account_settings.dart';
 import 'package:gymchimp/Main%20App%20Body/home_page.dart';
 import '../openingScreens/first_time_login.dart';
 import 'package:gymchimp/main.dart';
@@ -18,18 +19,18 @@ void logOutUser(BuildContext ctx) {
 }
 
 class MyAppBar extends AppBar {
-  MyAppBar(
-    BuildContext ctx,
-  ) : super(
+  MyAppBar(BuildContext ctx, bool arrowEnabled)
+      : super(
           systemOverlayStyle: SystemUiOverlayStyle.dark,
           elevation: 0,
           leading: IconButton(
-              splashRadius: 20,
-              icon: const Icon(
-                Icons.arrow_back_outlined,
-                color: Colors.black,
-              ),
+              splashRadius: 1,
+              icon: Icon(Icons.arrow_back_outlined,
+                  color: arrowEnabled ? Colors.black : Colors.transparent),
               onPressed: () {
+                if (!arrowEnabled) {
+                  return;
+                }
                 if (Navigator.of(ctx).canPop()) {
                   Navigator.of(ctx).pop();
                 } else {
@@ -51,6 +52,12 @@ class MyAppBar extends AppBar {
                       child: ListTile(
                         leading: Icon(Icons.person_outline),
                         title: Text('Account'),
+                        onTap: () {
+                          changePage(
+                            context,
+                            new AccountSettings(),
+                          );
+                        },
                       ),
                     ),
                   ),
