@@ -10,8 +10,7 @@ void logOutUser(BuildContext ctx) {
   final auth = FirebaseAuth.instance;
   auth.signOut();
 
-  Navigator.pushAndRemoveUntil(
-      ctx,
+  Navigator.of(ctx, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute<void>(
         builder: (BuildContext context) => new FirstLogIn(),
       ),
@@ -124,6 +123,12 @@ class MyAppBar extends AppBar {
                         leading: Icon(Icons.lock_outline),
                         title: Text('Sign Out'),
                         onTap: () {
+                          while (Navigator.of(ctx).canPop()) {
+                            Navigator.of(ctx).pop();
+                          }
+
+                          Navigator.of(ctx, rootNavigator: true).pop();
+
                           logOutUser(context);
                         },
                       ),

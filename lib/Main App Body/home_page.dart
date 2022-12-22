@@ -57,7 +57,6 @@ class _HomePage extends State<HomePage> {
     //Widget page = _widgetOptions.elementAt(selectedIndex);
     // var testKey;
     return Scaffold(
-      appBar: MyAppBar(context, true),
       extendBodyBehindAppBar: false,
       body: _widgetOptions.elementAt(selectedIndex),
       // Navigator(

@@ -4,10 +4,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gymchimp/openingScreens/first_time_login.dart';
-import 'package:gymchimp/openingScreens/login_page.dart';
-
 import '../Sign up/check_pass_email.dart';
+import 'package:gymchimp/openingScreens/login_page.dart';
 
 class ForgotPassWord extends StatefulWidget {
   const ForgotPassWord({Key? key}) : super(key: key);
@@ -18,15 +16,32 @@ class ForgotPassWord extends StatefulWidget {
 
 Future _submitForm(String email, BuildContext context) async {
   await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-  changePage(context, CheckPassEmail());
+  toCheckPass(context);
 }
 
-void changePage(BuildContext ctx, Widget page) {
-  Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => page));
+Route navigate(Widget page) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionDuration: Duration(milliseconds: 1),
+    transitionsBuilder: (BuildContext context, Animation<double> animation,
+        Animation<double> secondaryAnimation, Widget child) {
+      return new SlideTransition(
+        position: new Tween<Offset>(
+          begin: const Offset(-1.0, 0.0),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      );
+    },
+  );
 }
 
-void goBackToLogin(BuildContext ctx) async {
-  Navigator.of(ctx).pop();
+void goBack(BuildContext ctx) {
+  Navigator.of(ctx).push(navigate(LoginPage()));
+}
+
+void toCheckPass(BuildContext ctx) {
+  Navigator.of(ctx).push(navigate(CheckPassEmail()));
 }
 
 class _ForgotPassWordState extends State<ForgotPassWord> {
@@ -42,8 +57,8 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
           begin: Alignment.topLeft,
           end: Alignment(0.8, 1),
           colors: <Color>[
-            Color.fromARGB(255, 228, 240, 255),
-            Color.fromARGB(255, 169, 188, 211),
+            Color.fromARGB(233, 228, 240, 255),
+            Color.fromARGB(211, 204, 227, 255),
           ], // Gradient from https://learnui.design/tools/gradient-generator.html
           tileMode: TileMode.mirror,
         ),
@@ -147,7 +162,7 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
               child: IconButton(
                 splashRadius: 20,
                 onPressed: () {
-                  goBackToLogin(context);
+                  goBack(context);
                 },
                 color: Color.fromARGB(255, 0, 0, 0),
 

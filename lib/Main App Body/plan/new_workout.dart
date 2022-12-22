@@ -38,6 +38,7 @@ class _NewWorkout extends State<NewWorkout> {
     return MaterialApp(
       title: 'Welcome to Flutter',
       home: Scaffold(
+        appBar: MyAppBar(context, true),
         body: Center(
           child: ReorderableListView(
             proxyDecorator: proxyDecorator,

@@ -30,6 +30,7 @@ class _PlanPage extends State<PlanPage> {
             builder: (_) => MaterialApp(
                   title: 'Welcome to Flutter',
                   home: Scaffold(
+                    appBar: MyAppBar(context, true),
                     body: const Center(
                       child: Text('Welcome to Plan Page'),
                     ),
