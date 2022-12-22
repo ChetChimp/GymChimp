@@ -7,13 +7,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
-import 'package:gymchimp/Main%20App%20Body/home_page.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
-import 'package:gymchimp/Main%20App%20Body/plan/new_workout.dart';
-import 'package:gymchimp/Sign%20up/sign_up_page.dart';
-import 'package:gymchimp/Main%20App%20Body/start_page.dart';
-import '../../firebase_options.dart';
+import '../app_bar.dart';
+import 'new_workout.dart';
 
 class PlanPage extends StatefulWidget {
   const PlanPage({Key? key}) : super(key: key);
