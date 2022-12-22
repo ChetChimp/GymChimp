@@ -4,9 +4,10 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gymchimp/Sign%20up/check_pass_email.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
+
+import '../Sign up/check_pass_email.dart';
 
 class ForgotPassWord extends StatefulWidget {
   const ForgotPassWord({Key? key}) : super(key: key);
