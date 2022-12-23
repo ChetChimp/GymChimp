@@ -18,7 +18,7 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 var name = userName;
 TextEditingController nameEditController = TextEditingController(text: name);
-bool nameEditActive = true;
+bool nameEditActive = false;
 Icon nameEditIcon = Icon(Icons.edit);
 
 Color notSelected = Color.fromARGB(255, 140, 140, 143);
@@ -61,12 +61,12 @@ void currentGoal() {
 
 class _AccountSettingsState extends State<AccountSettings> {
   @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+  void initState() {
     fetchInfo('gender').then((String result) {
       if (mounted) {
         setState(() {
           userGender = result;
+          currentGender();
         });
       }
     });
@@ -74,12 +74,16 @@ class _AccountSettingsState extends State<AccountSettings> {
       if (mounted) {
         setState(() {
           userGoal = result;
+          currentGoal();
         });
       }
     });
-    currentGoal();
-    currentGender();
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
@@ -131,6 +135,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                             nameEditIcon = Icon(Icons.check);
                           } else {
                             updateInfo('name', nameEditController.text);
+                            userName = nameEditController.text;
                             nameEditIcon = Icon(Icons.edit);
                           }
                         });

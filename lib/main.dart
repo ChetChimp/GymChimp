@@ -78,7 +78,6 @@ class MyApp extends StatelessWidget {
     bool loggedIn = false;
     if (FirebaseAuth.instance.currentUser != null) {
       loggedIn = true;
-      fetchInfo('name');
     } else {
       loggedIn = false;
     }

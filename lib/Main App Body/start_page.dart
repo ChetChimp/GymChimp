@@ -45,15 +45,8 @@ void extraPopOut(BuildContext ctx) {
 }
 
 class _StartPage extends State<StartPage> {
-  Widget build(BuildContext context) {
-    fetchInfo('name').then((String result) {
-      if (mounted) {
-        print("wfwef");
-        setState(() {
-          userName = result;
-        });
-      }
-    });
+  @override
+  void initState() {
     fetchInfo('unit').then((String result) {
       if (mounted) {
         setState(() {
@@ -65,6 +58,15 @@ class _StartPage extends State<StartPage> {
           }
         });
       }
+    });
+    super.initState();
+  }
+
+  Widget build(BuildContext context) {
+    fetchInfo('name').then((String result) {
+      setState(() {
+        userName = result;
+      });
     });
     return Container(
       decoration: backGround(),
