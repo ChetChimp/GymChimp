@@ -37,8 +37,67 @@ TextStyle fontstyle(Size size) {
       decoration: TextDecoration.none);
 }
 
-class _StopWatchState extends State<StopWatch> {
-  void _beginTimer() {
+class _StopWatchState extends State<StopWatch>
+    with AutomaticKeepAliveClientMixin {
+  void addTime() {
+    if (mounted) {
+      setState(() {
+        if (milliseconds + 1.24133004 >= 1000 &&
+            seconds + 1 == 60 &&
+            minutes + 1 == 60) {
+          hours += 1;
+
+          minutes = 0;
+          minutesString = '0$minutes';
+          seconds = 0;
+          secondsString = '0$seconds';
+          milliseconds = 0;
+          millisecondsString =
+              milliseconds.toString().substring(0, 1).padLeft(2, '0');
+          if (hours > 9) {
+            hoursString = hours.toString();
+          } else {
+            hoursString = '0$hours';
+          }
+        } else if (milliseconds + 1.24133004 >= 1000 && seconds + 1 == 60) {
+          minutes += 1;
+
+          seconds = 0;
+          secondsString = '0$seconds';
+          milliseconds = 0;
+          millisecondsString =
+              milliseconds.toString().substring(0, 1).padLeft(2, '0');
+          if (minutes > 9) {
+            minutesString = minutes.toString();
+          } else {
+            minutesString = '0$minutes';
+          }
+        } else if (milliseconds + 1.24133004 >= 1000) {
+          seconds += 1;
+
+          milliseconds = 0;
+          millisecondsString =
+              milliseconds.toString().substring(0, 1).padLeft(2, '0');
+          if (seconds > 9) {
+            secondsString = seconds.toString();
+          } else {
+            secondsString = '0$seconds';
+          }
+        } else {
+          milliseconds += 1.24133004;
+          millisecondsString =
+              milliseconds.toString().substring(0, 1).padLeft(2, '0');
+          if (milliseconds > 9) {
+            millisecondsString = milliseconds.toString().substring(0, 2);
+          } else {
+            millisecondsString = milliseconds.toString().substring(0, 1);
+          }
+        }
+      });
+    }
+  }
+
+  void _beginStopWatch() {
     timer = Timer.periodic(Duration(milliseconds: 1), (_) => addTime());
   }
 
@@ -60,64 +119,9 @@ class _StopWatchState extends State<StopWatch> {
     });
   }
 
-  void addTime() {
-    setState(() {
-      if (milliseconds + 1.24133004 >= 1000 &&
-          seconds + 1 == 60 &&
-          minutes + 1 == 60) {
-        hours += 1;
-
-        minutes = 0;
-        minutesString = '0$minutes';
-        seconds = 0;
-        secondsString = '0$seconds';
-        milliseconds = 0;
-        millisecondsString =
-            milliseconds.toString().substring(0, 1).padLeft(2, '0');
-        if (hours > 9) {
-          hoursString = hours.toString();
-        } else {
-          hoursString = '0$hours';
-        }
-      } else if (milliseconds + 1.24133004 >= 1000 && seconds + 1 == 60) {
-        minutes += 1;
-
-        seconds = 0;
-        secondsString = '0$seconds';
-        milliseconds = 0;
-        millisecondsString =
-            milliseconds.toString().substring(0, 1).padLeft(2, '0');
-        if (minutes > 9) {
-          minutesString = minutes.toString();
-        } else {
-          minutesString = '0$minutes';
-        }
-      } else if (milliseconds + 1.24133004 >= 1000) {
-        seconds += 1;
-
-        milliseconds = 0;
-        millisecondsString =
-            milliseconds.toString().substring(0, 1).padLeft(2, '0');
-        if (seconds > 9) {
-          secondsString = seconds.toString();
-        } else {
-          secondsString = '0$seconds';
-        }
-      } else {
-        milliseconds += 1.24133004;
-        millisecondsString =
-            milliseconds.toString().substring(0, 1).padLeft(2, '0');
-        if (milliseconds > 9) {
-          millisecondsString = milliseconds.toString().substring(0, 2);
-        } else {
-          millisecondsString = milliseconds.toString().substring(0, 1);
-        }
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     Size size = MediaQuery.of(context).size;
     return Container(
       height: size.height / 6,
@@ -162,7 +166,7 @@ class _StopWatchState extends State<StopWatch> {
                     on = !on;
                   });
                   if (!on) {
-                    _beginTimer();
+                    _beginStopWatch();
                   } else {
                     _stopTimer();
                   }
@@ -183,6 +187,10 @@ class _StopWatchState extends State<StopWatch> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 class timeCard extends StatefulWidget {

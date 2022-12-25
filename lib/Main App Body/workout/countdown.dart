@@ -43,7 +43,8 @@ TextStyle fontstyle(Size size) {
       decoration: TextDecoration.none);
 }
 
-class _countdownState extends State<countdown> {
+class _countdownState extends State<countdown>
+    with AutomaticKeepAliveClientMixin {
   Card timePicker(Size size) {
     return Card(
       margin: EdgeInsets.only(
@@ -143,42 +144,44 @@ class _countdownState extends State<countdown> {
   }
 
   void reduceTime() {
-    setState(() {
-      if (hours == 0 && minutes == 0 && (seconds - 1 == 0 || seconds == 0)) {
-        on = true;
-        seconds = 0;
-        secondsString = '0$seconds';
-        _stopTimer();
-        return;
-      } else if (hours != 0 && seconds - 1 == -1 && minutes == 0) {
-        hours -= 1;
-        minutes = 59;
-        minutesString = minutes.toString();
-        seconds = 59;
-        secondsString = seconds.toString();
-        if (hours > 9) {
-          hoursString = hours.toString();
-        } else {
-          hoursString = '0$hours';
-        }
-      } else if (minutes != 0 && seconds - 1 == -1) {
-        minutes -= 1;
-        seconds = 59;
-        secondsString = seconds.toString();
-        if (minutes > 9) {
-          minutesString = minutes.toString();
-        } else {
-          minutesString = '0$minutes';
-        }
-      } else {
-        seconds -= 1;
-        if (seconds > 9) {
-          secondsString = seconds.toString();
-        } else {
+    if (mounted) {
+      setState(() {
+        if (hours == 0 && minutes == 0 && (seconds - 1 == 0 || seconds == 0)) {
+          on = true;
+          seconds = 0;
           secondsString = '0$seconds';
+          _stopTimer();
+          return;
+        } else if (hours != 0 && seconds - 1 == -1 && minutes == 0) {
+          hours -= 1;
+          minutes = 59;
+          minutesString = minutes.toString();
+          seconds = 59;
+          secondsString = seconds.toString();
+          if (hours > 9) {
+            hoursString = hours.toString();
+          } else {
+            hoursString = '0$hours';
+          }
+        } else if (minutes != 0 && seconds - 1 == -1) {
+          minutes -= 1;
+          seconds = 59;
+          secondsString = seconds.toString();
+          if (minutes > 9) {
+            minutesString = minutes.toString();
+          } else {
+            minutesString = '0$minutes';
+          }
+        } else {
+          seconds -= 1;
+          if (seconds > 9) {
+            secondsString = seconds.toString();
+          } else {
+            secondsString = '0$seconds';
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   @override
@@ -252,4 +255,8 @@ class _countdownState extends State<countdown> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

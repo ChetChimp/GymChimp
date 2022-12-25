@@ -38,15 +38,15 @@ class _HomePage extends State<HomePage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   // List of 4 pages
-  static const List<Widget> _widgetOptions = <Widget>[
+  static const List<Widget> _children = <Widget>[
     WorkoutPage(),
     StatsPage(),
     NutritionPage(),
     PlanPage(),
   ];
 
-  void _onItemTapped(int index) {
-    currentIndex = index;
+  final pageController = PageController();
+  void onPageChanged(int index) {
     setState(() {
       selectedIndex = index;
     });
@@ -58,18 +58,11 @@ class _HomePage extends State<HomePage> {
     // var testKey;
     return Scaffold(
       extendBodyBehindAppBar: false,
-      body: _widgetOptions.elementAt(selectedIndex),
-      // Navigator(
-      //   onGenerateRoute: (settings) {
-      //     return MaterialPageRoute(
-      //         builder: (_) => _widgetOptions.elementAt(selectedIndex));
-      //   },
-      // ),
-
-      // body: Center(
-      //   child: _widgetOptions.elementAt(selectedIndex),
-      // ),
-
+      body: PageView(
+        controller: pageController,
+        onPageChanged: onPageChanged,
+        children: _children,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
@@ -92,7 +85,9 @@ class _HomePage extends State<HomePage> {
         ],
         currentIndex: selectedIndex,
         selectedItemColor: Color.fromARGB(255, 35, 178, 90),
-        onTap: _onItemTapped,
+        onTap: (int index) {
+          pageController.jumpToPage(index);
+        },
       ),
     );
   }

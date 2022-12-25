@@ -1,9 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/main.dart';
 
@@ -18,7 +14,7 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 var name = userName;
 TextEditingController nameEditController = TextEditingController(text: name);
-bool nameEditActive = true;
+bool nameEditActive = false;
 Icon nameEditIcon = Icon(Icons.edit);
 
 Color notSelected = Color.fromARGB(255, 140, 140, 143);
