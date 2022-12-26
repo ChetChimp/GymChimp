@@ -57,12 +57,12 @@ void currentGoal() {
 
 class _AccountSettingsState extends State<AccountSettings> {
   @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+  void initState() {
     fetchInfo('gender').then((String result) {
       if (mounted) {
         setState(() {
           userGender = result;
+          currentGender();
         });
       }
     });
@@ -70,12 +70,16 @@ class _AccountSettingsState extends State<AccountSettings> {
       if (mounted) {
         setState(() {
           userGoal = result;
+          currentGoal();
         });
       }
     });
-    currentGoal();
-    currentGender();
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
