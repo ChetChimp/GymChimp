@@ -44,7 +44,6 @@ void extraPopOut(BuildContext ctx) {
   }
 }
 
-
 class _StartPage extends State<StartPage> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
@@ -65,7 +64,6 @@ class _StartPage extends State<StartPage> with AutomaticKeepAliveClientMixin {
 
   Widget build(BuildContext context) {
     fetchInfo('name').then((String result) {
-workoutpage-Nir
       if (mounted) {
         setState(() {
           userName = result;
