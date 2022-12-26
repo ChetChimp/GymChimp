@@ -248,6 +248,7 @@ class _NewWorkout extends State<NewWorkout> {
                               newWorkout.addExercise(newName, [numReps]);
                             } else {
                               newWorkout.renameExercise(changeIndex, newName);
+                              newWorkout.setReps(changeIndex, [numReps]);
                             }
                           });
                         },
