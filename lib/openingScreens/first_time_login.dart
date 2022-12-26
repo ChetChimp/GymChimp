@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:gymchimp/Sign%20up/sign_up_page.dart';
 
@@ -26,17 +27,7 @@ class FirstLogIn extends StatelessWidget {
       -creates light gray to dark gray gradient
       */
           Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: <Color>[
-              Color.fromARGB(255, 228, 240, 255),
-              Color.fromARGB(255, 169, 188, 211),
-            ], // Gradient from https://learnui.design/tools/gradient-generator.html
-            tileMode: TileMode.mirror,
-          ),
-        ),
+        decoration: backGround(),
         child:
             /*
         Column with three widgets:

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:gymchimp/openingScreens/forgot_pass.dart';
 import 'package:gymchimp/Main%20App%20Body/start_page.dart';
@@ -95,17 +96,7 @@ class _LoginPage extends State<LoginPage> {
     -Child: container
     */
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment(0.8, 1),
-          colors: <Color>[
-            Color.fromARGB(255, 228, 240, 255),
-            Color.fromARGB(255, 169, 188, 211),
-          ], // Gradient from https://learnui.design/tools/gradient-generator.html
-          tileMode: TileMode.mirror,
-        ),
-      ),
+      decoration: backGround(),
       height: size.height,
       /*
       Container with column as child

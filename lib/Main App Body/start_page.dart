@@ -44,7 +44,8 @@ void extraPopOut(BuildContext ctx) {
   }
 }
 
-class _StartPage extends State<StartPage> {
+
+class _StartPage extends State<StartPage> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     fetchInfo('unit').then((String result) {
@@ -64,9 +65,12 @@ class _StartPage extends State<StartPage> {
 
   Widget build(BuildContext context) {
     fetchInfo('name').then((String result) {
-      setState(() {
-        userName = result;
-      });
+workoutpage-Nir
+      if (mounted) {
+        setState(() {
+          userName = result;
+        });
+      }
     });
     return Container(
       decoration: backGround(),
@@ -214,4 +218,8 @@ class _StartPage extends State<StartPage> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
