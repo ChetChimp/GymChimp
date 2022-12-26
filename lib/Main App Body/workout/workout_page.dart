@@ -43,7 +43,7 @@ class _WorkoutPage extends State<WorkoutPage>
     test.addSetToExercise("Shoulder Press", [10, 100]);
     test.addSetToExercise("Shoulder Press", [8, 100]);
     test.addSetToExercise("Shoulder Press", [6, 100]);
-    test.printExercises();
+    //test.printExercises();
     getRows(selectedExercise);
     updateProgress();
     super.initState();
@@ -196,7 +196,7 @@ class _WorkoutPage extends State<WorkoutPage>
                             setState(
                               () {
                                 index = test.getExercises().indexOf(value!);
-                                selectedExercise = value!;
+                                selectedExercise = value;
                                 getRows(selectedExercise);
                                 updateProgress();
                               },

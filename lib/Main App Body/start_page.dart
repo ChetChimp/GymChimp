@@ -44,8 +44,7 @@ void extraPopOut(BuildContext ctx) {
   }
 }
 
-
-class _StartPage extends State<StartPage> with AutomaticKeepAliveClientMixin {
+class _StartPage extends State<StartPage> {
   @override
   void initState() {
     fetchInfo('unit').then((String result) {
@@ -217,8 +216,4 @@ class _StartPage extends State<StartPage> with AutomaticKeepAliveClientMixin {
       ),
     );
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }

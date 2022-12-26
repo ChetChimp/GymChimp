@@ -34,6 +34,13 @@ class _HomePage extends State<HomePage> with AutomaticKeepAliveClientMixin {
   int selectedIndex;
   _HomePage({required this.selectedIndex});
 
+  var pageController;
+  @override
+  void initState() {
+    pageController = PageController(initialPage: selectedIndex);
+    super.initState();
+  }
+
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
@@ -45,7 +52,6 @@ class _HomePage extends State<HomePage> with AutomaticKeepAliveClientMixin {
     PlanPage(),
   ];
 
-  final pageController = PageController();
   void onPageChanged(int index) {
     setState(() {
       selectedIndex = index;
