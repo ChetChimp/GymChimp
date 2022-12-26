@@ -127,6 +127,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                             nameEditIcon = Icon(Icons.check);
                           } else {
                             updateInfo('name', nameEditController.text);
+                            userName = nameEditController.text;
                             nameEditIcon = Icon(Icons.edit);
                           }
                         });

@@ -18,6 +18,8 @@ Workout test = Workout("Test Workout");
 String selectedExercise = test.getExercises()[0];
 List<TextEditingController> controllers = [];
 int index = 0;
+double multiplier = 1 / test.getExercises().length;
+bool checkVal = false;
 
 TextStyle fontstyle(double size) {
   return TextStyle(
@@ -43,6 +45,7 @@ class _WorkoutPage extends State<WorkoutPage>
     test.addSetToExercise("Shoulder Press", [6, 100]);
     test.printExercises();
     getRows(selectedExercise);
+    updateProgress();
     super.initState();
   }
 
@@ -63,7 +66,6 @@ class _WorkoutPage extends State<WorkoutPage>
   }
 
   void updateProgress() {
-    double multiplier = 1 / test.getExercises().length;
     setState(() {
       progress = multiplier * (index + 1);
     });
@@ -238,8 +240,8 @@ class _WorkoutPage extends State<WorkoutPage>
                           }
                         });
                       }),
-                      child:
-                          Text("               Next Exercise               "))
+                      child: const Text(
+                          "Confirm data and proceed to next exercise"))
                 ],
               ),
             ),

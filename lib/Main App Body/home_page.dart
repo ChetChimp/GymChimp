@@ -30,7 +30,7 @@ void goBack(BuildContext ctx) {
 
 var currentIndex = 0;
 
-class _HomePage extends State<HomePage> {
+class _HomePage extends State<HomePage> with AutomaticKeepAliveClientMixin {
   int selectedIndex;
   _HomePage({required this.selectedIndex});
 
@@ -91,4 +91,7 @@ class _HomePage extends State<HomePage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

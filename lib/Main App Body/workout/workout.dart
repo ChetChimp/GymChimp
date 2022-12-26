@@ -2,7 +2,6 @@ import 'dart:collection';
 
 class Workout {
   var name;
-  var numberOfExercises = 0;
   Map exercises = <String, List<List<int>>>{};
 
   Workout(this.name);
@@ -11,7 +10,6 @@ class Workout {
     List<List<int>> listOfRepsWeight = [];
     listOfRepsWeight.add(repsWeight);
     exercises[name] = listOfRepsWeight;
-    numberOfExercises++;
   }
 
   void addSetToExercise(String name, List<int> repsWeight) {
@@ -35,10 +33,6 @@ class Workout {
 
   String getName() {
     return name;
-  }
-
-  int getNumExercises() {
-    return numberOfExercises;
   }
 
   List getExercises() {
