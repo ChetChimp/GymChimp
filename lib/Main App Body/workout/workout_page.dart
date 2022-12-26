@@ -5,7 +5,7 @@ import '../app_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
-import 'workout.dart';
+import '../plan/workout.dart';
 
 class WorkoutPage extends StatefulWidget {
   const WorkoutPage({Key? key}) : super(key: key);
@@ -75,7 +75,7 @@ class _WorkoutPage extends State<WorkoutPage>
   void getRows(String exercise) {
     returnRows = [];
     controllers = [];
-    for (int i = 0; i < test.exercises[exercise].length; i++) {
+    for (int i = 0; i < test.exercises[exercise]!.length; i++) {
       TextEditingController? newController = TextEditingController(text: "");
       controllers.add(newController);
       returnRows.add(
@@ -90,7 +90,7 @@ class _WorkoutPage extends State<WorkoutPage>
               Spacer(),
               Container(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(test.exercises[exercise][i][0].toString(),
+                child: Text(test.exercises[exercise]![i][0].toString(),
                     style: fontstyle(20)),
               ),
               Spacer(),
@@ -103,7 +103,7 @@ class _WorkoutPage extends State<WorkoutPage>
                     decoration: InputDecoration(
                       border: UnderlineInputBorder(),
                       contentPadding: EdgeInsets.symmetric(vertical: 5),
-                      hintText: test.exercises[exercise][i][1].toString(),
+                      hintText: test.exercises[exercise]![i][1].toString(),
                       //hintStyle: fontstyle(),
                     ),
                     style: fontstyle(20),
@@ -195,7 +195,7 @@ class _WorkoutPage extends State<WorkoutPage>
                           onChanged: (String? value) {
                             setState(
                               () {
-                                index = test.getExercises().indexOf(value);
+                                index = test.getExercises().indexOf(value!);
                                 selectedExercise = value!;
                                 getRows(selectedExercise);
                                 updateProgress();
