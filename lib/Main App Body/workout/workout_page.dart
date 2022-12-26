@@ -15,10 +15,10 @@ class WorkoutPage extends StatefulWidget {
 }
 
 Workout test = Workout("Test Workout");
-String selectedExercise = test.getExercises()[0];
+String selectedExercise = test.getExercise(0);
 List<TextEditingController> controllers = [];
 int index = 0;
-double multiplier = 1 / test.getExercises().length;
+double multiplier = 1 / test.getNumExercises();
 bool checkVal = false;
 
 TextStyle fontstyle(double size) {
@@ -34,15 +34,11 @@ class _WorkoutPage extends State<WorkoutPage>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
-    test.addExercise("Bench Press", [8, 60]);
-    test.addExercise("Shoulder Press", [12, 72]);
-    test.addExercise("Tricep Pulldown", [8, 55]);
-    test.addExercise("Situp", [8, 0]);
-
-    test.addSetToExercise("Bench Press", [10, 100]);
-    test.addSetToExercise("Shoulder Press", [10, 100]);
-    test.addSetToExercise("Shoulder Press", [8, 100]);
-    test.addSetToExercise("Shoulder Press", [6, 100]);
+    test.addExercise("Bench Press", [8, 10, 12, 10]);
+    test.addExercise("Shoulder Press", [8, 10, 12]);
+    test.addExercise("Tricep Pulldown", [8, 10, 12]);
+    test.addExercise("Situp", [8, 10, 12]);
+    test.setReps(2, [8, 10, 10, 14, 14]);
     //test.printExercises();
     getRows(selectedExercise);
     updateProgress();
@@ -73,9 +69,10 @@ class _WorkoutPage extends State<WorkoutPage>
 
   List<Widget> returnRows = [];
   void getRows(String exercise) {
+    int exerciseIndex = test.exercises.indexOf(exercise);
     returnRows = [];
     controllers = [];
-    for (int i = 0; i < test.exercises[exercise]!.length; i++) {
+    for (int i = 0; i < test.reps[exerciseIndex].length; i++) {
       TextEditingController? newController = TextEditingController(text: "");
       controllers.add(newController);
       returnRows.add(
@@ -90,7 +87,7 @@ class _WorkoutPage extends State<WorkoutPage>
               Spacer(),
               Container(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(test.exercises[exercise]![i][0].toString(),
+                child: Text(test.reps[exerciseIndex][i].toString(),
                     style: fontstyle(20)),
               ),
               Spacer(),
@@ -103,7 +100,7 @@ class _WorkoutPage extends State<WorkoutPage>
                     decoration: InputDecoration(
                       border: UnderlineInputBorder(),
                       contentPadding: EdgeInsets.symmetric(vertical: 5),
-                      hintText: test.exercises[exercise]![i][1].toString(),
+                      // hintText: test.exercises[listIndex]![i].toString(),
                       //hintStyle: fontstyle(),
                     ),
                     style: fontstyle(20),
@@ -178,8 +175,7 @@ class _WorkoutPage extends State<WorkoutPage>
                           isExpanded: true,
                           barrierColor: Color.fromARGB(45, 0, 0, 0),
                           hint: Text(selectedExercise, style: fontstyle(25)),
-                          items: test
-                              .getExercises()
+                          items: test.exercises
                               .map((item) => DropdownMenuItem<String>(
                                     value: item,
                                     child: Text(
@@ -195,7 +191,7 @@ class _WorkoutPage extends State<WorkoutPage>
                           onChanged: (String? value) {
                             setState(
                               () {
-                                index = test.getExercises().indexOf(value!);
+                                index = test.exercises.indexOf(value!);
                                 selectedExercise = value;
                                 getRows(selectedExercise);
                                 updateProgress();
@@ -232,9 +228,9 @@ class _WorkoutPage extends State<WorkoutPage>
                   ElevatedButton(
                       onPressed: (() {
                         setState(() {
-                          if (index < test.getExercises().length) {
+                          if (index < test.getNumExercises()) {
                             index++;
-                            selectedExercise = test.getExercises()[index];
+                            selectedExercise = test.exercises[index];
                             getRows(selectedExercise);
                             updateProgress();
                           }
