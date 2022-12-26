@@ -35,7 +35,7 @@ class _WorkoutPage extends State<WorkoutPage>
   @override
   void initState() {
     test.addExercise("Bench Press", [8, 10, 12, 10]);
-    test.addExercise("Shoulder Press", [8, 10, 12]);
+    test.addExercise("Shoulder Press", [7, 11, 13]);
     test.addExercise("Tricep Pulldown", [8, 10, 12]);
     test.addExercise("Situp", [8, 10, 12]);
     test.setReps(2, [8, 10, 10, 14, 14]);
@@ -236,8 +236,7 @@ class _WorkoutPage extends State<WorkoutPage>
                           }
                         });
                       }),
-                      child: const Text(
-                          "Confirm data and proceed to next exercise"))
+                      child: const Text("Next exercise"))
                 ],
               ),
             ),
