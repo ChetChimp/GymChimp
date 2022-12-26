@@ -23,7 +23,6 @@ class NewWorkout extends StatefulWidget {
 
 class _NewWorkout extends State<NewWorkout> {
   Workout newWorkout = Workout("testName");
-  late List<String> _items = newWorkout.getExercises();
   //   List<String>.generate(25, (int index) => index.toString()); //For auto-generate list
 
   Widget build(BuildContext ctx) {
@@ -53,16 +52,17 @@ class _NewWorkout extends State<NewWorkout> {
                 if (oldIndex < newIndex) {
                   newIndex -= 1;
                 }
-                if (newIndex >= _items.length) {
+                if (newIndex >= newWorkout.getNumExercises()) {
                   newIndex -= 1;
                 }
-                final String item = _items.removeAt(oldIndex);
-                _items.insert(newIndex, item);
+                newWorkout.swapIndexes(oldIndex, newIndex);
               });
             },
             padding: EdgeInsets.all(8),
             children: <Widget>[
-              for (int index = 0; index < _items.length; index += 1)
+              for (int index = 0;
+                  index < newWorkout.getNumExercises();
+                  index += 1)
                 Container(
                     padding: EdgeInsets.all(2),
                     decoration: BoxDecoration(
@@ -80,18 +80,17 @@ class _NewWorkout extends State<NewWorkout> {
                           children: [
                             Icon(Icons.drag_indicator),
                             Spacer(),
-                            Text(_items[index]),
+                            Text(newWorkout.getExercise(index)),
                             Text("    Sets: "),
-                            Text(newWorkout
-                                .getSetOfExercise(_items[index])
-                                .toString()),
+                            Text(newWorkout.getReps(index).toString()),
                             Spacer(),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
                                   side: BorderSide(color: Colors.transparent)),
                               child: Icon(Icons.edit),
                               onPressed: () {
-                                modifyExercise(ctx, '${_items[index]}', index);
+                                modifyExercise(ctx,
+                                    '${newWorkout.getExercise(index)}', index);
                               },
                             ),
                           ],
@@ -131,7 +130,7 @@ class _NewWorkout extends State<NewWorkout> {
         new TextEditingController(text: name);
 
     //sets numReps to a default 3 if making a new workout, or to the current value if modifying workout
-    int numReps = changeIndex == -1 ? 3 : newWorkout.getSetOfExercise(name);
+    int numReps = changeIndex == -1 ? 3 : newWorkout.getReps(changeIndex)[0];
 
     showModalBottomSheet<void>(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
@@ -221,9 +220,8 @@ class _NewWorkout extends State<NewWorkout> {
                                       Navigator.pop(ctx);
                                       setState(() {
                                         if (changeIndex != -1) {
-                                          newWorkout.removeExercise(
-                                              _items[changeIndex]);
-                                          _items.removeAt(changeIndex);
+                                          newWorkout
+                                              .removeExercise(changeIndex);
                                         }
                                       });
                                     },
@@ -247,12 +245,9 @@ class _NewWorkout extends State<NewWorkout> {
                           Navigator.pop(context);
                           setState(() {
                             if (changeIndex == -1) {
-                              _items.add(newName);
-                              newWorkout.addExercise(newName, [numReps, -1]);
+                              newWorkout.addExercise(newName, [numReps]);
                             } else {
-                              newWorkout.setExerciseName(
-                                  _items[changeIndex], newName);
-                              _items[changeIndex] = newName;
+                              newWorkout.renameExercise(changeIndex, newName);
                             }
                           });
                         },
