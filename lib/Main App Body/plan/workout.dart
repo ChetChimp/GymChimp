@@ -1,46 +1,31 @@
 import 'dart:collection';
 
+import 'package:gymchimp/Main%20App%20Body/plan/exercises.dart';
+
 class Workout {
   var name;
-  var numberOfExercises = 0;
-  Map<String, List<List<int>>> exercises = <String, List<List<int>>>{};
+
+  List<String> exercises = <String>[];
+  List<List<int>> reps = <List<int>>[];
 
   Workout(this.name);
 
-  void addExercise(String name, List<int> repsWeight) {
-    List<List<int>> listOfRepsWeight = [];
-    listOfRepsWeight.add(repsWeight);
-    exercises[name] = listOfRepsWeight;
-    numberOfExercises++;
+  void addExercise(String name, List<int> reps) {
+    exercises.add(name);
+    this.reps.add(reps);
   }
 
-  void addSetToExercise(String name, List<int> repsWeight) {
-    exercises[name]?.add(repsWeight);
+  void setReps(int index, List<int> reps) {
+    this.reps[index] = reps;
   }
 
-  void removeExercise(String name) {
-    exercises.remove(name);
+  void removeExercise(int index) {
+    exercises.removeAt(index);
+    reps.removeAt(index);
   }
 
-  void printExercises() {
-    exercises.forEach((key, value) {
-      print(key);
-      print("-----------------------");
-      value.map((list) {
-        print("Reps: " +
-            list[0].toString() +
-            " || " +
-            "Weight: " +
-            list[1].toString());
-      }).toList();
-      print('=======================');
-    });
-  }
-
-  void setExerciseName(String exercise, String newName) {
-    List<int> repsWeight = getRepsWeight(exercise)![0];
-    removeExercise(exercise);
-    addExercise(newName, repsWeight);
+  void renameExercise(int index, String newExercise) {
+    exercises[index] = newExercise;
   }
 
   String getName() {
@@ -48,26 +33,14 @@ class Workout {
   }
 
   int getNumExercises() {
-    return numberOfExercises;
+    return exercises.length;
   }
 
-  List<List<int>>? getRepsWeight(String exercise) {
-    return exercises[exercise];
+  List<int> getReps(int index) {
+    return reps[index];
   }
 
-  int getSetOfExercise(String exercise) {
-    return exercises[exercise]![0][0];
+  String getExercise(int index) {
+    return exercises[index];
   }
-
-  List<String> getExercises() {
-    return exercises.keys.toList();
-  }
-
-  Map<String, List<List<int>>> getWorkout() {
-    return exercises;
-  }
-
-  // setWorkout(Map<String, List<List<int>>> exercises) {
-  //   this.exercises = exercises;
-  // }
 }
