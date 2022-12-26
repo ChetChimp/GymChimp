@@ -35,11 +35,11 @@ void changePage(BuildContext ctx, Widget page) {
 BoxDecoration backGround() {
   return const BoxDecoration(
     gradient: LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment(0.8, 1),
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
       colors: <Color>[
-        Color.fromARGB(255, 228, 240, 255),
-        Color.fromARGB(255, 204, 227, 255),
+        Color.fromARGB(255, 255, 255, 255),
+        Color.fromARGB(255, 187, 204, 255),
       ], // Gradient from https://learnui.design/tools/gradient-generator.html
       tileMode: TileMode.mirror,
     ),
@@ -78,7 +78,6 @@ class MyApp extends StatelessWidget {
     bool loggedIn = false;
     if (FirebaseAuth.instance.currentUser != null) {
       loggedIn = true;
-      fetchInfo('name');
     } else {
       loggedIn = false;
     }

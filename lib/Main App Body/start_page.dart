@@ -44,15 +44,10 @@ void extraPopOut(BuildContext ctx) {
   }
 }
 
-class _StartPage extends State<StartPage> {
-  Widget build(BuildContext context) {
-    fetchInfo('name').then((String result) {
-      if (mounted) {
-        setState(() {
-          userName = result;
-        });
-      }
-    });
+
+class _StartPage extends State<StartPage> with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
     fetchInfo('unit').then((String result) {
       if (mounted) {
         setState(() {
@@ -62,6 +57,17 @@ class _StartPage extends State<StartPage> {
           } else {
             imperialSystem = false;
           }
+        });
+      }
+    });
+    super.initState();
+  }
+
+  Widget build(BuildContext context) {
+    fetchInfo('name').then((String result) {
+      if (mounted) {
+        setState(() {
+          userName = result;
         });
       }
     });
@@ -211,4 +217,8 @@ class _StartPage extends State<StartPage> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

@@ -20,7 +20,6 @@ void logOutUser(BuildContext ctx) {
 class MyAppBar extends AppBar {
   MyAppBar(BuildContext ctx, bool arrowEnabled)
       : super(
-          systemOverlayStyle: SystemUiOverlayStyle.dark,
           elevation: 0,
           leading: IconButton(
               splashRadius: 1,
