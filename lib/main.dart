@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/start_page.dart';
+import 'package:gymchimp/user.dart';
 import 'firebase_options.dart';
+import 'package:gymchimp/user.dart';
 
 //initialize and connect to flutter firebase, run main function
 void main() async {
@@ -70,11 +72,39 @@ void updateInfo(String label, String text) async {
 }
 //***************************************************//
 
+CurrentUser currentUser = CurrentUser();
+
+Future<void> addUserInfo() async {
+  Future<List> addUserInfo2() async {
+    List queries = ["name", "email", "gender", "unit", "level"];
+    List querieReturn = [];
+    queries.forEach((element) async {
+      await fetchInfo(element).then((String result) {
+        print(result);
+        querieReturn.add(result);
+      });
+    });
+
+    return queries;
+  }
+
+  List querieReturn = await addUserInfo2();
+  print(querieReturn.toString());
+  currentUser.setName = querieReturn[0];
+  currentUser.setEmail = querieReturn[1];
+  currentUser.setGender = querieReturn[2];
+  currentUser.setUnits = querieReturn[3];
+  currentUser.setLevel = querieReturn[4];
+
+  //Future.delayed(Duration(milliseconds: 1000), () {});
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   // This widget is the root of your application. Launches firstLogin page
   @override
   Widget build(BuildContext context) {
+    addUserInfo();
     bool loggedIn = false;
     if (FirebaseAuth.instance.currentUser != null) {
       loggedIn = true;
