@@ -50,6 +50,7 @@ BoxDecoration backGround() {
 //***************************************************//
 //Global method to fetch a user data from database
 FirebaseFirestore firestore = FirebaseFirestore.instance;
+
 Future<String> fetchInfo(String info) async {
   String output = "";
   var firebaseUser = await FirebaseAuth.instance.currentUser!;
