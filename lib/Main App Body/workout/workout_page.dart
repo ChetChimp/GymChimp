@@ -14,12 +14,13 @@ class WorkoutPage extends StatefulWidget {
   State<WorkoutPage> createState() => _WorkoutPage();
 }
 
-Workout test = Workout("Test Workout");
-String selectedExercise = test.getExercise(0);
+Workout currentWorkout = Workout("Test Workout");
+String selectedExercise = "";
 List<TextEditingController> controllers = [];
 int index = 0;
-double multiplier = 1 / test.getNumExercises();
+double multiplier = 0;
 bool checkVal = false;
+ScrollController scrollController = ScrollController();
 
 TextStyle fontstyle(double size) {
   return TextStyle(
@@ -30,16 +31,9 @@ TextStyle fontstyle(double size) {
       decoration: TextDecoration.none);
 }
 
-class _WorkoutPage extends State<WorkoutPage>
-    with AutomaticKeepAliveClientMixin {
+class _WorkoutPage extends State<WorkoutPage> {
   @override
   void initState() {
-    test.addExercise("Bench Press", [8, 10, 12, 10]);
-    test.addExercise("Shoulder Press", [7, 11, 13]);
-    test.addExercise("Tricep Pulldown", [8, 10, 12]);
-    test.addExercise("Situp", [8, 10, 12]);
-    test.setReps(2, [8, 10, 10, 14, 14]);
-    //test.printExercises();
     getRows(selectedExercise);
     updateProgress();
     super.initState();
@@ -62,6 +56,9 @@ class _WorkoutPage extends State<WorkoutPage>
   }
 
   void updateProgress() {
+    multiplier = currentWorkout.exercises.isEmpty
+        ? 0
+        : 1 / currentWorkout.exercises.length;
     setState(() {
       progress = multiplier * (index + 1);
     });
@@ -69,10 +66,15 @@ class _WorkoutPage extends State<WorkoutPage>
 
   List<Widget> returnRows = [];
   void getRows(String exercise) {
-    int exerciseIndex = test.exercises.indexOf(exercise);
+    selectedExercise = exercise;
     returnRows = [];
     controllers = [];
-    for (int i = 0; i < test.reps[exerciseIndex].length; i++) {
+    if (exercise == "") {
+      return;
+    }
+    int exerciseIndex = currentWorkout.exercises.indexOf(exercise);
+
+    for (int i = 0; i < currentWorkout.reps[exerciseIndex].length; i++) {
       TextEditingController? newController = TextEditingController(text: "");
       controllers.add(newController);
       returnRows.add(
@@ -87,7 +89,7 @@ class _WorkoutPage extends State<WorkoutPage>
               Spacer(),
               Container(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(test.reps[exerciseIndex][i].toString(),
+                child: Text(currentWorkout.reps[exerciseIndex][i].toString(),
                     style: fontstyle(20)),
               ),
               Spacer(),
@@ -116,7 +118,6 @@ class _WorkoutPage extends State<WorkoutPage>
   }
 
   Widget build(BuildContext context) {
-    super.build(context);
     Size size = MediaQuery.of(context).size;
     return Navigator(onGenerateRoute: (settings) {
       return MaterialPageRoute(
@@ -125,119 +126,149 @@ class _WorkoutPage extends State<WorkoutPage>
           home: Scaffold(
             appBar: MyAppBar(context, true),
             backgroundColor: Colors.transparent,
-            body: Container(
-              height: size.height,
-              width: size.width,
-              child: Column(
-                children: [
-                  CarouselSlider(
-                    items: [
-                      countdown(),
-                      StopWatch(),
-                    ],
-                    options: CarouselOptions(
-                      height: size.height / 5,
-                      enableInfiniteScroll: true,
-                      onPageChanged: ((index, reason) {
-                        setState(() {
-                          activepage = index;
-                        });
-                      }),
-                      viewportFraction: 1,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: indicators(2, activepage),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        LinearProgressIndicator(
-                          minHeight: 10,
-                          value: progress,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: size.height / 3.5,
-                    margin: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Color.fromARGB(255, 202, 202, 202)),
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Column(
-                      children: [
-                        DropdownButton2(
-                          iconSize: 50,
-                          isExpanded: true,
-                          barrierColor: Color.fromARGB(45, 0, 0, 0),
-                          hint: Text(selectedExercise, style: fontstyle(25)),
-                          items: test.exercises
-                              .map((item) => DropdownMenuItem<String>(
-                                    value: item,
-                                    child: Text(
-                                      item,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ))
-                              .toList(),
-                          onChanged: (String? value) {
-                            setState(
-                              () {
-                                index = test.exercises.indexOf(value!);
-                                selectedExercise = value;
-                                getRows(selectedExercise);
-                                updateProgress();
-                              },
-                            );
-                          },
-                        ),
-                        Container(
-                          child: Row(
-                            children: [
-                              Spacer(),
-                              Text("Set ", style: fontstyle(25)),
-                              Spacer(),
-                              Text("Reps ", style: fontstyle(25)),
-                              Spacer(),
-                              Text("Weight ", style: fontstyle(25)),
-                              Spacer(),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: size.height / 6,
-                          child: Scrollbar(
-                            thumbVisibility: true,
-                            child: ListView(
-                              //physics: BouncingScrollPhysics(),
-                              children: returnRows,
+            body: RefreshIndicator(
+              displacement: 0,
+              onRefresh: (() {
+                return Future.delayed(Duration(milliseconds: 1), (() {
+                  setState(() {
+                    getRows(currentWorkout.exercises.isEmpty
+                        ? ""
+                        : currentWorkout.exercises[0]);
+                    updateProgress();
+                  });
+                }));
+              }),
+              child: Container(
+                height: size.height,
+                width: size.width,
+                child: Scrollbar(
+                  child: ListView(
+                    children: [
+                      Container(
+                        child: Column(
+                          children: [
+                            CarouselSlider(
+                              items: [
+                                countdown(),
+                                StopWatch(),
+                              ],
+                              options: CarouselOptions(
+                                height: size.height / 5,
+                                enableInfiniteScroll: true,
+                                onPageChanged: ((index, reason) {
+                                  setState(() {
+                                    activepage = index;
+                                  });
+                                }),
+                                viewportFraction: 1,
+                              ),
                             ),
-                          ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: indicators(2, activepage),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(10),
+                              child: Column(
+                                children: [
+                                  LinearProgressIndicator(
+                                    minHeight: 10,
+                                    value: progress,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: size.height / 3.5,
+                              margin: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color:
+                                          Color.fromARGB(255, 202, 202, 202)),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Column(
+                                children: [
+                                  DropdownButton2(
+                                    scrollbarAlwaysShow: true,
+                                    scrollbarRadius: Radius.circular(5),
+                                    scrollbarThickness: 5,
+                                    iconSize: 50,
+                                    isExpanded: true,
+                                    barrierColor: Color.fromARGB(45, 0, 0, 0),
+                                    hint: Text(selectedExercise,
+                                        style: fontstyle(25)),
+                                    items: currentWorkout.exercises
+                                        .map((item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(
+                                                item,
+                                                style: const TextStyle(
+                                                  fontSize: 20,
+                                                  color: Color.fromARGB(
+                                                      255, 0, 0, 0),
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ))
+                                        .toList(),
+                                    onChanged: (String? value) {
+                                      setState(
+                                        () {
+                                          index = currentWorkout.exercises
+                                              .indexOf(value!);
+                                          selectedExercise = value;
+                                          getRows(selectedExercise);
+                                          updateProgress();
+                                        },
+                                      );
+                                    },
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Spacer(),
+                                        Text("Set ", style: fontstyle(25)),
+                                        Spacer(),
+                                        Text("Reps ", style: fontstyle(25)),
+                                        Spacer(),
+                                        Text("Weight ", style: fontstyle(25)),
+                                        Spacer(),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height / 6,
+                                    child: Scrollbar(
+                                      //thumbVisibility: true,
+                                      child: ListView(
+                                        //physics: BouncingScrollPhysics(),
+                                        children: returnRows,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ElevatedButton(
+                                onPressed: (() {
+                                  setState(() {
+                                    if (index <
+                                        currentWorkout.getNumExercises()) {
+                                      index++;
+                                      selectedExercise =
+                                          currentWorkout.exercises[index];
+                                      getRows(selectedExercise);
+                                      updateProgress();
+                                    }
+                                  });
+                                }),
+                                child: const Text("Next exercise"))
+                          ],
                         ),
-                      ],
-                    ),
+                      )
+                    ],
                   ),
-                  ElevatedButton(
-                      onPressed: (() {
-                        setState(() {
-                          if (index < test.getNumExercises()) {
-                            index++;
-                            selectedExercise = test.exercises[index];
-                            getRows(selectedExercise);
-                            updateProgress();
-                          }
-                        });
-                      }),
-                      child: const Text("Next exercise"))
-                ],
+                ),
               ),
             ),
           ),
@@ -245,7 +276,4 @@ class _WorkoutPage extends State<WorkoutPage>
       );
     });
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

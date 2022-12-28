@@ -4,7 +4,7 @@ import 'package:gymchimp/Main%20App%20Body/plan/exercises.dart';
 
 class Workout {
   var name;
-
+  var index;
   List<String> exercises = <String>[];
   List<List<int>> reps = <List<int>>[];
 
@@ -49,5 +49,9 @@ class Workout {
     exercises.insert(newIndex, exercise);
     List<int> rep = reps.removeAt(oldIndex);
     reps.insert(newIndex, rep);
+  }
+
+  void setIndex(int input) {
+    index = input;
   }
 }

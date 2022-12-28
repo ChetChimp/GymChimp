@@ -5,6 +5,8 @@ import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/start_page.dart';
 import 'package:gymchimp/user.dart';
+import 'Main App Body/plan/plan_page.dart';
+import 'Main App Body/plan/workout.dart';
 import 'firebase_options.dart';
 import 'package:gymchimp/user.dart';
 
@@ -80,7 +82,6 @@ Future<void> addUserInfo() async {
     List querieReturn = [];
     queries.forEach((element) async {
       await fetchInfo(element).then((String result) {
-        print(result);
         querieReturn.add(result);
       });
     });
@@ -99,12 +100,63 @@ Future<void> addUserInfo() async {
   //Future.delayed(Duration(milliseconds: 1000), () {});
 }
 
+void readWorkoutsFirebase() async {
+  QuerySnapshot querySnapshot = await firestore
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('workouts')
+      .get();
+
+  List list = querySnapshot.docs;
+  List list2 = [];
+  list.forEach((element) {
+    currentUser.addWorkout(Workout(element.id));
+    listKey.currentState
+        ?.insertItem(0, duration: const Duration(milliseconds: 200));
+  });
+
+  currentUser.userWorkouts.forEach((workout) async {
+    querySnapshot = await firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .doc(workout.getName())
+        .collection('exercises')
+        .get();
+
+    List list = querySnapshot.docs;
+
+    list.forEach((element) async {
+      String exerciseName = "";
+      List<int> repetitions = [];
+      await firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('workouts')
+          .doc(workout.getName())
+          .collection('exercises')
+          .doc(element.id)
+          .get()
+          .then(
+        (value) {
+          exerciseName = value.get('name');
+          value.get('reps').forEach((rep) {
+            repetitions.add(rep);
+          });
+          workout.addExercise(exerciseName, repetitions);
+        },
+      );
+    });
+  });
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   // This widget is the root of your application. Launches firstLogin page
   @override
   Widget build(BuildContext context) {
     addUserInfo();
+    readWorkoutsFirebase();
     bool loggedIn = false;
     if (FirebaseAuth.instance.currentUser != null) {
       loggedIn = true;

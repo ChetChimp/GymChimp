@@ -9,9 +9,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/home_page.dart';
 import 'package:gymchimp/Main%20App%20Body/plan/plan_page.dart';
+import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:numberpicker/numberpicker.dart';
-import '../../Sign up/sign_up_page.dart';
 import 'new_workout.dart';
 import 'workout.dart';
 
@@ -19,58 +19,65 @@ import '../app_bar.dart';
 
 class NewWorkout extends StatefulWidget {
   final String workoutName;
-  const NewWorkout({Key? key, required this.workoutName}) : super(key: key);
+  final int index;
+
+  const NewWorkout({Key? key, required this.workoutName, required this.index})
+      : super(key: key);
 
   @override
-  State<NewWorkout> createState() => _NewWorkout(workoutName: this.workoutName);
+  State<NewWorkout> createState() =>
+      _NewWorkout(workoutName: this.workoutName, index: this.index);
 }
 
 class _NewWorkout extends State<NewWorkout> {
   String workoutName;
+  int index;
   Workout newWorkout = Workout("");
-  _NewWorkout({required this.workoutName});
+  _NewWorkout({required this.workoutName, required this.index});
 
   @override
   void initState() {
-    newWorkout = Workout(this.workoutName);
+    newWorkout = currentUser.userWorkouts[index];
+    readExercisesFirebase();
     super.initState();
   }
 
   TextEditingController exerciseNameField = new TextEditingController(text: "");
 
-  void pushExerciseToWorkoutFirebase(int index) async {
+  void readExercisesFirebase() async {}
+
+  void pushExerciseToWorkoutFirebase(int indx) async {
     QuerySnapshot querySnapshot = await firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('workouts')
-        .doc(this.workoutName)
+        .doc(newWorkout.getName())
         .collection('exercises')
         .get();
 
     List list = querySnapshot.docs;
     List list2 = [];
-    list.forEach((element) {
+    list.forEach((element) async {
       list2.add(element.id);
     });
-    print(list2);
 
     int i = 0;
-    while (list2.contains(exerciseNameField.text + "-" + i.toString())) {
+    while (list2.contains("Exercise-" + i.toString())) {
       i++;
     }
 
-    String exerciseName = exerciseNameField.text + "-" + i.toString();
+    String exerciseName = "Exercise-" + i.toString();
 
     firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('workouts')
-        .doc(this.workoutName)
+        .doc(newWorkout.getName())
         .collection('exercises')
         .doc(exerciseName)
         .set({
-      'name': newWorkout.getExercise(index),
-      'reps': newWorkout.getReps(index)
+      'name': newWorkout.getExercise(indx),
+      'reps': newWorkout.getReps(indx)
     });
   }
 
@@ -240,7 +247,6 @@ class _NewWorkout extends State<NewWorkout> {
                                 axis: Axis.horizontal,
                                 onChanged: (value) => setModalState(() {
                                   reps[i] = value;
-                                  print(reps[i]);
                                 }),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16),
