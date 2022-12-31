@@ -16,6 +16,10 @@ import '../start_page.dart';
 import '../workout/workout_page.dart';
 import 'new_workout.dart';
 import 'workout.dart';
+import 'dart:async';
+
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 class PlanPage extends StatefulWidget {
   const PlanPage({Key? key}) : super(key: key);
@@ -115,7 +119,7 @@ class _PlanPage extends State<PlanPage> {
                         child: Column(
                       children: [
                         Container(
-                            height: size.height - (size.height / 4),
+                            height: size.height - (size.height / 3),
                             child: AnimatedList(
                               key: listKey,
                               initialItemCount:
@@ -125,6 +129,11 @@ class _PlanPage extends State<PlanPage> {
                                     context, index, animation); // Refer step 3
                               },
                             )),
+                        IconButton(
+                          iconSize: 30,
+                          icon: Icon(color: Colors.red, Icons.delete_sharp),
+                          onPressed: () {},
+                        ),
                       ],
                     )),
                     floatingActionButton: FloatingActionButton(

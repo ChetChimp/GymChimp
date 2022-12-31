@@ -9,11 +9,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/home_page.dart';
 import 'package:gymchimp/Main%20App%20Body/plan/plan_page.dart';
+import 'package:gymchimp/Main%20App%20Body/workout/exercise.dart';
 import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'new_workout.dart';
 import 'workout.dart';
+import 'package:reorderables/reorderables.dart';
 
 import '../app_bar.dart';
 
@@ -38,13 +40,42 @@ class _NewWorkout extends State<NewWorkout> {
   @override
   void initState() {
     newWorkout = currentUser.userWorkouts[index];
-    readExercisesFirebase();
     super.initState();
   }
 
   TextEditingController exerciseNameField = new TextEditingController(text: "");
 
-  void readExercisesFirebase() async {}
+  void updateExerciseIndexFirebase(int index, int newIndex) async {
+    QuerySnapshot querySnapshot = await firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .doc(newWorkout.getName())
+        .collection('exercises')
+        .get();
+
+    List list = querySnapshot.docs;
+    list.forEach((element) async {
+      await firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('workouts')
+          .doc(newWorkout.getName())
+          .collection('exercises')
+          .doc(element.id)
+          .get()
+          .then((value) {
+        firestore
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('workouts')
+            .doc(newWorkout.getName())
+            .collection('exercises')
+            .doc(element.id)
+            .update({'index': newWorkout.exercises.indexOf(value.get('name'))});
+      });
+    });
+  }
 
   void pushExerciseToWorkoutFirebase(int indx) async {
     QuerySnapshot querySnapshot = await firestore
@@ -62,12 +93,11 @@ class _NewWorkout extends State<NewWorkout> {
     });
 
     int i = 0;
-    while (list2.contains("Exercise-" + i.toString())) {
+    while (list2.contains("Exercise " + i.toString())) {
       i++;
     }
 
-    String exerciseName = "Exercise-" + i.toString();
-
+    String exerciseName = "Exercise " + i.toString();
     firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -77,7 +107,8 @@ class _NewWorkout extends State<NewWorkout> {
         .doc(exerciseName)
         .set({
       'name': newWorkout.getExercise(indx),
-      'reps': newWorkout.getReps(indx)
+      'reps': newWorkout.getReps(indx),
+      'index': i
     });
   }
 
@@ -102,7 +133,6 @@ class _NewWorkout extends State<NewWorkout> {
         body: Center(
           child: ReorderableListView(
             proxyDecorator: proxyDecorator,
-            onReorderStart: (int oldIndex) {},
             onReorder: (int oldIndex, int newIndex) {
               setState(() {
                 if (oldIndex < newIndex) {
@@ -112,6 +142,8 @@ class _NewWorkout extends State<NewWorkout> {
                   newIndex -= 1;
                 }
                 newWorkout.swapIndexes(oldIndex, newIndex);
+
+                updateExerciseIndexFirebase(newIndex, oldIndex);
               });
             },
             padding: EdgeInsets.all(8),

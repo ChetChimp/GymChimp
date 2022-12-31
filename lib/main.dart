@@ -5,16 +5,24 @@ import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/start_page.dart';
 import 'package:gymchimp/user.dart';
+import 'package:sqflite/sqflite.dart';
 import 'Main App Body/plan/plan_page.dart';
 import 'Main App Body/plan/workout.dart';
 import 'firebase_options.dart';
-import 'package:gymchimp/user.dart';
+import 'dart:async';
+
+import 'package:flutter/widgets.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 //initialize and connect to flutter firebase, run main function
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+  final database = openDatabase(
+    join(await getDatabasesPath(), 'user_database.db'),
   );
   runApp(const MyApp());
 }
@@ -43,7 +51,7 @@ BoxDecoration backGround() {
       end: Alignment.bottomCenter,
       colors: <Color>[
         Color.fromARGB(255, 255, 255, 255),
-        Color.fromARGB(255, 187, 204, 255),
+        Color.fromARGB(255, 255, 255, 255),
       ], // Gradient from https://learnui.design/tools/gradient-generator.html
       tileMode: TileMode.mirror,
     ),
@@ -90,7 +98,6 @@ Future<void> addUserInfo() async {
   }
 
   List querieReturn = await addUserInfo2();
-  print(querieReturn.toString());
   currentUser.setName = querieReturn[0];
   currentUser.setEmail = querieReturn[1];
   currentUser.setGender = querieReturn[2];
@@ -125,10 +132,13 @@ void readWorkoutsFirebase() async {
         .get();
 
     List list = querySnapshot.docs;
+    workout.exercises = List<String>.filled(list.length, "", growable: true);
+    workout.reps = List<List<int>>.filled(list.length, [], growable: true);
 
     list.forEach((element) async {
       String exerciseName = "";
       List<int> repetitions = [];
+      int exerciseIndex = 0;
       await firestore
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -142,8 +152,10 @@ void readWorkoutsFirebase() async {
           exerciseName = value.get('name');
           value.get('reps').forEach((rep) {
             repetitions.add(rep);
+            exerciseIndex = value.get('index');
           });
-          workout.addExercise(exerciseName, repetitions);
+          workout.exercises[exerciseIndex] = exerciseName;
+          workout.reps[exerciseIndex] = repetitions;
         },
       );
     });
@@ -155,6 +167,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application. Launches firstLogin page
   @override
   Widget build(BuildContext context) {
+    WidgetsFlutterBinding.ensureInitialized();
+
     addUserInfo();
     readWorkoutsFirebase();
     bool loggedIn = false;
