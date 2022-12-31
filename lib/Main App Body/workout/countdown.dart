@@ -206,10 +206,10 @@ class _countdownState extends State<countdown>
       child: Column(
         children: [
           Text("Countdown Timer",
-              style: GoogleFonts.quicksand(
+              style: GoogleFonts.montserrat(
                   color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold)),
+                  fontSize: 28,
+                  fontWeight: FontWeight.w600)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

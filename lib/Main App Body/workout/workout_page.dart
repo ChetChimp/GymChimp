@@ -6,8 +6,10 @@ import 'package:gymchimp/main.dart';
 import '../app_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
+import 'package:gradient_widgets/gradient_widgets.dart';
 
-import '../plan/workout.dart';
+import 'workout.dart';
 
 class WorkoutPage extends StatefulWidget {
   const WorkoutPage({Key? key}) : super(key: key);
@@ -24,8 +26,8 @@ double multiplier = 0;
 bool checkVal = false;
 ScrollController scrollController = ScrollController();
 
-Color secondary = Color.fromARGB(255, 114, 211, 249);
-Color primary = Color.fromARGB(255, 135, 206, 235);
+Color secondary = Color.fromARGB(255, 50, 205, 50);
+List<Color> primary = GradientColors.blackGray;
 
 TextStyle fontstyle(double size) {
   return TextStyle(
@@ -84,10 +86,13 @@ class _WorkoutPage extends State<WorkoutPage> {
       controllers.add(newController);
       returnRows.add(
         Container(
-          margin: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+          margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
           decoration: BoxDecoration(
-            color: secondary,
-            borderRadius: BorderRadius.circular(20.0),
+            gradient: LinearGradient(
+                colors: GradientColors.beautifulGreen,
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft),
+            borderRadius: BorderRadius.circular(10.0),
           ),
           child: Row(
             children: [
@@ -95,19 +100,19 @@ class _WorkoutPage extends State<WorkoutPage> {
               Container(
                 padding: const EdgeInsets.all(5.0),
                 child: Text((i + 1).toString(),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.montserrat(
                         fontSize: 28,
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal)),
+                        color: Color.fromARGB(255, 44, 57, 64),
+                        fontWeight: FontWeight.w600)),
               ),
               Spacer(),
               Container(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(currentWorkout.reps[exerciseIndex][i].toString(),
-                    style: GoogleFonts.quicksand(
+                    style: GoogleFonts.montserrat(
                         fontSize: 28,
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal)),
+                        color: Color.fromARGB(255, 44, 57, 64),
+                        fontWeight: FontWeight.w600)),
               ),
               Spacer(),
               Container(
@@ -151,6 +156,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                     getRows(currentWorkout.exercises.isEmpty
                         ? ""
                         : currentWorkout.exercises[0]);
+                    index = 0;
                     updateProgress();
                   });
                 }));
@@ -177,21 +183,22 @@ class _WorkoutPage extends State<WorkoutPage> {
                                       items: [
                                         Container(
                                             decoration: BoxDecoration(
-                                              color: primary,
+                                              gradient: LinearGradient(
+                                                  colors: primary),
                                               borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                              // boxShadow: const [
-                                              //   BoxShadow(
-                                              //       color: Color.fromARGB(
-                                              //           22, 0, 0, 0),
-                                              //       offset: Offset(0.0, 1.0),
-                                              //       blurRadius: 15.0),
-                                              //   BoxShadow(
-                                              //       color: Color.fromARGB(
-                                              //           22, 0, 0, 0),
-                                              //       offset: Offset(0.0, -1.0),
-                                              //       blurRadius: 15.0),
-                                              // ],
+                                                  BorderRadius.circular(12.0),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                    color: Color.fromARGB(
+                                                        46, 0, 0, 0),
+                                                    offset: Offset(0.0, 5.0),
+                                                    blurRadius: 15.0),
+                                                BoxShadow(
+                                                    color: Color.fromARGB(
+                                                        46, 0, 0, 0),
+                                                    offset: Offset(0.0, -5.0),
+                                                    blurRadius: 10.0),
+                                              ],
                                             ),
                                             margin: EdgeInsets.only(
                                                 left: 10, right: 10),
@@ -200,21 +207,22 @@ class _WorkoutPage extends State<WorkoutPage> {
                                             margin: EdgeInsets.only(
                                                 left: 10, right: 10),
                                             decoration: BoxDecoration(
-                                              color: primary,
+                                              gradient: LinearGradient(
+                                                  colors: primary),
                                               borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                              // boxShadow: const [
-                                              //   BoxShadow(
-                                              //       color: Color.fromARGB(
-                                              //           22, 0, 0, 0),
-                                              //       offset: Offset(0.0, 1.0),
-                                              //       blurRadius: 15.0),
-                                              //   BoxShadow(
-                                              //       color: Color.fromARGB(
-                                              //           22, 0, 0, 0),
-                                              //       offset: Offset(0.0, -1.0),
-                                              //       blurRadius: 15.0),
-                                              // ],
+                                                  BorderRadius.circular(12.0),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                    color: Color.fromARGB(
+                                                        46, 0, 0, 0),
+                                                    offset: Offset(0.0, 5.0),
+                                                    blurRadius: 15.0),
+                                                BoxShadow(
+                                                    color: Color.fromARGB(
+                                                        46, 0, 0, 0),
+                                                    offset: Offset(0.0, -5.0),
+                                                    blurRadius: 10.0),
+                                              ],
                                             ),
                                             child: StopWatch()),
                                       ],
@@ -244,16 +252,16 @@ class _WorkoutPage extends State<WorkoutPage> {
                                           topRight: Radius.circular(8),
                                           bottomLeft: Radius.circular(8),
                                           bottomRight: Radius.circular(8)),
-                                      // boxShadow: [
-                                      //   BoxShadow(
-                                      //       color: Color.fromARGB(22, 0, 0, 0),
-                                      //       offset: Offset(0.0, 5.0),
-                                      //       blurRadius: 15.0),
-                                      //   BoxShadow(
-                                      //       color: Color.fromARGB(22, 0, 0, 0),
-                                      //       offset: Offset(0.0, -5.0),
-                                      //       blurRadius: 10.0),
-                                      // ],
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Color.fromARGB(36, 0, 0, 0),
+                                            offset: Offset(0.0, 5.0),
+                                            blurRadius: 15.0),
+                                        BoxShadow(
+                                            color: Color.fromARGB(36, 0, 0, 0),
+                                            offset: Offset(0.0, -5.0),
+                                            blurRadius: 10.0),
+                                      ],
                                     ),
                                     child: Row(
                                       mainAxisAlignment:
@@ -267,11 +275,9 @@ class _WorkoutPage extends State<WorkoutPage> {
                             Container(
                               margin: EdgeInsets.only(
                                   top: 5, bottom: 5, left: 17, right: 17),
-                              child: LinearProgressIndicator(
-                                backgroundColor:
-                                    Color.fromARGB(255, 131, 131, 131),
-                                color: secondary,
-                                minHeight: 10,
+                              child: GradientProgressIndicator(
+                                gradient: LinearGradient(
+                                    colors: GradientColors.beautifulGreen),
                                 value: progress,
                               ),
                             ),
@@ -284,12 +290,12 @@ class _WorkoutPage extends State<WorkoutPage> {
                                 borderRadius: BorderRadius.circular(20.0),
                                 boxShadow: const [
                                   BoxShadow(
-                                      color: Color.fromARGB(22, 0, 0, 0),
-                                      offset: Offset(0.0, 2.0),
+                                      color: Color.fromARGB(36, 0, 0, 0),
+                                      offset: Offset(0.0, 5.0),
                                       blurRadius: 15.0),
                                   BoxShadow(
-                                      color: Color.fromARGB(22, 0, 0, 0),
-                                      offset: Offset(0.0, -2.0),
+                                      color: Color.fromARGB(36, 0, 0, 0),
+                                      offset: Offset(0.0, -5.0),
                                       blurRadius: 10.0),
                                 ],
                               ),
@@ -300,18 +306,20 @@ class _WorkoutPage extends State<WorkoutPage> {
                                       buttonDecoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          color: primary),
+                                          gradient:
+                                              LinearGradient(colors: primary)),
                                       scrollbarAlwaysShow: true,
                                       scrollbarRadius: Radius.circular(5),
                                       scrollbarThickness: 5,
                                       iconSize: 50,
+                                      iconEnabledColor: Colors.white,
                                       isExpanded: true,
                                       barrierColor: Color.fromARGB(45, 0, 0, 0),
                                       hint: Text(selectedExercise,
-                                          style: GoogleFonts.quicksand(
+                                          style: GoogleFonts.montserrat(
                                               color: Colors.white,
                                               fontSize: 28,
-                                              fontWeight: FontWeight.bold)),
+                                              fontWeight: FontWeight.w600)),
                                       items: currentWorkout.exercises
                                           .map((item) =>
                                               DropdownMenuItem<String>(
@@ -373,27 +381,34 @@ class _WorkoutPage extends State<WorkoutPage> {
                                 ],
                               ),
                             ),
-                            FloatingActionButton.extended(
-                                backgroundColor: secondary,
-                                heroTag: "tg1",
-                                onPressed: (() {
-                                  setState(() {
-                                    index++;
-                                    if (index <
-                                        currentWorkout.getNumExercises()) {
-                                      selectedExercise =
-                                          currentWorkout.exercises[index];
-                                      getRows(selectedExercise);
-                                      updateProgress();
-                                    }
-                                  });
-                                }),
-                                label: Text(
-                                    style: GoogleFonts.quicksand(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 24,
-                                        color: Colors.white),
-                                    "Next exercise"))
+                            SizedBox(height: size.height / 50),
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  gradient: LinearGradient(
+                                      colors: GradientColors.blackGray)),
+                              child: FloatingActionButton.extended(
+                                  backgroundColor: Colors.transparent,
+                                  heroTag: "tg1",
+                                  onPressed: (() {
+                                    setState(() {
+                                      index++;
+                                      if (index <
+                                          currentWorkout.getNumExercises()) {
+                                        selectedExercise =
+                                            currentWorkout.exercises[index];
+                                        getRows(selectedExercise);
+                                        updateProgress();
+                                      }
+                                    });
+                                  }),
+                                  label: Text(
+                                      style: GoogleFonts.montserrat(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 24,
+                                          color: Colors.white),
+                                      "Next exercise")),
+                            ),
                           ],
                         ),
                       )

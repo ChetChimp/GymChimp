@@ -14,7 +14,7 @@ import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'new_workout.dart';
-import 'workout.dart';
+import '../workout/workout.dart';
 import 'package:reorderables/reorderables.dart';
 
 import '../app_bar.dart';

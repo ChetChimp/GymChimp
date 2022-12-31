@@ -15,7 +15,7 @@ import '../home_page.dart';
 import '../start_page.dart';
 import '../workout/workout_page.dart';
 import 'new_workout.dart';
-import 'workout.dart';
+import '../workout/workout.dart';
 import 'dart:async';
 
 import 'package:path/path.dart';

@@ -14,7 +14,7 @@ import '../firebase_options.dart';
 import 'app_bar.dart';
 import 'nutrition/nutrition_page.dart';
 import 'plan/plan_page.dart';
-import 'plan/workout.dart';
+import 'workout/workout.dart';
 import 'stats/stats_page.dart';
 import 'workout/workout_page.dart';
 

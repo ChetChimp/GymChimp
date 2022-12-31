@@ -7,7 +7,7 @@ import 'package:gymchimp/Main%20App%20Body/start_page.dart';
 import 'package:gymchimp/user.dart';
 import 'package:sqflite/sqflite.dart';
 import 'Main App Body/plan/plan_page.dart';
-import 'Main App Body/plan/workout.dart';
+import 'Main App Body/workout/workout.dart';
 import 'firebase_options.dart';
 import 'dart:async';
 
