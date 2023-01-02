@@ -45,6 +45,60 @@ class _NewWorkout extends State<NewWorkout> {
 
   TextEditingController exerciseNameField = new TextEditingController(text: "");
 
+  void firebaseRemoveExercise() async {
+    QuerySnapshot querySnapshot = await firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .doc(newWorkout.getName())
+        .collection('exercises')
+        .get();
+
+    List list = querySnapshot.docs;
+    list.forEach((element) async {
+      await firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('workouts')
+          .doc(newWorkout.getName())
+          .collection('exercises')
+          .doc(element.id)
+          .get()
+          .then((value) {
+        if (value.get('name') ==
+            newWorkout.exercises[newWorkout.exercises.indexOf()]) {
+          firestore
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .collection('workouts')
+              .doc(newWorkout.getName())
+              .collection('exercises')
+              .doc(element.id)
+              .delete();
+        }
+      });
+    });
+  }
+
+  void removeWorkout(BuildContext ctx) async {
+    await firestore.runTransaction((Transaction myTransaction) async {
+      await myTransaction.delete(firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('workouts')
+          .doc(newWorkout.getName()));
+    });
+    currentUser.userWorkouts.remove(newWorkout);
+    listKey.currentState?.removeItem(index, (context, animation) {
+      return fake();
+    }, duration: Duration(milliseconds: 1));
+    Navigator.of(ctx).pop();
+  }
+
+  Widget fake() {
+    return Container();
+  }
+
   void updateExerciseIndexFirebase(int index, int newIndex) async {
     QuerySnapshot querySnapshot = await firestore
         .collection('users')
@@ -113,6 +167,8 @@ class _NewWorkout extends State<NewWorkout> {
   }
 
   Widget build(BuildContext ctx) {
+    Size size = MediaQuery.of(context).size;
+
     Widget proxyDecorator(
         Widget child, int index, Animation<double> animation) {
       return AnimatedBuilder(
@@ -152,56 +208,80 @@ class _NewWorkout extends State<NewWorkout> {
                   index < newWorkout.getNumExercises();
                   index += 1)
                 Container(
-                    padding: EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    key: Key('$index'),
-                    height: 50,
-                    child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
+                  padding: EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
+                  key: Key('$index'),
+                  height: 50,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
+                    ),
+                    onPressed: () {},
+                    child: Row(
+                      children: [
+                        Icon(Icons.drag_indicator),
+                        Spacer(),
+                        Text(newWorkout.getExercise(index)),
+                        Text("    Sets: "),
+                        Text(newWorkout.getReps(index).toString()),
+                        Spacer(),
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                              side: BorderSide(color: Colors.transparent)),
+                          child: Icon(Icons.edit),
+                          onPressed: () {
+                            modifyExercise(
+                                ctx, '${newWorkout.getExercise(index)}', index);
+                          },
                         ),
-                        onPressed: () {},
-                        child: Row(
-                          children: [
-                            Icon(Icons.drag_indicator),
-                            Spacer(),
-                            Text(newWorkout.getExercise(index)),
-                            Text("    Sets: "),
-                            Text(newWorkout.getReps(index).toString()),
-                            Spacer(),
-                            OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                  side: BorderSide(color: Colors.transparent)),
-                              child: Icon(Icons.edit),
-                              onPressed: () {
-                                modifyExercise(ctx,
-                                    '${newWorkout.getExercise(index)}', index);
-                              },
-                            ),
-                          ],
-                        ))),
+                      ],
+                    ),
+                  ),
+                ),
               Container(
                   //Add Button
                   padding: EdgeInsets.all(2),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(15))),
                   key: Key("-1"),
-                  height: 50,
-                  child: GestureDetector(
-                    onLongPress:
-                        () {}, //Ensures that the plus button cannot be moved
-                    child: OutlinedButton(
-                        onPressed: () {
-                          modifyExercise(ctx, "", -1);
-                        },
-                        child: Center(
-                          child: Icon(Icons.add),
-                        )),
+                  height: 200,
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onLongPress:
+                            () {}, //Ensures that the plus button cannot be moved
+                        child: OutlinedButton(
+                            onPressed: () {
+                              modifyExercise(ctx, "", -1);
+                            },
+                            child: Center(
+                              child: Icon(Icons.add),
+                            )),
+                      ),
+                      Container(
+                        width: size.width / 2,
+                        child: GestureDetector(
+                          onLongPress:
+                              () {}, //Ensures that the plus button cannot be moved
+                          child: OutlinedButton(
+                              onPressed: () {
+                                removeWorkout(context);
+                              },
+                              child: Row(
+                                children: const [
+                                  Spacer(),
+                                  Text("Delete Workout",
+                                      style: TextStyle(color: Colors.red)),
+                                  Spacer(),
+                                ],
+                              )),
+                        ),
+                      ),
+                    ],
                   ) //),
-                  )
+                  ),
             ],
           ),
         ),
@@ -340,6 +420,7 @@ class _NewWorkout extends State<NewWorkout> {
                                         Navigator.pop(ctx);
                                         setState(() {
                                           if (changeIndex != -1) {
+                                            firebaseRemoveExercise();
                                             newWorkout
                                                 .removeExercise(changeIndex);
                                           }

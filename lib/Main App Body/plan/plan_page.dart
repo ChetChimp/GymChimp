@@ -28,7 +28,7 @@ class PlanPage extends StatefulWidget {
   State<PlanPage> createState() => _PlanPage();
 }
 
-List<Widget> workoutList = [];
+//List<Widget> workoutList = [];
 String workoutName = "";
 final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
 int counter = 0;
@@ -72,6 +72,7 @@ class _PlanPage extends State<PlanPage> {
         .collection('workouts')
         .doc(workoutName)
         .set({'name': workoutName});
+
     currentUser.addWorkout(Workout(workoutName));
     listKey.currentState
         ?.insertItem(0, duration: const Duration(milliseconds: 200));
@@ -79,29 +80,34 @@ class _PlanPage extends State<PlanPage> {
 
   Widget slideIt(BuildContext context, int index, animation) {
     return Container(
-      child: Card(
-        child: Row(
-          children: [
-            Spacer(),
-            Text(currentUser.userWorkouts[index].getName()),
-            Spacer(),
-            ElevatedButton(
-                onPressed: () {
-                  newWorkout(context, index);
-                },
-                child: Text("Edit")),
-            Spacer(),
-            IconButton(
+      margin: EdgeInsets.only(top: 7, left: 15, right: 15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        gradient: LinearGradient(colors: primary),
+      ),
+      child: Row(
+        children: [
+          Spacer(),
+          Text(
+            currentUser.userWorkouts[index].getName(),
+          ),
+          Spacer(),
+          ElevatedButton(
               onPressed: () {
-                setState(() {
-                  currentWorkout = currentUser.userWorkouts[index];
-                });
+                newWorkout(context, index);
               },
-              icon: Icon(Icons.check_box_outline_blank),
-            ),
-            Spacer(),
-          ],
-        ),
+              child: Text("Edit")),
+          Spacer(),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                currentWorkout = currentUser.userWorkouts[index];
+              });
+            },
+            icon: Icon(Icons.check_box_outline_blank),
+          ),
+          Spacer(),
+        ],
       ),
     );
   }
@@ -114,6 +120,7 @@ class _PlanPage extends State<PlanPage> {
             builder: (_) => MaterialApp(
                   title: 'Welcome to Flutter',
                   home: Scaffold(
+                    backgroundColor: Color.fromARGB(255, 230, 230, 230),
                     appBar: MyAppBar(context, true),
                     body: Container(
                         child: Column(
@@ -129,11 +136,6 @@ class _PlanPage extends State<PlanPage> {
                                     context, index, animation); // Refer step 3
                               },
                             )),
-                        IconButton(
-                          iconSize: 30,
-                          icon: Icon(color: Colors.red, Icons.delete_sharp),
-                          onPressed: () {},
-                        ),
                       ],
                     )),
                     floatingActionButton: FloatingActionButton(

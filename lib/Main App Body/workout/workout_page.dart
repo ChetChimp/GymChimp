@@ -26,8 +26,8 @@ double multiplier = 0;
 bool checkVal = false;
 ScrollController scrollController = ScrollController();
 
-Color secondary = Color.fromARGB(255, 50, 205, 50);
-List<Color> primary = GradientColors.blackGray;
+List<Color> secondary = GradientColors.purpleDivision;
+List<Color> primary = GradientColors.royalBlue;
 
 TextStyle fontstyle(double size) {
   return TextStyle(
@@ -89,7 +89,7 @@ class _WorkoutPage extends State<WorkoutPage> {
           margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-                colors: GradientColors.beautifulGreen,
+                colors: secondary,
                 begin: Alignment.bottomRight,
                 end: Alignment.topLeft),
             borderRadius: BorderRadius.circular(10.0),
@@ -184,6 +184,8 @@ class _WorkoutPage extends State<WorkoutPage> {
                                         Container(
                                             decoration: BoxDecoration(
                                               gradient: LinearGradient(
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
                                                   colors: primary),
                                               borderRadius:
                                                   BorderRadius.circular(12.0),
@@ -208,6 +210,8 @@ class _WorkoutPage extends State<WorkoutPage> {
                                                 left: 10, right: 10),
                                             decoration: BoxDecoration(
                                               gradient: LinearGradient(
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
                                                   colors: primary),
                                               borderRadius:
                                                   BorderRadius.circular(12.0),
@@ -276,8 +280,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                               margin: EdgeInsets.only(
                                   top: 5, bottom: 5, left: 17, right: 17),
                               child: GradientProgressIndicator(
-                                gradient: LinearGradient(
-                                    colors: GradientColors.beautifulGreen),
+                                gradient: LinearGradient(colors: secondary),
                                 value: progress,
                               ),
                             ),
@@ -306,8 +309,11 @@ class _WorkoutPage extends State<WorkoutPage> {
                                       buttonDecoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          gradient:
-                                              LinearGradient(colors: primary)),
+                                          gradient: LinearGradient(
+                                            colors: primary,
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                          )),
                                       scrollbarAlwaysShow: true,
                                       scrollbarRadius: Radius.circular(5),
                                       scrollbarThickness: 5,
@@ -382,33 +388,58 @@ class _WorkoutPage extends State<WorkoutPage> {
                               ),
                             ),
                             SizedBox(height: size.height / 50),
-                            Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  gradient: LinearGradient(
-                                      colors: GradientColors.blackGray)),
-                              child: FloatingActionButton.extended(
-                                  backgroundColor: Colors.transparent,
-                                  heroTag: "tg1",
-                                  onPressed: (() {
-                                    setState(() {
-                                      index++;
-                                      if (index <
-                                          currentWorkout.getNumExercises()) {
-                                        selectedExercise =
-                                            currentWorkout.exercises[index];
-                                        getRows(selectedExercise);
-                                        updateProgress();
-                                      }
-                                    });
-                                  }),
-                                  label: Text(
-                                      style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 24,
-                                          color: Colors.white),
-                                      "Next exercise")),
-                            ),
+                            // Container(
+                            //   // decoration: BoxDecoration(
+                            //   //     borderRadius: BorderRadius.circular(10.0),
+                            //   //     gradient: LinearGradient(colors: primary)),
+                            // //   child: FloatingActionButton.extended(
+                            // //       backgroundColor:
+                            // //           Color.fromARGB(255, 207, 207, 207),
+                            // //       heroTag: "tg1",
+                            // //       onPressed: (() {
+                            // //         setState(() {
+                            // //           index++;
+                            // //           if (index <
+                            // //               currentWorkout.getNumExercises()) {
+                            // //             selectedExercise =
+                            // //                 currentWorkout.exercises[index];
+                            // //             getRows(selectedExercise);
+                            // //             updateProgress();
+                            // //           }
+                            // //         });
+                            // //       }),
+                            // //       label: Text(
+                            // //           style: GoogleFonts.montserrat(
+                            // //               fontWeight: FontWeight.w600,
+                            // //               fontSize: 24,
+                            // //               color: Colors.white),
+                            // //           "Next exercise")),
+                            // // ),
+                            GradientButton(
+                              increaseWidthBy: 100,
+                              increaseHeightBy: 15,
+                              gradient: LinearGradient(colors: primary),
+                              callback: (() {
+                                setState(
+                                  () {
+                                    index++;
+                                    if (index <
+                                        currentWorkout.getNumExercises()) {
+                                      selectedExercise =
+                                          currentWorkout.exercises[index];
+                                      getRows(selectedExercise);
+                                      updateProgress();
+                                    }
+                                  },
+                                );
+                              }),
+                              child: Text(
+                                  style: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 24,
+                                      color: Colors.white),
+                                  "Next exercise"),
+                            )
                           ],
                         ),
                       )
