@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -127,24 +128,41 @@ class _StopWatchState extends State<StopWatch>
       height: size.height / 6,
       child: Column(
         children: [
-          Text("Stopwatch", style: GoogleFonts.quicksand(fontSize: 24)),
+          Text("Stopwatch",
+              style: GoogleFonts.montserrat(
+                color: Colors.white,
+                fontSize: 26,
+              )),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               timeCard(hoursString, size),
-              Text(
-                ':',
-                style: fontstyle(size),
-              ),
+              Text(':',
+                  style: TextStyle(
+                      fontSize: size.width / 8,
+                      //fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 1,
+                      decoration: TextDecoration.none)),
               timeCard(minutesString, size),
               Text(
                 ':',
-                style: fontstyle(size),
+                style: TextStyle(
+                    fontSize: size.width / 8,
+                    //fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 1,
+                    decoration: TextDecoration.none),
               ),
               timeCard(secondsString, size),
               Text(
                 '.',
-                style: fontstyle(size),
+                style: TextStyle(
+                    fontSize: size.width / 8,
+                    //fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 1,
+                    decoration: TextDecoration.none),
               ),
               timeCard(millisecondsString, size)
             ],
@@ -157,7 +175,8 @@ class _StopWatchState extends State<StopWatch>
                 splashRadius: .01,
                 icon: on
                     ? Icon(
-                        Icons.play_arrow_rounded,
+                        color: Colors.white,
+                        Icons.play_arrow_sharp,
                         size: size.width / 8,
                       )
                     : Icon(Icons.stop_rounded, size: size.width / 8),
@@ -174,10 +193,11 @@ class _StopWatchState extends State<StopWatch>
               ),
               const Spacer(),
               IconButton(
+                  color: Colors.white,
                   splashRadius: .01,
                   onPressed: _resetTimer,
                   icon: Icon(
-                    Icons.replay,
+                    Icons.replay_sharp,
                     size: size.width / 10,
                   )),
               const Spacer(),

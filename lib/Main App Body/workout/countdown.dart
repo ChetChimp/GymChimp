@@ -188,22 +188,50 @@ class _countdownState extends State<countdown>
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      height: size.height / 6,
+      // decoration: BoxDecoration(
+      //     color: Colors.white,
+      //     borderRadius: BorderRadius.circular(8.0),
+      //     boxShadow: const [
+      //       BoxShadow(
+      //           color: Colors.black12,
+      //           offset: Offset(0.0, 10.0),
+      //           blurRadius: 15.0),
+      //       BoxShadow(
+      //           color: Colors.black12,
+      //           offset: Offset(0.0, -10.0),
+      //           blurRadius: 10.0),
+      //     ]),
+      // height: size.height / 6,
+      margin: EdgeInsets.all(5),
       child: Column(
         children: [
-          Text("Countdown Timer", style: GoogleFonts.quicksand(fontSize: 24)),
+          Text("Countdown Timer",
+              style: GoogleFonts.montserrat(
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w600)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               timeCard(hoursString, size),
               Text(
                 ':',
-                style: fontstyle(size),
+                style: TextStyle(
+                    fontSize: size.width / 8,
+                    //fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 1,
+                    decoration: TextDecoration.none),
               ),
               timeCard(minutesString, size),
               Text(
                 ':',
-                style: fontstyle(size),
+                style: TextStyle(
+                    fontSize: size.width / 8,
+                    //fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 1,
+                    decoration: TextDecoration.none),
               ),
               timeCard(secondsString, size),
             ],
@@ -217,7 +245,8 @@ class _countdownState extends State<countdown>
                 splashRadius: .01,
                 icon: on
                     ? Icon(
-                        Icons.play_arrow_rounded,
+                        color: Colors.white,
+                        Icons.play_arrow_sharp,
                         size: size.width / 8,
                       )
                     : Icon(Icons.stop_rounded, size: size.width / 8),
@@ -234,6 +263,7 @@ class _countdownState extends State<countdown>
               ),
               const Spacer(),
               IconButton(
+                  color: Colors.white,
                   splashRadius: .01,
                   onPressed: _resetTimer,
                   icon: Icon(
@@ -242,6 +272,7 @@ class _countdownState extends State<countdown>
                   )),
               const Spacer(),
               IconButton(
+                  color: Colors.white,
                   splashRadius: .01,
                   onPressed: () => _openPicker(size),
                   icon: Icon(

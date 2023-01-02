@@ -4,13 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/start_page.dart';
+import 'package:gymchimp/user.dart';
+import 'package:sqflite/sqflite.dart';
+import 'Main App Body/plan/plan_page.dart';
+import 'Main App Body/workout/workout.dart';
 import 'firebase_options.dart';
+import 'dart:async';
+
+import 'package:flutter/widgets.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 //initialize and connect to flutter firebase, run main function
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+  final database = openDatabase(
+    join(await getDatabasesPath(), 'user_database.db'),
   );
   runApp(const MyApp());
 }
@@ -39,7 +51,7 @@ BoxDecoration backGround() {
       end: Alignment.bottomCenter,
       colors: <Color>[
         Color.fromARGB(255, 255, 255, 255),
-        Color.fromARGB(255, 187, 204, 255),
+        Color.fromARGB(255, 255, 255, 255),
       ], // Gradient from https://learnui.design/tools/gradient-generator.html
       tileMode: TileMode.mirror,
     ),
@@ -71,11 +83,95 @@ void updateInfo(String label, String text) async {
 }
 //***************************************************//
 
+CurrentUser currentUser = CurrentUser();
+
+Future<void> addUserInfo() async {
+  Future<List> addUserInfo2() async {
+    List queries = ["name", "email", "gender", "unit", "level"];
+    List querieReturn = [];
+    queries.forEach((element) async {
+      await fetchInfo(element).then((String result) {
+        querieReturn.add(result);
+      });
+    });
+
+    return queries;
+  }
+
+  List querieReturn = await addUserInfo2();
+  currentUser.setName = querieReturn[0];
+  currentUser.setEmail = querieReturn[1];
+  currentUser.setGender = querieReturn[2];
+  currentUser.setUnits = querieReturn[3];
+  currentUser.setLevel = querieReturn[4];
+
+  //Future.delayed(Duration(milliseconds: 1000), () {});
+}
+
+void readWorkoutsFirebase() async {
+  QuerySnapshot querySnapshot = await firestore
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('workouts')
+      .get();
+
+  List list = querySnapshot.docs;
+  List list2 = [];
+  list.forEach((element) {
+    currentUser.addWorkout(Workout(element.id));
+    listKey.currentState
+        ?.insertItem(0, duration: const Duration(milliseconds: 200));
+  });
+
+  currentUser.userWorkouts.forEach((workout) async {
+    querySnapshot = await firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .doc(workout.getName())
+        .collection('exercises')
+        .get();
+
+    List list = querySnapshot.docs;
+    workout.exercises = List<String>.filled(list.length, "", growable: true);
+    workout.reps = List<List<int>>.filled(list.length, [], growable: true);
+
+    list.forEach((element) async {
+      String exerciseName = "";
+      List<int> repetitions = [];
+      int exerciseIndex = 0;
+      await firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('workouts')
+          .doc(workout.getName())
+          .collection('exercises')
+          .doc(element.id)
+          .get()
+          .then(
+        (value) {
+          exerciseName = value.get('name');
+          value.get('reps').forEach((rep) {
+            repetitions.add(rep);
+            exerciseIndex = value.get('index');
+          });
+          workout.exercises[exerciseIndex] = exerciseName;
+          workout.reps[exerciseIndex] = repetitions;
+        },
+      );
+    });
+  });
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   // This widget is the root of your application. Launches firstLogin page
   @override
   Widget build(BuildContext context) {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    addUserInfo();
+    readWorkoutsFirebase();
     bool loggedIn = false;
     if (FirebaseAuth.instance.currentUser != null) {
       loggedIn = true;

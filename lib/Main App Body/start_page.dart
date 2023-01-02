@@ -80,11 +80,11 @@ class _StartPage extends State<StartPage> {
             children: <Widget>[
               Spacer(flex: 1),
               Text(
-                "Welcome, " + userName,
+                "Welcome, $userName",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.quicksand(
-                  textStyle: TextStyle(
-                      fontSize: 30,
+                  textStyle: const TextStyle(
+                      fontSize: 45,
                       fontWeight: FontWeight.normal,
                       color: Colors.black,
                       letterSpacing: .5,
@@ -96,117 +96,201 @@ class _StartPage extends State<StartPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   // Workout Button
-                  ElevatedButton(
-                      style: TextButton.styleFrom(
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(10)),
-                          minimumSize: Size(150, 150),
-                          backgroundColor: Colors.white),
-                      onPressed: () {
-                        toHomePage(context, 0);
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          Icon(
-                            Icons.fitness_center_outlined,
-                            size: 100,
-                            color: Colors.blue,
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            "Workout",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue),
-                          )
-                        ],
-                      )),
-                  SizedBox(width: 10),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(0.0, 10.0),
+                              blurRadius: 15.0),
+                          BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(0.0, -10.0),
+                              blurRadius: 10.0),
+                        ]),
+                    child: ElevatedButton(
+                        style: TextButton.styleFrom(
+                            //elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            minimumSize: Size(150, 150),
+                            backgroundColor: Colors.white),
+                        onPressed: () {
+                          toHomePage(context, 0);
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            const Icon(
+                              Icons.fitness_center_outlined,
+                              size: 100,
+                              color: Colors.blue,
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              "Workout",
+                              style: GoogleFonts.quicksand(
+                                textStyle: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue,
+                                    letterSpacing: .5,
+                                    decoration: TextDecoration.none),
+                              ),
+                            )
+                          ],
+                        )),
+                  ),
+                  SizedBox(width: 15),
                   // Stats Button
-                  ElevatedButton(
-                      style: TextButton.styleFrom(
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(10)),
-                          minimumSize: Size(150, 150),
-                          backgroundColor: Colors.white),
-                      onPressed: () {
-                        toHomePage(context, 1);
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          Icon(
-                            Icons.insights_outlined,
-                            size: 100,
-                            color: Colors.blue,
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            "Stats",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue),
-                          )
-                        ],
-                      )),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(0.0, 10.0),
+                              blurRadius: 15.0),
+                          BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(0.0, -10.0),
+                              blurRadius: 10.0),
+                        ]),
+                    child: ElevatedButton(
+                        style: TextButton.styleFrom(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            minimumSize: Size(150, 150),
+                            backgroundColor: Colors.white),
+                        onPressed: () {
+                          toHomePage(context, 1);
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            const Icon(
+                              Icons.insights_outlined,
+                              size: 100,
+                              color: Colors.blue,
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              "Stats",
+                              style: GoogleFonts.quicksand(
+                                textStyle: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue,
+                                    letterSpacing: .5,
+                                    decoration: TextDecoration.none),
+                              ),
+                            )
+                          ],
+                        )),
+                  ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   // Nutrition Button
-                  ElevatedButton(
-                      style: TextButton.styleFrom(
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(10)),
-                          minimumSize: Size(150, 150),
-                          backgroundColor: Colors.white),
-                      onPressed: () {
-                        toHomePage(context, 2);
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          Icon(
-                            Icons.restaurant_outlined,
-                            size: 100,
-                            color: Colors.blue,
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            "Nutrition",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue),
-                          )
-                        ],
-                      )),
-                  SizedBox(width: 10),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(0.0, 10.0),
+                              blurRadius: 10.0),
+                          BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(0.0, -10.0),
+                              blurRadius: 10.0),
+                        ]),
+                    child: ElevatedButton(
+                        style: TextButton.styleFrom(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            minimumSize: Size(150, 150),
+                            backgroundColor: Colors.white),
+                        onPressed: () {
+                          toHomePage(context, 2);
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            const Icon(
+                              Icons.restaurant_outlined,
+                              size: 100,
+                              color: Colors.blue,
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              "Nutrition",
+                              style: GoogleFonts.quicksand(
+                                textStyle: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue,
+                                    letterSpacing: .5,
+                                    decoration: TextDecoration.none),
+                              ),
+                            )
+                          ],
+                        )),
+                  ),
+                  SizedBox(width: 15),
                   // Plan Button
-                  ElevatedButton(
-                      style: TextButton.styleFrom(
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(10)),
-                          minimumSize: Size(150, 150),
-                          backgroundColor: Colors.white),
-                      onPressed: () {
-                        toHomePage(context, 3);
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          Icon(
-                            Icons.edit,
-                            size: 100,
-                            color: Colors.blue,
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            "Plan",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue),
-                          )
-                        ],
-                      )),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(0.0, 10.0),
+                              blurRadius: 10.0),
+                          BoxShadow(
+                              color: Colors.black12,
+                              offset: Offset(0.0, -10.0),
+                              blurRadius: 10.0),
+                        ]),
+                    child: ElevatedButton(
+                        style: TextButton.styleFrom(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            minimumSize: Size(150, 150),
+                            backgroundColor: Colors.white),
+                        onPressed: () {
+                          toHomePage(context, 3);
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            const Icon(
+                              Icons.edit,
+                              size: 100,
+                              color: Colors.blue,
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              "Plan",
+                              style: GoogleFonts.quicksand(
+                                textStyle: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue,
+                                    letterSpacing: .5,
+                                    decoration: TextDecoration.none),
+                              ),
+                            )
+                          ],
+                        )),
+                  ),
                 ],
               ),
               Spacer(flex: 5)

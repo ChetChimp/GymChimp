@@ -43,6 +43,9 @@ dependencies:
   stop_watch_timer: ^2.0.0
   carousel_slider: ^4.2.1
   dropdown_button2: ^1.9.2
+  reorderables: ^0.5.1
+  flutter_gradient_colors: ^2.1.1
+  gradient_widgets: ^0.6.0
  
 
 

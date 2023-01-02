@@ -7,12 +7,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gymchimp/Main%20App%20Body/workout/stopwatch.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 
 import '../firebase_options.dart';
 import 'app_bar.dart';
 import 'nutrition/nutrition_page.dart';
 import 'plan/plan_page.dart';
+import 'workout/workout.dart';
 import 'stats/stats_page.dart';
 import 'workout/workout_page.dart';
 
@@ -21,7 +23,8 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.selectedIndex}) : super(key: key);
 
   @override
-  _HomePage createState() => _HomePage(selectedIndex: this.selectedIndex);
+  HomePageState createState() =>
+      HomePageState(selectedIndex: this.selectedIndex);
 }
 
 void goBack(BuildContext ctx) {
@@ -30,15 +33,19 @@ void goBack(BuildContext ctx) {
 
 var currentIndex = 0;
 
-class _HomePage extends State<HomePage> with AutomaticKeepAliveClientMixin {
+class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   int selectedIndex;
-  _HomePage({required this.selectedIndex});
+  HomePageState({required this.selectedIndex});
 
-  var pageController;
+  PageController pageController = PageController(initialPage: 0);
   @override
   void initState() {
     pageController = PageController(initialPage: selectedIndex);
     super.initState();
+  }
+
+  PageController getPageController() {
+    return pageController;
   }
 
   static const TextStyle optionStyle =
@@ -60,13 +67,13 @@ class _HomePage extends State<HomePage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     //Widget page = _widgetOptions.elementAt(selectedIndex);
     // var testKey;
     return Scaffold(
       extendBodyBehindAppBar: false,
-      body: PageView(
-        controller: pageController,
-        onPageChanged: onPageChanged,
+      body: IndexedStack(
+        index: selectedIndex,
         children: _children,
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -91,9 +98,15 @@ class _HomePage extends State<HomePage> with AutomaticKeepAliveClientMixin {
         ],
         currentIndex: selectedIndex,
         selectedItemColor: Color.fromARGB(255, 35, 178, 90),
-        onTap: (int index) {
-          pageController.jumpToPage(index);
-        },
+        onTap: (idx) => setState(() {
+          selectedIndex = idx;
+          if (idx == 0) {
+            const snackBar = SnackBar(
+                content: Text('Pull down to reload'),
+                duration: Duration(milliseconds: 2000));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        }),
       ),
     );
   }
