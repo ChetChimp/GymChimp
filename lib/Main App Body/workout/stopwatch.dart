@@ -125,7 +125,7 @@ class _StopWatchState extends State<StopWatch>
     super.build(context);
     Size size = MediaQuery.of(context).size;
     return Container(
-      height: size.height / 6,
+      margin: EdgeInsets.all(5),
       child: Column(
         children: [
           Text("Stopwatch",

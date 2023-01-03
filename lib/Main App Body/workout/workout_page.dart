@@ -26,7 +26,7 @@ double multiplier = 0;
 bool checkVal = false;
 ScrollController scrollController = ScrollController();
 
-List<Color> secondary = GradientColors.purpleDivision;
+List<Color> secondary = GradientColors.happyAcid;
 List<Color> primary = GradientColors.royalBlue;
 
 TextStyle fontstyle(double size) {
@@ -90,8 +90,8 @@ class _WorkoutPage extends State<WorkoutPage> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
                 colors: secondary,
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft),
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight),
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Row(
@@ -372,11 +372,10 @@ class _WorkoutPage extends State<WorkoutPage> {
                           SizedBox(height: size.height / 50),
                           Container(
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                gradient: LinearGradient(
-                                    colors: GradientColors.blackGray)),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
                             child: FloatingActionButton.extended(
-                                backgroundColor: Colors.transparent,
+                                backgroundColor: primary[0],
                                 heroTag: "tg1",
                                 onPressed: (() {
                                   setState(() {
@@ -392,7 +391,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                                 }),
                                 label: Text(
                                     style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.w600,
+                                        fontWeight: FontWeight.w500,
                                         fontSize: 24,
                                         color: Colors.white),
                                     "Next exercise")),

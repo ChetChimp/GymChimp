@@ -65,7 +65,7 @@ class _NewWorkout extends State<NewWorkout> {
           .doc(element.id)
           .get()
           .then((value) {
-        if (value.get('name') == newWorkout.exercises[deleteIndex + 1]) {
+        if (value.get('name') == newWorkout.exercises[deleteIndex]) {
           firestore
               .collection('users')
               .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -74,15 +74,20 @@ class _NewWorkout extends State<NewWorkout> {
               .collection('exercises')
               .doc(element.id)
               .delete();
+          setState(() {
+            newWorkout.removeExercise(deleteIndex);
+          });
         }
       });
     });
-    newWorkout.removeExercise(deleteIndex);
   }
 
   void removeWorkout(BuildContext ctx) async {
+    for (int i = 0; i < newWorkout.exercises.length; i++) {
+      firebaseRemoveExercise(i);
+    }
     await firestore.runTransaction((Transaction myTransaction) async {
-      await myTransaction.delete(firestore
+      myTransaction.delete(firestore
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .collection('workouts')
@@ -417,7 +422,7 @@ class _NewWorkout extends State<NewWorkout> {
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                         Navigator.pop(ctx);
-                                        setState(() async {
+                                        setState(() {
                                           if (changeIndex != -1) {
                                             firebaseRemoveExercise(changeIndex);
                                           }

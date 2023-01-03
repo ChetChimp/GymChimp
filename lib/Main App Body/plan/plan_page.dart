@@ -8,6 +8,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import '../app_bar.dart';
@@ -83,13 +85,15 @@ class _PlanPage extends State<PlanPage> {
       margin: EdgeInsets.only(top: 7, left: 15, right: 15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        gradient: LinearGradient(colors: primary),
+        gradient: LinearGradient(colors: GradientColors.eternalConstance),
       ),
       child: Row(
         children: [
           Spacer(),
           Text(
             currentUser.userWorkouts[index].getName(),
+            style: GoogleFonts.montserrat(
+                fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
           ),
           Spacer(),
           ElevatedButton(
@@ -126,7 +130,7 @@ class _PlanPage extends State<PlanPage> {
                         child: Column(
                       children: [
                         Container(
-                            height: size.height - (size.height / 3),
+                            height: size.height - (size.height / 4),
                             child: AnimatedList(
                               key: listKey,
                               initialItemCount:
