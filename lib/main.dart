@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/start_page.dart';
@@ -178,6 +179,28 @@ class MyApp extends StatelessWidget {
       loggedIn = false;
     }
     return MaterialApp(
+      theme: ThemeData(
+        // Define the default brightness and colors.
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Color.fromARGB(255, 50, 205, 50),
+            secondary: Color.fromARGB(255, 44, 57, 64)),
+        // Define the default font family.
+        fontFamily: 'Georgia',
+
+        // Define the default `TextTheme`. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+
+        textTheme: TextTheme(
+          headline1: GoogleFonts.montserrat(
+              fontSize: 28,
+              color: Color.fromARGB(255, 44, 57, 64),
+              fontWeight: FontWeight.w600),
+          headline2: GoogleFonts.montserrat(
+            fontSize: 28,
+            color: Color.fromARGB(255, 44, 57, 64),
+          ),
+        ),
+      ),
       title: 'GymChimp',
       home: loggedIn ? const StartPage() : const FirstLogIn(),
     );

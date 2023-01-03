@@ -21,6 +21,28 @@ class FirstLogIn extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return MaterialApp(
+      theme: ThemeData(
+        // Define the default brightness and colors.
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Color.fromARGB(255, 50, 205, 50),
+            secondary: Color.fromARGB(255, 44, 57, 64)),
+        // Define the default font family.
+        fontFamily: 'Georgia',
+
+        // Define the default `TextTheme`. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+
+        textTheme: TextTheme(
+          headline1: GoogleFonts.montserrat(
+              fontSize: 28,
+              color: Color.fromARGB(255, 44, 57, 64),
+              fontWeight: FontWeight.w600),
+          headline2: GoogleFonts.montserrat(
+            fontSize: 28,
+            color: Color.fromARGB(255, 44, 57, 64),
+          ),
+        ),
+      ),
       home:
           /*
       -Container that represents the full background of the app screen, 

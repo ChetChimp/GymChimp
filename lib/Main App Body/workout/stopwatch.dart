@@ -129,10 +129,10 @@ class _StopWatchState extends State<StopWatch>
       child: Column(
         children: [
           Text("Stopwatch",
-              style: GoogleFonts.montserrat(
-                color: Colors.white,
-                fontSize: 26,
-              )),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline2
+                  ?.copyWith(color: Colors.white)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

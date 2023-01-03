@@ -301,6 +301,7 @@ class _NewWorkout extends State<NewWorkout> {
     //If changeIndex is -1, we are adding a new exercise
 
     String newName = name;
+    String title = changeIndex == -1 ? "New Exercise" : "Edit Exercise";
     exerciseNameField.text = name;
     List<int> reps =
         changeIndex == -1 ? <int>[3] : newWorkout.getReps(changeIndex);
@@ -329,9 +330,7 @@ class _NewWorkout extends State<NewWorkout> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Container(
-                      margin: EdgeInsets.all(30),
-                      child: Text("Add/Edit Exercise")),
+                  Container(margin: EdgeInsets.all(30), child: Text(title)),
                   Spacer(),
                   TextField(
                     // decoration:

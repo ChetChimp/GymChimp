@@ -100,19 +100,13 @@ class _WorkoutPage extends State<WorkoutPage> {
               Container(
                 padding: const EdgeInsets.all(5.0),
                 child: Text((i + 1).toString(),
-                    style: GoogleFonts.montserrat(
-                        fontSize: 28,
-                        color: Color.fromARGB(255, 44, 57, 64),
-                        fontWeight: FontWeight.w600)),
+                    style: Theme.of(context).textTheme.headline1),
               ),
               Spacer(),
               Container(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(currentWorkout.reps[exerciseIndex][i].toString(),
-                    style: GoogleFonts.montserrat(
-                        fontSize: 28,
-                        color: Color.fromARGB(255, 44, 57, 64),
-                        fontWeight: FontWeight.w600)),
+                    style: Theme.of(context).textTheme.headline1),
               ),
               Spacer(),
               Container(
@@ -143,6 +137,7 @@ class _WorkoutPage extends State<WorkoutPage> {
     Size size = MediaQuery.of(context).size;
     return Navigator(onGenerateRoute: (settings) {
       return MaterialPageRoute(
+<<<<<<< Updated upstream
         builder: (_) => MaterialApp(
           title: 'Welcome to Flutter',
           home: Scaffold(
@@ -240,40 +235,132 @@ class _WorkoutPage extends State<WorkoutPage> {
                                         }),
                                         viewportFraction: 1,
                                       ),
+=======
+        builder: (_) => Scaffold(
+          appBar: MyAppBar(context, true),
+          backgroundColor: Color.fromARGB(255, 230, 230, 230),
+          body: RefreshIndicator(
+            displacement: 0,
+            onRefresh: (() {
+              return Future.delayed(Duration(milliseconds: 1), (() {
+                setState(() {
+                  getRows(currentWorkout.exercises.isEmpty
+                      ? ""
+                      : currentWorkout.exercises[0]);
+                  index = 0;
+                  updateProgress();
+                });
+              }));
+            }),
+            child: Container(
+              height: size.height,
+              width: size.width,
+              child: Scrollbar(
+                child: ListView(
+                  children: [
+                    Container(
+                      child: Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                height: size.height / 3.5,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(0, 255, 255, 255),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: CarouselSlider(
+                                    items: [
+                                      Container(
+                                          decoration: BoxDecoration(
+                                            gradient:
+                                                LinearGradient(colors: primary),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                  color: Color.fromARGB(
+                                                      46, 0, 0, 0),
+                                                  offset: Offset(0.0, 5.0),
+                                                  blurRadius: 15.0),
+                                              BoxShadow(
+                                                  color: Color.fromARGB(
+                                                      46, 0, 0, 0),
+                                                  offset: Offset(0.0, -5.0),
+                                                  blurRadius: 10.0),
+                                            ],
+                                          ),
+                                          margin: EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: countdown()),
+                                      Container(
+                                          margin: EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          decoration: BoxDecoration(
+                                            gradient:
+                                                LinearGradient(colors: primary),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                  color: Color.fromARGB(
+                                                      46, 0, 0, 0),
+                                                  offset: Offset(0.0, 5.0),
+                                                  blurRadius: 15.0),
+                                              BoxShadow(
+                                                  color: Color.fromARGB(
+                                                      46, 0, 0, 0),
+                                                  offset: Offset(0.0, -5.0),
+                                                  blurRadius: 10.0),
+                                            ],
+                                          ),
+                                          child: StopWatch()),
+                                    ],
+                                    options: CarouselOptions(
+                                      height: size.height / 4,
+                                      enableInfiniteScroll: false,
+                                      onPageChanged: ((index, reason) {
+                                        setState(() {
+                                          activepage = index;
+                                        });
+                                      }),
+                                      viewportFraction: 1,
+>>>>>>> Stashed changes
                                     ),
                                   ),
                                 ),
-                                Positioned(
-                                  left: size.width / 2 - (size.width / 8),
-                                  top: size.height / 4.55,
-                                  child: Container(
-                                    padding: EdgeInsets.all(5),
-                                    width: size.width / 4,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(8),
-                                          topRight: Radius.circular(8),
-                                          bottomLeft: Radius.circular(8),
-                                          bottomRight: Radius.circular(8)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Color.fromARGB(36, 0, 0, 0),
-                                            offset: Offset(0.0, 5.0),
-                                            blurRadius: 15.0),
-                                        BoxShadow(
-                                            color: Color.fromARGB(36, 0, 0, 0),
-                                            offset: Offset(0.0, -5.0),
-                                            blurRadius: 10.0),
-                                      ],
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: indicators(2, activepage),
-                                    ),
+                              ),
+                              Positioned(
+                                left: size.width / 2 - (size.width / 8),
+                                top: size.height / 4.55,
+                                child: Container(
+                                  padding: EdgeInsets.all(5),
+                                  width: size.width / 4,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(8),
+                                        topRight: Radius.circular(8),
+                                        bottomLeft: Radius.circular(8),
+                                        bottomRight: Radius.circular(8)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Color.fromARGB(36, 0, 0, 0),
+                                          offset: Offset(0.0, 5.0),
+                                          blurRadius: 15.0),
+                                      BoxShadow(
+                                          color: Color.fromARGB(36, 0, 0, 0),
+                                          offset: Offset(0.0, -5.0),
+                                          blurRadius: 10.0),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: indicators(2, activepage),
                                   ),
                                 ),
+<<<<<<< Updated upstream
                               ],
                             ),
                             Container(
@@ -282,8 +369,20 @@ class _WorkoutPage extends State<WorkoutPage> {
                               child: GradientProgressIndicator(
                                 gradient: LinearGradient(colors: secondary),
                                 value: progress,
+=======
+>>>>>>> Stashed changes
                               ),
+                            ],
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                top: 5, bottom: 5, left: 17, right: 17),
+                            child: GradientProgressIndicator(
+                              gradient: LinearGradient(
+                                  colors: GradientColors.beautifulGreen),
+                              value: progress,
                             ),
+<<<<<<< Updated upstream
                             Container(
                               height: size.height / 3,
                               margin: const EdgeInsets.only(
@@ -339,51 +438,103 @@ class _WorkoutPage extends State<WorkoutPage> {
                                                   ),
                                                   overflow:
                                                       TextOverflow.ellipsis,
+=======
+                          ),
+                          Container(
+                            height: size.height / 3,
+                            margin: const EdgeInsets.only(
+                                top: 10, bottom: 10, left: 20, right: 20),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: const [
+                                BoxShadow(
+                                    color: Color.fromARGB(36, 0, 0, 0),
+                                    offset: Offset(0.0, 5.0),
+                                    blurRadius: 15.0),
+                                BoxShadow(
+                                    color: Color.fromARGB(36, 0, 0, 0),
+                                    offset: Offset(0.0, -5.0),
+                                    blurRadius: 10.0),
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                DropdownButtonHideUnderline(
+                                  child: DropdownButton2(
+                                    buttonDecoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        gradient:
+                                            LinearGradient(colors: primary)),
+                                    scrollbarAlwaysShow: true,
+                                    scrollbarRadius: Radius.circular(5),
+                                    scrollbarThickness: 5,
+                                    iconSize: 50,
+                                    iconEnabledColor: Colors.white,
+                                    isExpanded: true,
+                                    barrierColor: Color.fromARGB(45, 0, 0, 0),
+                                    hint: Text(selectedExercise,
+                                        style: GoogleFonts.montserrat(
+                                            color: Colors.white,
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.w600)),
+                                    items: currentWorkout.exercises
+                                        .map((item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(
+                                                item,
+                                                style: const TextStyle(
+                                                  fontSize: 20,
+                                                  color: Color.fromARGB(
+                                                      255, 0, 0, 0),
+>>>>>>> Stashed changes
                                                 ),
-                                              ))
-                                          .toList(),
-                                      onChanged: (String? value) {
-                                        setState(
-                                          () {
-                                            index = currentWorkout.exercises
-                                                .indexOf(value!);
-                                            selectedExercise = value;
-                                            getRows(selectedExercise);
-                                            updateProgress();
-                                          },
-                                        );
-                                      },
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ))
+                                        .toList(),
+                                    onChanged: (String? value) {
+                                      setState(
+                                        () {
+                                          index = currentWorkout.exercises
+                                              .indexOf(value!);
+                                          selectedExercise = value;
+                                          getRows(selectedExercise);
+                                          updateProgress();
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Spacer(),
+                                      Text("  Set ",
+                                          style: GoogleFonts.quicksand(
+                                              fontSize: 28)),
+                                      Spacer(),
+                                      Text("Reps",
+                                          style: GoogleFonts.quicksand(
+                                              fontSize: 28)),
+                                      Spacer(),
+                                      Text("Weight ",
+                                          style: GoogleFonts.quicksand(
+                                              fontSize: 28)),
+                                      Spacer(),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  height: size.height / 5,
+                                  child: Scrollbar(
+                                    //thumbVisibility: true,
+                                    child: ListView(
+                                      //physics: BouncingScrollPhysics(),
+                                      children: returnRows,
                                     ),
                                   ),
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        Spacer(),
-                                        Text("  Set ",
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 28)),
-                                        Spacer(),
-                                        Text("Reps",
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 28)),
-                                        Spacer(),
-                                        Text("Weight ",
-                                            style: GoogleFonts.quicksand(
-                                                fontSize: 28)),
-                                        Spacer(),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    height: size.height / 5,
-                                    child: Scrollbar(
-                                      //thumbVisibility: true,
-                                      child: ListView(
-                                        //physics: BouncingScrollPhysics(),
-                                        children: returnRows,
-                                      ),
-                                    ),
-                                  ),
+<<<<<<< Updated upstream
                                 ],
                               ),
                             ),
@@ -422,6 +573,23 @@ class _WorkoutPage extends State<WorkoutPage> {
                               callback: (() {
                                 setState(
                                   () {
+=======
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: size.height / 50),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                gradient: LinearGradient(
+                                    colors: GradientColors.blackGray)),
+                            child: FloatingActionButton.extended(
+                                backgroundColor: Colors.transparent,
+                                heroTag: "tg1",
+                                onPressed: (() {
+                                  setState(() {
+>>>>>>> Stashed changes
                                     index++;
                                     if (index <
                                         currentWorkout.getNumExercises()) {
@@ -430,6 +598,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                                       getRows(selectedExercise);
                                       updateProgress();
                                     }
+<<<<<<< Updated upstream
                                   },
                                 );
                               }),
@@ -445,6 +614,21 @@ class _WorkoutPage extends State<WorkoutPage> {
                       )
                     ],
                   ),
+=======
+                                  });
+                                }),
+                                label: Text(
+                                    style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 24,
+                                        color: Colors.white),
+                                    "Next exercise")),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+>>>>>>> Stashed changes
                 ),
               ),
             ),
