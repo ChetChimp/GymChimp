@@ -137,105 +137,6 @@ class _WorkoutPage extends State<WorkoutPage> {
     Size size = MediaQuery.of(context).size;
     return Navigator(onGenerateRoute: (settings) {
       return MaterialPageRoute(
-<<<<<<< Updated upstream
-        builder: (_) => MaterialApp(
-          title: 'Welcome to Flutter',
-          home: Scaffold(
-            appBar: MyAppBar(context, true),
-            backgroundColor: Color.fromARGB(255, 230, 230, 230),
-            body: RefreshIndicator(
-              displacement: 0,
-              onRefresh: (() {
-                return Future.delayed(Duration(milliseconds: 1), (() {
-                  setState(() {
-                    getRows(currentWorkout.exercises.isEmpty
-                        ? ""
-                        : currentWorkout.exercises[0]);
-                    index = 0;
-                    updateProgress();
-                  });
-                }));
-              }),
-              child: Container(
-                height: size.height,
-                width: size.width,
-                child: Scrollbar(
-                  child: ListView(
-                    children: [
-                      Container(
-                        child: Column(
-                          children: [
-                            Stack(
-                              children: [
-                                Container(
-                                  height: size.height / 3.5,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Color.fromARGB(0, 255, 255, 255),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: CarouselSlider(
-                                      items: [
-                                        Container(
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                  begin: Alignment.topLeft,
-                                                  end: Alignment.bottomRight,
-                                                  colors: primary),
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                    color: Color.fromARGB(
-                                                        46, 0, 0, 0),
-                                                    offset: Offset(0.0, 5.0),
-                                                    blurRadius: 15.0),
-                                                BoxShadow(
-                                                    color: Color.fromARGB(
-                                                        46, 0, 0, 0),
-                                                    offset: Offset(0.0, -5.0),
-                                                    blurRadius: 10.0),
-                                              ],
-                                            ),
-                                            margin: EdgeInsets.only(
-                                                left: 10, right: 10),
-                                            child: countdown()),
-                                        Container(
-                                            margin: EdgeInsets.only(
-                                                left: 10, right: 10),
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                  begin: Alignment.topLeft,
-                                                  end: Alignment.bottomRight,
-                                                  colors: primary),
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                    color: Color.fromARGB(
-                                                        46, 0, 0, 0),
-                                                    offset: Offset(0.0, 5.0),
-                                                    blurRadius: 15.0),
-                                                BoxShadow(
-                                                    color: Color.fromARGB(
-                                                        46, 0, 0, 0),
-                                                    offset: Offset(0.0, -5.0),
-                                                    blurRadius: 10.0),
-                                              ],
-                                            ),
-                                            child: StopWatch()),
-                                      ],
-                                      options: CarouselOptions(
-                                        height: size.height / 4,
-                                        enableInfiniteScroll: false,
-                                        onPageChanged: ((index, reason) {
-                                          setState(() {
-                                            activepage = index;
-                                          });
-                                        }),
-                                        viewportFraction: 1,
-                                      ),
-=======
         builder: (_) => Scaffold(
           appBar: MyAppBar(context, true),
           backgroundColor: Color.fromARGB(255, 230, 230, 230),
@@ -326,7 +227,6 @@ class _WorkoutPage extends State<WorkoutPage> {
                                         });
                                       }),
                                       viewportFraction: 1,
->>>>>>> Stashed changes
                                     ),
                                   ),
                                 ),
@@ -360,17 +260,6 @@ class _WorkoutPage extends State<WorkoutPage> {
                                     children: indicators(2, activepage),
                                   ),
                                 ),
-<<<<<<< Updated upstream
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  top: 5, bottom: 5, left: 17, right: 17),
-                              child: GradientProgressIndicator(
-                                gradient: LinearGradient(colors: secondary),
-                                value: progress,
-=======
->>>>>>> Stashed changes
                               ),
                             ],
                           ),
@@ -382,63 +271,6 @@ class _WorkoutPage extends State<WorkoutPage> {
                                   colors: GradientColors.beautifulGreen),
                               value: progress,
                             ),
-<<<<<<< Updated upstream
-                            Container(
-                              height: size.height / 3,
-                              margin: const EdgeInsets.only(
-                                  top: 10, bottom: 10, left: 20, right: 20),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20.0),
-                                boxShadow: const [
-                                  BoxShadow(
-                                      color: Color.fromARGB(36, 0, 0, 0),
-                                      offset: Offset(0.0, 5.0),
-                                      blurRadius: 15.0),
-                                  BoxShadow(
-                                      color: Color.fromARGB(36, 0, 0, 0),
-                                      offset: Offset(0.0, -5.0),
-                                      blurRadius: 10.0),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  DropdownButtonHideUnderline(
-                                    child: DropdownButton2(
-                                      buttonDecoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          gradient: LinearGradient(
-                                            colors: primary,
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.bottomRight,
-                                          )),
-                                      scrollbarAlwaysShow: true,
-                                      scrollbarRadius: Radius.circular(5),
-                                      scrollbarThickness: 5,
-                                      iconSize: 50,
-                                      iconEnabledColor: Colors.white,
-                                      isExpanded: true,
-                                      barrierColor: Color.fromARGB(45, 0, 0, 0),
-                                      hint: Text(selectedExercise,
-                                          style: GoogleFonts.montserrat(
-                                              color: Colors.white,
-                                              fontSize: 28,
-                                              fontWeight: FontWeight.w600)),
-                                      items: currentWorkout.exercises
-                                          .map((item) =>
-                                              DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(
-                                                  item,
-                                                  style: const TextStyle(
-                                                    fontSize: 20,
-                                                    color: Color.fromARGB(
-                                                        255, 0, 0, 0),
-                                                  ),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-=======
                           ),
                           Container(
                             height: size.height / 3,
@@ -487,7 +319,6 @@ class _WorkoutPage extends State<WorkoutPage> {
                                                   fontSize: 20,
                                                   color: Color.fromARGB(
                                                       255, 0, 0, 0),
->>>>>>> Stashed changes
                                                 ),
                                                 overflow: TextOverflow.ellipsis,
                                               ),
@@ -534,46 +365,6 @@ class _WorkoutPage extends State<WorkoutPage> {
                                       children: returnRows,
                                     ),
                                   ),
-<<<<<<< Updated upstream
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: size.height / 50),
-                            // Container(
-                            //   // decoration: BoxDecoration(
-                            //   //     borderRadius: BorderRadius.circular(10.0),
-                            //   //     gradient: LinearGradient(colors: primary)),
-                            // //   child: FloatingActionButton.extended(
-                            // //       backgroundColor:
-                            // //           Color.fromARGB(255, 207, 207, 207),
-                            // //       heroTag: "tg1",
-                            // //       onPressed: (() {
-                            // //         setState(() {
-                            // //           index++;
-                            // //           if (index <
-                            // //               currentWorkout.getNumExercises()) {
-                            // //             selectedExercise =
-                            // //                 currentWorkout.exercises[index];
-                            // //             getRows(selectedExercise);
-                            // //             updateProgress();
-                            // //           }
-                            // //         });
-                            // //       }),
-                            // //       label: Text(
-                            // //           style: GoogleFonts.montserrat(
-                            // //               fontWeight: FontWeight.w600,
-                            // //               fontSize: 24,
-                            // //               color: Colors.white),
-                            // //           "Next exercise")),
-                            // // ),
-                            GradientButton(
-                              increaseWidthBy: 100,
-                              increaseHeightBy: 15,
-                              gradient: LinearGradient(colors: primary),
-                              callback: (() {
-                                setState(
-                                  () {
-=======
                                 ),
                               ],
                             ),
@@ -589,7 +380,6 @@ class _WorkoutPage extends State<WorkoutPage> {
                                 heroTag: "tg1",
                                 onPressed: (() {
                                   setState(() {
->>>>>>> Stashed changes
                                     index++;
                                     if (index <
                                         currentWorkout.getNumExercises()) {
@@ -598,23 +388,6 @@ class _WorkoutPage extends State<WorkoutPage> {
                                       getRows(selectedExercise);
                                       updateProgress();
                                     }
-<<<<<<< Updated upstream
-                                  },
-                                );
-                              }),
-                              child: Text(
-                                  style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 24,
-                                      color: Colors.white),
-                                  "Next exercise"),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-=======
                                   });
                                 }),
                                 label: Text(
@@ -628,7 +401,6 @@ class _WorkoutPage extends State<WorkoutPage> {
                       ),
                     )
                   ],
->>>>>>> Stashed changes
                 ),
               ),
             ),
