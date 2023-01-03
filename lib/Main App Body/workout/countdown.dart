@@ -206,10 +206,11 @@ class _countdownState extends State<countdown>
       child: Column(
         children: [
           Text("Countdown Timer",
-              style: GoogleFonts.montserrat(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w600)),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline2
+                  ?.copyWith(color: Colors.white)),
+          // ?.copyWith(color: Colors.white)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
