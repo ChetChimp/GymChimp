@@ -45,7 +45,7 @@ class _NewWorkout extends State<NewWorkout> {
 
   TextEditingController exerciseNameField = new TextEditingController(text: "");
 
-  void firebaseRemoveExercise() async {
+  void firebaseRemoveExercise(int deleteIndex) async {
     QuerySnapshot querySnapshot = await firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -65,8 +65,7 @@ class _NewWorkout extends State<NewWorkout> {
           .doc(element.id)
           .get()
           .then((value) {
-        if (value.get('name') ==
-            newWorkout.exercises[newWorkout.exercises.indexOf()]) {
+        if (value.get('name') == newWorkout.exercises[deleteIndex + 1]) {
           firestore
               .collection('users')
               .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -78,6 +77,7 @@ class _NewWorkout extends State<NewWorkout> {
         }
       });
     });
+    newWorkout.removeExercise(deleteIndex);
   }
 
   void removeWorkout(BuildContext ctx) async {
@@ -418,11 +418,9 @@ class _NewWorkout extends State<NewWorkout> {
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                         Navigator.pop(ctx);
-                                        setState(() {
+                                        setState(() async {
                                           if (changeIndex != -1) {
-                                            firebaseRemoveExercise();
-                                            newWorkout
-                                                .removeExercise(changeIndex);
+                                            firebaseRemoveExercise(changeIndex);
                                           }
                                         });
                                       },
