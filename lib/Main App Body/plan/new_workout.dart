@@ -53,31 +53,31 @@ class _NewWorkout extends State<NewWorkout> {
   }
 
   void filterSearchResults(String query) {
-    print(query);
     if (query.isNotEmpty) {
       List<String> dummyListData = [];
       List<String> dummyMuscleListData = [];
-      List<String> dummyDifficultyListData = [];
+      List<String> dummyDifficultyList = [];
 
-searchList.forEach((element) {print(searchList[i]);
-        if (searchList[i].toLowerCase().contains(query.toLowerCase()) ||
-            muscleList[i].toLowerCase().contains(query.toLowerCase()) ||
-            difficultyList[i].toLowerCase().contains(query.toLowerCase())) {
-          dummyListData.add(searchList[i]);
-          dummyMuscleListData.add(muscleList[i]);
-          dummyDifficultyListData.add(difficultyList[i]);
+      searchList.forEach((element) {
+        int ind = searchList.indexOf(element);
+        if (element.toLowerCase().contains(query.toLowerCase()) ||
+            muscleList[ind].toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(element);
+          dummyMuscleListData.add(muscleList[ind]);
+          dummyDifficultyList.add(difficultyList[ind]);
+
+          setState(() {
+            exerciseTempList.clear();
+            muscleTempList.clear();
+            difficultyTempList.clear();
+
+            exerciseTempList.addAll(dummyListData);
+            muscleTempList.addAll(dummyMuscleListData);
+            difficultyTempList.addAll(dummyDifficultyList);
+          });
+          return;
         }
-      }
-      setState(() {
-        exerciseTempList.clear();
-        muscleTempList.clear();
-        difficultyTempList.clear();
-
-        exerciseTempList.addAll(dummyListData);
-        muscleTempList.addAll(dummyMuscleListData);
-        difficultyList.addAll(dummyDifficultyListData);
       });
-      return;
     } else {
       setState(() {
         exerciseTempList.clear();
@@ -85,9 +85,10 @@ searchList.forEach((element) {print(searchList[i]);
         difficultyTempList.clear();
 
         exerciseTempList.addAll(searchList);
-        muscleTempList.addAll(muscleTempList);
+        muscleTempList.addAll(muscleList);
         difficultyTempList.addAll(difficultyList);
-      }); }
+      });
+    }
   }
 
   Future<void> readJson() async {
@@ -259,11 +260,11 @@ searchList.forEach((element) {print(searchList[i]);
     });
 
     int i = 0;
-    while (list2.contains("Exercise " + i.toString())) {
+    while (list2.contains("Exercise $i")) {
       i++;
     }
 
-    String exerciseName = "Exercise " + i.toString();
+    String exerciseName = "Exercise $i";
     firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -454,7 +455,7 @@ searchList.forEach((element) {print(searchList[i]);
                         filterSearchResults(value);
                       });
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Search",
                       hintText: "Search",
                       prefixIcon: Icon(Icons.search),
@@ -469,8 +470,9 @@ searchList.forEach((element) {print(searchList[i]);
                       itemCount: exerciseTempList.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title: Text('${exerciseTempList[index]}'),
-                          subtitle: Text('${difficultyTempList[index]}' +
+                          title: Text(exerciseTempList[index]),
+                          // ignore: prefer_interpolation_to_compose_strings
+                          subtitle: Text(difficultyTempList[index] +
                               "   |   "
                                   '${muscleTempList[index]}'),
                           onTap: () {
@@ -484,15 +486,15 @@ searchList.forEach((element) {print(searchList[i]);
                             );
                           },
                           trailing: IconButton(
-                            icon: Icon(Icons.info_outline),
+                            icon: const Icon(Icons.info_outline),
                             onPressed: () {},
                           ),
                         );
                       },
                     ),
                   ),
-                  Spacer(),
-                  Container(
+                  const Spacer(),
+                  SizedBox(
                     height: 200,
                     child: ListView(
                       padding: EdgeInsets.all(8),
@@ -527,7 +529,7 @@ searchList.forEach((element) {print(searchList[i]);
                       ],
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     children: <Widget>[
                       Spacer(
