@@ -66,13 +66,13 @@ Function holder = () {};
 
 List<BoxShadow> shadow = const [
   BoxShadow(
-      color: Color.fromARGB(36, 0, 0, 0),
+      color: Color.fromARGB(72, 0, 0, 0),
       offset: Offset(0.0, 2.0),
-      blurRadius: 15.0),
+      blurRadius: 5.0),
   BoxShadow(
-      color: Color.fromARGB(36, 0, 0, 0),
+      color: Color.fromARGB(72, 0, 0, 0),
       offset: Offset(0.0, -2.0),
-      blurRadius: 10.0),
+      blurRadius: 5.0),
 ];
 
 void toHomePage(BuildContext ctx, int page) {
@@ -161,7 +161,7 @@ class _StartPage extends State<StartPage> {
                       "Workout",
                       Icon(Icons.fitness_center_sharp,
                           size: 100, color: Colors.white),
-                      LinearGradient(colors: primary)),
+                      LinearGradient(colors: primaryGradient)),
                   SizedBox(width: 15),
                   // Stats Button
                   HomeTile(
@@ -171,7 +171,7 @@ class _StartPage extends State<StartPage> {
                       Icon(Icons.insights_sharp,
                           size: 100, color: Colors.white),
                       LinearGradient(
-                        colors: [primary[1], primary[0]],
+                        colors: [primaryGradient[1], primaryGradient[0]],
                       )),
                   Spacer(flex: 1),
                 ],
@@ -187,7 +187,7 @@ class _StartPage extends State<StartPage> {
                       "Nutrition",
                       Icon(Icons.fastfood_sharp,
                           size: 100, color: Colors.white),
-                      LinearGradient(colors: primary)),
+                      LinearGradient(colors: primaryGradient)),
                   SizedBox(width: 15),
                   // Plan Button
                   HomeTile(
@@ -195,7 +195,7 @@ class _StartPage extends State<StartPage> {
                       3,
                       "Plan",
                       Icon(Icons.edit_sharp, size: 100, color: Colors.white),
-                      LinearGradient(colors: primary))
+                      LinearGradient(colors: primaryGradient))
                 ],
               ),
               Spacer(flex: 5)

@@ -121,7 +121,7 @@ class _PlanPage extends State<PlanPage> {
                           margin: EdgeInsets.only(top: 10, left: 15, right: 15),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),
-                            gradient: LinearGradient(colors: primary),
+                            gradient: LinearGradient(colors: primaryGradient),
                           ),
                           child: ElevatedButton(
                             style: OutlinedButton.styleFrom(

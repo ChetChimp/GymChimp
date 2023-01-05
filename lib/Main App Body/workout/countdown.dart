@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymchimp/main.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 import 'stopwatch.dart';
@@ -209,7 +210,7 @@ class _countdownState extends State<countdown>
               style: Theme.of(context)
                   .textTheme
                   .headlineMedium
-                  ?.copyWith(color: Colors.white)),
+                  ?.copyWith(color: accentColor)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -245,11 +246,15 @@ class _countdownState extends State<countdown>
                 splashRadius: .01,
                 icon: on
                     ? Icon(
-                        color: Colors.white,
+                        color: accentColor,
                         Icons.play_arrow_sharp,
                         size: size.width / 8,
                       )
-                    : Icon(Icons.stop_rounded, size: size.width / 8),
+                    : Icon(
+                        Icons.stop_sharp,
+                        size: size.width / 8,
+                        color: accentColor,
+                      ),
                 onPressed: (() {
                   setState(() {
                     on = !on;
@@ -267,7 +272,8 @@ class _countdownState extends State<countdown>
                   splashRadius: .01,
                   onPressed: _resetTimer,
                   icon: Icon(
-                    Icons.restore,
+                    color: accentColor,
+                    Icons.restore_sharp,
                     size: size.width / 10,
                   )),
               const Spacer(),
@@ -276,7 +282,8 @@ class _countdownState extends State<countdown>
                   splashRadius: .01,
                   onPressed: () => _openPicker(size),
                   icon: Icon(
-                    Icons.edit,
+                    color: accentColor,
+                    Icons.edit_sharp,
                     size: size.width / 10,
                   )),
               const Spacer(),

@@ -225,11 +225,21 @@ class timeCard extends StatefulWidget {
 class _timeCardState extends State<timeCard> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.circular(15.0),
+        boxShadow: const [
+          BoxShadow(
+              color: Color.fromARGB(36, 0, 0, 0),
+              offset: Offset(0.0, 2.0),
+              blurRadius: 5.0),
+          BoxShadow(
+              color: Color.fromARGB(36, 0, 0, 0),
+              offset: Offset(0.0, -2.0),
+              blurRadius: 5.0),
+        ],
       ),
-      elevation: 3,
       child: Container(
         padding: EdgeInsets.only(top: 4, bottom: 4),
         width: widget.sizeOfScreen.width / 6 + 4,
@@ -238,6 +248,7 @@ class _timeCardState extends State<timeCard> {
           textAlign: TextAlign.center,
           style: GoogleFonts.quicksand(
             textStyle: fontstyle(widget.sizeOfScreen),
+            color: Color.fromARGB(255, 43, 94, 167),
           ),
         ),
       ),

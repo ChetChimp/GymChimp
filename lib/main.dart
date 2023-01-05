@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,7 +39,11 @@ var userName = "";
 StreamController<String> nameController = StreamController<String>();
 
 //***************************************************//
-
+//Global colors
+List<Color> secondaryGradient = GradientColors.happyAcid;
+List<Color> primaryGradient = GradientColors.royalBlue;
+Color backgroundGrey = Color.fromARGB(255, 221, 221, 221);
+Color accentColor = Color.fromARGB(255, 43, 94, 167);
 //***************************************************//
 //Global changepage method
 void changePage(BuildContext ctx, Widget page) {
@@ -198,7 +203,7 @@ class MyApp extends StatelessWidget {
             secondary: Color.fromARGB(255, 44, 57, 64)),
 
         // Define the default font family.
-        fontFamily: 'Montserrat',
+        fontFamily: 'sourceSansPro',
       ),
       title: 'GymChimp',
       home: loggedIn ? StartPage() : const FirstLogIn(),
