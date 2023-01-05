@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/main.dart';
+import 'package:gymchimp/Main App Body/start_page.dart';
 
 class AccountSettings extends StatefulWidget {
-  const AccountSettings({Key? key}) : super(key: key);
+  const AccountSettings({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<AccountSettings> createState() => _AccountSettingsState();
@@ -131,7 +134,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                             nameEditIcon = Icon(Icons.check);
                           } else {
                             updateInfo('name', nameEditController.text);
-                            userName = nameEditController.text;
+                            holder(nameEditController.text);
                             nameEditIcon = Icon(Icons.edit);
                           }
                         });

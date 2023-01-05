@@ -154,7 +154,7 @@ class _WorkoutPage extends State<WorkoutPage> {
       return MaterialPageRoute(
         builder: (_) => Scaffold(
           appBar: MyAppBar(context, true),
-          backgroundColor: Color.fromARGB(255, 230, 230, 230),
+          backgroundColor: Theme.of(context).colorScheme.background,
           body: RefreshIndicator(
             displacement: 0,
             onRefresh: (() {

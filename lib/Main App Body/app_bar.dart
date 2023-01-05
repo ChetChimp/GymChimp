@@ -64,11 +64,11 @@ class _MyAppBarState extends State<MyAppBar> {
         Container(
           width: MediaQuery.of(ctx).size.width * 3 / 5,
           height: 10,
-          padding: EdgeInsets.all(0),
+          //padding: EdgeInsets.all(0),
           //padding: EdgeInsets.all(10),
           child: DropdownButtonHideUnderline(
             child: DropdownButton2(
-              buttonPadding: EdgeInsets.all(0),
+              //buttonPadding: EdgeInsets.all(0),
               buttonDecoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 gradient: LinearGradient(colors: GradientColors.royalBlue),
