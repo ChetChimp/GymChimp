@@ -24,7 +24,8 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class PlanPage extends StatefulWidget {
-  const PlanPage({Key? key}) : super(key: key);
+  // PlanPage(this.stream);
+  // final Stream<int> stream;
 
   @override
   State<PlanPage> createState() => _PlanPage();
@@ -36,16 +37,25 @@ final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
 int counter = 0;
 Workout selectedWorkout = Workout("");
 
-void newWorkout(BuildContext ctx, int index) {
-  Navigator.of(ctx).push(MaterialPageRoute(
-      builder: (context) =>
-          NewWorkout(workoutName: workoutName, index: index)));
-}
-
 class _PlanPage extends State<PlanPage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void newWorkout(BuildContext ctx, int index) {
+    Navigator.of(ctx).push(MaterialPageRoute(
+        builder: (context) => NewWorkout(
+              workoutName: workoutName,
+              index: index,
+              callback: mySetState,
+            )));
+  }
+
+  void mySetState(int index) {
+    setState(() {
+      currentUser.userWorkouts.removeAt(index);
+    });
   }
 
   Future<void> pushWorkoutToDatabase(BuildContext ctx) async {
@@ -74,87 +84,10 @@ class _PlanPage extends State<PlanPage> {
         .collection('workouts')
         .doc(workoutName)
         .set({'name': workoutName});
-
-    currentUser.addWorkout(Workout(workoutName));
-    listKey.currentState
-        ?.insertItem(0, duration: const Duration(milliseconds: 200));
+    setState(() {
+      currentUser.addWorkout(Workout(workoutName));
+    });
   }
-
-  Widget slideIt(BuildContext context, int index, animation) {
-    return Container(
-      margin: EdgeInsets.only(top: 7, left: 15, right: 15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        gradient: LinearGradient(colors: GradientColors.eternalConstance),
-      ),
-      child: Row(
-        children: [
-          Spacer(),
-          Text(
-            currentUser.userWorkouts[index].getName(),
-            style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
-          ),
-          Spacer(),
-          ElevatedButton(
-              onPressed: () {
-                newWorkout(context, index);
-              },
-              child: Text("Edit")),
-          Spacer(),
-          IconButton(
-            onPressed: () {
-              setState(() {
-                currentWorkout = currentUser.userWorkouts[index];
-              });
-            },
-            icon: Icon(Icons.check_box_outline_blank),
-          ),
-          Spacer(),
-        ],
-      ),
-    );
-  }
-  // Widget slideIt(BuildContext context, int index) {
-  //   return Container(
-  //     margin: EdgeInsets.only(top: 10, left: 15, right: 15),
-  //     decoration: BoxDecoration(
-  //       borderRadius: BorderRadius.circular(15.0),
-  //       gradient: LinearGradient(colors: primary),
-  //     ),
-  //     child: ElevatedButton(
-  //       style: OutlinedButton.styleFrom(
-  //         backgroundColor: Colors.transparent,
-  //         shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.all(Radius.circular(15))),
-  //       ),
-  //       onPressed: () {
-  //         newWorkout(context, index);
-  //       },
-  //       child: Row(
-  //         children: [
-  //           Spacer(),
-  //           Container(
-  //             child: Text(
-  //               currentUser.userWorkouts[index].getName(),
-  //               style: TextStyle(fontSize: 20, color: Colors.white),
-  //             ),
-  //           ),
-  //           Spacer(),
-  //           IconButton(
-  //             onPressed: () {
-  //               setState(() {
-  //                 currentWorkout = currentUser.userWorkouts[index];
-  //               });
-  //             },
-  //             icon: Icon(Icons.check_box_outline_blank),
-  //           ),
-  //           Spacer(),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -162,27 +95,28 @@ class _PlanPage extends State<PlanPage> {
       onGenerateRoute: (settings) {
         return MaterialPageRoute(
             builder: (_) => Scaffold(
-                  backgroundColor: Color.fromARGB(255, 230, 230, 230),
-                  appBar: MyAppBar(context, true),
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                  appBar: MyAppBar(
+                    context,
+                    true,
+                  ),
                   body: ReorderableListView(
-                    proxyDecorator: proxyDecorator,
-                    key: listKey,
-                    onReorder: (int oldIndex, int newIndex) {
-                      setState(() {
-                        if (oldIndex < newIndex) {
-                          newIndex -= 1;
-                        }
-                        if (newIndex >= currentUser.getNumWorkouts) {
-                          newIndex -= 1;
-                        }
-                        currentUser.moveWorkout(oldIndex, newIndex);
-                      });
-                    },
-                    children: <Widget>[
-                      for (int index = 0;
-                          index < currentUser.getUserWorkouts.length;
-                          index += 1)
-                        Container(
+                      proxyDecorator: proxyDecorator,
+                      key: listKey,
+                      onReorder: (int oldIndex, int newIndex) {
+                        setState(() {
+                          if (oldIndex < newIndex) {
+                            newIndex -= 1;
+                          }
+                          if (newIndex >= currentUser.getNumWorkouts) {
+                            newIndex -= 1;
+                          }
+                          currentUser.moveWorkout(oldIndex, newIndex);
+                        });
+                      },
+                      children: List.generate(currentUser.userWorkouts.length,
+                          (index) {
+                        return Container(
                           key: Key('$index'),
                           margin: EdgeInsets.only(top: 10, left: 15, right: 15),
                           decoration: BoxDecoration(
@@ -224,9 +158,8 @@ class _PlanPage extends State<PlanPage> {
                               ],
                             ),
                           ),
-                        )
-                    ],
-                  ),
+                        );
+                      })),
                   floatingActionButton: FloatingActionButton(
                     onPressed: () async {
                       await pushWorkoutToDatabase(context);

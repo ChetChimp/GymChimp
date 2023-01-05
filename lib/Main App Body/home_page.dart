@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/stopwatch.dart';
+import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 
 import '../firebase_options.dart';
@@ -52,11 +53,12 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   // List of 4 pages
-  static const List<Widget> _children = <Widget>[
+  static List<Widget> _children = <Widget>[
     WorkoutPage(),
     StatsPage(),
     NutritionPage(),
-    PlanPage(),
+    // PlanPage(streamController.stream),
+    PlanPage()
   ];
 
   void onPageChanged(int index) {

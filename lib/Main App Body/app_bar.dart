@@ -19,8 +19,10 @@ void logOutUser(BuildContext ctx) {
 
 class MyAppBar extends AppBar {
   Widget middle = Spacer();
-  MyAppBar(BuildContext ctx, bool arrowEnabled)
-      : super(
+  MyAppBar(
+    BuildContext ctx,
+    bool arrowEnabled,
+  ) : super(
           elevation: 0,
           backgroundColor: Colors.transparent,
           actions: <Widget>[

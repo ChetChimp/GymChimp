@@ -34,6 +34,9 @@ var userInstance = FirebaseAuth.instance.currentUser;
 var imperialSystem = true;
 var weightUnit = '';
 var userName = "";
+// StreamController<int> streamController = StreamController<int>();
+StreamController<String> nameController = StreamController<String>();
+
 //***************************************************//
 
 //***************************************************//
@@ -183,6 +186,7 @@ class MyApp extends StatelessWidget {
         // Define the default brightness and colors.
 
         colorScheme: ColorScheme.fromSeed(
+            background: Color.fromARGB(255, 221, 221, 221),
             seedColor: Color.fromARGB(255, 157, 191, 255),
             secondary: Color.fromARGB(255, 44, 57, 64)),
 
@@ -190,7 +194,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Montserrat',
       ),
       title: 'GymChimp',
-      home: loggedIn ? const StartPage() : const FirstLogIn(),
+      home: loggedIn ? StartPage() : const FirstLogIn(),
     );
   }
 }

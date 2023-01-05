@@ -22,8 +22,13 @@ import 'plan_page.dart';
 class NewWorkout extends StatefulWidget {
   final String workoutName;
   final int index;
+  final Function callback;
 
-  const NewWorkout({Key? key, required this.workoutName, required this.index})
+  const NewWorkout(
+      {Key? key,
+      required this.workoutName,
+      required this.index,
+      required this.callback})
       : super(key: key);
 
   @override
@@ -201,15 +206,12 @@ class _NewWorkout extends State<NewWorkout> {
           .collection('workouts')
           .doc(newWorkout.getName()));
     });
-    currentUser.userWorkouts.remove(newWorkout);
-    listKey.currentState?.removeItem(index, (context, animation) {
-      return fake();
-    }, duration: Duration(milliseconds: 1));
+    widget.callback(widget.index);
     Navigator.of(ctx).pop();
   }
 
   Widget fake() {
-    return Container();
+    return Container(child: Text("bitch"));
   }
 
   void updateExerciseIndexFirebase(int index, int newIndex) async {
@@ -283,6 +285,7 @@ class _NewWorkout extends State<NewWorkout> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: MyAppBar(context, true),
       body: Container(
         child: ReorderableListView(
@@ -311,6 +314,7 @@ class _NewWorkout extends State<NewWorkout> {
                 //height: 50,
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
+                    backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                   ),
@@ -325,6 +329,7 @@ class _NewWorkout extends State<NewWorkout> {
                       Spacer(),
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
+                            backgroundColor: Colors.white,
                             side: BorderSide(color: Colors.transparent)),
                         child: Icon(Icons.edit),
                         onPressed: () {
@@ -349,6 +354,9 @@ class _NewWorkout extends State<NewWorkout> {
                       onLongPress:
                           () {}, //Ensures that the plus button cannot be moved
                       child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                          ),
                           onPressed: () {
                             modifyExercise(ctx, "", -1);
                           },
@@ -362,8 +370,13 @@ class _NewWorkout extends State<NewWorkout> {
                         onLongPress:
                             () {}, //Ensures that the plus button cannot be moved
                         child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                            ),
                             onPressed: () {
-                              removeWorkout(context);
+                              setState(() {
+                                removeWorkout(context);
+                              });
                             },
                             child: Row(
                               children: const [
@@ -421,7 +434,7 @@ class _NewWorkout extends State<NewWorkout> {
           child: StatefulBuilder(
               builder: (BuildContext context, StateSetter setModalState) {
             return Container(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(15),
               height: 400,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -450,7 +463,7 @@ class _NewWorkout extends State<NewWorkout> {
                     ),
                   ),
                   Container(
-                    height: size.height / 4.5,
+                    height: size.height / 3.75,
                     child: ListView.builder(
                       itemCount: exerciseTempList.length,
                       itemBuilder: (context, index) {
@@ -478,9 +491,9 @@ class _NewWorkout extends State<NewWorkout> {
                       },
                     ),
                   ),
-                  const Spacer(),
                   SizedBox(
-                    height: 200,
+                    width: size.width - 10,
+                    height: size.height / 5.5,
                     child: ListView(
                       padding: EdgeInsets.all(8),
                       children: [
