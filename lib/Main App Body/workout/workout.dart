@@ -44,11 +44,11 @@ class Workout {
     return exercises[index];
   }
 
-  void swapIndexes(int oldIndex, int newIndex) {
-    String exercise = exercises.removeAt(oldIndex);
-    exercises.insert(newIndex, exercise);
-    List<int> rep = reps.removeAt(oldIndex);
-    reps.insert(newIndex, rep);
+  void moveExercise(int oldIndex, int newIndex) {
+    String tempExercise = exercises.removeAt(oldIndex);
+    exercises.insert(newIndex, tempExercise);
+    List<int> tempRep = reps.removeAt(oldIndex);
+    reps.insert(newIndex, tempRep);
   }
 
   void setIndex(int input) {

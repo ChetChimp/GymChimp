@@ -18,25 +18,29 @@ void logOutUser(BuildContext ctx) {
 }
 
 class MyAppBar extends AppBar {
+  Widget middle = Spacer();
   MyAppBar(BuildContext ctx, bool arrowEnabled)
       : super(
           elevation: 0,
-          leading: IconButton(
-              splashRadius: 1,
-              icon: Icon(Icons.arrow_back_outlined,
-                  color: arrowEnabled ? Colors.black : Colors.transparent),
-              onPressed: () {
-                if (!arrowEnabled) {
-                  return;
-                }
-                if (Navigator.of(ctx).canPop()) {
-                  Navigator.of(ctx).pop();
-                } else {
-                  Navigator.of(ctx, rootNavigator: true).pop();
-                }
-              }),
           backgroundColor: Colors.transparent,
           actions: <Widget>[
+            IconButton(
+                splashRadius: 1,
+                icon: Icon(Icons.arrow_back_outlined,
+                    color: arrowEnabled ? Colors.black : Colors.transparent),
+                onPressed: () {
+                  if (!arrowEnabled) {
+                    return;
+                  }
+                  if (Navigator.of(ctx).canPop()) {
+                    Navigator.of(ctx).pop();
+                  } else {
+                    Navigator.of(ctx, rootNavigator: true).pop();
+                  }
+                }),
+            Spacer(),
+            ElevatedButton(onPressed: () {}, child: Text("gerg")),
+            Spacer(),
             Container(
               child: PopupMenuButton(
                 shape: RoundedRectangleBorder(
@@ -49,7 +53,7 @@ class MyAppBar extends AppBar {
                     child: Container(
                       child: ListTile(
                         leading: Icon(Icons.person_outline),
-                        title: Text('Account'),
+                        title: Text('Account', style: TextStyle(fontSize: 16)),
                         onTap: () {
                           changePage(
                             context,
@@ -88,7 +92,8 @@ class MyAppBar extends AppBar {
                           child: ListTile(
                             onTap: () {},
                             leading: Icon(Icons.scale_outlined),
-                            title: Text(weightUnit),
+                            title: Text(weightUnit,
+                                style: TextStyle(fontSize: 16)),
                             trailing: Container(
                               child: Switch(
                                 // This bool value toggles the switch.
@@ -120,7 +125,7 @@ class MyAppBar extends AppBar {
                     child: Container(
                       child: ListTile(
                         leading: Icon(Icons.lock_outline),
-                        title: Text('Sign Out'),
+                        title: Text('Sign Out', style: TextStyle(fontSize: 16)),
                         onTap: () {
                           while (Navigator.of(ctx).canPop()) {
                             Navigator.of(ctx).pop();

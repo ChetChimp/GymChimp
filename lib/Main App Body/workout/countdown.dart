@@ -208,9 +208,8 @@ class _countdownState extends State<countdown>
           Text("Countdown Timer",
               style: Theme.of(context)
                   .textTheme
-                  .headline2
+                  .headlineMedium
                   ?.copyWith(color: Colors.white)),
-          // ?.copyWith(color: Colors.white)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

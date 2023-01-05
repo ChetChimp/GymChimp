@@ -169,121 +169,103 @@ class _NewWorkout extends State<NewWorkout> {
   Widget build(BuildContext ctx) {
     Size size = MediaQuery.of(context).size;
 
-    Widget proxyDecorator(
-        Widget child, int index, Animation<double> animation) {
-      return AnimatedBuilder(
-        animation: animation,
-        builder: (BuildContext context, Widget? child) {
-          return Material(
-            child: child,
-          );
-        },
-        child: child,
-      );
-    }
+    return Scaffold(
+      appBar: MyAppBar(context, true),
+      body: Container(
+        child: ReorderableListView(
+          proxyDecorator: proxyDecorator,
+          onReorder: (int oldIndex, int newIndex) {
+            setState(() {
+              if (oldIndex < newIndex) {
+                newIndex -= 1;
+              }
+              if (newIndex >= newWorkout.getNumExercises()) {
+                newIndex -= 1;
+              }
+              newWorkout.moveExercise(oldIndex, newIndex);
 
-    return MaterialApp(
-      title: 'Welcome to Flutter',
-      home: Scaffold(
-        appBar: MyAppBar(context, true),
-        body: Center(
-          child: ReorderableListView(
-            proxyDecorator: proxyDecorator,
-            onReorder: (int oldIndex, int newIndex) {
-              setState(() {
-                if (oldIndex < newIndex) {
-                  newIndex -= 1;
-                }
-                if (newIndex >= newWorkout.getNumExercises()) {
-                  newIndex -= 1;
-                }
-                newWorkout.swapIndexes(oldIndex, newIndex);
-
-                updateExerciseIndexFirebase(newIndex, oldIndex);
-              });
-            },
-            padding: EdgeInsets.all(8),
-            children: <Widget>[
-              for (int index = 0;
-                  index < newWorkout.getNumExercises();
-                  index += 1)
-                Container(
-                  padding: EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                  key: Key('$index'),
-                  height: 50,
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                    ),
-                    onPressed: () {},
-                    child: Row(
-                      children: [
-                        Icon(Icons.drag_indicator),
-                        Spacer(),
-                        Text(newWorkout.getExercise(index)),
-                        Text("    Sets: "),
-                        Text(newWorkout.getReps(index).toString()),
-                        Spacer(),
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                              side: BorderSide(color: Colors.transparent)),
-                          child: Icon(Icons.edit),
-                          onPressed: () {
-                            modifyExercise(
-                                ctx, '${newWorkout.getExercise(index)}', index);
-                          },
-                        ),
-                      ],
-                    ),
+              updateExerciseIndexFirebase(newIndex, oldIndex);
+            });
+          },
+          padding: EdgeInsets.all(8),
+          children: <Widget>[
+            for (int index = 0;
+                index < newWorkout.getNumExercises();
+                index += 1)
+              Container(
+                padding: EdgeInsets.all(2),
+                key: Key('$index'),
+                //height: 50,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                  ),
+                  onPressed: () {},
+                  child: Row(
+                    children: [
+                      Icon(Icons.drag_indicator),
+                      Spacer(),
+                      Text(newWorkout.getExercise(index)),
+                      Text("    Sets: "),
+                      Text(newWorkout.getReps(index).toString()),
+                      Spacer(),
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: Colors.transparent)),
+                        child: Icon(Icons.edit),
+                        onPressed: () {
+                          modifyExercise(
+                              ctx, '${newWorkout.getExercise(index)}', index);
+                        },
+                      ),
+                    ],
                   ),
                 ),
-              Container(
-                  //Add Button
-                  padding: EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                  key: Key("-1"),
-                  height: 200,
-                  child: Column(
-                    children: [
-                      GestureDetector(
+              ),
+            Container(
+                //Add Button
+                padding: EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(15))),
+                key: Key("-1"),
+                height: 200,
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onLongPress:
+                          () {}, //Ensures that the plus button cannot be moved
+                      child: OutlinedButton(
+                          onPressed: () {
+                            modifyExercise(ctx, "", -1);
+                          },
+                          child: Center(
+                            child: Icon(Icons.add),
+                          )),
+                    ),
+                    Container(
+                      width: size.width / 2,
+                      child: GestureDetector(
                         onLongPress:
                             () {}, //Ensures that the plus button cannot be moved
                         child: OutlinedButton(
                             onPressed: () {
-                              modifyExercise(ctx, "", -1);
+                              removeWorkout(context);
                             },
-                            child: Center(
-                              child: Icon(Icons.add),
+                            child: Row(
+                              children: const [
+                                Spacer(),
+                                Text("Delete Workout",
+                                    style: TextStyle(color: Colors.red)),
+                                Spacer(),
+                              ],
                             )),
                       ),
-                      Container(
-                        width: size.width / 2,
-                        child: GestureDetector(
-                          onLongPress:
-                              () {}, //Ensures that the plus button cannot be moved
-                          child: OutlinedButton(
-                              onPressed: () {
-                                removeWorkout(context);
-                              },
-                              child: Row(
-                                children: const [
-                                  Spacer(),
-                                  Text("Delete Workout",
-                                      style: TextStyle(color: Colors.red)),
-                                  Spacer(),
-                                ],
-                              )),
-                        ),
-                      ),
-                    ],
-                  ) //),
-                  ),
-            ],
-          ),
+                    ),
+                  ],
+                ) //),
+                ),
+          ],
         ),
       ),
     );
@@ -330,7 +312,10 @@ class _NewWorkout extends State<NewWorkout> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Container(margin: EdgeInsets.all(30), child: Text(title)),
+                  Container(
+                      margin: EdgeInsets.all(30),
+                      child: Text(title,
+                          style: Theme.of(context).textTheme.headlineMedium)),
                   Spacer(),
                   TextField(
                     // decoration:
@@ -453,7 +438,8 @@ class _NewWorkout extends State<NewWorkout> {
                                 ? newWorkout.getNumExercises() - 1
                                 : changeIndex);
                           },
-                          child: Text("Save")),
+                          child: Text("Save",
+                              style: Theme.of(context).textTheme.titleLarge)),
                       Spacer(
                         flex: 3,
                       ),
@@ -468,4 +454,18 @@ class _NewWorkout extends State<NewWorkout> {
       },
     );
   }
+}
+
+//Used for removing the shadow when re-ordering exercises
+Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
+  return AnimatedBuilder(
+    animation: animation,
+    builder: (BuildContext context, Widget? child) {
+      return Material(
+        color: Colors.transparent,
+        child: child,
+      );
+    },
+    child: child,
+  );
 }

@@ -99,14 +99,18 @@ class _WorkoutPage extends State<WorkoutPage> {
               Spacer(),
               Container(
                 padding: const EdgeInsets.all(5.0),
-                child: Text((i + 1).toString(),
-                    style: Theme.of(context).textTheme.headline1),
+                child: Text(
+                  (i + 1).toString(),
+                  style: TextStyle(fontSize: 28),
+                ),
               ),
               Spacer(),
               Container(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(currentWorkout.reps[exerciseIndex][i].toString(),
-                    style: Theme.of(context).textTheme.headline1),
+                child: Text(
+                  currentWorkout.reps[exerciseIndex][i].toString(),
+                  style: TextStyle(fontSize: 28),
+                ),
               ),
               Spacer(),
               Container(
@@ -341,17 +345,20 @@ class _WorkoutPage extends State<WorkoutPage> {
                                   child: Row(
                                     children: [
                                       Spacer(),
-                                      Text("  Set ",
-                                          style: GoogleFonts.quicksand(
-                                              fontSize: 28)),
+                                      Text(
+                                        "  Set ",
+                                        style: TextStyle(fontSize: 28),
+                                      ),
                                       Spacer(),
-                                      Text("Reps",
-                                          style: GoogleFonts.quicksand(
-                                              fontSize: 28)),
+                                      Text(
+                                        "Reps",
+                                        style: TextStyle(fontSize: 28),
+                                      ),
                                       Spacer(),
-                                      Text("Weight ",
-                                          style: GoogleFonts.quicksand(
-                                              fontSize: 28)),
+                                      Text(
+                                        "Weight ",
+                                        style: TextStyle(fontSize: 28),
+                                      ),
                                       Spacer(),
                                     ],
                                   ),
@@ -370,33 +377,46 @@ class _WorkoutPage extends State<WorkoutPage> {
                             ),
                           ),
                           SizedBox(height: size.height / 50),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                gradient: LinearGradient(
-                                    colors: GradientColors.blackGray)),
-                            child: FloatingActionButton.extended(
-                                backgroundColor: Colors.transparent,
-                                heroTag: "tg1",
-                                onPressed: (() {
-                                  setState(() {
-                                    index++;
-                                    if (index <
-                                        currentWorkout.getNumExercises()) {
-                                      selectedExercise =
-                                          currentWorkout.exercises[index];
-                                      getRows(selectedExercise);
-                                      updateProgress();
-                                    }
-                                  });
-                                }),
-                                label: Text(
-                                    style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 24,
-                                        color: Colors.white),
-                                    "Next exercise")),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(0.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
+                            onPressed: (() {
+                              setState(() {
+                                index++;
+                                if (index < currentWorkout.getNumExercises()) {
+                                  selectedExercise =
+                                      currentWorkout.exercises[index];
+                                  getRows(selectedExercise);
+                                  updateProgress();
+                                }
+                              });
+                            }),
+                            child: Ink(
+                              decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                      colors: GradientColors.royalBlue),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0))),
+                              child: Container(
+                                padding: EdgeInsets.all(15),
+                                constraints: const BoxConstraints(
+                                    maxWidth: 250.0,
+                                    minHeight:
+                                        35.0), // min sizes for Material buttons
+                                alignment: Alignment.center,
+                                child: Text(
+                                  style: TextStyle(fontSize: 26),
+                                  "Next exercise",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
                           ),
+                          // ),
                         ],
                       ),
                     )

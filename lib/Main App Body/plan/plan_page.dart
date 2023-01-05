@@ -78,72 +78,123 @@ class _PlanPage extends State<PlanPage> {
         ?.insertItem(0, duration: const Duration(milliseconds: 200));
   }
 
-  Widget slideIt(BuildContext context, int index, animation) {
-    return Container(
-      margin: EdgeInsets.only(top: 7, left: 15, right: 15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        gradient: LinearGradient(colors: primary),
-      ),
-      child: Row(
-        children: [
-          Spacer(),
-          Text(
-            currentUser.userWorkouts[index].getName(),
-          ),
-          Spacer(),
-          ElevatedButton(
-              onPressed: () {
-                newWorkout(context, index);
-              },
-              child: Text("Edit")),
-          Spacer(),
-          IconButton(
-            onPressed: () {
-              setState(() {
-                currentWorkout = currentUser.userWorkouts[index];
-              });
-            },
-            icon: Icon(Icons.check_box_outline_blank),
-          ),
-          Spacer(),
-        ],
-      ),
-    );
-  }
+  // Widget slideIt(BuildContext context, int index) {
+  //   return Container(
+  //     margin: EdgeInsets.only(top: 10, left: 15, right: 15),
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(15.0),
+  //       gradient: LinearGradient(colors: primary),
+  //     ),
+  //     child: ElevatedButton(
+  //       style: OutlinedButton.styleFrom(
+  //         backgroundColor: Colors.transparent,
+  //         shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.all(Radius.circular(15))),
+  //       ),
+  //       onPressed: () {
+  //         newWorkout(context, index);
+  //       },
+  //       child: Row(
+  //         children: [
+  //           Spacer(),
+  //           Container(
+  //             child: Text(
+  //               currentUser.userWorkouts[index].getName(),
+  //               style: TextStyle(fontSize: 20, color: Colors.white),
+  //             ),
+  //           ),
+  //           Spacer(),
+  //           IconButton(
+  //             onPressed: () {
+  //               setState(() {
+  //                 currentWorkout = currentUser.userWorkouts[index];
+  //               });
+  //             },
+  //             icon: Icon(Icons.check_box_outline_blank),
+  //           ),
+  //           Spacer(),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Navigator(
       onGenerateRoute: (settings) {
         return MaterialPageRoute(
-            builder: (_) => MaterialApp(
-                  title: 'Welcome to Flutter',
-                  home: Scaffold(
-                    backgroundColor: Color.fromARGB(255, 230, 230, 230),
-                    appBar: MyAppBar(context, true),
-                    body: Container(
-                        child: Column(
-                      children: [
+            builder: (_) => Scaffold(
+                  backgroundColor: Color.fromARGB(255, 230, 230, 230),
+                  appBar: MyAppBar(context, true),
+                  body: ReorderableListView(
+                    proxyDecorator: proxyDecorator,
+                    key: listKey,
+                    onReorder: (int oldIndex, int newIndex) {
+                      setState(() {
+                        if (oldIndex < newIndex) {
+                          newIndex -= 1;
+                        }
+                        if (newIndex >= currentUser.getNumWorkouts) {
+                          newIndex -= 1;
+                        }
+                        currentUser.moveWorkout(oldIndex, newIndex);
+                      });
+                    },
+                    children: <Widget>[
+                      for (int index = 0;
+                          index < currentUser.getUserWorkouts.length;
+                          index += 1)
                         Container(
-                            height: size.height - (size.height / 3),
-                            child: AnimatedList(
-                              key: listKey,
-                              initialItemCount:
-                                  currentUser.getUserWorkouts.length,
-                              itemBuilder: (context, index, animation) {
-                                return slideIt(
-                                    context, index, animation); // Refer step 3
-                              },
-                            )),
-                      ],
-                    )),
-                    floatingActionButton: FloatingActionButton(
-                      onPressed: () async {
-                        await pushWorkoutToDatabase(context);
-                      },
-                      child: Icon(Icons.add),
-                    ),
+                          key: Key('$index'),
+                          margin: EdgeInsets.only(top: 10, left: 15, right: 15),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            gradient: LinearGradient(colors: primary),
+                          ),
+                          child: ElevatedButton(
+                            style: OutlinedButton.styleFrom(
+                              padding: EdgeInsets.only(top: 10, bottom: 10),
+                              backgroundColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                            ),
+                            onPressed: () {
+                              newWorkout(context, index);
+                            },
+                            child: Row(
+                              children: [
+                                Spacer(),
+                                Container(
+                                  child: Text(
+                                    currentUser.userWorkouts[index].getName(),
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white),
+                                  ),
+                                ),
+                                Spacer(),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      currentWorkout =
+                                          currentUser.userWorkouts[index];
+                                    });
+                                  },
+                                  icon: Icon(Icons.check_box_outline_blank),
+                                ),
+                                Spacer(),
+                              ],
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
+                  floatingActionButton: FloatingActionButton(
+                    onPressed: () async {
+                      await pushWorkoutToDatabase(context);
+                    },
+                    child: Icon(Icons.add),
                   ),
                 ));
       },

@@ -131,7 +131,7 @@ class _StopWatchState extends State<StopWatch>
           Text("Stopwatch",
               style: Theme.of(context)
                   .textTheme
-                  .headline2
+                  .headlineMedium
                   ?.copyWith(color: Colors.white)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

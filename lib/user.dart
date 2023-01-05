@@ -13,6 +13,11 @@ class CurrentUser {
 
   List<Workout> userWorkouts = <Workout>[];
 
+  void moveWorkout(int oldIndex, int newIndex) {
+    Workout tempWorkout = userWorkouts.removeAt(oldIndex);
+    userWorkouts.insert(newIndex, tempWorkout);
+  }
+
   CurrentUser();
 
   String get getName => this.name;
@@ -36,6 +41,8 @@ class CurrentUser {
   set setLevel(level) => this.level = level;
 
   get getUserWorkouts => this.userWorkouts;
+
+  get getNumWorkouts => this.userWorkouts.length;
 
   set setUserWorkouts(userWorkouts) => this.userWorkouts = userWorkouts;
 
