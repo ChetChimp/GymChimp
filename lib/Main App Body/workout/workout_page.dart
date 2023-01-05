@@ -26,7 +26,7 @@ double multiplier = 0;
 bool checkVal = false;
 ScrollController scrollController = ScrollController();
 
-List<Color> secondary = GradientColors.purpleDivision;
+List<Color> secondary = GradientColors.happyAcid;
 List<Color> primary = GradientColors.royalBlue;
 
 TextStyle fontstyle(double size) {
@@ -90,8 +90,8 @@ class _WorkoutPage extends State<WorkoutPage> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
                 colors: secondary,
-                begin: Alignment.bottomRight,
-                end: Alignment.topLeft),
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight),
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Row(

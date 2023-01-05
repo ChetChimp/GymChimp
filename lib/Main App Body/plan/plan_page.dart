@@ -8,6 +8,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import '../app_bar.dart';
@@ -78,6 +80,41 @@ class _PlanPage extends State<PlanPage> {
         ?.insertItem(0, duration: const Duration(milliseconds: 200));
   }
 
+  Widget slideIt(BuildContext context, int index, animation) {
+    return Container(
+      margin: EdgeInsets.only(top: 7, left: 15, right: 15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        gradient: LinearGradient(colors: GradientColors.eternalConstance),
+      ),
+      child: Row(
+        children: [
+          Spacer(),
+          Text(
+            currentUser.userWorkouts[index].getName(),
+            style: GoogleFonts.montserrat(
+                fontWeight: FontWeight.w500, fontSize: 16, color: Colors.white),
+          ),
+          Spacer(),
+          ElevatedButton(
+              onPressed: () {
+                newWorkout(context, index);
+              },
+              child: Text("Edit")),
+          Spacer(),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                currentWorkout = currentUser.userWorkouts[index];
+              });
+            },
+            icon: Icon(Icons.check_box_outline_blank),
+          ),
+          Spacer(),
+        ],
+      ),
+    );
+  }
   // Widget slideIt(BuildContext context, int index) {
   //   return Container(
   //     margin: EdgeInsets.only(top: 10, left: 15, right: 15),
@@ -195,6 +232,26 @@ class _PlanPage extends State<PlanPage> {
                       await pushWorkoutToDatabase(context);
                     },
                     child: Icon(Icons.add),
+=======
+                            height: size.height - (size.height / 4),
+                            child: AnimatedList(
+                              key: listKey,
+                              initialItemCount:
+                                  currentUser.getUserWorkouts.length,
+                              itemBuilder: (context, index, animation) {
+                                return slideIt(
+                                    context, index, animation); // Refer step 3
+                              },
+                            )),
+                      ],
+                    )),
+                    floatingActionButton: FloatingActionButton(
+                      onPressed: () async {
+                        await pushWorkoutToDatabase(context);
+                      },
+                      child: Icon(Icons.add),
+                    ),
+>>>>>>> 11c7974e7eace6a7abbd928f88e0210a225e9bd3
                   ),
                 ));
       },

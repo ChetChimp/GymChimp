@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,17 +8,16 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:gymchimp/Main%20App%20Body/home_page.dart';
-import 'package:gymchimp/Main%20App%20Body/plan/plan_page.dart';
-import 'package:gymchimp/Main%20App%20Body/workout/exercise.dart';
 import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'new_workout.dart';
 import '../workout/workout.dart';
 import 'package:reorderables/reorderables.dart';
+import 'package:searchable_listview/searchable_listview.dart';
 
 import '../app_bar.dart';
+import 'plan_page.dart';
 
 class NewWorkout extends StatefulWidget {
   final String workoutName;
@@ -36,14 +36,120 @@ class _NewWorkout extends State<NewWorkout> {
   int index;
   Workout newWorkout = Workout("");
   _NewWorkout({required this.workoutName, required this.index});
+  List<Map<String, String>> data = [];
+  List<String> searchList = [];
+  List<String> difficultyList = [];
+  List<String> muscleList = [];
+
+  List<String> exerciseTempList = [];
+  List<String> difficultyTempList = [];
+  List<String> muscleTempList = [];
 
   @override
   void initState() {
     newWorkout = currentUser.userWorkouts[index];
+    readJson();
     super.initState();
   }
 
+  void filterSearchResults(String query) {
+    if (query.isNotEmpty) {
+      List<String> dummyListData = [];
+      List<String> dummyMuscleListData = [];
+      List<String> dummyDifficultyList = [];
+
+      searchList.forEach((element) {
+        int ind = searchList.indexOf(element);
+        if (element.toLowerCase().contains(query.toLowerCase()) ||
+            muscleList[ind].toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(element);
+          dummyMuscleListData.add(muscleList[ind]);
+          dummyDifficultyList.add(difficultyList[ind]);
+
+          setState(() {
+            exerciseTempList.clear();
+            muscleTempList.clear();
+            difficultyTempList.clear();
+
+            exerciseTempList.addAll(dummyListData);
+            muscleTempList.addAll(dummyMuscleListData);
+            difficultyTempList.addAll(dummyDifficultyList);
+          });
+          return;
+        }
+      });
+    } else {
+      setState(() {
+        exerciseTempList.clear();
+        muscleTempList.clear();
+        difficultyTempList.clear();
+
+        exerciseTempList.addAll(searchList);
+        muscleTempList.addAll(muscleList);
+        difficultyTempList.addAll(difficultyList);
+      });
+    }
+  }
+
+  Future<void> readJson() async {
+    final String response =
+        await rootBundle.loadString('json/exerciseList.json');
+    List map = await json.decode(response);
+    map.forEach(
+      (element) {
+        searchList.add(element['exercise']);
+        difficultyList.add(element['difficulty']);
+        muscleList.add(element['muscle']);
+
+        exerciseTempList.add(element['exercise']);
+        difficultyTempList.add(element['difficulty']);
+        muscleTempList.add(element['muscle']);
+
+        data.add({
+          'muscle': element['muscle'],
+          'exercise': element['exercise'],
+          "difficulty": element["difficulty"]
+        });
+      },
+    );
+  }
+
   TextEditingController exerciseNameField = new TextEditingController(text: "");
+
+  void editExerciseOnFirebase(int exerciseIndex, List reps, String name) async {
+    QuerySnapshot querySnapshot = await firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .doc(newWorkout.getName())
+        .collection('exercises')
+        .get();
+
+    List list = querySnapshot.docs;
+    list.forEach((element) async {
+      await firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('workouts')
+          .doc(newWorkout.getName())
+          .collection('exercises')
+          .doc(element.id)
+          .get()
+          .then((value) {
+        if (value.get('index') == exerciseIndex) {
+          firestore
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .collection('workouts')
+              .doc(newWorkout.getName())
+              .collection('exercises')
+              .doc(element.id)
+              .update({'name': name, 'reps': reps});
+          return;
+        }
+      });
+    });
+  }
 
   void firebaseRemoveExercise(int deleteIndex) async {
     QuerySnapshot querySnapshot = await firestore
@@ -65,7 +171,7 @@ class _NewWorkout extends State<NewWorkout> {
           .doc(element.id)
           .get()
           .then((value) {
-        if (value.get('name') == newWorkout.exercises[deleteIndex + 1]) {
+        if (value.get('index') == deleteIndex) {
           firestore
               .collection('users')
               .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -74,15 +180,22 @@ class _NewWorkout extends State<NewWorkout> {
               .collection('exercises')
               .doc(element.id)
               .delete();
+          setState(() {
+            newWorkout.removeExercise(deleteIndex);
+            updateExerciseIndexFirebase(0, 0);
+          });
+          return;
         }
       });
     });
-    newWorkout.removeExercise(deleteIndex);
   }
 
   void removeWorkout(BuildContext ctx) async {
+    for (int i = 0; i < newWorkout.exercises.length; i++) {
+      firebaseRemoveExercise(i);
+    }
     await firestore.runTransaction((Transaction myTransaction) async {
-      await myTransaction.delete(firestore
+      myTransaction.delete(firestore
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .collection('workouts')
@@ -147,11 +260,11 @@ class _NewWorkout extends State<NewWorkout> {
     });
 
     int i = 0;
-    while (list2.contains("Exercise " + i.toString())) {
+    while (list2.contains("Exercise $i")) {
       i++;
     }
 
-    String exerciseName = "Exercise " + i.toString();
+    String exerciseName = "Exercise $i";
     firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -301,8 +414,10 @@ class _NewWorkout extends State<NewWorkout> {
       )),
       context: ctx,
       builder: (BuildContext context) {
+        Size size = MediaQuery.of(context).size;
+
         return FractionallySizedBox(
-          heightFactor: 0.7,
+          heightFactor: 0.9,
           child: StatefulBuilder(
               builder: (BuildContext context, StateSetter setModalState) {
             return Container(
@@ -316,17 +431,55 @@ class _NewWorkout extends State<NewWorkout> {
                       margin: EdgeInsets.all(30),
                       child: Text(title,
                           style: Theme.of(context).textTheme.headlineMedium)),
-                  Spacer(),
                   TextField(
                     // decoration:
                     //     InputDecoration(labelText: name, fillColor: Colors.black),
                     controller: exerciseNameField,
                     onChanged: (value) {
-                      newName = value;
+                      setModalState(() {
+                        filterSearchResults(value);
+                      });
                     },
+                    decoration: const InputDecoration(
+                      labelText: "Search",
+                      hintText: "Search",
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(25.0))),
+                    ),
                   ),
-                  Spacer(),
                   Container(
+                    height: size.height / 4.5,
+                    child: ListView.builder(
+                      itemCount: exerciseTempList.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(exerciseTempList[index]),
+                          // ignore: prefer_interpolation_to_compose_strings
+                          subtitle: Text(difficultyTempList[index] +
+                              "   |   "
+                                  '${muscleTempList[index]}'),
+                          onTap: () {
+                            setModalState(
+                              () {
+                                setState(() {
+                                  newName = exerciseNameField.text =
+                                      exerciseTempList[index];
+                                });
+                              },
+                            );
+                          },
+                          trailing: IconButton(
+                            icon: const Icon(Icons.info_outline),
+                            onPressed: () {},
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const Spacer(),
+                  SizedBox(
                     height: 200,
                     child: ListView(
                       padding: EdgeInsets.all(8),
@@ -361,7 +514,7 @@ class _NewWorkout extends State<NewWorkout> {
                       ],
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     children: <Widget>[
                       Spacer(
@@ -402,7 +555,7 @@ class _NewWorkout extends State<NewWorkout> {
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                         Navigator.pop(ctx);
-                                        setState(() async {
+                                        setState(() {
                                           if (changeIndex != -1) {
                                             firebaseRemoveExercise(changeIndex);
                                           }
@@ -425,18 +578,30 @@ class _NewWorkout extends State<NewWorkout> {
                               primary: Colors.blue,
                               minimumSize: Size(150, 75)),
                           onPressed: () {
-                            Navigator.pop(context);
                             setState(() {
-                              if (changeIndex == -1) {
-                                newWorkout.addExercise(newName, reps);
-                              } else {
-                                newWorkout.renameExercise(changeIndex, newName);
-                                newWorkout.setReps(changeIndex, reps);
+                              if (newName.isNotEmpty) {
+                                setModalState(
+                                  () {
+                                    filterSearchResults("");
+                                    exerciseNameField.text = "";
+                                  },
+                                );
+                                Navigator.pop(context);
+                                if (changeIndex == -1) {
+                                  newWorkout.addExercise(newName, reps);
+                                  pushExerciseToWorkoutFirebase(
+                                      changeIndex == -1
+                                          ? newWorkout.getNumExercises() - 1
+                                          : changeIndex);
+                                } else {
+                                  newWorkout.renameExercise(
+                                      changeIndex, newName);
+                                  newWorkout.setReps(changeIndex, reps);
+                                  editExerciseOnFirebase(
+                                      changeIndex, reps, newName);
+                                }
                               }
                             });
-                            pushExerciseToWorkoutFirebase(changeIndex == -1
-                                ? newWorkout.getNumExercises() - 1
-                                : changeIndex);
                           },
                           child: Text("Save",
                               style: Theme.of(context).textTheme.titleLarge)),
