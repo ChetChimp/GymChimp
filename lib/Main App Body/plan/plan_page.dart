@@ -232,26 +232,6 @@ class _PlanPage extends State<PlanPage> {
                       await pushWorkoutToDatabase(context);
                     },
                     child: Icon(Icons.add),
-=======
-                            height: size.height - (size.height / 4),
-                            child: AnimatedList(
-                              key: listKey,
-                              initialItemCount:
-                                  currentUser.getUserWorkouts.length,
-                              itemBuilder: (context, index, animation) {
-                                return slideIt(
-                                    context, index, animation); // Refer step 3
-                              },
-                            )),
-                      ],
-                    )),
-                    floatingActionButton: FloatingActionButton(
-                      onPressed: () async {
-                        await pushWorkoutToDatabase(context);
-                      },
-                      child: Icon(Icons.add),
-                    ),
->>>>>>> 11c7974e7eace6a7abbd928f88e0210a225e9bd3
                   ),
                 ));
       },
