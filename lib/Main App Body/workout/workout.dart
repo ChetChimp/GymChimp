@@ -41,6 +41,9 @@ class Workout {
   }
 
   String getExercise(int index) {
+    if (exercises.isEmpty) {
+      return "";
+    }
     return exercises[index];
   }
 

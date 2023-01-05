@@ -42,6 +42,23 @@ class CurrentUser {
 
   get getUserWorkouts => this.userWorkouts;
 
+  List<String> getUserWorkoutsString() {
+    List<String> userWorkoutsString = <String>[];
+    for (Workout w in userWorkouts) {
+      userWorkoutsString.add(w.name);
+    }
+    return userWorkoutsString;
+  }
+
+  Workout getWorkoutByName(String? name) {
+    for (Workout w in userWorkouts) {
+      if (w.getName() == name) {
+        return w;
+      }
+    }
+    return Workout("Empty Workout");
+  }
+
   get getNumWorkouts => this.userWorkouts.length;
 
   set setUserWorkouts(userWorkouts) => this.userWorkouts = userWorkouts;

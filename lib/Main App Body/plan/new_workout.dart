@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -578,6 +579,11 @@ class _NewWorkout extends State<NewWorkout> {
                               primary: Colors.blue,
                               minimumSize: Size(150, 75)),
                           onPressed: () {
+                            if (currentWorkout.getName() ==
+                                newWorkout.getName()) {
+                              workoutState(newWorkout);
+                            }
+
                             setState(() {
                               if (newName.isNotEmpty) {
                                 setModalState(

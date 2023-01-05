@@ -18,7 +18,9 @@ class WorkoutPage extends StatefulWidget {
   State<WorkoutPage> createState() => _WorkoutPage();
 }
 
-Workout currentWorkout = Workout("test workout");
+Function workoutState = () {};
+
+Workout currentWorkout = Workout("Select Workout");
 String selectedExercise = "";
 List<TextEditingController> controllers = [];
 int index = 0;
@@ -43,7 +45,16 @@ class _WorkoutPage extends State<WorkoutPage> {
   void initState() {
     getRows(selectedExercise);
     updateProgress();
+    workoutState = setWorkout;
     super.initState();
+  }
+
+  void setWorkout(Workout w) {
+    setState(() {
+      currentWorkout = w;
+      getRows(currentWorkout.getExercise(0));
+      updateProgress();
+    });
   }
 
   int activepage = 0;
@@ -63,10 +74,10 @@ class _WorkoutPage extends State<WorkoutPage> {
   }
 
   void updateProgress() {
-    multiplier = currentWorkout.exercises.isEmpty
-        ? 0
-        : 1 / currentWorkout.exercises.length;
     setState(() {
+      multiplier = currentWorkout.exercises.isEmpty
+          ? 0
+          : 1 / currentWorkout.exercises.length;
       progress = multiplier * (index + 1);
     });
   }
@@ -306,6 +317,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                                     scrollbarRadius: Radius.circular(5),
                                     scrollbarThickness: 5,
                                     iconSize: 50,
+                                    dropdownMaxHeight: 400,
                                     iconEnabledColor: Colors.white,
                                     isExpanded: true,
                                     barrierColor: Color.fromARGB(45, 0, 0, 0),
@@ -377,41 +389,43 @@ class _WorkoutPage extends State<WorkoutPage> {
                             ),
                           ),
                           SizedBox(height: size.height / 50),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(0.0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: size.width / 5, right: size.width / 5),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.all(0.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
                               ),
-                            ),
-                            onPressed: (() {
-                              setState(() {
-                                index++;
-                                if (index < currentWorkout.getNumExercises()) {
-                                  selectedExercise =
-                                      currentWorkout.exercises[index];
-                                  getRows(selectedExercise);
-                                  updateProgress();
-                                }
-                              });
-                            }),
-                            child: Ink(
-                              decoration: const BoxDecoration(
+                              onPressed: (() {
+                                setState(() {
+                                  index++;
+                                  if (index <
+                                      currentWorkout.getNumExercises()) {
+                                    selectedExercise =
+                                        currentWorkout.exercises[index];
+                                    getRows(selectedExercise);
+                                    updateProgress();
+                                  }
+                                });
+                              }),
+                              child: Ink(
+                                decoration: const BoxDecoration(
                                   gradient: LinearGradient(
                                       colors: GradientColors.royalBlue),
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(30.0))),
-                              child: Container(
-                                padding: EdgeInsets.all(15),
-                                constraints: const BoxConstraints(
-                                    maxWidth: 250.0,
-                                    minHeight:
-                                        35.0), // min sizes for Material buttons
-                                alignment: Alignment.center,
-                                child: Text(
-                                  style: TextStyle(fontSize: 26),
-                                  "Next exercise",
-                                  textAlign: TextAlign.center,
+                                      BorderRadius.all(Radius.circular(30.0)),
+                                ),
+                                child: Container(
+                                  padding: EdgeInsets.all(15),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    style: TextStyle(fontSize: 26),
+                                    "Next exercise",
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                             ),

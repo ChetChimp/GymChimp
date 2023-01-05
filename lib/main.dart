@@ -182,6 +182,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // Define the default brightness and colors.
 
+/*
+          EXAMPLE USAGE:
+                  style: Theme.of(context).textTheme.titleLarge,
+
+                  To make color changes:
+                  ?.copyWith(color: Theme.of(context).colorScheme.primary)),
+          */
         colorScheme: ColorScheme.fromSeed(
             seedColor: Color.fromARGB(255, 157, 191, 255),
             secondary: Color.fromARGB(255, 44, 57, 64)),
