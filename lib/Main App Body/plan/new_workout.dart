@@ -343,7 +343,7 @@ class _NewWorkout extends State<NewWorkout> {
                             Spacer(),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.white,
+                                  backgroundColor: Colors.transparent,
                                   side: BorderSide(color: Colors.transparent)),
                               child: Icon(Icons.edit),
                               onPressed: () {

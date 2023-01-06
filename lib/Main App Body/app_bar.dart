@@ -65,7 +65,7 @@ class _MyAppBarState extends State<MyAppBar> {
         Spacer(),
         if (screenName == "workout_page")
           Container(
-            width: MediaQuery.of(ctx).size.width * 3 / 5,
+            width: MediaQuery.of(ctx).size.width * 5 / 10,
             height: 10,
             //padding: EdgeInsets.all(0),
             //padding: EdgeInsets.all(10),
@@ -73,33 +73,45 @@ class _MyAppBarState extends State<MyAppBar> {
               child: DropdownButton2(
                 //buttonPadding: EdgeInsets.all(0),
                 buttonDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  gradient: LinearGradient(colors: GradientColors.royalBlue),
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.white,
+                  // gradient: LinearGradient(colors: GradientColors.royalBlue),
                 ),
                 scrollbarAlwaysShow: true,
                 scrollbarRadius: Radius.circular(5),
                 scrollbarThickness: 5,
                 iconSize: 50,
-                iconEnabledColor: Colors.white,
+                iconEnabledColor: accentColor,
+                icon: Visibility(
+                    visible: false, child: Icon(Icons.arrow_downward)),
                 isExpanded: true,
                 dropdownMaxHeight: 150,
                 barrierColor: Color.fromARGB(45, 0, 0, 0),
-                hint: Text(
-                  currentWorkout.getName(),
-                  style: TextStyle(color: Colors.white),
+                hint: Center(
+                  //child: FittedBox(
+                  //fit: BoxFit.fitWidth,
+                  child: Text(
+                    currentWorkout.getName(),
+                    style: TextStyle(color: accentColor),
+                    //textAlign: TextAlign.center,
+                  ),
+                  //),
                 ),
                 items: currentUser
                     .getUserWorkoutsString()
                     .map((item) => DropdownMenuItem<String>(
                           value: item,
+                          //child: FittedBox(
+                          //fit: BoxFit.fitWidth,
                           child: Text(
                             item,
-                            style: const TextStyle(
-                              fontSize: 20,
+                            style: TextStyle(
+                              //fontSize: 20,
                               color: Color.fromARGB(255, 0, 0, 0),
                             ),
-                            overflow: TextOverflow.ellipsis,
+                            //overflow: TextOverflow.ellipsis,
                           ),
+                          //),
                         ))
                     .toList(),
                 onChanged: ((String? value) {
