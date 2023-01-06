@@ -96,10 +96,7 @@ class _PlanPage extends State<PlanPage> {
         return MaterialPageRoute(
             builder: (_) => Scaffold(
                   backgroundColor: Theme.of(context).colorScheme.background,
-                  appBar: MyAppBar(
-                    context,
-                    true,
-                  ),
+                  appBar: MyAppBar(context, true, false),
                   body: ReorderableListView(
                       proxyDecorator: proxyDecorator,
                       key: listKey,
@@ -120,10 +117,11 @@ class _PlanPage extends State<PlanPage> {
                           key: Key('$index'),
                           margin: EdgeInsets.only(top: 10, left: 15, right: 15),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            gradient: LinearGradient(colors: primaryGradient),
-                          ),
-                          child: ElevatedButton(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: Colors.white
+                              // gradient: LinearGradient(colors: primaryGradient),
+                              ),
+                          child: TextButton(
                             style: OutlinedButton.styleFrom(
                               padding: EdgeInsets.only(top: 10, bottom: 10),
                               backgroundColor: Colors.transparent,
@@ -141,18 +139,8 @@ class _PlanPage extends State<PlanPage> {
                                   child: Text(
                                     currentUser.userWorkouts[index].getName(),
                                     style: TextStyle(
-                                        fontSize: 20, color: Colors.white),
+                                        fontSize: 20, color: accentColor),
                                   ),
-                                ),
-                                Spacer(),
-                                IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      currentWorkout =
-                                          currentUser.userWorkouts[index];
-                                    });
-                                  },
-                                  icon: Icon(Icons.check_box_outline_blank),
                                 ),
                                 Spacer(),
                               ],

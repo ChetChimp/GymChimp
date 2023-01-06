@@ -157,7 +157,7 @@ class _NewWorkout extends State<NewWorkout> {
     });
   }
 
-  void firebaseRemoveExercise(int deleteIndex) async {
+  void firebaseRemoveExercise(int deleteIndex, bool removeAll) async {
     QuerySnapshot querySnapshot = await firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -187,8 +187,14 @@ class _NewWorkout extends State<NewWorkout> {
               .doc(element.id)
               .delete();
           setState(() {
-            newWorkout.removeExercise(deleteIndex);
-            updateExerciseIndexFirebase(0, 0);
+            if (removeAll) {
+              newWorkout.removeExercise(0);
+            } else {
+              newWorkout.removeExercise(deleteIndex);
+            }
+            if (newWorkout.exercises.isNotEmpty) {
+              updateExerciseIndexFirebase();
+            }
           });
           return;
         }
@@ -197,8 +203,10 @@ class _NewWorkout extends State<NewWorkout> {
   }
 
   void removeWorkout(BuildContext ctx) async {
-    for (int i = 0; i < newWorkout.exercises.length; i++) {
-      firebaseRemoveExercise(i);
+    int i = 0;
+    while (i < newWorkout.exercises.length) {
+      firebaseRemoveExercise(i, true);
+      i++;
     }
     await firestore.runTransaction((Transaction myTransaction) async {
       myTransaction.delete(firestore
@@ -215,7 +223,7 @@ class _NewWorkout extends State<NewWorkout> {
     return Container(child: Text("bitch"));
   }
 
-  void updateExerciseIndexFirebase(int index, int newIndex) async {
+  void updateExerciseIndexFirebase() async {
     QuerySnapshot querySnapshot = await firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -225,7 +233,8 @@ class _NewWorkout extends State<NewWorkout> {
         .get();
 
     List list = querySnapshot.docs;
-    list.forEach((element) async {
+    int i = 0;
+    for (var element in list) {
       await firestore
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -234,17 +243,26 @@ class _NewWorkout extends State<NewWorkout> {
           .collection('exercises')
           .doc(element.id)
           .get()
-          .then((value) {
-        firestore
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('workouts')
-            .doc(newWorkout.getName())
-            .collection('exercises')
-            .doc(element.id)
-            .update({'index': newWorkout.exercises.indexOf(value.get('name'))});
+          .then((value) async {
+        if (i < newWorkout.exercises.length) {
+          firestore
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .collection('workouts')
+              .doc(newWorkout.getName())
+              .collection('exercises')
+              .doc(element.id)
+              .update({
+            'index': i,
+            'name': newWorkout.exercises[i],
+            'reps': newWorkout.reps[i]
+          });
+          i++;
+        } else {
+          return;
+        }
       });
-    });
+    }
   }
 
   void pushExerciseToWorkoutFirebase(int indx) async {
@@ -278,142 +296,151 @@ class _NewWorkout extends State<NewWorkout> {
         .set({
       'name': newWorkout.getExercise(indx),
       'reps': newWorkout.getReps(indx),
-      'index': i
+      'index': newWorkout.exercises.length - 1
     });
   }
 
   Widget build(BuildContext ctx) {
     Size size = MediaQuery.of(context).size;
-    print(size.width);
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: MyAppBar(context, true),
-      body: Container(
-        child: Column(
-          children: [
-            Container(
-              height: size.height * (3.6 / 5),
-              child: ReorderableListView(
-                proxyDecorator: proxyDecorator,
-                onReorder: (int oldIndex, int newIndex) {
-                  setState(() {
-                    if (oldIndex < newIndex) {
-                      newIndex -= 1;
-                    }
-                    if (newIndex >= newWorkout.getNumExercises()) {
-                      newIndex -= 1;
-                    }
-                    newWorkout.moveExercise(oldIndex, newIndex);
-
-                    updateExerciseIndexFirebase(newIndex, oldIndex);
-                  });
-                },
-                padding: EdgeInsets.all(8),
-                children: <Widget>[
-                  for (int index = 0;
-                      index < newWorkout.getNumExercises();
-                      index += 1)
-                    Container(
-                      padding: EdgeInsets.all(2),
-                      key: Key('$index'),
-                      height: size.height / 10,
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
-                        ),
-                        onPressed: () {},
-                        child: Row(
-                          children: [
-                            Icon(Icons.drag_indicator),
-                            Spacer(),
-                            Container(
-                                width: size.width / 3,
-                                child: Text(
-                                  newWorkout.getExercise(index),
-                                )),
-                            Spacer(),
-                            Text("Sets: "),
-                            Container(
-                                width: size.width / 6,
-                                child:
-                                    Text(newWorkout.getReps(index).toString())),
-                            Spacer(),
-                            OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  side: BorderSide(color: Colors.transparent)),
-                              child: Icon(Icons.edit),
-                              onPressed: () {
-                                modifyExercise(ctx,
-                                    '${newWorkout.getExercise(index)}', index);
-                              },
-                            ),
+    return Navigator(onGenerateRoute: (settings) {
+      return MaterialPageRoute(
+          builder: (_) => Scaffold(
+                backgroundColor: backgroundGrey,
+                appBar: MyAppBar(context, true, false),
+                body: Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: size.height * (3.6 / 5),
+                        child: ReorderableListView(
+                          proxyDecorator: proxyDecorator,
+                          onReorder: (int oldIndex, int newIndex) {
+                            setState(() {
+                              if (oldIndex < newIndex) {
+                                newIndex -= 1;
+                              }
+                              if (newIndex >= newWorkout.getNumExercises()) {
+                                newIndex -= 1;
+                              }
+                              newWorkout.moveExercise(oldIndex, newIndex);
+                              if (newWorkout.exercises.isNotEmpty) {
+                                updateExerciseIndexFirebase();
+                              }
+                            });
+                          },
+                          padding: EdgeInsets.all(8),
+                          children: <Widget>[
+                            for (int index = 0;
+                                index < newWorkout.getNumExercises();
+                                index += 1)
+                              Container(
+                                padding: EdgeInsets.all(2),
+                                key: Key('$index'),
+                                height: size.height / 10,
+                                child: OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15))),
+                                  ),
+                                  onPressed: () {},
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.drag_indicator),
+                                      Spacer(),
+                                      Container(
+                                          width: size.width / 3,
+                                          child: Text(
+                                            newWorkout.getExercise(index),
+                                          )),
+                                      Spacer(),
+                                      Text("Sets: "),
+                                      Container(
+                                          width: size.width / 6,
+                                          child: Text(newWorkout
+                                              .getReps(index)
+                                              .toString())),
+                                      Spacer(),
+                                      OutlinedButton(
+                                        style: OutlinedButton.styleFrom(
+                                            backgroundColor: Colors.white,
+                                            side: BorderSide(
+                                                color: Colors.transparent)),
+                                        child: Icon(Icons.edit),
+                                        onPressed: () {
+                                          modifyExercise(
+                                              ctx,
+                                              '${newWorkout.getExercise(index)}',
+                                              index);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
                       ),
-                    ),
-                ],
-              ),
-            ),
-            Container(
-                //Add Button
-                padding: EdgeInsets.only(left: 10, right: 10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15))),
-                key: Key("-1"),
-                height: size.height / 8,
-                child: Column(
-                  children: [
-                    Spacer(),
-                    GestureDetector(
-                      onLongPress:
-                          () {}, //Ensures that the plus button cannot be moved
-                      child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Colors.white,
+                      Container(
+                          //Add Button
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                          key: Key("-1"),
+                          height: size.height / 8,
+                          child: Column(
+                            children: [
+                              Spacer(),
+                              GestureDetector(
+                                onLongPress:
+                                    () {}, //Ensures that the plus button cannot be moved
+                                child: OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      modifyExercise(ctx, "", -1);
+                                    },
+                                    child: Center(
+                                      child: Icon(Icons.add),
+                                    )),
+                              ),
+                              Container(
+                                width: size.width / 2,
+                                child: GestureDetector(
+                                  onLongPress:
+                                      () {}, //Ensures that the plus button cannot be moved
+                                  child: OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          removeWorkout(context);
+                                        });
+                                      },
+                                      child: Row(
+                                        children: const [
+                                          Spacer(),
+                                          Text("Delete Workout",
+                                              style:
+                                                  TextStyle(color: Colors.red)),
+                                          Spacer(),
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            ],
+                          ) //),
                           ),
-                          onPressed: () {
-                            modifyExercise(ctx, "", -1);
-                          },
-                          child: Center(
-                            child: Icon(Icons.add),
-                          )),
-                    ),
-                    Container(
-                      width: size.width / 2,
-                      child: GestureDetector(
-                        onLongPress:
-                            () {}, //Ensures that the plus button cannot be moved
-                        child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                removeWorkout(context);
-                              });
-                            },
-                            child: Row(
-                              children: const [
-                                Spacer(),
-                                Text("Delete Workout",
-                                    style: TextStyle(color: Colors.red)),
-                                Spacer(),
-                              ],
-                            )),
-                      ),
-                    ),
-                  ],
-                ) //),
+                      Spacer(),
+                    ],
+                  ),
                 ),
-            Spacer(),
-          ],
-        ),
-      ),
-    );
+              ));
+    });
   }
 
 /*
@@ -589,7 +616,8 @@ class _NewWorkout extends State<NewWorkout> {
                                         Navigator.pop(ctx);
                                         setState(() {
                                           if (changeIndex != -1) {
-                                            firebaseRemoveExercise(changeIndex);
+                                            firebaseRemoveExercise(
+                                                changeIndex, false);
                                           }
                                         });
                                       },
@@ -629,7 +657,7 @@ class _NewWorkout extends State<NewWorkout> {
                                   pushExerciseToWorkoutFirebase(
                                       changeIndex == -1
                                           ? newWorkout.getNumExercises() - 1
-                                          : changeIndex);
+                                          : changeIndex + 1);
                                 } else {
                                   newWorkout.renameExercise(
                                       changeIndex, newName);
@@ -637,6 +665,7 @@ class _NewWorkout extends State<NewWorkout> {
                                   editExerciseOnFirebase(
                                       changeIndex, reps, newName);
                                 }
+                                updateExerciseIndexFirebase();
                               }
                             });
                           },

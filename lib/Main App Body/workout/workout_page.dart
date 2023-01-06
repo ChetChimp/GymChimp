@@ -134,7 +134,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                 child: TextFormField(
                     controller: controllers[i],
                     textAlign: TextAlign.center,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       contentPadding: EdgeInsets.symmetric(vertical: 5),
                       // hintText: test.exercises[listIndex]![i].toString(),
@@ -157,7 +157,7 @@ class _WorkoutPage extends State<WorkoutPage> {
     return Navigator(onGenerateRoute: (settings) {
       return MaterialPageRoute(
         builder: (_) => Scaffold(
-          appBar: MyAppBar(context, true),
+          appBar: MyAppBar(context, true, true),
           backgroundColor: backgroundGrey,
           body: RefreshIndicator(
             displacement: 0,
@@ -194,22 +194,10 @@ class _WorkoutPage extends State<WorkoutPage> {
                                     items: [
                                       Container(
                                           decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                  color: Color.fromARGB(
-                                                      46, 0, 0, 0),
-                                                  offset: Offset(0.0, 5.0),
-                                                  blurRadius: 15.0),
-                                              BoxShadow(
-                                                  color: Color.fromARGB(
-                                                      46, 0, 0, 0),
-                                                  offset: Offset(0.0, -5.0),
-                                                  blurRadius: 10.0),
-                                            ],
-                                          ),
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                              boxShadow: shadow),
                                           margin: EdgeInsets.only(
                                               left: 10, right: 10),
                                           child: countdown()),
@@ -217,23 +205,12 @@ class _WorkoutPage extends State<WorkoutPage> {
                                           margin: EdgeInsets.only(
                                               left: 10, right: 10),
                                           decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                                colors: primaryGradient),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                  color: Color.fromARGB(
-                                                      46, 0, 0, 0),
-                                                  offset: Offset(0.0, 5.0),
-                                                  blurRadius: 15.0),
-                                              BoxShadow(
-                                                  color: Color.fromARGB(
-                                                      46, 0, 0, 0),
-                                                  offset: Offset(0.0, -5.0),
-                                                  blurRadius: 10.0),
-                                            ],
-                                          ),
+                                              color: Colors.white,
+                                              // gradient: LinearGradient(
+                                              //     colors: primaryGradient),
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                              boxShadow: shadow),
                                           child: StopWatch()),
                                     ],
                                     options: CarouselOptions(
@@ -286,7 +263,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                                 top: 5, bottom: 5, left: 17, right: 17),
                             child: GradientProgressIndicator(
                               gradient: LinearGradient(colors: [
-                                Color.fromARGB(255, 218, 218, 218),
+                                Color.fromARGB(255, 255, 255, 255),
                                 accentColor
                               ]),
                               value: progress,
@@ -314,6 +291,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                               children: [
                                 DropdownButtonHideUnderline(
                                   child: DropdownButton2(
+                                    buttonHeight: size.height / 14,
                                     buttonDecoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: accentColor,
@@ -322,14 +300,14 @@ class _WorkoutPage extends State<WorkoutPage> {
                                     scrollbarRadius: Radius.circular(5),
                                     scrollbarThickness: 5,
                                     iconSize: 50,
-                                    dropdownMaxHeight: 400,
+                                    dropdownMaxHeight: size.height / 3,
                                     iconEnabledColor: Colors.white,
                                     isExpanded: true,
                                     barrierColor: Color.fromARGB(45, 0, 0, 0),
                                     hint: Text(selectedExercise,
                                         style: GoogleFonts.sourceSansPro(
                                             color: Colors.white,
-                                            fontSize: 26,
+                                            fontSize: 21,
                                             fontWeight: FontWeight.w500)),
                                     items: currentWorkout.exercises
                                         .map((item) => DropdownMenuItem<String>(
@@ -360,7 +338,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                                 ),
                                 Container(
                                   child: Row(
-                                    children: [
+                                    children: const [
                                       Spacer(),
                                       Text(
                                         "  Set ",
@@ -440,7 +418,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                           // ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

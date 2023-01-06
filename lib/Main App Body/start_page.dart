@@ -38,7 +38,7 @@ Widget HomeTile(BuildContext context, int index, String title, Icon icon,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             minimumSize: Size(150, 150),
-            backgroundColor: Color.fromARGB(0, 0, 76, 199)),
+            backgroundColor: accentColor),
         onPressed: () {
           toHomePage(context, index);
         },
@@ -63,17 +63,6 @@ Widget HomeTile(BuildContext context, int index, String title, Icon icon,
 }
 
 Function holder = () {};
-
-List<BoxShadow> shadow = const [
-  BoxShadow(
-      color: Color.fromARGB(72, 0, 0, 0),
-      offset: Offset(0.0, 2.0),
-      blurRadius: 5.0),
-  BoxShadow(
-      color: Color.fromARGB(72, 0, 0, 0),
-      offset: Offset(0.0, -2.0),
-      blurRadius: 5.0),
-];
 
 void toHomePage(BuildContext ctx, int page) {
   Navigator.of(ctx).push(
@@ -129,27 +118,25 @@ class _StartPage extends State<StartPage> {
     return Container(
       decoration: backGround(),
       child: Scaffold(
-        appBar: MyAppBar(
-          context,
-          false,
-        ),
+        appBar: MyAppBar(context, false, false),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Container(
           child: Column(
             children: <Widget>[
               Spacer(flex: 1),
               Text(
-                "Welcome, $userName",
+                "Welcome, $userName!",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.quicksand(
                   textStyle: const TextStyle(
                       fontSize: 45,
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.w600,
                       color: Colors.black,
                       letterSpacing: .5,
                       decoration: TextDecoration.none),
                 ),
               ),
+              Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
