@@ -96,10 +96,7 @@ class _PlanPage extends State<PlanPage> {
         return MaterialPageRoute(
             builder: (_) => Scaffold(
                   backgroundColor: Theme.of(context).colorScheme.background,
-                  appBar: MyAppBar(
-                    context,
-                    true,
-                  ),
+                  appBar: MyAppBar(context, true, "plan_page"),
                   body: ReorderableListView(
                       proxyDecorator: proxyDecorator,
                       key: listKey,

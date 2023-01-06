@@ -157,7 +157,7 @@ class _WorkoutPage extends State<WorkoutPage> {
     return Navigator(onGenerateRoute: (settings) {
       return MaterialPageRoute(
         builder: (_) => Scaffold(
-          appBar: MyAppBar(context, true),
+          appBar: MyAppBar(context, true, "workout_page"),
           backgroundColor: backgroundGrey,
           body: RefreshIndicator(
             displacement: 0,

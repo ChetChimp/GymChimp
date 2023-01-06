@@ -23,11 +23,12 @@ void logOutUser(BuildContext ctx) {
 class MyAppBar extends StatefulWidget with PreferredSizeWidget {
   final ctx;
   final arrowEnabled;
+  final screenName;
 
-  MyAppBar(this.ctx, this.arrowEnabled) : super();
+  MyAppBar(this.ctx, this.arrowEnabled, this.screenName) : super();
 
   @override
-  _MyAppBarState createState() => _MyAppBarState(ctx, arrowEnabled);
+  _MyAppBarState createState() => _MyAppBarState(ctx, arrowEnabled, screenName);
 
   @override
   // TODO: implement preferredSize
@@ -38,7 +39,8 @@ class _MyAppBarState extends State<MyAppBar> {
   Widget middle = Spacer();
   final ctx;
   final arrowEnabled;
-  _MyAppBarState(this.ctx, this.arrowEnabled);
+  final screenName;
+  _MyAppBarState(this.ctx, this.arrowEnabled, this.screenName);
 
   @override
   Widget build(BuildContext context) {
@@ -61,53 +63,54 @@ class _MyAppBarState extends State<MyAppBar> {
               }
             }),
         Spacer(),
-        Container(
-          width: MediaQuery.of(ctx).size.width * 3 / 5,
-          height: 10,
-          //padding: EdgeInsets.all(0),
-          //padding: EdgeInsets.all(10),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton2(
-              //buttonPadding: EdgeInsets.all(0),
-              buttonDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                gradient: LinearGradient(colors: GradientColors.royalBlue),
-              ),
-              scrollbarAlwaysShow: true,
-              scrollbarRadius: Radius.circular(5),
-              scrollbarThickness: 5,
-              iconSize: 50,
-              iconEnabledColor: Colors.white,
-              isExpanded: true,
-              dropdownMaxHeight: 150,
-              barrierColor: Color.fromARGB(45, 0, 0, 0),
-              hint: Text(
-                currentWorkout.getName(),
-                style: TextStyle(color: Colors.white),
-              ),
-              items: currentUser
-                  .getUserWorkoutsString()
-                  .map((item) => DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 0, 0, 0),
+        if (screenName == "workout_page")
+          Container(
+            width: MediaQuery.of(ctx).size.width * 3 / 5,
+            height: 10,
+            //padding: EdgeInsets.all(0),
+            //padding: EdgeInsets.all(10),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton2(
+                //buttonPadding: EdgeInsets.all(0),
+                buttonDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  gradient: LinearGradient(colors: GradientColors.royalBlue),
+                ),
+                scrollbarAlwaysShow: true,
+                scrollbarRadius: Radius.circular(5),
+                scrollbarThickness: 5,
+                iconSize: 50,
+                iconEnabledColor: Colors.white,
+                isExpanded: true,
+                dropdownMaxHeight: 150,
+                barrierColor: Color.fromARGB(45, 0, 0, 0),
+                hint: Text(
+                  currentWorkout.getName(),
+                  style: TextStyle(color: Colors.white),
+                ),
+                items: currentUser
+                    .getUserWorkoutsString()
+                    .map((item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ))
-                  .toList(),
-              onChanged: ((String? value) {
-                setState(() {
-                  workoutState(
-                      currentWorkout = currentUser.getWorkoutByName(value));
-                });
-              }),
+                        ))
+                    .toList(),
+                onChanged: ((String? value) {
+                  setState(() {
+                    workoutState(
+                        currentWorkout = currentUser.getWorkoutByName(value));
+                  });
+                }),
+              ),
             ),
           ),
-        ),
         Spacer(),
         Container(
           child: PopupMenuButton(

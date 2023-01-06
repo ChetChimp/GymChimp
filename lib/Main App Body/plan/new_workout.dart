@@ -287,7 +287,7 @@ class _NewWorkout extends State<NewWorkout> {
     print(size.width);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: MyAppBar(context, true),
+      appBar: MyAppBar(context, true, "new_workout"),
       body: Container(
         child: Column(
           children: [

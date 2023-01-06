@@ -129,10 +129,7 @@ class _StartPage extends State<StartPage> {
     return Container(
       decoration: backGround(),
       child: Scaffold(
-        appBar: MyAppBar(
-          context,
-          false,
-        ),
+        appBar: MyAppBar(context, false, "start_page"),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Container(
           child: Column(
