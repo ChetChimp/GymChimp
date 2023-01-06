@@ -44,6 +44,17 @@ List<Color> secondaryGradient = GradientColors.happyAcid;
 List<Color> primaryGradient = GradientColors.royalBlue;
 Color backgroundGrey = Color.fromARGB(255, 221, 221, 221);
 Color accentColor = Color.fromARGB(255, 43, 94, 167);
+List<BoxShadow> shadow = const [
+  BoxShadow(
+      color: Color.fromARGB(72, 0, 0, 0),
+      offset: Offset(0.0, 2.0),
+      blurRadius: 5.0),
+  BoxShadow(
+      color: Color.fromARGB(72, 0, 0, 0),
+      offset: Offset(0.0, -2.0),
+      blurRadius: 5.0),
+];
+
 //***************************************************//
 //Global changepage method
 void changePage(BuildContext ctx, Widget page) {

@@ -9,6 +9,8 @@ import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import '../openingScreens/first_time_login.dart';
 import 'package:gymchimp/main.dart';
 
+import 'workout/workout.dart';
+
 void logOutUser(BuildContext ctx) {
   final auth = FirebaseAuth.instance;
   auth.signOut();
@@ -35,12 +37,26 @@ class MyAppBar extends StatefulWidget with PreferredSizeWidget {
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
 
+Function stateAddress = () {};
+
+List<DropdownMenuItem<String>> emptylist = [];
+
 class _MyAppBarState extends State<MyAppBar> {
   Widget middle = Spacer();
   final ctx;
   final arrowEnabled;
   final screenName;
   _MyAppBarState(this.ctx, this.arrowEnabled, this.screenName);
+
+  @override
+  void initState() {
+    stateAddress = setWorkoutListState;
+    super.initState();
+  }
+
+  void setWorkoutListState(Workout input) {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {

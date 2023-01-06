@@ -132,7 +132,7 @@ class _StopWatchState extends State<StopWatch>
               style: Theme.of(context)
                   .textTheme
                   .headlineMedium
-                  ?.copyWith(color: Colors.white)),
+                  ?.copyWith(color: accentColor)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -175,7 +175,7 @@ class _StopWatchState extends State<StopWatch>
                 splashRadius: .01,
                 icon: on
                     ? Icon(
-                        color: Colors.white,
+                        color: accentColor,
                         Icons.play_arrow_sharp,
                         size: size.width / 8,
                       )
@@ -198,6 +198,7 @@ class _StopWatchState extends State<StopWatch>
                   onPressed: _resetTimer,
                   icon: Icon(
                     Icons.replay_sharp,
+                    color: accentColor,
                     size: size.width / 10,
                   )),
               const Spacer(),
