@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:gymchimp/Main%20App%20Body/account_settings.dart';
 import 'package:gymchimp/Main%20App%20Body/home_page.dart';
+import 'package:gymchimp/Main%20App%20Body/start_page.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import '../openingScreens/first_time_login.dart';
 import 'package:gymchimp/main.dart';
@@ -64,20 +65,17 @@ class _MyAppBarState extends State<MyAppBar> {
       elevation: 0,
       backgroundColor: Colors.transparent,
       actions: <Widget>[
-        IconButton(
-            splashRadius: 1,
-            icon: Icon(Icons.arrow_back_outlined,
-                color: arrowEnabled ? Colors.black : Colors.transparent),
-            onPressed: () {
-              if (!arrowEnabled) {
-                return;
-              }
-              if (Navigator.of(ctx).canPop()) {
-                Navigator.of(ctx).pop();
-              } else {
-                Navigator.of(ctx, rootNavigator: true).pop();
-              }
-            }),
+        if (screenName != "start_page")
+          IconButton(
+              splashRadius: 1,
+              icon: Icon(Icons.arrow_back_outlined, color: Colors.black),
+              onPressed: () {
+                if (Navigator.of(ctx).canPop()) {
+                  Navigator.of(ctx).pop();
+                } else {
+                  Navigator.of(ctx, rootNavigator: true).pop();
+                }
+              }),
         Spacer(),
         if (screenName == "workout_page")
           Container(
