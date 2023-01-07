@@ -84,9 +84,6 @@ class _PlanPage extends State<PlanPage> {
         .collection('workouts')
         .doc(workoutName)
         .set({'name': workoutName});
-    setState(() {
-      currentUser.addWorkout(Workout(workoutName));
-    });
   }
 
   Widget build(BuildContext context) {
@@ -151,6 +148,12 @@ class _PlanPage extends State<PlanPage> {
                   floatingActionButton: FloatingActionButton(
                     onPressed: () async {
                       await pushWorkoutToDatabase(context);
+
+                      setState(() {
+                        currentUser.addWorkout(Workout(workoutName));
+                      });
+
+                      newWorkout(context, currentUser.getNumWorkouts - 1);
                     },
                     child: Icon(Icons.add),
                   ),

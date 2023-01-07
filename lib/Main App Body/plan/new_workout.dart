@@ -33,15 +33,13 @@ class NewWorkout extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<NewWorkout> createState() =>
-      _NewWorkout(workoutName: this.workoutName, index: this.index);
+  State<NewWorkout> createState() => _NewWorkout(index: this.index);
 }
 
 class _NewWorkout extends State<NewWorkout> {
-  String workoutName;
   int index;
   Workout newWorkout = Workout("");
-  _NewWorkout({required this.workoutName, required this.index});
+  _NewWorkout({required this.index});
   List<Map<String, String>> data = [];
   List<String> searchList = [];
   List<String> difficultyList = [];
