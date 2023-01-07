@@ -118,13 +118,13 @@ class _PlanPage extends State<PlanPage> {
                           margin: EdgeInsets.only(top: 10, left: 15, right: 15),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15.0),
-                              color: Colors.white
+                              color: Colors.transparent
                               // gradient: LinearGradient(colors: primaryGradient),
                               ),
                           child: TextButton(
                             style: OutlinedButton.styleFrom(
                               padding: EdgeInsets.only(top: 10, bottom: 10),
-                              backgroundColor: Colors.transparent,
+                              backgroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(15))),

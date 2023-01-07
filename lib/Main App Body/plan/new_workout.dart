@@ -364,7 +364,7 @@ class _NewWorkout extends State<NewWorkout> {
                                       Spacer(),
                                       OutlinedButton(
                                         style: OutlinedButton.styleFrom(
-                                            backgroundColor: Colors.white,
+                                            backgroundColor: Colors.transparent,
                                             side: BorderSide(
                                                 color: Colors.transparent)),
                                         child: Icon(Icons.edit),
@@ -487,57 +487,97 @@ class _NewWorkout extends State<NewWorkout> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Container(
+                      //New/Edit Exercise Title
                       margin: EdgeInsets.all(30),
                       child: Text(title,
                           style: Theme.of(context).textTheme.headlineMedium)),
-                  TextField(
-                    // decoration:
-                    //     InputDecoration(labelText: name, fillColor: Colors.black),
-                    controller: exerciseNameField,
-                    onChanged: (value) {
-                      setModalState(() {
-                        filterSearchResults(value);
-                      });
-                    },
-                    decoration: const InputDecoration(
-                      labelText: "Search",
-                      hintText: "Search",
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(25.0))),
+                  Container(
+                    margin: const EdgeInsets.only(
+                        top: 10, bottom: 10, left: 20, right: 20),
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Color.fromARGB(36, 0, 0, 0),
+                            offset: Offset(0.0, 5.0),
+                            blurRadius: 15.0),
+                        BoxShadow(
+                            color: Color.fromARGB(36, 0, 0, 0),
+                            offset: Offset(0.0, -5.0),
+                            blurRadius: 10.0),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        TextField(
+                          // decoration:
+                          //     InputDecoration(labelText: name, fillColor: Colors.black),
+                          controller: exerciseNameField,
+                          onChanged: (value) {
+                            setModalState(() {
+                              filterSearchResults(value);
+                            });
+                          },
+                          decoration: const InputDecoration(
+                            labelText: "Search",
+                            hintText: "Search",
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25.0))),
+                          ),
+                        ),
+                        Container(
+                          //live list of execises
+                          height: size.height / 3.75,
+                          child: ListView.builder(
+                            itemCount: exerciseTempList.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(exerciseTempList[index]),
+                                // ignore: prefer_interpolation_to_compose_strings
+                                subtitle: Text(difficultyTempList[index] +
+                                    "   |   "
+                                        '${muscleTempList[index]}'),
+                                onTap: () {
+                                  setModalState(
+                                    () {
+                                      setState(() {
+                                        newName = exerciseNameField.text =
+                                            exerciseTempList[index];
+                                      });
+                                    },
+                                  );
+                                },
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.info_outline),
+                                  onPressed: () {},
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Container(
-                    height: size.height / 3.75,
-                    child: ListView.builder(
-                      itemCount: exerciseTempList.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(exerciseTempList[index]),
-                          // ignore: prefer_interpolation_to_compose_strings
-                          subtitle: Text(difficultyTempList[index] +
-                              "   |   "
-                                  '${muscleTempList[index]}'),
-                          onTap: () {
-                            setModalState(
-                              () {
-                                setState(() {
-                                  newName = exerciseNameField.text =
-                                      exerciseTempList[index];
-                                });
-                              },
-                            );
-                          },
-                          trailing: IconButton(
-                            icon: const Icon(Icons.info_outline),
-                            onPressed: () {},
-                          ),
-                        );
-                      },
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Color.fromARGB(36, 0, 0, 0),
+                            offset: Offset(0.0, 5.0),
+                            blurRadius: 15.0),
+                        BoxShadow(
+                            color: Color.fromARGB(36, 0, 0, 0),
+                            offset: Offset(0.0, -5.0),
+                            blurRadius: 10.0),
+                      ],
                     ),
-                  ),
-                  SizedBox(
+                    alignment: Alignment.center,
                     width: size.width - 10,
                     height: size.height / 5.5,
                     child: ListView(
@@ -545,13 +585,16 @@ class _NewWorkout extends State<NewWorkout> {
                       children: [
                         for (int i = 0; i < reps.length; i++)
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text("Reps"),
+                              Text("Set " + (i + 1).toString()),
                               NumberPicker(
+                                haptics: true,
                                 value: reps[i],
                                 minValue: 0,
-                                maxValue: 100,
-                                itemHeight: 100,
+                                maxValue: 50,
+                                itemHeight: 75,
+                                itemWidth: 75,
                                 axis: Axis.horizontal,
                                 onChanged: (value) => setModalState(() {
                                   reps[i] = value;
@@ -561,9 +604,28 @@ class _NewWorkout extends State<NewWorkout> {
                                   border: Border.all(color: Colors.black26),
                                 ),
                               ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    setModalState(() {
+                                      if (reps.length <= 1) {
+                                        return null;
+                                      } else {
+                                        reps.removeAt(i);
+                                      }
+                                    });
+                                  },
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ))
                             ],
                           ),
                         ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                            ),
                             onPressed: () {
                               setModalState(() {
                                 reps.add(3);
@@ -630,47 +692,45 @@ class _NewWorkout extends State<NewWorkout> {
                           child: Text("Delete")),
                       Spacer(),
                       ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15))),
-                              padding: EdgeInsets.all(25),
-                              primary: Colors.blue,
-                              minimumSize: Size(150, 75)),
-                          onPressed: () {
-                            if (currentWorkout.getName() ==
-                                newWorkout.getName()) {
-                              workoutState(newWorkout);
-                            }
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
+                            padding: EdgeInsets.all(25),
+                            primary: Colors.blue,
+                            minimumSize: Size(150, 75)),
+                        onPressed: () {
+                          if (currentWorkout.getName() ==
+                              newWorkout.getName()) {
+                            workoutState(newWorkout);
+                          }
 
-                            setState(() {
-                              if (newName.isNotEmpty) {
-                                setModalState(
-                                  () {
-                                    filterSearchResults("");
-                                    exerciseNameField.text = "";
-                                  },
-                                );
-                                Navigator.pop(context);
-                                if (changeIndex == -1) {
-                                  newWorkout.addExercise(newName, reps);
-                                  pushExerciseToWorkoutFirebase(
-                                      changeIndex == -1
-                                          ? newWorkout.getNumExercises() - 1
-                                          : changeIndex + 1);
-                                } else {
-                                  newWorkout.renameExercise(
-                                      changeIndex, newName);
-                                  newWorkout.setReps(changeIndex, reps);
-                                  editExerciseOnFirebase(
-                                      changeIndex, reps, newName);
-                                }
-                                updateExerciseIndexFirebase();
+                          setState(() {
+                            if (newName.isNotEmpty) {
+                              setModalState(
+                                () {
+                                  filterSearchResults("");
+                                  exerciseNameField.text = "";
+                                },
+                              );
+                              Navigator.pop(context);
+                              if (changeIndex == -1) {
+                                newWorkout.addExercise(newName, reps);
+                                pushExerciseToWorkoutFirebase(changeIndex == -1
+                                    ? newWorkout.getNumExercises() - 1
+                                    : changeIndex + 1);
+                              } else {
+                                newWorkout.renameExercise(changeIndex, newName);
+                                newWorkout.setReps(changeIndex, reps);
+                                editExerciseOnFirebase(
+                                    changeIndex, reps, newName);
                               }
-                            });
-                          },
-                          child: Text("Save",
-                              style: Theme.of(context).textTheme.titleLarge)),
+                              updateExerciseIndexFirebase();
+                            }
+                          });
+                        },
+                        child: Text("Save"),
+                      ),
                       Spacer(
                         flex: 3,
                       ),
