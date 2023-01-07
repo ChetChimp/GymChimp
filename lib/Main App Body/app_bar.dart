@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +40,7 @@ class MyAppBar extends StatefulWidget with PreferredSizeWidget {
 }
 
 Function stateAddress = () {};
-
+Radius radius = Radius.circular(30);
 List<DropdownMenuItem<String>> emptylist = [];
 
 class _MyAppBarState extends State<MyAppBar> {
@@ -87,9 +89,26 @@ class _MyAppBarState extends State<MyAppBar> {
             //padding: EdgeInsets.all(10),
             child: DropdownButtonHideUnderline(
               child: DropdownButton2(
+                onMenuStateChange: (isOpen) {
+                  if (isOpen) {
+                    setState(() {
+                      radius = Radius.circular(0);
+                    });
+                  } else {
+                    Future.delayed(Duration(seconds: 5), (() {
+                      setState(() {
+                        radius = Radius.circular(30);
+                      });
+                    }));
+                  }
+                },
                 //buttonPadding: EdgeInsets.all(0),
                 buttonDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                      bottomLeft: radius,
+                      bottomRight: radius),
                   color: Colors.white,
                   // gradient: LinearGradient(colors: GradientColors.royalBlue),
                 ),
