@@ -48,11 +48,11 @@ List<BoxShadow> shadow = const [
   BoxShadow(
       color: Color.fromARGB(72, 0, 0, 0),
       offset: Offset(0.0, 2.0),
-      blurRadius: 5.0),
+      blurRadius: 8.0),
   BoxShadow(
       color: Color.fromARGB(72, 0, 0, 0),
       offset: Offset(0.0, -2.0),
-      blurRadius: 5.0),
+      blurRadius: 8.0),
 ];
 
 //***************************************************//
