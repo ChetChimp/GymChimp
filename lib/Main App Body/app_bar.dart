@@ -41,7 +41,7 @@ class MyAppBar extends StatefulWidget with PreferredSizeWidget {
 }
 
 Function stateAddress = () {};
-Radius radius = Radius.circular(30);
+
 List<DropdownMenuItem<String>> emptylist = [];
 
 class _MyAppBarState extends State<MyAppBar> {
@@ -61,6 +61,7 @@ class _MyAppBarState extends State<MyAppBar> {
     setState(() {});
   }
 
+  Radius radius = Radius.circular(30);
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -80,79 +81,86 @@ class _MyAppBarState extends State<MyAppBar> {
               }),
         Spacer(),
         if (screenName == "workout_page")
-          Container(
+          AnimatedContainer(
+            duration: const Duration(seconds: 2),
+            curve: Curves.fastOutSlowIn,
             width: MediaQuery.of(ctx).size.width * 5 / 10,
             height: 10,
             //padding: EdgeInsets.all(0),
             //padding: EdgeInsets.all(10),
             child: DropdownButtonHideUnderline(
-              child: DropdownButton2(
-                onMenuStateChange: (isOpen) {
-                  if (isOpen) {
-                    setState(() {
-                      radius = Radius.circular(0);
-                    });
-                  } else {
-                    Future.delayed(Duration(seconds: 5), (() {
+              child: AnimatedContainer(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                        bottomLeft: radius,
+                        bottomRight: radius)),
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.fastOutSlowIn,
+                child: DropdownButton2(
+                  onMenuStateChange: (isOpen) {
+                    if (isOpen) {
+                      setState(() {
+                        radius = Radius.circular(0);
+                      });
+                    } else {
                       setState(() {
                         radius = Radius.circular(30);
                       });
-                    }));
-                  }
-                },
-                //buttonPadding: EdgeInsets.all(0),
-                buttonDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                      bottomLeft: radius,
-                      bottomRight: radius),
-                  color: Colors.white,
-                  // gradient: LinearGradient(colors: GradientColors.royalBlue),
-                ),
-                scrollbarAlwaysShow: true,
-                scrollbarRadius: Radius.circular(5),
-                scrollbarThickness: 5,
-                iconSize: 50,
-                iconEnabledColor: accentColor,
-                icon: Visibility(
-                    visible: false, child: Icon(Icons.arrow_downward)),
-                isExpanded: true,
-                dropdownMaxHeight: 150,
-                barrierColor: Color.fromARGB(45, 0, 0, 0),
-                hint: Center(
-                  //child: FittedBox(
-                  //fit: BoxFit.fitWidth,
-                  child: Text(
-                    currentWorkout.getName(),
-                    style: TextStyle(color: accentColor),
-                    //textAlign: TextAlign.center,
+                    }
+                  },
+                  //buttonPadding: EdgeInsets.all(0),
+
+                  buttonDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                        bottomLeft: radius,
+                        bottomRight: radius),
+                    // gradient: LinearGradient(colors: GradientColors.royalBlue),
                   ),
-                  //),
-                ),
-                items: currentUser
-                    .getUserWorkoutsString()
-                    .map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          //child: FittedBox(
-                          //fit: BoxFit.fitWidth,
-                          child: Text(
-                            item,
-                            style: TextStyle(
-                              //fontSize: 20,
-                              color: Color.fromARGB(255, 0, 0, 0),
+                  scrollbarAlwaysShow: true,
+                  scrollbarRadius: Radius.circular(5),
+                  scrollbarThickness: 5,
+                  iconSize: 50,
+                  iconEnabledColor: accentColor,
+                  icon: Visibility(
+                      visible: false, child: Icon(Icons.arrow_downward)),
+                  isExpanded: true,
+                  dropdownMaxHeight: 150,
+                  barrierColor: Color.fromARGB(45, 0, 0, 0),
+                  hint: Center(
+                    child: Text(
+                      currentWorkout.getName(),
+                      style: TextStyle(color: accentColor),
+                    ),
+                  ),
+                  items: currentUser
+                      .getUserWorkoutsString()
+                      .map((item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
                             ),
-                            //overflow: TextOverflow.ellipsis,
-                          ),
-                          //),
-                        ))
-                    .toList(),
-                onChanged: ((String? value) {
-                  setState(() {
-                    workoutState(
-                        currentWorkout = currentUser.getWorkoutByName(value));
-                  });
-                }),
+                          ))
+                      .toList(),
+                  onChanged: ((String? value) {
+                    setState(() {
+                      workoutState(
+                          currentWorkout = currentUser.getWorkoutByName(value));
+                    });
+                  }),
+                  dropdownDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30)),
+                  ),
+                ),
               ),
             ),
           ),
