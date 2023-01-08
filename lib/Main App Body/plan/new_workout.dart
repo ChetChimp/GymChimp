@@ -36,6 +36,8 @@ class NewWorkout extends StatefulWidget {
   State<NewWorkout> createState() => _NewWorkout(index: this.index);
 }
 
+var workoutIndex;
+
 class _NewWorkout extends State<NewWorkout> {
   int index;
   Workout newWorkout = Workout("");
@@ -49,8 +51,11 @@ class _NewWorkout extends State<NewWorkout> {
   List<String> difficultyTempList = [];
   List<String> muscleTempList = [];
 
+  TextEditingController exerciseNameField = new TextEditingController(text: "");
+
   @override
   void initState() {
+    workoutIndex = index;
     newWorkout = currentUser.userWorkouts[index];
     readJson();
     super.initState();
@@ -117,8 +122,6 @@ class _NewWorkout extends State<NewWorkout> {
       },
     );
   }
-
-  TextEditingController exerciseNameField = new TextEditingController(text: "");
 
   void editExerciseOnFirebase(int exerciseIndex, List reps, String name) async {
     QuerySnapshot querySnapshot = await firestore
@@ -217,10 +220,6 @@ class _NewWorkout extends State<NewWorkout> {
     Navigator.of(ctx).pop();
   }
 
-  Widget fake() {
-    return Container(child: Text("bitch"));
-  }
-
   void updateExerciseIndexFirebase() async {
     QuerySnapshot querySnapshot = await firestore
         .collection('users')
@@ -304,7 +303,7 @@ class _NewWorkout extends State<NewWorkout> {
       return MaterialPageRoute(
           builder: (_) => Scaffold(
                 backgroundColor: backgroundGrey,
-                appBar: MyAppBar(context, true, false),
+                appBar: MyAppBar(context, true, "new_workout"),
                 body: Container(
                   child: Column(
                     children: [

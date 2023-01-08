@@ -31,6 +31,8 @@ class PlanPage extends StatefulWidget {
   State<PlanPage> createState() => _PlanPage();
 }
 
+Function nameUpdater = () {};
+
 //List<Widget> workoutList = [];
 String workoutName = "";
 final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
@@ -40,6 +42,7 @@ Workout selectedWorkout = Workout("");
 class _PlanPage extends State<PlanPage> {
   @override
   void initState() {
+    nameUpdater = updateNameState;
     super.initState();
   }
 
@@ -50,6 +53,12 @@ class _PlanPage extends State<PlanPage> {
               index: index,
               callback: mySetState,
             )));
+  }
+
+  void updateNameState(String input) {
+    setState(() {
+      currentUser.userWorkouts[workoutIndex].name = input;
+    });
   }
 
   void mySetState(int index) {

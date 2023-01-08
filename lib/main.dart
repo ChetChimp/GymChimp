@@ -137,7 +137,19 @@ void readWorkoutsFirebase() async {
   List list = querySnapshot.docs;
   List list2 = [];
   list.forEach((element) {
-    currentUser.addWorkout(Workout(element.id));
+    String doc = "";
+    firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .doc(element.id)
+        .get()
+        .then(
+      (value) {
+        doc = value.get("name");
+        currentUser.addWorkout(Workout(doc));
+      },
+    );
     listKey.currentState
         ?.insertItem(0, duration: const Duration(milliseconds: 200));
   });

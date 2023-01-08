@@ -1,17 +1,15 @@
-import 'dart:async';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:gymchimp/Main%20App%20Body/account_settings.dart';
-import 'package:gymchimp/Main%20App%20Body/home_page.dart';
-import 'package:gymchimp/Main%20App%20Body/start_page.dart';
+import 'package:gymchimp/Main%20App%20Body/plan/new_workout.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import '../openingScreens/first_time_login.dart';
 import 'package:gymchimp/main.dart';
-
+import 'plan/plan_page.dart';
 import 'workout/workout.dart';
 
 void logOutUser(BuildContext ctx) {
@@ -43,6 +41,10 @@ class MyAppBar extends StatefulWidget with PreferredSizeWidget {
 Function stateAddress = () {};
 
 List<DropdownMenuItem<String>> emptylist = [];
+bool workoutNameEdit = false;
+Icon workoutNameEditIcon = Icon(Icons.edit, color: accentColor);
+TextEditingController workoutNameEditController =
+    TextEditingController(text: "");
 
 class _MyAppBarState extends State<MyAppBar> {
   Widget middle = Spacer();
@@ -51,9 +53,15 @@ class _MyAppBarState extends State<MyAppBar> {
   final screenName;
   _MyAppBarState(this.ctx, this.arrowEnabled, this.screenName);
 
+  Radius radius = Radius.circular(30);
+
   @override
   void initState() {
     stateAddress = setWorkoutListState;
+    if (screenName == "new_workout") {
+      workoutNameEditController.text =
+          currentUser.userWorkouts[workoutIndex].getName();
+    }
     super.initState();
   }
 
@@ -61,7 +69,34 @@ class _MyAppBarState extends State<MyAppBar> {
     setState(() {});
   }
 
-  Radius radius = Radius.circular(30);
+  void updateWorkoutName() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .get();
+
+    List list = querySnapshot.docs;
+
+    list.forEach((element) {
+      var doc = FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('workouts')
+          .doc(element.id);
+      doc.get().then(
+        (value) {
+          if (value.get("name") ==
+              currentUser.userWorkouts[workoutIndex].getName()) {
+            doc.set({"name": workoutNameEditController.text});
+            nameUpdater(workoutNameEditController.text);
+            return;
+          }
+        },
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -79,7 +114,53 @@ class _MyAppBarState extends State<MyAppBar> {
                   Navigator.of(ctx, rootNavigator: true).pop();
                 }
               }),
-        Spacer(),
+        Spacer(
+          flex: 5,
+        ),
+        if (screenName == "new_workout")
+          Container(
+            padding:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width / 21),
+            width: MediaQuery.of(context).size.width / 1.47,
+            child: Row(
+              children: [
+                Container(
+                    width: MediaQuery.of(context).size.width / 1.97,
+                    padding: EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    child: TextField(
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                        autocorrect: true,
+                        autofillHints: ["Chest", "Back", "Legs"],
+                        enabled: workoutNameEdit,
+                        controller: workoutNameEditController)),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      workoutNameEdit = !workoutNameEdit;
+                      if (workoutNameEdit) {
+                        workoutNameEditIcon =
+                            Icon(Icons.check, color: accentColor);
+                      } else {
+                        updateWorkoutName();
+                        workoutNameEditIcon =
+                            Icon(Icons.edit, color: accentColor);
+                      }
+                    });
+                  },
+                  icon: workoutNameEditIcon,
+                ),
+              ],
+            ),
+          ),
         if (screenName == "workout_page")
           AnimatedContainer(
             duration: const Duration(seconds: 2),
