@@ -12,7 +12,7 @@ import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'new_workout.dart';
+import 'new_workout_page.dart';
 import '../workout/workout.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:searchable_listview/searchable_listview.dart';

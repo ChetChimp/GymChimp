@@ -16,7 +16,7 @@ import '../app_bar.dart';
 import '../home_page.dart';
 import '../start_page.dart';
 import '../workout/workout_page.dart';
-import 'new_workout.dart';
+import 'new_workout_page.dart';
 import '../workout/workout.dart';
 import 'dart:async';
 

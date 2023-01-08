@@ -5,7 +5,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gymchimp/Main%20App%20Body/account_settings.dart';
-import 'package:gymchimp/Main%20App%20Body/plan/new_workout.dart';
+import 'package:gymchimp/Main%20App%20Body/plan/new_workout_page.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import '../openingScreens/first_time_login.dart';
 import 'package:gymchimp/main.dart';
@@ -162,9 +162,7 @@ class _MyAppBarState extends State<MyAppBar> {
             ),
           ),
         if (screenName == "workout_page")
-          AnimatedContainer(
-            duration: const Duration(seconds: 2),
-            curve: Curves.fastOutSlowIn,
+          Container(
             width: MediaQuery.of(ctx).size.width * 5 / 10,
             height: 10,
             //padding: EdgeInsets.all(0),
@@ -192,15 +190,12 @@ class _MyAppBarState extends State<MyAppBar> {
                       });
                     }
                   },
-                  //buttonPadding: EdgeInsets.all(0),
-
                   buttonDecoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30),
                         bottomLeft: radius,
                         bottomRight: radius),
-                    // gradient: LinearGradient(colors: GradientColors.royalBlue),
                   ),
                   scrollbarAlwaysShow: true,
                   scrollbarRadius: Radius.circular(5),
