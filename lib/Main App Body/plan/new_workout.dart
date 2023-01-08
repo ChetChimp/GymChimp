@@ -20,12 +20,12 @@ import 'package:searchable_listview/searchable_listview.dart';
 import '../app_bar.dart';
 import 'plan_page.dart';
 
-class NewWorkout extends StatefulWidget {
+class NewWorkoutPage extends StatefulWidget {
   final String workoutName;
   final int index;
   final Function callback;
 
-  const NewWorkout(
+  const NewWorkoutPage(
       {Key? key,
       required this.workoutName,
       required this.index,
@@ -33,15 +33,15 @@ class NewWorkout extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<NewWorkout> createState() => _NewWorkout(index: this.index);
+  State<NewWorkoutPage> createState() => _NewWorkoutPage(index: this.index);
 }
 
 var workoutIndex;
 
-class _NewWorkout extends State<NewWorkout> {
+class _NewWorkoutPage extends State<NewWorkoutPage> {
   int index;
   Workout newWorkout = Workout("");
-  _NewWorkout({required this.index});
+  _NewWorkoutPage({required this.index});
   List<Map<String, String>> data = [];
   List<String> searchList = [];
   List<String> difficultyList = [];
