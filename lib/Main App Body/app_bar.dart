@@ -115,8 +115,8 @@ class _MyAppBarState extends State<MyAppBar> {
                 }
               }),
         Spacer(
-          flex: 5,
-        ),
+            //flex: 5,
+            ),
         if (screenName == "new_workout")
           Container(
             padding:

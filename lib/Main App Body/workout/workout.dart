@@ -36,7 +36,11 @@ class Workout {
     return exercises.length;
   }
 
-  List<int> getReps(int index) {
+  List<String> getExercisesList() {
+    return exercises;
+  }
+
+  List<int> getRepsForExercise(int index) {
     return reps[index];
   }
 

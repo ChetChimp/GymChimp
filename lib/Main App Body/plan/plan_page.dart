@@ -35,7 +35,7 @@ Function nameUpdater = () {};
 
 //List<Widget> workoutList = [];
 String workoutName = "";
-final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
+//final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
 int counter = 0;
 Workout selectedWorkout = Workout("");
 
@@ -105,7 +105,7 @@ class _PlanPage extends State<PlanPage> {
                   appBar: MyAppBar(context, true, "plan_page"),
                   body: ReorderableListView(
                       proxyDecorator: proxyDecorator,
-                      key: listKey,
+                      //key: listKey,
                       onReorder: (int oldIndex, int newIndex) {
                         setState(() {
                           if (oldIndex < newIndex) {

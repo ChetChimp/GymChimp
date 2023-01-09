@@ -136,9 +136,10 @@ void readWorkoutsFirebase() async {
 
   List list = querySnapshot.docs;
   List list2 = [];
-  list.forEach((element) {
+
+  for (dynamic element in list) {
     String doc = "";
-    firestore
+    await firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('workouts')
@@ -150,11 +151,31 @@ void readWorkoutsFirebase() async {
         currentUser.addWorkout(Workout(doc));
       },
     );
-    listKey.currentState
-        ?.insertItem(0, duration: const Duration(milliseconds: 200));
-  });
+    // listKey.currentState
+    //     ?.insertItem(0, duration: const Duration(milliseconds: 200));
+  }
+  //await new Future.delayed(const Duration(milliseconds: 150));
 
-  currentUser.userWorkouts.forEach((workout) async {
+  // list.forEach((element) {
+  //   String doc = "";
+  //   firestore
+  //       .collection('users')
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .collection('workouts')
+  //       .doc(element.id)
+  //       .get()
+  //       .then(
+  //     (value) {
+  //       print("test");
+  //       doc = value.get("name");
+  //       currentUser.addWorkout(Workout(doc));
+  //     },
+  //   );
+  //   listKey.currentState
+  //       ?.insertItem(0, duration: const Duration(milliseconds: 200));
+  // });
+
+  for (Workout workout in currentUser.userWorkouts) {
     querySnapshot = await firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -164,10 +185,11 @@ void readWorkoutsFirebase() async {
         .get();
 
     List list = querySnapshot.docs;
+
     workout.exercises = List<String>.filled(list.length, "", growable: true);
     workout.reps = List<List<int>>.filled(list.length, [], growable: true);
 
-    list.forEach((element) async {
+    for (dynamic element in list) {
       String exerciseName = "";
       List<int> repetitions = [];
       int exerciseIndex = 0;
@@ -190,8 +212,72 @@ void readWorkoutsFirebase() async {
           workout.reps[exerciseIndex] = repetitions;
         },
       );
-    });
-  });
+    }
+
+    // list.forEach((element) async {
+    //   String exerciseName = "";
+    //   List<int> repetitions = [];
+    //   int exerciseIndex = 0;
+    //   await firestore
+    //       .collection('users')
+    //       .doc(FirebaseAuth.instance.currentUser!.uid)
+    //       .collection('workouts')
+    //       .doc(workout.getName())
+    //       .collection('exercises')
+    //       .doc(element.id)
+    //       .get()
+    //       .then(
+    //     (value) {
+    //       exerciseName = value.get('name');
+    //       value.get('reps').forEach((rep) {
+    //         repetitions.add(rep);
+    //         exerciseIndex = value.get('index');
+    //       });
+    //       workout.exercises[exerciseIndex] = exerciseName;
+    //       workout.reps[exerciseIndex] = repetitions;
+    //     },
+    //   );
+    // });
+  }
+  // currentUser.userWorkouts.forEach((workout) async {
+  //   querySnapshot = await firestore
+  //       .collection('users')
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .collection('workouts')
+  //       .doc(workout.getName())
+  //       .collection('exercises')
+  //       .get();
+
+  //   List list = querySnapshot.docs;
+
+  //   workout.exercises = List<String>.filled(list.length, "", growable: true);
+  //   workout.reps = List<List<int>>.filled(list.length, [], growable: true);
+
+  //   list.forEach((element) async {
+  //     String exerciseName = "";
+  //     List<int> repetitions = [];
+  //     int exerciseIndex = 0;
+  //     await firestore
+  //         .collection('users')
+  //         .doc(FirebaseAuth.instance.currentUser!.uid)
+  //         .collection('workouts')
+  //         .doc(workout.getName())
+  //         .collection('exercises')
+  //         .doc(element.id)
+  //         .get()
+  //         .then(
+  //       (value) {
+  //         exerciseName = value.get('name');
+  //         value.get('reps').forEach((rep) {
+  //           repetitions.add(rep);
+  //           exerciseIndex = value.get('index');
+  //         });
+  //         workout.exercises[exerciseIndex] = exerciseName;
+  //         workout.reps[exerciseIndex] = repetitions;
+  //       },
+  //     );
+  //   });
+  // });
 }
 
 class MyApp extends StatelessWidget {

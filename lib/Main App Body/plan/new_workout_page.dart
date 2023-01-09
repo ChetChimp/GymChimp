@@ -292,7 +292,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
         .doc(exerciseName)
         .set({
       'name': newWorkout.getExercise(indx),
-      'reps': newWorkout.getReps(indx),
+      'reps': newWorkout.getRepsForExercise(indx),
       'index': newWorkout.exercises.length - 1
     });
   }
@@ -356,7 +356,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                       Container(
                                           width: size.width / 6,
                                           child: Text(newWorkout
-                                              .getReps(index)
+                                              .getRepsForExercise(index)
                                               .toString())),
                                       Spacer(),
                                       OutlinedButton(
@@ -398,6 +398,9 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                       backgroundColor: Colors.white,
                                     ),
                                     onPressed: () {
+                                      print(currentUser.getUserWorkouts[0]
+                                          .getExercisesList()
+                                          .toString());
                                       modifyExercise(ctx, "", -1);
                                     },
                                     child: Center(
@@ -454,8 +457,9 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     String newName = name;
     String title = changeIndex == -1 ? "New Exercise" : "Edit Exercise";
     exerciseNameField.text = name;
-    List<int> reps =
-        changeIndex == -1 ? <int>[3] : newWorkout.getReps(changeIndex);
+    List<int> reps = changeIndex == -1
+        ? <int>[3]
+        : newWorkout.getRepsForExercise(changeIndex);
 
     //sets numReps to a default 3 if making a new workout, or to the current value if modifying workout
     //int numReps = changeIndex == -1 ? 3 : newWorkout.getReps(changeIndex)[0];
