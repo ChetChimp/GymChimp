@@ -79,27 +79,36 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         children: _children,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
+        type: BottomNavigationBarType.shifting,
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.fitness_center_outlined),
             label: 'Workout',
+            backgroundColor: foregroundGrey,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.insights_outlined),
             label: 'Stats',
+            backgroundColor: foregroundGrey,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.restaurant_outlined),
             label: 'Nutrition',
+            backgroundColor: foregroundGrey,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.edit),
             label: 'Plan',
+            backgroundColor: foregroundGrey,
           ),
         ],
         currentIndex: selectedIndex,
-        selectedItemColor: Color.fromARGB(255, 35, 178, 90),
+        backgroundColor: accentColor,
+        //fixedColor: foregroundGrey,
+        enableFeedback: true,
+
+        unselectedItemColor: textColor,
+        selectedItemColor: textColor,
         onTap: (idx) => setState(() {
           selectedIndex = idx;
           if (idx == 0) {
