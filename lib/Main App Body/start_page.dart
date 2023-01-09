@@ -26,19 +26,19 @@ class StartPage extends StatefulWidget {
   State<StartPage> createState() => _StartPage();
 }
 
-Widget HomeTile(BuildContext context, int index, String title, Icon icon,
+Widget HomeTile(BuildContext context, int index, String title, Widget icon,
     LinearGradient gradient) {
   return Container(
     decoration: BoxDecoration(
-        gradient: gradient,
-        borderRadius: BorderRadius.circular(8.0),
-        boxShadow: shadow),
+      gradient: gradient,
+      borderRadius: BorderRadius.circular(8.0),
+    ),
     child: ElevatedButton(
         style: TextButton.styleFrom(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             minimumSize: Size(150, 150),
-            backgroundColor: accentColor),
+            backgroundColor: Color.fromARGB(255, 25, 30, 42)),
         onPressed: () {
           toHomePage(context, index);
         },
@@ -48,14 +48,11 @@ Widget HomeTile(BuildContext context, int index, String title, Icon icon,
             SizedBox(height: 5),
             Text(
               title,
-              style: GoogleFonts.quicksand(
-                textStyle: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: .5,
-                    decoration: TextDecoration.none),
-              ),
+              style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  letterSpacing: .5,
+                  decoration: TextDecoration.none),
             )
           ],
         )),
@@ -116,25 +113,23 @@ class _StartPage extends State<StartPage> {
 
   Widget build(BuildContext context) {
     return Container(
-      decoration: backGround(),
+      decoration: BoxDecoration(color: backgroundGrey),
       child: Scaffold(
         appBar: MyAppBar(context, false, "start_page"),
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: backgroundGrey,
         body: Container(
           child: Column(
             children: <Widget>[
               Spacer(flex: 1),
               Text(
-                "Welcome, $userName!",
+                "GymChimp",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
-                  textStyle: const TextStyle(
-                      fontSize: 45,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                      letterSpacing: .5,
-                      decoration: TextDecoration.none),
-                ),
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width / 8.5,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    letterSpacing: .5,
+                    decoration: TextDecoration.none),
               ),
               Spacer(),
               Row(
@@ -146,8 +141,17 @@ class _StartPage extends State<StartPage> {
                       context,
                       0,
                       "Workout",
-                      Icon(Icons.fitness_center_sharp,
-                          size: 100, color: Colors.white),
+                      Text(
+                        String.fromCharCode(
+                            Icons.fitness_center_sharp.codePoint),
+                        style: TextStyle(
+                            fontFamily: Icons.fitness_center_sharp.fontFamily,
+                            inherit: false,
+                            package: Icons.fitness_center_sharp.fontPackage,
+                            color: accentColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.width / 4),
+                      ),
                       LinearGradient(colors: primaryGradient)),
                   SizedBox(width: 15),
                   // Stats Button
@@ -155,8 +159,7 @@ class _StartPage extends State<StartPage> {
                       context,
                       1,
                       "Stats",
-                      Icon(Icons.insights_sharp,
-                          size: 100, color: Colors.white),
+                      Icon(Icons.insights_sharp, size: 100, color: accentColor),
                       LinearGradient(
                         colors: [primaryGradient[1], primaryGradient[0]],
                       )),
@@ -172,8 +175,7 @@ class _StartPage extends State<StartPage> {
                       context,
                       2,
                       "Nutrition",
-                      Icon(Icons.fastfood_sharp,
-                          size: 100, color: Colors.white),
+                      Icon(Icons.fastfood_sharp, size: 100, color: accentColor),
                       LinearGradient(colors: primaryGradient)),
                   SizedBox(width: 15),
                   // Plan Button
@@ -181,7 +183,7 @@ class _StartPage extends State<StartPage> {
                       context,
                       3,
                       "Plan",
-                      Icon(Icons.edit_sharp, size: 100, color: Colors.white),
+                      Icon(Icons.edit_sharp, size: 100, color: accentColor),
                       LinearGradient(colors: primaryGradient))
                 ],
               ),

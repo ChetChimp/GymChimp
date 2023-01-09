@@ -228,18 +228,9 @@ class _timeCardState extends State<timeCard> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        // color: Colors.white,
         borderRadius: BorderRadius.circular(15.0),
-        boxShadow: const [
-          BoxShadow(
-              color: Color.fromARGB(36, 0, 0, 0),
-              offset: Offset(0.0, 2.0),
-              blurRadius: 5.0),
-          BoxShadow(
-              color: Color.fromARGB(36, 0, 0, 0),
-              offset: Offset(0.0, -2.0),
-              blurRadius: 5.0),
-        ],
+        // boxShadow: shadow,
       ),
       child: Container(
         padding: EdgeInsets.only(top: 4, bottom: 4),
@@ -247,9 +238,9 @@ class _timeCardState extends State<timeCard> {
         child: Text(
           widget.timeUnit,
           textAlign: TextAlign.center,
-          style: GoogleFonts.quicksand(
-            textStyle: fontstyle(widget.sizeOfScreen),
-            color: Color.fromARGB(255, 43, 94, 167),
+          style: TextStyle(
+            fontSize: widget.sizeOfScreen.width / 8,
+            color: Color.fromARGB(255, 255, 255, 255),
           ),
         ),
       ),

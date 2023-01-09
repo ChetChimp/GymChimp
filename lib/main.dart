@@ -42,8 +42,10 @@ StreamController<String> nameController = StreamController<String>();
 //Global colors
 List<Color> secondaryGradient = GradientColors.happyAcid;
 List<Color> primaryGradient = GradientColors.royalBlue;
-Color backgroundGrey = Color.fromARGB(255, 221, 221, 221);
-Color accentColor = Color.fromARGB(255, 43, 94, 167);
+Color backgroundGrey =
+    Color.fromARGB(255, 39, 46, 59); //Color.fromARGB(255, 221, 221, 221);
+Color accentColor =
+    Color.fromARGB(255, 255, 191, 16); //Color.fromARGB(255, 43, 94, 167);
 List<BoxShadow> shadow = const [
   BoxShadow(
       color: Color.fromARGB(72, 0, 0, 0),
@@ -312,7 +314,7 @@ class MyApp extends StatelessWidget {
             secondary: Color.fromARGB(255, 44, 57, 64)),
 
         // Define the default font family.
-        fontFamily: 'sourceSansPro',
+        fontFamily: 'MerriweatherSans',
       ),
       title: 'GymChimp',
       home: loggedIn ? StartPage() : const FirstLogIn(),

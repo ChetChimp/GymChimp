@@ -188,108 +188,87 @@ class _countdownState extends State<countdown>
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      // decoration: BoxDecoration(
-      //     color: Colors.white,
-      //     borderRadius: BorderRadius.circular(8.0),
-      //     boxShadow: const [
-      //       BoxShadow(
-      //           color: Colors.black12,
-      //           offset: Offset(0.0, 10.0),
-      //           blurRadius: 15.0),
-      //       BoxShadow(
-      //           color: Colors.black12,
-      //           offset: Offset(0.0, -10.0),
-      //           blurRadius: 10.0),
-      //     ]),
-      // height: size.height / 6,
-      margin: EdgeInsets.all(5),
-      child: Column(
-        children: [
-          Text("Countdown Timer",
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium
-                  ?.copyWith(color: accentColor)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              timeCard(hoursString, size),
-              Text(
-                ':',
-                style: TextStyle(
-                    fontSize: size.width / 8,
-                    //fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 1,
-                    decoration: TextDecoration.none),
-              ),
-              timeCard(minutesString, size),
-              Text(
-                ':',
-                style: TextStyle(
-                    fontSize: size.width / 8,
-                    //fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 1,
-                    decoration: TextDecoration.none),
-              ),
-              timeCard(secondsString, size),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Spacer(),
-              IconButton(
-                splashRadius: .01,
-                icon: on
-                    ? Icon(
-                        color: accentColor,
-                        Icons.play_arrow_sharp,
-                        size: size.width / 8,
-                      )
-                    : Icon(
-                        Icons.stop_sharp,
-                        size: size.width / 8,
-                        color: accentColor,
-                      ),
-                onPressed: (() {
-                  setState(() {
-                    on = !on;
-                  });
-                  if (!on) {
-                    _beginTimer();
-                  } else {
-                    _stopTimer();
-                  }
-                }),
-              ),
-              const Spacer(),
-              IconButton(
-                  color: Colors.white,
+    return GestureDetector(
+      onTap: () => _openPicker(size),
+      child: Container(
+        margin: EdgeInsets.all(5),
+        child: Column(
+          children: [
+            Text("Timer",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineMedium
+                    ?.copyWith(color: Colors.white)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                timeCard(hoursString, size),
+                Text(
+                  ':',
+                  style: TextStyle(
+                      fontSize: size.width / 8,
+                      //fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 1,
+                      decoration: TextDecoration.none),
+                ),
+                timeCard(minutesString, size),
+                Text(
+                  ':',
+                  style: TextStyle(
+                      fontSize: size.width / 8,
+                      //fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 1,
+                      decoration: TextDecoration.none),
+                ),
+                timeCard(secondsString, size),
+              ],
+            ),
+            Row(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Spacer(),
+                IconButton(
                   splashRadius: .01,
-                  onPressed: _resetTimer,
-                  icon: Icon(
-                    color: accentColor,
-                    Icons.restore_sharp,
-                    size: size.width / 10,
-                  )),
-              const Spacer(),
-              IconButton(
-                  color: Colors.white,
-                  splashRadius: .01,
-                  onPressed: () => _openPicker(size),
-                  icon: Icon(
-                    color: accentColor,
-                    Icons.edit_sharp,
-                    size: size.width / 10,
-                  )),
-              const Spacer(),
-            ],
-          ),
-        ],
+                  icon: on
+                      ? Icon(
+                          color: Colors.white,
+                          Icons.play_arrow_sharp,
+                          size: size.width / 9,
+                        )
+                      : Icon(
+                          Icons.stop_sharp,
+                          size: size.width / 9,
+                          color: Colors.white,
+                        ),
+                  onPressed: (() {
+                    setState(() {
+                      on = !on;
+                    });
+                    if (!on) {
+                      _beginTimer();
+                    } else {
+                      _stopTimer();
+                    }
+                  }),
+                ),
+                const Spacer(),
+                IconButton(
+                    color: Colors.white,
+                    splashRadius: .01,
+                    onPressed: _resetTimer,
+                    icon: Icon(
+                      color: Colors.white,
+                      Icons.restore_sharp,
+                      size: size.width / 10,
+                    )),
+                const Spacer(),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

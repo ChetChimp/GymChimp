@@ -194,10 +194,12 @@ class _WorkoutPage extends State<WorkoutPage> {
                                     items: [
                                       Container(
                                           decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              boxShadow: shadow),
+                                            color:
+                                                Color.fromARGB(255, 25, 30, 42),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                            // boxShadow: shadow
+                                          ),
                                           margin: EdgeInsets.only(
                                               left: 10, right: 10),
                                           child: countdown()),
@@ -205,7 +207,8 @@ class _WorkoutPage extends State<WorkoutPage> {
                                           margin: EdgeInsets.only(
                                               left: 10, right: 10),
                                           decoration: BoxDecoration(
-                                              color: Colors.white,
+                                              color: Color.fromARGB(
+                                                  255, 47, 47, 47),
                                               // gradient: LinearGradient(
                                               //     colors: primaryGradient),
                                               borderRadius:
@@ -233,22 +236,22 @@ class _WorkoutPage extends State<WorkoutPage> {
                                   padding: EdgeInsets.all(5),
                                   width: size.width / 4,
                                   decoration: const BoxDecoration(
-                                    color: Colors.white,
+                                    // color: Colors.white,
                                     borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(8),
                                         topRight: Radius.circular(8),
                                         bottomLeft: Radius.circular(8),
                                         bottomRight: Radius.circular(8)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Color.fromARGB(36, 0, 0, 0),
-                                          offset: Offset(0.0, 5.0),
-                                          blurRadius: 15.0),
-                                      BoxShadow(
-                                          color: Color.fromARGB(36, 0, 0, 0),
-                                          offset: Offset(0.0, -5.0),
-                                          blurRadius: 10.0),
-                                    ],
+                                    // boxShadow: [
+                                    //   BoxShadow(
+                                    //       color: Color.fromARGB(36, 0, 0, 0),
+                                    //       offset: Offset(0.0, 5.0),
+                                    //       blurRadius: 15.0),
+                                    //   BoxShadow(
+                                    //       color: Color.fromARGB(36, 0, 0, 0),
+                                    //       offset: Offset(0.0, -5.0),
+                                    //       blurRadius: 10.0),
+                                    // ],
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -274,7 +277,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                             margin: const EdgeInsets.only(
                                 top: 10, bottom: 10, left: 20, right: 20),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Color.fromARGB(255, 25, 30, 42),
                               borderRadius: BorderRadius.circular(20.0),
                               boxShadow: const [
                                 BoxShadow(
@@ -342,17 +345,20 @@ class _WorkoutPage extends State<WorkoutPage> {
                                       Spacer(),
                                       Text(
                                         "  Set ",
-                                        style: TextStyle(fontSize: 28),
+                                        style: TextStyle(
+                                            fontSize: 28, color: Colors.white),
                                       ),
                                       Spacer(),
                                       Text(
                                         "Reps",
-                                        style: TextStyle(fontSize: 28),
+                                        style: TextStyle(
+                                            fontSize: 28, color: Colors.white),
                                       ),
                                       Spacer(),
                                       Text(
                                         "Weight ",
-                                        style: TextStyle(fontSize: 28),
+                                        style: TextStyle(
+                                            fontSize: 28, color: Colors.white),
                                       ),
                                       Spacer(),
                                     ],

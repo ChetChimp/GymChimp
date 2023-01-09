@@ -93,6 +93,9 @@ flutter:
     - family: Montserrat
       fonts:
         - asset: fonts/MontSerrat/Montserrat-Regular.ttf
+    - family: MerriweatherSans
+      fonts:
+        - asset: fonts/MerriweatherSans/MerriweatherSans-Regular.ttf
     
 
   #
