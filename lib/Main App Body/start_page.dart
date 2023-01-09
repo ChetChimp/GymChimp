@@ -125,7 +125,7 @@ class _StartPage extends State<StartPage> {
                 "GymChimp",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width / 8.5,
+                    fontSize: MediaQuery.of(context).size.width / 7,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                     letterSpacing: .5,
@@ -150,7 +150,7 @@ class _StartPage extends State<StartPage> {
                             package: Icons.fitness_center_sharp.fontPackage,
                             color: accentColor,
                             fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.width / 4),
+                            fontSize: MediaQuery.of(context).size.width / 3.5),
                       ),
                       LinearGradient(colors: primaryGradient)),
                   SizedBox(width: 15),
@@ -159,7 +159,16 @@ class _StartPage extends State<StartPage> {
                       context,
                       1,
                       "Stats",
-                      Icon(Icons.insights_sharp, size: 100, color: accentColor),
+                      Text(
+                        String.fromCharCode(Icons.insights_sharp.codePoint),
+                        style: TextStyle(
+                            fontFamily: Icons.insights_sharp.fontFamily,
+                            inherit: false,
+                            package: Icons.insights_sharp.fontPackage,
+                            color: accentColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.width / 3.5),
+                      ),
                       LinearGradient(
                         colors: [primaryGradient[1], primaryGradient[0]],
                       )),
@@ -175,7 +184,9 @@ class _StartPage extends State<StartPage> {
                       context,
                       2,
                       "Nutrition",
-                      Icon(Icons.fastfood_sharp, size: 100, color: accentColor),
+                      Icon(Icons.fastfood_sharp,
+                          size: MediaQuery.of(context).size.width / 3.5,
+                          color: accentColor),
                       LinearGradient(colors: primaryGradient)),
                   SizedBox(width: 15),
                   // Plan Button
@@ -183,7 +194,9 @@ class _StartPage extends State<StartPage> {
                       context,
                       3,
                       "Plan",
-                      Icon(Icons.edit_sharp, size: 100, color: accentColor),
+                      Icon(Icons.edit_sharp,
+                          size: MediaQuery.of(context).size.width / 3.5,
+                          color: accentColor),
                       LinearGradient(colors: primaryGradient))
                 ],
               ),

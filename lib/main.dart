@@ -46,6 +46,7 @@ Color backgroundGrey =
     Color.fromARGB(255, 39, 46, 59); //Color.fromARGB(255, 221, 221, 221);
 Color accentColor =
     Color.fromARGB(255, 255, 191, 16); //Color.fromARGB(255, 43, 94, 167);
+Color foregroundGrey = Color.fromARGB(255, 25, 30, 42);
 List<BoxShadow> shadow = const [
   BoxShadow(
       color: Color.fromARGB(72, 0, 0, 0),
