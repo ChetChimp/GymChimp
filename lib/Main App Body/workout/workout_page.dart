@@ -19,6 +19,8 @@ class WorkoutPage extends StatefulWidget {
 }
 
 Function workoutState = () {};
+Function unitState = () {};
+Function dropdownUpdate = () {};
 
 Workout currentWorkout = Workout("Select Workout");
 String selectedExercise = "";
@@ -28,6 +30,7 @@ double multiplier = 0;
 bool checkVal = false;
 ScrollController scrollController = ScrollController();
 Radius radius = Radius.circular(20);
+bool unit = true;
 
 TextStyle fontstyle(double size) {
   return TextStyle(
@@ -38,12 +41,15 @@ TextStyle fontstyle(double size) {
       decoration: TextDecoration.none);
 }
 
-class _WorkoutPage extends State<WorkoutPage> {
+class _WorkoutPage extends State<WorkoutPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     getRows(selectedExercise);
     updateProgress();
     workoutState = setWorkout;
+    unitState = setUnit;
+    dropdownUpdate = updateDropdown;
     super.initState();
   }
 
@@ -54,6 +60,18 @@ class _WorkoutPage extends State<WorkoutPage> {
       getRows(currentWorkout.getExercise(0));
       updateProgress();
     });
+  }
+
+  void setUnit(bool w) {
+    print(w);
+    setState(() {
+      unit = w;
+    });
+    getRows(selectedExercise);
+  }
+
+  void updateDropdown() {
+    dropdownListUpdate();
   }
 
   int activepage = 0;
@@ -114,14 +132,18 @@ class _WorkoutPage extends State<WorkoutPage> {
               //     (i + 1).toString(),
               //     style: TextStyle(fontSize: 28),
               //   ),
-              // ),
-              Spacer(),
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  currentWorkout.reps[exerciseIndex][i].toString(),
-                  style: TextStyle(fontSize: 28, color: accentColor),
-                ),
+              // ),  //       Spacer(),
+              Text(
+                "Reps:  ",
+                style: TextStyle(fontSize: 24, color: Colors.white),
+              ),
+              //       Spacer(),
+
+              //       Spacer(),
+              // Spacer(),
+              Text(
+                currentWorkout.reps[exerciseIndex][i].toString(),
+                style: TextStyle(fontSize: 24, color: accentColor),
               ),
               Spacer(
                 flex: 2,
@@ -146,6 +168,10 @@ class _WorkoutPage extends State<WorkoutPage> {
                     // When form is submitted routes to askLevel page
                     onFieldSubmitted: (value) {}),
               ),
+              Text(
+                unit ? " Lbs" : " Kgs",
+                style: TextStyle(fontSize: 24, color: Colors.white),
+              ),
               Spacer(),
             ],
           ),
@@ -155,6 +181,7 @@ class _WorkoutPage extends State<WorkoutPage> {
   }
 
   Widget build(BuildContext context) {
+    super.build(context);
     Size size = MediaQuery.of(context).size;
     return Navigator(onGenerateRoute: (settings) {
       return MaterialPageRoute(
@@ -347,31 +374,31 @@ class _WorkoutPage extends State<WorkoutPage> {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  child: Row(
-                                    children: const [
-                                      // Spacer(),
-                                      // Text(
-                                      //   "  Set ",
-                                      //   style: TextStyle(
-                                      //       fontSize: 28, color: Colors.white),
-                                      // ),
-                                      Spacer(),
-                                      Text(
-                                        "Reps",
-                                        style: TextStyle(
-                                            fontSize: 28, color: Colors.white),
-                                      ),
-                                      Spacer(),
-                                      Text(
-                                        "Weight ",
-                                        style: TextStyle(
-                                            fontSize: 28, color: Colors.white),
-                                      ),
-                                      Spacer(),
-                                    ],
-                                  ),
-                                ),
+                                // Container(
+                                //   child: Row(
+                                //     children: const [
+                                //       // Spacer(),
+                                //       // Text(
+                                //       //   "  Set ",
+                                //       //   style: TextStyle(
+                                //       //       fontSize: 28, color: Colors.white),
+                                //       // ),
+                                //       Spacer(),
+                                //       Text(
+                                //         "Reps",
+                                //         style: TextStyle(
+                                //             fontSize: 28, color: Colors.white),
+                                //       ),
+                                //       Spacer(),
+                                //       Text(
+                                //         "Weight ",
+                                //         style: TextStyle(
+                                //             fontSize: 28, color: Colors.white),
+                                //       ),
+                                //       Spacer(),
+                                //     ],
+                                //   ),
+                                // ),
                                 Container(
                                   height: size.height / 5,
                                   child: Scrollbar(
@@ -442,4 +469,7 @@ class _WorkoutPage extends State<WorkoutPage> {
       );
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

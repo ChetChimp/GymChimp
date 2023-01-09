@@ -110,26 +110,14 @@ void updateInfo(String label, String text) async {
 CurrentUser currentUser = CurrentUser();
 
 Future<void> addUserInfo() async {
-  Future<List> addUserInfo2() async {
-    List queries = ["name", "email", "gender", "unit", "level"];
-    List querieReturn = [];
-    queries.forEach((element) async {
-      await fetchInfo(element).then((String result) {
-        querieReturn.add(result);
-      });
-    });
-
-    return queries;
-  }
-
-  List querieReturn = await addUserInfo2();
-  currentUser.setName = querieReturn[0];
-  currentUser.setEmail = querieReturn[1];
-  currentUser.setGender = querieReturn[2];
-  currentUser.setUnits = querieReturn[3];
-  currentUser.setLevel = querieReturn[4];
-
-  //Future.delayed(Duration(milliseconds: 1000), () {});
+  await firestore
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .get()
+      .then((value) {
+    currentUser.addAllInfo(value.get('name'), value.get('email'),
+        value.get('gender'), value.get('unit'), value.get('level'));
+  });
 }
 
 void readWorkoutsFirebase() async {

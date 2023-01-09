@@ -57,7 +57,6 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
     WorkoutPage(),
     StatsPage(),
     NutritionPage(),
-    // PlanPage(streamController.stream),
     PlanPage()
   ];
 
