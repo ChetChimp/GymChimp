@@ -201,11 +201,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
 
-    addUserInfo();
-    readWorkoutsFirebase();
     bool loggedIn = false;
     if (FirebaseAuth.instance.currentUser != null) {
       loggedIn = true;
+      addUserInfo();
+      readWorkoutsFirebase();
     } else {
       loggedIn = false;
     }
