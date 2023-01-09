@@ -123,7 +123,9 @@ class _MyAppBarState extends State<MyAppBar> {
                 EdgeInsets.only(left: MediaQuery.of(context).size.width / 21),
             width: MediaQuery.of(context).size.width / 1.47,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Spacer(),
                 Container(
                     width: MediaQuery.of(context).size.width / 1.97,
                     padding: EdgeInsets.all(3),
