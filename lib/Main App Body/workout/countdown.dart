@@ -195,10 +195,7 @@ class _countdownState extends State<countdown>
         child: Column(
           children: [
             Text("Timer",
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium
-                    ?.copyWith(color: Colors.white)),
+                style: TextStyle(color: accentColor, fontSize: size.width / 9)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -234,14 +231,14 @@ class _countdownState extends State<countdown>
                   splashRadius: .01,
                   icon: on
                       ? Icon(
-                          color: Colors.white,
+                          color: accentColor,
                           Icons.play_arrow_sharp,
                           size: size.width / 9,
                         )
                       : Icon(
                           Icons.stop_sharp,
                           size: size.width / 9,
-                          color: Colors.white,
+                          color: accentColor,
                         ),
                   onPressed: (() {
                     setState(() {
@@ -256,11 +253,11 @@ class _countdownState extends State<countdown>
                 ),
                 const Spacer(),
                 IconButton(
-                    color: Colors.white,
+                    color: accentColor,
                     splashRadius: .01,
                     onPressed: _resetTimer,
                     icon: Icon(
-                      color: Colors.white,
+                      color: accentColor,
                       Icons.restore_sharp,
                       size: size.width / 10,
                     )),

@@ -65,7 +65,7 @@ class _WorkoutPage extends State<WorkoutPage> {
         width: 10,
         height: 10,
         decoration: BoxDecoration(
-            color: currentIndex == index ? Colors.blue : Colors.grey,
+            color: currentIndex == index ? Colors.white : Colors.grey,
             shape: BoxShape.circle),
       );
     });
@@ -101,29 +101,30 @@ class _WorkoutPage extends State<WorkoutPage> {
             //     colors: secondary,
             //     begin: Alignment.topLeft,
             //     end: Alignment.bottomRight),
-            color: Colors.white,
             border: Border(bottom: BorderSide(color: accentColor, width: 2)),
             // borderRadius: BorderRadius.circular(10.0),
           ),
           child: Row(
             children: [
-              Spacer(),
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                child: Text(
-                  (i + 1).toString(),
-                  style: TextStyle(fontSize: 28),
-                ),
-              ),
+              // Spacer(),
+              // Container(
+              //   padding: const EdgeInsets.all(5.0),
+              //   child: Text(
+              //     (i + 1).toString(),
+              //     style: TextStyle(fontSize: 28),
+              //   ),
+              // ),
               Spacer(),
               Container(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   currentWorkout.reps[exerciseIndex][i].toString(),
-                  style: TextStyle(fontSize: 28),
+                  style: TextStyle(fontSize: 28, color: accentColor),
                 ),
               ),
-              Spacer(),
+              Spacer(
+                flex: 2,
+              ),
               Container(
                 decoration: BoxDecoration(
                   color: backgroundGrey,
@@ -194,8 +195,7 @@ class _WorkoutPage extends State<WorkoutPage> {
                                     items: [
                                       Container(
                                           decoration: BoxDecoration(
-                                            color:
-                                                Color.fromARGB(255, 25, 30, 42),
+                                            color: foregroundGrey,
                                             borderRadius:
                                                 BorderRadius.circular(12.0),
                                             // boxShadow: shadow
@@ -207,13 +207,12 @@ class _WorkoutPage extends State<WorkoutPage> {
                                           margin: EdgeInsets.only(
                                               left: 10, right: 10),
                                           decoration: BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 47, 47, 47),
-                                              // gradient: LinearGradient(
-                                              //     colors: primaryGradient),
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              boxShadow: shadow),
+                                            color: foregroundGrey,
+                                            // gradient: LinearGradient(
+                                            //     colors: primaryGradient),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
                                           child: StopWatch()),
                                     ],
                                     options: CarouselOptions(
@@ -265,10 +264,8 @@ class _WorkoutPage extends State<WorkoutPage> {
                             margin: EdgeInsets.only(
                                 top: 5, bottom: 5, left: 17, right: 17),
                             child: GradientProgressIndicator(
-                              gradient: LinearGradient(colors: [
-                                Color.fromARGB(255, 255, 255, 255),
-                                accentColor
-                              ]),
+                              gradient: LinearGradient(
+                                  colors: [foregroundGrey, accentColor]),
                               value: progress,
                             ),
                           ),
@@ -277,18 +274,8 @@ class _WorkoutPage extends State<WorkoutPage> {
                             margin: const EdgeInsets.only(
                                 top: 10, bottom: 10, left: 20, right: 20),
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 25, 30, 42),
+                              color: foregroundGrey,
                               borderRadius: BorderRadius.circular(20.0),
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: Color.fromARGB(36, 0, 0, 0),
-                                    offset: Offset(0.0, 5.0),
-                                    blurRadius: 15.0),
-                                BoxShadow(
-                                    color: Color.fromARGB(36, 0, 0, 0),
-                                    offset: Offset(0.0, -5.0),
-                                    blurRadius: 10.0),
-                              ],
                             ),
                             child: Column(
                               children: [
@@ -304,12 +291,12 @@ class _WorkoutPage extends State<WorkoutPage> {
                                     scrollbarThickness: 5,
                                     iconSize: 50,
                                     dropdownMaxHeight: size.height / 3,
-                                    iconEnabledColor: Colors.white,
+                                    iconEnabledColor: foregroundGrey,
                                     isExpanded: true,
                                     barrierColor: Color.fromARGB(45, 0, 0, 0),
                                     hint: Text(selectedExercise,
-                                        style: GoogleFonts.sourceSansPro(
-                                            color: Colors.white,
+                                        style: TextStyle(
+                                            color: foregroundGrey,
                                             fontSize: 21,
                                             fontWeight: FontWeight.w500)),
                                     items: currentWorkout.exercises
@@ -342,12 +329,12 @@ class _WorkoutPage extends State<WorkoutPage> {
                                 Container(
                                   child: Row(
                                     children: const [
-                                      Spacer(),
-                                      Text(
-                                        "  Set ",
-                                        style: TextStyle(
-                                            fontSize: 28, color: Colors.white),
-                                      ),
+                                      // Spacer(),
+                                      // Text(
+                                      //   "  Set ",
+                                      //   style: TextStyle(
+                                      //       fontSize: 28, color: Colors.white),
+                                      // ),
                                       Spacer(),
                                       Text(
                                         "Reps",
