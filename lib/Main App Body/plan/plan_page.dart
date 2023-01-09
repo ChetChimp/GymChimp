@@ -122,6 +122,7 @@ class _PlanPage extends State<PlanPage> {
                         return Container(
                           key: Key('$index'),
                           margin: EdgeInsets.only(top: 10, left: 15, right: 15),
+                          //margin: EdgeInsets.all(30),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15.0),
                               color: Colors.transparent
@@ -129,7 +130,7 @@ class _PlanPage extends State<PlanPage> {
                               ),
                           child: TextButton(
                             style: OutlinedButton.styleFrom(
-                              padding: EdgeInsets.only(top: 10, bottom: 10),
+                              padding: EdgeInsets.only(top: 35, bottom: 35),
                               backgroundColor: foregroundGrey,
                               shape: RoundedRectangleBorder(
                                   borderRadius:
@@ -145,7 +146,7 @@ class _PlanPage extends State<PlanPage> {
                                   child: Text(
                                     currentUser.userWorkouts[index].getName(),
                                     style: TextStyle(
-                                        fontSize: 20, color: accentColor),
+                                        fontSize: 25, color: accentColor),
                                   ),
                                 ),
                                 Spacer(),

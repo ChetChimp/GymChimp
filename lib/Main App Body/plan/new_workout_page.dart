@@ -460,7 +460,9 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
   //Modify Exercise Popup
   void modifyExercise(BuildContext ctx, String name, int changeIndex) {
     //If changeIndex is -1, we are adding a new exercise
-
+    final GlobalKey<AnimatedListState> _listKey = GlobalKey();
+    //final GlobalKey<AnimatedListState> _listKey2 =
+    GlobalKey<AnimatedListState>();
     String newName = name;
     String title = changeIndex == -1 ? "New Exercise" : "Edit Exercise";
     exerciseNameField.text = name;
@@ -482,7 +484,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
       context: ctx,
       builder: (BuildContext context) {
         Size size = MediaQuery.of(context).size;
-
+        bool choosingExercise = true;
         return FractionallySizedBox(
           heightFactor: 0.9,
           child: StatefulBuilder(
@@ -501,22 +503,22 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           style: Theme.of(context).textTheme.headlineMedium)),
                   Container(
                     margin: const EdgeInsets.only(
-                        top: 10, bottom: 10, left: 20, right: 20),
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20.0),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Color.fromARGB(36, 0, 0, 0),
-                            offset: Offset(0.0, 5.0),
-                            blurRadius: 15.0),
-                        BoxShadow(
-                            color: Color.fromARGB(36, 0, 0, 0),
-                            offset: Offset(0.0, -5.0),
-                            blurRadius: 10.0),
-                      ],
-                    ),
+                        top: 10, bottom: 10, left: 5, right: 5),
+                    //padding: const EdgeInsets.all(20),
+                    // decoration: BoxDecoration(
+                    //   color: Colors.white,
+                    //   borderRadius: BorderRadius.circular(20.0),
+                    //   boxShadow: const [
+                    //     BoxShadow(
+                    //         color: Color.fromARGB(36, 0, 0, 0),
+                    //         offset: Offset(0.0, 5.0),
+                    //         blurRadius: 15.0),
+                    //     BoxShadow(
+                    //         color: Color.fromARGB(36, 0, 0, 0),
+                    //         offset: Offset(0.0, -5.0),
+                    //         blurRadius: 10.0),
+                    //   ],
+                    // ),
                     child: Column(
                       children: [
                         TextField(
@@ -528,6 +530,13 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               filterSearchResults(value);
                             });
                           },
+                          onTap: () {
+                            setModalState(
+                              () {
+                                choosingExercise = true;
+                              },
+                            );
+                          },
                           decoration: const InputDecoration(
                             labelText: "Search",
                             hintText: "Search",
@@ -537,9 +546,11 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                     BorderRadius.all(Radius.circular(25.0))),
                           ),
                         ),
-                        Container(
+                        AnimatedContainer(
+                          duration: Duration(seconds: 1),
+                          curve: Curves.ease,
                           //live list of execises
-                          height: size.height / 3.75,
+                          height: choosingExercise ? size.height / 3.75 : 0,
                           child: ListView.builder(
                             itemCount: exerciseTempList.length,
                             itemBuilder: (context, index) {
@@ -550,6 +561,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                     "   |   "
                                         '${muscleTempList[index]}'),
                                 onTap: () {
+                                  choosingExercise = false;
                                   setModalState(
                                     () {
                                       setState(() {
@@ -570,7 +582,9 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                       ],
                     ),
                   ),
-                  Container(
+                  AnimatedContainer(
+                    curve: Curves.ease,
+                    duration: Duration(seconds: 1),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20.0),
@@ -587,47 +601,70 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                     ),
                     alignment: Alignment.center,
                     width: size.width - 10,
-                    height: size.height / 5.5,
-                    child: ListView(
-                      padding: EdgeInsets.all(8),
+                    height: choosingExercise
+                        ? size.height / 5.5
+                        : size.height / 2.2297,
+                    child: Column(
                       children: [
-                        for (int i = 0; i < reps.length; i++)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text("Set " + (i + 1).toString()),
-                              NumberPicker(
-                                haptics: true,
-                                value: reps[i],
-                                minValue: 0,
-                                maxValue: 50,
-                                itemHeight: 75,
-                                itemWidth: 75,
-                                axis: Axis.horizontal,
-                                onChanged: (value) => setModalState(() {
-                                  reps[i] = value;
-                                }),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
-                                  border: Border.all(color: Colors.black26),
+                        Container(
+                          height: 100,
+                          child: AnimatedList(
+                            scrollDirection: Axis.vertical,
+                            key: _listKey,
+                            padding: EdgeInsets.all(8),
+                            initialItemCount: reps.length,
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index,
+                                Animation<double> animation) {
+                              return SizeTransition(
+                                sizeFactor: animation,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text("Set " + (index + 1).toString()),
+                                    NumberPicker(
+                                      haptics: true,
+                                      value: reps[index],
+                                      minValue: 0,
+                                      maxValue: 50,
+                                      itemHeight: 75,
+                                      itemWidth: 75,
+                                      axis: Axis.horizontal,
+                                      onChanged: (value) => setModalState(() {
+                                        reps[index] = value;
+                                      }),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16),
+                                        border:
+                                            Border.all(color: Colors.black26),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        setModalState(() {
+                                          if (reps.length <= 1) {
+                                            return null;
+                                          } else {
+                                            reps.removeAt(index);
+                                            _listKey.currentState!.removeItem(
+                                                index, (context, animation) {
+                                              return SizeTransition(
+                                                  sizeFactor: animation);
+                                            });
+                                          }
+                                        });
+                                      },
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              ),
-                              ElevatedButton(
-                                  onPressed: () {
-                                    setModalState(() {
-                                      if (reps.length <= 1) {
-                                        return null;
-                                      } else {
-                                        reps.removeAt(i);
-                                      }
-                                    });
-                                  },
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ))
-                            ],
+                              );
+                            },
                           ),
+                        ),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
@@ -635,6 +672,8 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                       BorderRadius.all(Radius.circular(15))),
                             ),
                             onPressed: () {
+                              _listKey.currentState!.insertItem(reps.length,
+                                  duration: const Duration(seconds: 1));
                               setModalState(() {
                                 reps.add(3);
                               });
@@ -643,106 +682,109 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                       ],
                     ),
                   ),
-                  const Spacer(),
-                  Row(
-                    children: <Widget>[
-                      Spacer(
-                        flex: 3,
-                      ),
-                      ElevatedButton(
+                  Container(
+                    margin: EdgeInsets.all(25),
+                    child: Row(
+                      children: <Widget>[
+                        Spacer(
+                          flex: 3,
+                        ),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
+                                padding: EdgeInsets.all(25),
+                                primary: Colors.red,
+                                minimumSize: Size(150, 75)),
+                            onPressed: () {
+                              showDialog<String>(
+                                context: context,
+                                barrierDismissible:
+                                    false, // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(25))),
+                                    title: const Text(
+                                        'Are you sure you want to delete this exercise?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('No, go back'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text(
+                                          'Yes, delete it',
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          Navigator.pop(ctx);
+                                          setState(() {
+                                            if (changeIndex != -1) {
+                                              firebaseRemoveExercise(
+                                                  changeIndex, false);
+                                            }
+                                          });
+                                        },
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Text("Delete")),
+                        Spacer(),
+                        ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(15))),
                               padding: EdgeInsets.all(25),
-                              primary: Colors.red,
+                              primary: Colors.blue,
                               minimumSize: Size(150, 75)),
                           onPressed: () {
-                            showDialog<String>(
-                              context: context,
-                              barrierDismissible:
-                                  false, // user must tap button!
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(25))),
-                                  title: const Text(
-                                      'Are you sure you want to delete this exercise?'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: const Text('No, go back'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    TextButton(
-                                      child: const Text(
-                                        'Yes, delete it',
-                                        style: TextStyle(color: Colors.red),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                        Navigator.pop(ctx);
-                                        setState(() {
-                                          if (changeIndex != -1) {
-                                            firebaseRemoveExercise(
-                                                changeIndex, false);
-                                          }
-                                        });
-                                      },
-                                    )
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          child: Text("Delete")),
-                      Spacer(),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
-                            padding: EdgeInsets.all(25),
-                            primary: Colors.blue,
-                            minimumSize: Size(150, 75)),
-                        onPressed: () {
-                          if (currentWorkout.getName() ==
-                              newWorkout.getName()) {
-                            workoutState(newWorkout);
-                          }
-
-                          setState(() {
-                            if (newName.isNotEmpty) {
-                              setModalState(
-                                () {
-                                  filterSearchResults("");
-                                  exerciseNameField.text = "";
-                                },
-                              );
-                              Navigator.pop(context);
-                              if (changeIndex == -1) {
-                                newWorkout.addExercise(newName, reps);
-                                pushExerciseToWorkoutFirebase(changeIndex == -1
-                                    ? newWorkout.getNumExercises() - 1
-                                    : changeIndex + 1);
-                              } else {
-                                newWorkout.renameExercise(changeIndex, newName);
-                                newWorkout.setReps(changeIndex, reps);
-                              }
-                              updateWorkoutFirebase();
+                            if (currentWorkout.getName() ==
+                                newWorkout.getName()) {
+                              workoutState(newWorkout);
                             }
-                          });
-                        },
-                        child: Text("Save"),
-                      ),
-                      Spacer(
-                        flex: 3,
-                      ),
-                    ],
+
+                            setState(() {
+                              if (newName.isNotEmpty) {
+                                setModalState(
+                                  () {
+                                    filterSearchResults("");
+                                    exerciseNameField.text = "";
+                                  },
+                                );
+                                Navigator.pop(context);
+                                if (changeIndex == -1) {
+                                  newWorkout.addExercise(newName, reps);
+                                  pushExerciseToWorkoutFirebase(
+                                      changeIndex == -1
+                                          ? newWorkout.getNumExercises() - 1
+                                          : changeIndex + 1);
+                                } else {
+                                  newWorkout.renameExercise(
+                                      changeIndex, newName);
+                                  newWorkout.setReps(changeIndex, reps);
+                                }
+                                updateWorkoutFirebase();
+                              }
+                            });
+                          },
+                          child: Text("Save"),
+                        ),
+                        Spacer(
+                          flex: 3,
+                        ),
+                      ],
+                    ),
                   ),
-                  Spacer()
                 ],
               ),
             );

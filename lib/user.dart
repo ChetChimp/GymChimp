@@ -70,4 +70,10 @@ class CurrentUser {
   void removeWorkout(Workout newWorkout) {
     userWorkouts.remove(newWorkout);
   }
+
+  @override
+  String toString() {
+    String s = "Name: " + name + ", Email: " + email;
+    return s;
+  }
 }
