@@ -42,6 +42,15 @@ class CurrentUser {
 
   get getUserWorkouts => this.userWorkouts;
 
+  void addAllInfo(
+      String name, String email, String gender, String units, String level) {
+    this.name = name;
+    this.email = email;
+    this.gender = gender;
+    this.units = units;
+    this.level = level;
+  }
+
   List<String> getUserWorkoutsString() {
     List<String> userWorkoutsString = <String>[];
     for (Workout w in userWorkouts) {

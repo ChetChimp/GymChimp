@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,7 +33,9 @@ class MyAppBar extends StatefulWidget with PreferredSizeWidget {
   MyAppBar(this.ctx, this.arrowEnabled, this.screenName) : super();
 
   @override
-  _MyAppBarState createState() => _MyAppBarState(ctx, arrowEnabled, screenName);
+  _MyAppBarState createState() {
+    return _MyAppBarState(ctx, arrowEnabled, screenName);
+  }
 
   @override
   // TODO: implement preferredSize
@@ -39,15 +43,18 @@ class MyAppBar extends StatefulWidget with PreferredSizeWidget {
 }
 
 Function stateAddress = () {};
+Function dropdownListUpdate = () {};
+StreamController<double> _controller = StreamController<double>();
 
-List<DropdownMenuItem<String>> emptylist = [];
+int listLength = 0;
 bool workoutNameEdit = false;
 Icon workoutNameEditIcon = Icon(Icons.edit, color: accentColor);
 TextEditingController workoutNameEditController = TextEditingController(
   text: "",
 );
 
-class _MyAppBarState extends State<MyAppBar> {
+class _MyAppBarState extends State<MyAppBar>
+    with AutomaticKeepAliveClientMixin {
   Widget middle = Spacer();
   final ctx;
   final arrowEnabled;
@@ -58,16 +65,20 @@ class _MyAppBarState extends State<MyAppBar> {
 
   @override
   void initState() {
-    stateAddress = setWorkoutListState;
+    setWorkoutListState();
+    dropdownListUpdate = setWorkoutListState;
     if (screenName == "new_workout") {
       workoutNameEditController.text =
           currentUser.userWorkouts[workoutIndex].getName();
     }
+
     super.initState();
   }
 
-  void setWorkoutListState(Workout input) {
-    setState(() {});
+  void setWorkoutListState() {
+    setState(() {
+      listLength = currentUser.userWorkouts.length;
+    });
   }
 
   void updateWorkoutName() async {
@@ -100,6 +111,7 @@ class _MyAppBarState extends State<MyAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return AppBar(
       elevation: 0,
       backgroundColor: Colors.transparent,
@@ -348,7 +360,12 @@ class _MyAppBarState extends State<MyAppBar> {
                             onChanged: (bool value) {
                               // This is called when the user toggles the switch.
                               setState(() {
-                                imperialSystem = value;
+                                setState(
+                                  () {
+                                    imperialSystem = value;
+                                    unitState(value);
+                                  },
+                                );
                                 if (value) {
                                   weightUnit = 'inches/Lbs';
                                 } else {
@@ -389,6 +406,9 @@ class _MyAppBarState extends State<MyAppBar> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   // }
 }

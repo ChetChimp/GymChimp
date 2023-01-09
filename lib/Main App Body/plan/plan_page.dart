@@ -157,12 +157,11 @@ class _PlanPage extends State<PlanPage> {
                   floatingActionButton: FloatingActionButton(
                     onPressed: () async {
                       await pushWorkoutToDatabase(context);
-
                       setState(() {
                         currentUser.addWorkout(Workout(workoutName));
                       });
-
                       newWorkout(context, currentUser.getNumWorkouts - 1);
+                      dropdownUpdate();
                     },
                     child: Icon(Icons.add),
                   ),
