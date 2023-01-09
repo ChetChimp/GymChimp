@@ -106,9 +106,9 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
         backgroundColor: accentColor,
         //fixedColor: foregroundGrey,
         enableFeedback: true,
-
+        showUnselectedLabels: true,
         unselectedItemColor: textColor,
-        selectedItemColor: textColor,
+        selectedItemColor: accentColor,
         onTap: (idx) => setState(() {
           selectedIndex = idx;
           if (idx == 0) {

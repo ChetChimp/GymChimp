@@ -140,7 +140,6 @@ void readWorkoutsFirebase() async {
       .get();
 
   List list = querySnapshot.docs;
-  List list2 = [];
 
   for (dynamic element in list) {
     String doc = "";
@@ -156,45 +155,24 @@ void readWorkoutsFirebase() async {
         currentUser.addWorkout(Workout(doc));
       },
     );
-    // listKey.currentState
-    //     ?.insertItem(0, duration: const Duration(milliseconds: 200));
   }
-  //await new Future.delayed(const Duration(milliseconds: 150));
 
-  // list.forEach((element) {
-  //   String doc = "";
-  //   firestore
-  //       .collection('users')
-  //       .doc(FirebaseAuth.instance.currentUser!.uid)
-  //       .collection('workouts')
-  //       .doc(element.id)
-  //       .get()
-  //       .then(
-  //     (value) {
-  //       print("test");
-  //       doc = value.get("name");
-  //       currentUser.addWorkout(Workout(doc));
-  //     },
-  //   );
-  //   listKey.currentState
-  //       ?.insertItem(0, duration: const Duration(milliseconds: 200));
-  // });
-
-  for (Workout workout in currentUser.userWorkouts) {
+  int i = 0;
+  for (dynamic workoutid in list) {
+    Workout workout = currentUser.userWorkouts[i];
     querySnapshot = await firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('workouts')
-        .doc(workout.getName())
+        .doc(workoutid.id)
         .collection('exercises')
         .get();
 
-    List list = querySnapshot.docs;
+    List list2 = querySnapshot.docs;
+    workout.exercises = List<String>.filled(list2.length, "", growable: true);
+    workout.reps = List<List<int>>.filled(list2.length, [], growable: true);
 
-    workout.exercises = List<String>.filled(list.length, "", growable: true);
-    workout.reps = List<List<int>>.filled(list.length, [], growable: true);
-
-    for (dynamic element in list) {
+    for (dynamic element in list2) {
       String exerciseName = "";
       List<int> repetitions = [];
       int exerciseIndex = 0;
@@ -202,7 +180,7 @@ void readWorkoutsFirebase() async {
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .collection('workouts')
-          .doc(workout.getName())
+          .doc(workoutid.id)
           .collection('exercises')
           .doc(element.id)
           .get()
@@ -219,70 +197,8 @@ void readWorkoutsFirebase() async {
       );
     }
 
-    // list.forEach((element) async {
-    //   String exerciseName = "";
-    //   List<int> repetitions = [];
-    //   int exerciseIndex = 0;
-    //   await firestore
-    //       .collection('users')
-    //       .doc(FirebaseAuth.instance.currentUser!.uid)
-    //       .collection('workouts')
-    //       .doc(workout.getName())
-    //       .collection('exercises')
-    //       .doc(element.id)
-    //       .get()
-    //       .then(
-    //     (value) {
-    //       exerciseName = value.get('name');
-    //       value.get('reps').forEach((rep) {
-    //         repetitions.add(rep);
-    //         exerciseIndex = value.get('index');
-    //       });
-    //       workout.exercises[exerciseIndex] = exerciseName;
-    //       workout.reps[exerciseIndex] = repetitions;
-    //     },
-    //   );
-    // });
+    i++;
   }
-  // currentUser.userWorkouts.forEach((workout) async {
-  //   querySnapshot = await firestore
-  //       .collection('users')
-  //       .doc(FirebaseAuth.instance.currentUser!.uid)
-  //       .collection('workouts')
-  //       .doc(workout.getName())
-  //       .collection('exercises')
-  //       .get();
-
-  //   List list = querySnapshot.docs;
-
-  //   workout.exercises = List<String>.filled(list.length, "", growable: true);
-  //   workout.reps = List<List<int>>.filled(list.length, [], growable: true);
-
-  //   list.forEach((element) async {
-  //     String exerciseName = "";
-  //     List<int> repetitions = [];
-  //     int exerciseIndex = 0;
-  //     await firestore
-  //         .collection('users')
-  //         .doc(FirebaseAuth.instance.currentUser!.uid)
-  //         .collection('workouts')
-  //         .doc(workout.getName())
-  //         .collection('exercises')
-  //         .doc(element.id)
-  //         .get()
-  //         .then(
-  //       (value) {
-  //         exerciseName = value.get('name');
-  //         value.get('reps').forEach((rep) {
-  //           repetitions.add(rep);
-  //           exerciseIndex = value.get('index');
-  //         });
-  //         workout.exercises[exerciseIndex] = exerciseName;
-  //         workout.reps[exerciseIndex] = repetitions;
-  //       },
-  //     );
-  //   });
-  // });
 }
 
 class MyApp extends StatelessWidget {

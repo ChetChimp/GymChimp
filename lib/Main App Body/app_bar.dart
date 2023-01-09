@@ -43,8 +43,9 @@ Function stateAddress = () {};
 List<DropdownMenuItem<String>> emptylist = [];
 bool workoutNameEdit = false;
 Icon workoutNameEditIcon = Icon(Icons.edit, color: accentColor);
-TextEditingController workoutNameEditController =
-    TextEditingController(text: "");
+TextEditingController workoutNameEditController = TextEditingController(
+  text: "",
+);
 
 class _MyAppBarState extends State<MyAppBar> {
   Widget middle = Spacer();
@@ -88,7 +89,7 @@ class _MyAppBarState extends State<MyAppBar> {
         (value) {
           if (value.get("name") ==
               currentUser.userWorkouts[workoutIndex].getName()) {
-            doc.set({"name": workoutNameEditController.text});
+            doc.update({"name": workoutNameEditController.text});
             nameUpdater(workoutNameEditController.text);
             return;
           }
@@ -118,49 +119,90 @@ class _MyAppBarState extends State<MyAppBar> {
             //flex: 5,
             ),
         if (screenName == "new_workout")
-          Container(
-            padding:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width / 21),
-            width: MediaQuery.of(context).size.width / 1.47,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Spacer(),
-                Container(
-                    width: MediaQuery.of(context).size.width / 1.97,
-                    padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      color: foregroundGrey,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    child: TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
+          GestureDetector(
+            onTap: (() {
+              String holder = workoutNameEditController.text;
+              showDialog<String>(
+                context: context,
+                barrierDismissible: false, // user must tap button!
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    backgroundColor: backgroundGrey,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25))),
+                    title: Text('Rename workout',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: MediaQuery.of(context).size.width / 16)),
+                    content: Container(
+                      decoration: BoxDecoration(
+                        color: foregroundGrey,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
                         ),
-                        autocorrect: true,
-                        autofillHints: ["Chest", "Back", "Legs"],
-                        enabled: workoutNameEdit,
-                        controller: workoutNameEditController)),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      workoutNameEdit = !workoutNameEdit;
-                      if (workoutNameEdit) {
-                        workoutNameEditIcon =
-                            Icon(Icons.check, color: accentColor);
-                      } else {
-                        updateWorkoutName();
-                        workoutNameEditIcon =
-                            Icon(Icons.edit, color: accentColor);
-                      }
-                    });
-                  },
-                  icon: workoutNameEditIcon,
+                      ),
+                      child: TextField(
+                          style: TextStyle(
+                              color: accentColor,
+                              fontSize: MediaQuery.of(context).size.width / 16),
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          autocorrect: true,
+                          enabled: true,
+                          controller: workoutNameEditController),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: MediaQuery.of(context).size.width / 24),
+                        ),
+                        onPressed: () {
+                          workoutNameEditController.text = holder;
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text(
+                          'Save',
+                          style: TextStyle(
+                              color: accentColor,
+                              fontSize: MediaQuery.of(context).size.width / 24),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            updateWorkoutName();
+                          });
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    ],
+                  );
+                },
+              );
+            }),
+            child: Container(
+              width: MediaQuery.of(context).size.width / 1.5,
+              padding: EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                color: foregroundGrey,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
                 ),
-              ],
+              ),
+              child: Center(
+                child: Text(
+                  textAlign: TextAlign.center,
+                  workoutNameEditController.text,
+                  style: TextStyle(
+                      color: accentColor,
+                      fontSize: MediaQuery.of(context).size.width / 16),
+                ),
+              ),
             ),
           ),
         if (screenName == "workout_page")

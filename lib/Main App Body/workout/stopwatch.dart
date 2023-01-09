@@ -176,7 +176,11 @@ class _StopWatchState extends State<StopWatch>
                         Icons.play_arrow_sharp,
                         size: size.width / 8,
                       )
-                    : Icon(Icons.stop_rounded, size: size.width / 8),
+                    : Icon(
+                        Icons.stop_rounded,
+                        size: size.width / 8,
+                        color: accentColor,
+                      ),
                 onPressed: (() {
                   setState(() {
                     on = !on;

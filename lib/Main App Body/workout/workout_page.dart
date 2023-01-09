@@ -27,6 +27,7 @@ int index = 0;
 double multiplier = 0;
 bool checkVal = false;
 ScrollController scrollController = ScrollController();
+Radius radius = Radius.circular(20);
 
 TextStyle fontstyle(double size) {
   return TextStyle(
@@ -279,51 +280,71 @@ class _WorkoutPage extends State<WorkoutPage> {
                             ),
                             child: Column(
                               children: [
-                                DropdownButtonHideUnderline(
-                                  child: DropdownButton2(
-                                    buttonHeight: size.height / 14,
-                                    buttonDecoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: accentColor,
-                                    ),
-                                    scrollbarAlwaysShow: true,
-                                    scrollbarRadius: Radius.circular(5),
-                                    scrollbarThickness: 5,
-                                    iconSize: 50,
-                                    dropdownMaxHeight: size.height / 3,
-                                    iconEnabledColor: foregroundGrey,
-                                    isExpanded: true,
-                                    barrierColor: Color.fromARGB(45, 0, 0, 0),
-                                    hint: Text(selectedExercise,
-                                        style: TextStyle(
-                                            color: foregroundGrey,
-                                            fontSize: 21,
-                                            fontWeight: FontWeight.w500)),
-                                    items: currentWorkout.exercises
-                                        .map((item) => DropdownMenuItem<String>(
-                                              value: item,
-                                              child: Text(
-                                                item,
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                  color: Color.fromARGB(
-                                                      255, 0, 0, 0),
+                                AnimatedContainer(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                        bottomLeft: radius,
+                                        bottomRight: radius),
+                                    color: accentColor,
+                                  ),
+                                  duration: Duration(milliseconds: 200),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton2(
+                                      onMenuStateChange: (isOpen) {
+                                        if (isOpen) {
+                                          setState(() {
+                                            radius = Radius.circular(0);
+                                          });
+                                        } else {
+                                          setState(() {
+                                            radius = Radius.circular(20);
+                                          });
+                                        }
+                                      },
+                                      buttonHeight: size.height / 14,
+                                      scrollbarAlwaysShow: true,
+                                      scrollbarRadius: Radius.circular(5),
+                                      scrollbarThickness: 5,
+                                      iconSize: 50,
+                                      dropdownMaxHeight: size.height / 3,
+                                      iconEnabledColor: foregroundGrey,
+                                      isExpanded: true,
+                                      barrierColor: Color.fromARGB(45, 0, 0, 0),
+                                      hint: Text(selectedExercise,
+                                          style: TextStyle(
+                                              color: foregroundGrey,
+                                              fontSize: 21,
+                                              fontWeight: FontWeight.w500)),
+                                      items: currentWorkout.exercises
+                                          .map((item) =>
+                                              DropdownMenuItem<String>(
+                                                value: item,
+                                                child: Text(
+                                                  item,
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
+                                                    color: Color.fromARGB(
+                                                        255, 0, 0, 0),
+                                                  ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ))
-                                        .toList(),
-                                    onChanged: (String? value) {
-                                      setState(
-                                        () {
-                                          index = currentWorkout.exercises
-                                              .indexOf(value!);
-                                          selectedExercise = value;
-                                          getRows(selectedExercise);
-                                          updateProgress();
-                                        },
-                                      );
-                                    },
+                                              ))
+                                          .toList(),
+                                      onChanged: (String? value) {
+                                        setState(
+                                          () {
+                                            index = currentWorkout.exercises
+                                                .indexOf(value!);
+                                            selectedExercise = value;
+                                            getRows(selectedExercise);
+                                            updateProgress();
+                                          },
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
                                 Container(
@@ -388,8 +409,8 @@ class _WorkoutPage extends State<WorkoutPage> {
                                 });
                               }),
                               child: Ink(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
+                                decoration: BoxDecoration(
+                                  color: foregroundGrey,
                                   // gradient: LinearGradient(
                                   //     colors: GradientColors.royalBlue),
                                   borderRadius:

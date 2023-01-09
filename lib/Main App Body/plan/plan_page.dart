@@ -101,7 +101,7 @@ class _PlanPage extends State<PlanPage> {
       onGenerateRoute: (settings) {
         return MaterialPageRoute(
             builder: (_) => Scaffold(
-                  backgroundColor: Theme.of(context).colorScheme.background,
+                  backgroundColor: backgroundGrey,
                   appBar: MyAppBar(context, true, "plan_page"),
                   body: ReorderableListView(
                       proxyDecorator: proxyDecorator,
@@ -130,7 +130,7 @@ class _PlanPage extends State<PlanPage> {
                           child: TextButton(
                             style: OutlinedButton.styleFrom(
                               padding: EdgeInsets.only(top: 10, bottom: 10),
-                              backgroundColor: Colors.white,
+                              backgroundColor: foregroundGrey,
                               shape: RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(15))),

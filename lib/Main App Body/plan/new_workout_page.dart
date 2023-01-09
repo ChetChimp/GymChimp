@@ -52,13 +52,41 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
   List<String> muscleTempList = [];
 
   TextEditingController exerciseNameField = new TextEditingController(text: "");
+  String workoutIDFirebase = "";
 
   @override
   void initState() {
     workoutIndex = index;
     newWorkout = currentUser.userWorkouts[index];
+    getWorkoutID();
     readJson();
     super.initState();
+  }
+
+  void getWorkoutID() async {
+    String id = "";
+    QuerySnapshot querySnapshot = await firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .get();
+    var doc;
+    bool found = false;
+    List list = querySnapshot.docs;
+    for (var element in list) {
+      doc = await firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('workouts')
+          .doc(element.id);
+      doc.get().then((value) async {
+        if (value.get('name') == newWorkout.getName()) {
+          setState(() {
+            workoutIDFirebase = element.id;
+          });
+        }
+      });
+    }
   }
 
   void filterSearchResults(String query) {
@@ -123,47 +151,12 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     );
   }
 
-  void editExerciseOnFirebase(int exerciseIndex, List reps, String name) async {
-    QuerySnapshot querySnapshot = await firestore
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('workouts')
-        .doc(newWorkout.getName())
-        .collection('exercises')
-        .get();
-
-    List list = querySnapshot.docs;
-    list.forEach((element) async {
-      await firestore
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('workouts')
-          .doc(newWorkout.getName())
-          .collection('exercises')
-          .doc(element.id)
-          .get()
-          .then((value) {
-        if (value.get('index') == exerciseIndex) {
-          firestore
-              .collection('users')
-              .doc(FirebaseAuth.instance.currentUser!.uid)
-              .collection('workouts')
-              .doc(newWorkout.getName())
-              .collection('exercises')
-              .doc(element.id)
-              .update({'name': name, 'reps': reps});
-          return;
-        }
-      });
-    });
-  }
-
   void firebaseRemoveExercise(int deleteIndex, bool removeAll) async {
     QuerySnapshot querySnapshot = await firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('workouts')
-        .doc(newWorkout.getName())
+        .doc(workoutIDFirebase)
         .collection('exercises')
         .get();
 
@@ -173,7 +166,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .collection('workouts')
-          .doc(newWorkout.getName())
+          .doc(workoutIDFirebase)
           .collection('exercises')
           .doc(element.id)
           .get()
@@ -183,7 +176,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
               .collection('users')
               .doc(FirebaseAuth.instance.currentUser!.uid)
               .collection('workouts')
-              .doc(newWorkout.getName())
+              .doc(workoutIDFirebase)
               .collection('exercises')
               .doc(element.id)
               .delete();
@@ -194,7 +187,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
               newWorkout.removeExercise(deleteIndex);
             }
             if (newWorkout.exercises.isNotEmpty) {
-              updateExerciseIndexFirebase();
+              updateWorkoutFirebase();
             }
           });
           return;
@@ -220,12 +213,12 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     Navigator.of(ctx).pop();
   }
 
-  void updateExerciseIndexFirebase() async {
+  void updateWorkoutFirebase() async {
     QuerySnapshot querySnapshot = await firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('workouts')
-        .doc(newWorkout.getName())
+        .doc(workoutIDFirebase)
         .collection('exercises')
         .get();
 
@@ -236,7 +229,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .collection('workouts')
-          .doc(newWorkout.getName())
+          .doc(workoutIDFirebase)
           .collection('exercises')
           .doc(element.id)
           .get()
@@ -246,7 +239,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
               .collection('users')
               .doc(FirebaseAuth.instance.currentUser!.uid)
               .collection('workouts')
-              .doc(newWorkout.getName())
+              .doc(workoutIDFirebase)
               .collection('exercises')
               .doc(element.id)
               .update({
@@ -263,22 +256,21 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
   }
 
   void pushExerciseToWorkoutFirebase(int indx) async {
-    QuerySnapshot querySnapshot = await firestore
+    QuerySnapshot querySnapshot2 = await firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('workouts')
-        .doc(newWorkout.getName())
+        .doc(workoutIDFirebase)
         .collection('exercises')
         .get();
-
-    List list = querySnapshot.docs;
-    List list2 = [];
-    list.forEach((element) async {
-      list2.add(element.id);
+    List list2 = querySnapshot2.docs;
+    List list3 = [];
+    list2.forEach((element) async {
+      list3.add(element.id);
     });
 
     int i = 0;
-    while (list2.contains("Exercise $i")) {
+    while (list3.contains("Exercise $i")) {
       i++;
     }
 
@@ -287,7 +279,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('workouts')
-        .doc(newWorkout.getName())
+        .doc(workoutIDFirebase)
         .collection('exercises')
         .doc(exerciseName)
         .set({
@@ -321,7 +313,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               }
                               newWorkout.moveExercise(oldIndex, newIndex);
                               if (newWorkout.exercises.isNotEmpty) {
-                                updateExerciseIndexFirebase();
+                                updateWorkoutFirebase();
                               }
                             });
                           },
@@ -336,7 +328,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                 height: size.height / 10,
                                 child: OutlinedButton(
                                   style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.white,
+                                    backgroundColor: foregroundGrey,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(15))),
@@ -344,27 +336,36 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                   onPressed: () {},
                                   child: Row(
                                     children: [
-                                      Icon(Icons.drag_indicator),
+                                      Icon(Icons.drag_indicator,
+                                          color: accentColor),
                                       Spacer(),
                                       Container(
                                           width: size.width / 3,
                                           child: Text(
+                                            style:
+                                                TextStyle(color: Colors.white),
                                             newWorkout.getExercise(index),
                                           )),
                                       Spacer(),
-                                      Text("Sets: "),
+                                      Text("Sets: ",
+                                          style:
+                                              TextStyle(color: Colors.white)),
                                       Container(
                                           width: size.width / 6,
-                                          child: Text(newWorkout
-                                              .getRepsForExercise(index)
-                                              .toString())),
+                                          child: Text(
+                                              newWorkout
+                                                  .getRepsForExercise(index)
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color: Colors.white))),
                                       Spacer(),
                                       OutlinedButton(
                                         style: OutlinedButton.styleFrom(
                                             backgroundColor: Colors.transparent,
                                             side: BorderSide(
                                                 color: Colors.transparent)),
-                                        child: Icon(Icons.edit),
+                                        child: Icon(Icons.edit,
+                                            color: accentColor),
                                         onPressed: () {
                                           modifyExercise(
                                               ctx,
@@ -381,10 +382,8 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                       ),
                       Container(
                           //Add Button
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
+                          padding: EdgeInsets.only(
+                              left: size.width / 8, right: size.width / 8),
                           key: Key("-1"),
                           height: size.height / 8,
                           child: Column(
@@ -395,7 +394,11 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                     () {}, //Ensures that the plus button cannot be moved
                                 child: OutlinedButton(
                                     style: OutlinedButton.styleFrom(
-                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      backgroundColor: foregroundGrey,
                                     ),
                                     onPressed: () {
                                       print(currentUser.getUserWorkouts[0]
@@ -404,7 +407,8 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                       modifyExercise(ctx, "", -1);
                                     },
                                     child: Center(
-                                      child: Icon(Icons.add),
+                                      child:
+                                          Icon(Icons.add, color: accentColor),
                                     )),
                               ),
                               Container(
@@ -414,8 +418,11 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                       () {}, //Ensures that the plus button cannot be moved
                                   child: OutlinedButton(
                                       style: OutlinedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                      ),
+                                          backgroundColor: foregroundGrey,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          )),
                                       onPressed: () {
                                         setState(() {
                                           removeWorkout(context);
@@ -723,10 +730,8 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               } else {
                                 newWorkout.renameExercise(changeIndex, newName);
                                 newWorkout.setReps(changeIndex, reps);
-                                editExerciseOnFirebase(
-                                    changeIndex, reps, newName);
                               }
-                              updateExerciseIndexFirebase();
+                              updateWorkoutFirebase();
                             }
                           });
                         },
