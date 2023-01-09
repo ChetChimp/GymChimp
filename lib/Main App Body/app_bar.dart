@@ -106,7 +106,7 @@ class _MyAppBarState extends State<MyAppBar> {
         if (screenName != "start_page")
           IconButton(
               splashRadius: 1,
-              icon: Icon(Icons.arrow_back_outlined, color: Colors.black),
+              icon: Icon(Icons.arrow_back_outlined, color: textColor),
               onPressed: () {
                 if (Navigator.of(ctx).canPop()) {
                   Navigator.of(ctx).pop();
@@ -130,7 +130,7 @@ class _MyAppBarState extends State<MyAppBar> {
                     width: MediaQuery.of(context).size.width / 1.97,
                     padding: EdgeInsets.all(3),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: foregroundGrey,
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
@@ -172,7 +172,7 @@ class _MyAppBarState extends State<MyAppBar> {
             child: DropdownButtonHideUnderline(
               child: AnimatedContainer(
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: foregroundGrey,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30),
@@ -341,7 +341,7 @@ class _MyAppBarState extends State<MyAppBar> {
               ),
             ],
             splashRadius: 20,
-            icon: Icon(color: Colors.black, Icons.settings_outlined),
+            icon: Icon(color: textColor, Icons.settings_outlined),
           ),
         ),
       ],
