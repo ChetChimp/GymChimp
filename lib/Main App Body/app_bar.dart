@@ -122,26 +122,6 @@ class _MyAppBarState extends State<MyAppBar>
         Spacer(
             //flex: 5,
             ),
-        if (screenName == "plan_page")
-          Container(
-            width: MediaQuery.of(context).size.width / 1.5,
-            padding: EdgeInsets.all(3),
-            decoration: BoxDecoration(
-                // color: foregroundGrey,
-                // borderRadius: BorderRadius.all(
-                // Radius.circular(10),
-                // ),
-                ),
-            child: Center(
-              child: Text(
-                textAlign: TextAlign.center,
-                "Workouts",
-                style: TextStyle(
-                    color: accentColor,
-                    fontSize: MediaQuery.of(context).size.width / 16),
-              ),
-            ),
-          ),
         if (screenName == "new_workout")
           GestureDetector(
             onTap: (() {
@@ -166,6 +146,7 @@ class _MyAppBarState extends State<MyAppBar>
                         ),
                       ),
                       child: TextField(
+                          autofocus: true,
                           style: TextStyle(
                               color: accentColor,
                               fontSize: MediaQuery.of(context).size.width / 16),
@@ -311,115 +292,112 @@ class _MyAppBarState extends State<MyAppBar>
         if (screenName == "plan_page")
           Center(
               child: Text(
-            currentUser.getName + "'s Workouts",
+            "${currentUser.getName}'s Workouts",
             style: TextStyle(color: textColor, fontSize: 20),
           )),
-        Spacer(),
-        Container(
-          child: PopupMenuButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            itemBuilder: (
-              BuildContext context,
-            ) =>
-                <PopupMenuEntry>[
-              PopupMenuItem(
-                child: Container(
-                  child: ListTile(
-                    leading: Icon(Icons.person_outline),
-                    title: Text('Account', style: TextStyle(fontSize: 16)),
-                    onTap: () {
-                      changePage(
-                        context,
-                        new AccountSettings(),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              // PopupMenuItem(
-              //   child: new Container(
-              //     color: Colors.transparent,
-              //     width: 1000,
-              //     child: ListTile(
-              //       onTap: () {},
-              //       leading: Icon(Icons.notifications_outlined),
-              //       title: PopupMenuButton(
-              //         child: Text("Notifications"),
-              //         itemBuilder: (_) {
-              //           return [
-              //             PopupMenuItem(
-              //                 child: ListTile(leading: Text("Item2"))),
-              //             PopupMenuItem(child: Text("Item3"))
-              //           ];
-              //         },
-              //       ),
-              //     ),
-              //   ),
-              //   onTap: () {},
-              // ),
-              PopupMenuItem(
-                enabled: true,
-                child: StatefulBuilder(
-                  builder: (BuildContext context, StateSetter setState) {
-                    return Container(
-                      child: ListTile(
-                        onTap: () {},
-                        leading: Icon(Icons.scale_outlined),
-                        title: Text(weightUnit, style: TextStyle(fontSize: 16)),
-                        trailing: Container(
-                          child: Switch(
-                            // This bool value toggles the switch.
-                            value: imperialSystem,
-                            activeColor: Colors.blue,
-                            inactiveThumbColor: Colors.red,
-                            inactiveTrackColor:
-                                Color.fromARGB(131, 255, 73, 73),
-                            onChanged: (bool value) {
-                              // This is called when the user toggles the switch.
-                              setState(() {
-                                setState(
-                                  () {
-                                    imperialSystem = value;
-                                    unitState(value);
-                                  },
-                                );
-                                if (value) {
-                                  weightUnit = 'inches/Lbs';
-                                } else {
-                                  weightUnit = 'cm/Kg';
-                                }
-                                updateInfo('unit', weightUnit);
-                              });
-                            },
-                          ),
-                        ),
-                      ),
+        const Spacer(),
+        PopupMenuButton(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0))),
+          itemBuilder: (
+            BuildContext context,
+          ) =>
+              <PopupMenuEntry>[
+            PopupMenuItem(
+              child: Container(
+                child: ListTile(
+                  leading: Icon(Icons.person_outline),
+                  title: Text('Account', style: TextStyle(fontSize: 16)),
+                  onTap: () {
+                    changePage(
+                      context,
+                      const AccountSettings(),
                     );
                   },
                 ),
               ),
-              PopupMenuItem(
-                child: Container(
-                  child: ListTile(
-                    leading: Icon(Icons.lock_outline),
-                    title: Text('Sign Out', style: TextStyle(fontSize: 16)),
-                    onTap: () {
-                      while (Navigator.of(ctx).canPop()) {
-                        Navigator.of(ctx).pop();
-                      }
+            ),
+            // PopupMenuItem(
+            //   child: new Container(
+            //     color: Colors.transparent,
+            //     width: 1000,
+            //     child: ListTile(
+            //       onTap: () {},
+            //       leading: Icon(Icons.notifications_outlined),
+            //       title: PopupMenuButton(
+            //         child: Text("Notifications"),
+            //         itemBuilder: (_) {
+            //           return [
+            //             PopupMenuItem(
+            //                 child: ListTile(leading: Text("Item2"))),
+            //             PopupMenuItem(child: Text("Item3"))
+            //           ];
+            //         },
+            //       ),
+            //     ),
+            //   ),
+            //   onTap: () {},
+            // ),
+            PopupMenuItem(
+              enabled: true,
+              child: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return Container(
+                    child: ListTile(
+                      onTap: () {},
+                      leading: Icon(Icons.scale_outlined),
+                      title: Text(weightUnit, style: TextStyle(fontSize: 16)),
+                      trailing: Container(
+                        child: Switch(
+                          // This bool value toggles the switch.
+                          value: imperialSystem,
+                          activeColor: Colors.blue,
+                          inactiveThumbColor: Colors.red,
+                          inactiveTrackColor: Color.fromARGB(131, 255, 73, 73),
+                          onChanged: (bool value) {
+                            // This is called when the user toggles the switch.
+                            setState(() {
+                              setState(
+                                () {
+                                  imperialSystem = value;
+                                  unitState(value);
+                                },
+                              );
+                              if (value) {
+                                weightUnit = 'inches/Lbs';
+                              } else {
+                                weightUnit = 'cm/Kg';
+                              }
+                              updateInfo('unit', weightUnit);
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            PopupMenuItem(
+              child: Container(
+                child: ListTile(
+                  leading: Icon(Icons.lock_outline),
+                  title: Text('Sign Out', style: TextStyle(fontSize: 16)),
+                  onTap: () {
+                    while (Navigator.of(ctx).canPop()) {
+                      Navigator.of(ctx).pop();
+                    }
 
-                      Navigator.of(ctx, rootNavigator: true).pop();
+                    Navigator.of(ctx, rootNavigator: true).pop();
 
-                      logOutUser(context);
-                    },
-                  ),
+                    logOutUser(context);
+                  },
                 ),
               ),
-            ],
-            splashRadius: 20,
-            icon: Icon(color: textColor, Icons.settings_outlined),
-          ),
+            ),
+          ],
+          splashRadius: 20,
+          icon: Icon(color: textColor, Icons.settings_outlined),
         ),
       ],
     );

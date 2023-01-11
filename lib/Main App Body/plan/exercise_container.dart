@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../../main.dart';
 import 'new_workout_page.dart';
@@ -8,7 +6,7 @@ import 'new_workout_page.dart';
 class ExerciseContainer extends StatefulWidget {
   final ctx;
   final ind;
-  ExerciseContainer(Key? key, this.ctx, this.ind) : super(key: key);
+  const ExerciseContainer(Key? key, this.ctx, this.ind) : super(key: key);
 
   @override
   State<ExerciseContainer> createState() => _ExerciseContainerState();
@@ -22,18 +20,18 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
     Size size = MediaQuery.of(context).size;
     return AnimatedContainer(
       constraints: BoxConstraints(maxHeight: size.height / 1.75),
-      duration: Duration(milliseconds: 250),
-      padding: EdgeInsets.all(2),
+      duration: const Duration(milliseconds: 250),
+      padding: const EdgeInsets.all(2),
       key: Key('$widget.ind'),
       height: changeHeight
-          ? ((size.height / 16) +
+          ? ((size.height / 14) +
               newWorkout.getRepsForExercise(widget.ind).length *
                   (size.height / 20))
-          : size.height / 16,
+          : size.height / 14,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
           backgroundColor: foregroundGrey,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15))),
         ),
         onPressed: () {},
@@ -42,27 +40,27 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
             Row(
               children: [
                 Icon(Icons.drag_indicator, color: accentColor),
-                Spacer(),
+                const Spacer(),
                 Container(
-                    width: size.width / 3,
+                    width: size.width / 2,
                     child: Text(
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
                       newWorkout.getExercise(widget.ind),
                     )),
-                Spacer(),
+                const Spacer(),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
                       backgroundColor: Colors.transparent,
-                      side: BorderSide(color: Colors.transparent)),
+                      side: const BorderSide(color: Colors.transparent)),
                   child: Icon(Icons.edit, color: accentColor),
                   onPressed: () {
                     modExercise(widget.ctx,
                         '${newWorkout.getExercise(widget.ind)}', widget.ind);
                   },
                 ),
-                Spacer(),
+                const Spacer(),
                 IconButton(
-                  icon: Icon(Icons.expand_more, color: Colors.white),
+                  icon: const Icon(Icons.expand_more, color: Colors.white),
                   onPressed: () {
                     setState(() {
                       changeHeight = !changeHeight;
@@ -87,10 +85,10 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
                           // borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Row(children: [
-                          Spacer(),
+                          const Spacer(),
                           Container(
                             padding: const EdgeInsets.all(3.0),
-                            child: Text(
+                            child: const Text(
                               "Set ",
                               style:
                                   TextStyle(fontSize: 20, color: Colors.white),
@@ -104,19 +102,16 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
                                   TextStyle(fontSize: 20, color: accentColor),
                             ),
                           ),
-                          Spacer(),
-                          Container(
-                            child: Text(
-                              "Reps:  ",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
-                            ),
+                          const Spacer(),
+                          const Text(
+                            "Reps:  ",
+                            style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                           //       Spacer(),
 
                           //       Spacer(),
                           // Spacer(),
-                          Container(
+                          SizedBox(
                             width: size.width / 12,
                             child: Text(
                               newWorkout.reps[widget.ind][i].toString(),
@@ -124,7 +119,7 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
                                   TextStyle(fontSize: 20, color: accentColor),
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                         ]),
                       ),
                     )

@@ -85,12 +85,12 @@ class _AccountSettingsState extends State<AccountSettings> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: foregroundGrey,
         leading: IconButton(
             splashRadius: 20,
             icon: const Icon(
               Icons.arrow_back_outlined,
-              color: Colors.black,
+              color: Colors.white,
             ),
             onPressed: () {
               if (Navigator.of(context).canPop()) {
@@ -99,15 +99,16 @@ class _AccountSettingsState extends State<AccountSettings> {
                 Navigator.of(context, rootNavigator: true).pop();
               }
             }),
-        title: Text(style: TextStyle(color: Colors.black), "Account Settings"),
+        title: Text(style: TextStyle(color: accentColor), "Account Settings"),
       ),
       body: Container(
+        color: backgroundGrey,
         padding: EdgeInsets.all(10),
-        decoration: backGround(),
         child: Column(
           children: [
             //Spacer(flex: 1),
             Card(
+              color: foregroundGrey,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0)),
               elevation: 5,
@@ -119,14 +120,19 @@ class _AccountSettingsState extends State<AccountSettings> {
                       padding: EdgeInsets.all(10),
                       child: Text(
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              color: accentColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
                           "Name:"),
                     ),
                     Flexible(
                         child: TextField(
+                            style: TextStyle(color: Colors.white),
                             enabled: nameEditActive,
                             controller: nameEditController)),
                     IconButton(
+                      splashRadius: 5,
+                      color: accentColor,
                       onPressed: () {
                         setState(() {
                           nameEditActive = !nameEditActive;
@@ -146,6 +152,7 @@ class _AccountSettingsState extends State<AccountSettings> {
               ),
             ),
             Card(
+              color: foregroundGrey,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0)),
               elevation: 5,
@@ -154,74 +161,84 @@ class _AccountSettingsState extends State<AccountSettings> {
                 child: Row(
                   children: [
                     Container(
+                      width: size.width / 6.5,
                       padding: EdgeInsets.all(10),
                       child: Text(
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              color: accentColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
                           "Sex:"),
                     ),
-                    Spacer(flex: 1),
-                    FloatingActionButton.extended(
-                      heroTag: "btn1",
-                      extendedPadding: EdgeInsets.only(
-                          left: size.width / 16,
-                          right: size.width / 16,
-                          top: size.width / 4,
-                          bottom: size.width / 4),
-                      label: Text(
-                        'Male',
-                        style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(197, 0, 0, 0),
-                              letterSpacing: .5,
-                              decoration: TextDecoration.none),
-                        ),
-                      ), // <-- Text
-                      backgroundColor: maleCurrent,
-                      onPressed: () {
-                        setState(() {
-                          userGender = "Male";
-                          updateInfo('gender', userGender);
-                          currentGender();
-                        });
-                      },
+                    Spacer(),
+                    Container(
+                      width: size.width / 4,
+                      child: FloatingActionButton.extended(
+                        heroTag: "btn1",
+                        extendedPadding: EdgeInsets.only(
+                            left: size.width / 16,
+                            right: size.width / 16,
+                            top: size.width / 4,
+                            bottom: size.width / 4),
+                        label: Text(
+                          'Male',
+                          style: GoogleFonts.lato(
+                            textStyle: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(197, 0, 0, 0),
+                                letterSpacing: .5,
+                                decoration: TextDecoration.none),
+                          ),
+                        ), // <-- Text
+                        backgroundColor: maleCurrent,
+                        onPressed: () {
+                          setState(() {
+                            userGender = "Male";
+                            updateInfo('gender', userGender);
+                            currentGender();
+                          });
+                        },
+                      ),
                     ),
-                    Spacer(flex: 1),
-                    FloatingActionButton.extended(
-                      heroTag: "btn2",
-                      extendedPadding: EdgeInsets.only(
-                          left: size.width / 16,
-                          right: size.width / 16,
-                          top: size.width / 4,
-                          bottom: size.width / 4),
-                      label: Text(
-                        'Female',
-                        style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(197, 0, 0, 0),
-                              letterSpacing: .5,
-                              decoration: TextDecoration.none),
-                        ),
-                      ), // <-- Text
-                      backgroundColor: femaleCurrent,
-                      onPressed: () {
-                        setState(() {
-                          userGender = "Female";
-                          updateInfo('gender', userGender);
-                          currentGender();
-                        });
-                      },
+                    Spacer(),
+                    Container(
+                      width: size.width / 4,
+                      child: FloatingActionButton.extended(
+                        heroTag: "btn2",
+                        extendedPadding: EdgeInsets.only(
+                            left: size.width / 16,
+                            right: size.width / 16,
+                            top: size.width / 4,
+                            bottom: size.width / 4),
+                        label: Text(
+                          'Female',
+                          style: GoogleFonts.lato(
+                            textStyle: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(197, 0, 0, 0),
+                                letterSpacing: .5,
+                                decoration: TextDecoration.none),
+                          ),
+                        ), // <-- Text
+                        backgroundColor: femaleCurrent,
+                        onPressed: () {
+                          setState(() {
+                            userGender = "Female";
+                            updateInfo('gender', userGender);
+                            currentGender();
+                          });
+                        },
+                      ),
                     ),
-                    Spacer(flex: 1),
+                    Spacer(flex: 2),
                   ],
                 ),
               ),
             ),
             Card(
+              color: foregroundGrey,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0)),
               elevation: 5,
@@ -232,9 +249,12 @@ class _AccountSettingsState extends State<AccountSettings> {
                     Container(
                       padding: EdgeInsets.all(10),
                       child: Text(
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                          "Goal:"),
+                        style: TextStyle(
+                            color: accentColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                        "Goal:",
+                      ),
                     ),
                     Spacer(flex: 1),
                     FloatingActionButton.extended(
@@ -320,7 +340,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                         });
                       },
                     ),
-                    Spacer(flex: 1),
+                    Spacer(flex: 3),
                   ],
                 ),
               ),

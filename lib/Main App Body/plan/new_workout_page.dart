@@ -350,9 +350,6 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                       backgroundColor: foregroundGrey,
                                     ),
                                     onPressed: () {
-                                      print(currentUser.getUserWorkouts[0]
-                                          .getExercisesList()
-                                          .toString());
                                       modifyExercise(ctx, "", -1);
                                     },
                                     child: Center(
