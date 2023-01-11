@@ -489,6 +489,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                       children: [
                         TextField(
                           controller: exerciseNameField,
+                          style: TextStyle(color: textColor),
                           onChanged: (value) {
                             setModalState(() {
                               filterSearchResults(value);
@@ -502,11 +503,28 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                             );
                           },
                           decoration: InputDecoration(
-                            fillColor: textColor,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
+                              borderSide: BorderSide(
+                                width: 2,
+                                color: accentColor,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                                borderSide:
+                                    BorderSide(width: 2, color: accentColor)),
+                            //fillColor: textColor,
                             labelText: "Search",
                             hintText: "Search",
-                            iconColor: textColor,
-                            prefixIcon: Icon(Icons.search),
+                            focusColor: textColor,
+                            floatingLabelStyle: TextStyle(color: textColor),
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: accentColor,
+                            ),
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(25.0))),
@@ -520,34 +538,40 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           child: ListView.builder(
                             itemCount: exerciseTempList.length,
                             itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text(
-                                  exerciseTempList[index],
-                                  style: TextStyle(color: textColor),
+                              return Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: accentColor, width: 2)),
                                 ),
-                                // ignore: prefer_interpolation_to_compose_strings
-                                subtitle: Text(
-                                  difficultyTempList[index] +
-                                      "   |   "
-                                          '${muscleTempList[index]}',
-                                  style: TextStyle(color: textColor),
-                                ),
-                                onTap: () {
-                                  setModalState(
-                                    () {
-                                      setState(() {
-                                        choosingExercise = false;
-                                        print("bye");
-                                        newName = exerciseNameField.text =
-                                            exerciseTempList[index];
-                                      });
-                                    },
-                                  );
-                                },
-                                trailing: IconButton(
-                                  color: textColor,
-                                  icon: const Icon(Icons.info_outline),
-                                  onPressed: () {},
+                                child: ListTile(
+                                  title: Text(
+                                    exerciseTempList[index],
+                                    style: TextStyle(color: textColor),
+                                  ),
+                                  // ignore: prefer_interpolation_to_compose_strings
+                                  subtitle: Text(
+                                    difficultyTempList[index] +
+                                        "   |   "
+                                            '${muscleTempList[index]}',
+                                    style: TextStyle(color: textColor),
+                                  ),
+                                  onTap: () {
+                                    setModalState(
+                                      () {
+                                        setState(() {
+                                          choosingExercise = false;
+                                          newName = exerciseNameField.text =
+                                              exerciseTempList[index];
+                                        });
+                                      },
+                                    );
+                                  },
+                                  trailing: IconButton(
+                                    color: textColor,
+                                    icon: const Icon(Icons.info_outline),
+                                    onPressed: () {},
+                                  ),
                                 ),
                               );
                             },
@@ -561,13 +585,15 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                     onTap: () {
                       setModalState(() {
                         choosingExercise = false;
+                        //To hide keyboard
+                        FocusScope.of(context).requestFocus(new FocusNode());
                       });
                     },
                     child: AnimatedContainer(
                       curve: Curves.ease,
                       duration: Duration(seconds: 1),
                       decoration: BoxDecoration(
-                        //color: Colors.white,
+                        color: foregroundGrey,
                         borderRadius: BorderRadius.circular(20.0),
                         // boxShadow: const [
                         //   BoxShadow(
@@ -619,6 +645,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           ),
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
+                                minimumSize: Size(size.width - 50, 30),
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(15))),
