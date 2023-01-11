@@ -308,6 +308,12 @@ class _MyAppBarState extends State<MyAppBar>
               ),
             ),
           ),
+        if (screenName == "plan_page")
+          Center(
+              child: Text(
+            currentUser.getName + "'s Workouts",
+            style: TextStyle(color: textColor, fontSize: 20),
+          )),
         Spacer(),
         Container(
           child: PopupMenuButton(
