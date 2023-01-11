@@ -45,58 +45,55 @@ class setChooser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizeTransition(
-      sizeFactor: animation,
-      child: Container(
-        padding: EdgeInsets.all(5),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Set " + (index + 1).toString(),
-              style: TextStyle(color: textColor),
-            ),
-            NumberPicker(
-              haptics: true,
-              textStyle: TextStyle(color: textColor),
-              selectedTextStyle: TextStyle(color: accentColor, fontSize: 30),
-              value: tempValue < 0 ? reps[index] : tempValue,
-              minValue: 0,
-              maxValue: 50,
-              itemHeight: 75,
-              itemWidth: 75,
-              axis: Axis.horizontal,
-              onChanged: (value) {
-                choosingExerciseTrue();
-                if (tempValue < 0) {
-                  reps[index] = value;
-                  setStateParent();
-                }
-              },
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: accentColor),
-                //color: textColor,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                if (tempValue > 0 || reps.length <= 1) {
-                  return null;
-                } else {
-                  removeItem(index);
-                }
-                choosingExerciseTrue();
+    return Container(
+      padding: EdgeInsets.all(5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            "Set " + (index + 1).toString(),
+            style: TextStyle(color: textColor),
+          ),
+          NumberPicker(
+            haptics: true,
+            textStyle: TextStyle(color: textColor),
+            selectedTextStyle: TextStyle(color: accentColor, fontSize: 30),
+            value: tempValue < 0 ? reps[index] : tempValue,
+            minValue: 0,
+            maxValue: 50,
+            itemHeight: 75,
+            itemWidth: 75,
+            axis: Axis.horizontal,
+            onChanged: (value) {
+              choosingExerciseTrue();
+              if (tempValue < 0) {
+                reps[index] = value;
                 setStateParent();
-              },
-              icon: Icon(
-                Icons.delete,
-                color: accentColor,
-                size: 25,
-              ),
-            )
-          ],
-        ),
+              }
+            },
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: accentColor),
+              //color: textColor,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              if (tempValue > 0 || reps.length <= 1) {
+                return null;
+              } else {
+                removeItem(index);
+              }
+              choosingExerciseTrue();
+              setStateParent();
+            },
+            icon: Icon(
+              Icons.delete,
+              color: accentColor,
+              size: 25,
+            ),
+          )
+        ],
       ),
     );
   }

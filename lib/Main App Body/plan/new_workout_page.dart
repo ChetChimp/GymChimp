@@ -452,15 +452,19 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
               _listKey.currentState!.removeItem(
                   duration: Duration(seconds: 1), index, (context, animation) {
                 //return Container();
-                return setChooser(
-                    animation: animation,
-                    setStateParent: () => {},
-                    removeItem: () => {},
-                    choosingExerciseTrue: choosingExerciseTrue,
-                    reps: [],
-                    tempValue: temp,
-                    listKey: _listKey,
-                    index: index);
+                return SizeTransition(
+                  sizeFactor: CurvedAnimation(
+                      parent: animation, curve: Curves.bounceIn),
+                  child: setChooser(
+                      animation: animation,
+                      setStateParent: () => {},
+                      removeItem: () => {},
+                      choosingExerciseTrue: choosingExerciseTrue,
+                      reps: [],
+                      tempValue: temp,
+                      listKey: _listKey,
+                      index: index),
+                );
               });
             }
 
@@ -628,7 +632,9 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               itemBuilder: (BuildContext context, int index,
                                   Animation<double> animation) {
                                 return SizeTransition(
-                                  sizeFactor: animation,
+                                  sizeFactor: CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.bounceOut),
                                   child: setChooser(
                                     animation: animation,
                                     tempValue: -1,
@@ -643,22 +649,58 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               },
                             ),
                           ),
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: Size(size.width - 50, 30),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15))),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize:
+                                        Size((size.width - 50) / 2, 30),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(15),
+                                        bottomLeft: Radius.circular(15),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    choosingExerciseTrue();
+                                    _listKey.currentState!.insertItem(
+                                        reps.length,
+                                        duration: const Duration(seconds: 1));
+                                    setModalState(() {
+                                      reps.add(3);
+                                    });
+                                  },
+                                  child: Text("Add new set")),
+                              VerticalDivider(
+                                color: accentColor,
+                                thickness: 10,
+                                width: 10,
                               ),
-                              onPressed: () {
-                                choosingExerciseTrue();
-                                _listKey.currentState!.insertItem(reps.length,
-                                    duration: const Duration(seconds: 1));
-                                setModalState(() {
-                                  reps.add(3);
-                                });
-                              },
-                              child: Text("Add new set")),
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize:
+                                        Size((size.width - 50) / 2, 30),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(15),
+                                        bottomRight: Radius.circular(15),
+                                      ),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    choosingExerciseTrue();
+                                    _listKey.currentState!.insertItem(
+                                        reps.length,
+                                        duration: const Duration(seconds: 1));
+                                    setModalState(() {
+                                      reps.add(3);
+                                    });
+                                  },
+                                  child: Text("Remove set")),
+                            ],
+                          ),
                         ],
                       ),
                     ),
