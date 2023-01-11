@@ -20,7 +20,6 @@ import 'package:searchable_listview/searchable_listview.dart';
 
 import '../app_bar.dart';
 import 'plan_page.dart';
-import 'setChooser.dart';
 
 class NewWorkoutPage extends StatefulWidget {
   final String workoutName;
@@ -409,7 +408,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     //If changeIndex is -1, we are adding a new exercise
     final GlobalKey<AnimatedListState> _listKey = GlobalKey();
     //final GlobalKey<AnimatedListState> _listKey2 =
-    //GlobalKey<AnimatedListState>();
+    GlobalKey<AnimatedListState>();
     String newName = name;
     String title = changeIndex == -1 ? "New Exercise" : "Edit Exercise";
     exerciseNameField.text = name;
@@ -421,76 +420,57 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     //int numReps = changeIndex == -1 ? 3 : newWorkout.getReps(changeIndex)[0];
 
     showModalBottomSheet<void>(
-      backgroundColor: backgroundGrey,
       isScrollControlled: true,
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(35))),
+          borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(35),
+        topRight: Radius.circular(35),
+      )),
       context: ctx,
       builder: (BuildContext context) {
-        var choosingExercise = true;
+        Size size = MediaQuery.of(context).size;
+        bool choosingExercise = true;
         return FractionallySizedBox(
           heightFactor: 0.9,
           child: StatefulBuilder(
-              builder: (BuildContext context2, StateSetter setModalState) {
-            updateState() {
-              setModalState(() {});
-            }
-
-            Size size = MediaQuery.of(context).size;
-
-            choosingExerciseTrue() {
-              setModalState() {
-                choosingExercise = false;
-              }
-            }
-
-            removeItem(int index) {
-              int temp = reps.removeAt(index);
-              _listKey.currentState!.removeItem(
-                  duration: Duration(seconds: 1), index, (context, animation) {
-                //return Container();
-                return SizeTransition(
-                  sizeFactor: CurvedAnimation(
-                      parent: animation, curve: Curves.bounceIn),
-                  child: setChooser(
-                      animation: animation,
-                      setStateParent: () => {},
-                      removeItem: () => {},
-                      choosingExerciseTrue: choosingExerciseTrue,
-                      reps: [],
-                      tempValue: temp,
-                      listKey: _listKey,
-                      index: index),
-                );
-              });
-            }
-
+              builder: (BuildContext context, StateSetter setModalState) {
             return Container(
-              decoration: BoxDecoration(
-                color: backgroundGrey,
-                borderRadius: BorderRadius.all(Radius.circular(35)),
-              ),
               padding: EdgeInsets.all(15),
               height: 400,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  //New/Edit Exercise Title
                   Container(
+                      //New/Edit Exercise Title
                       margin: EdgeInsets.all(30),
                       child: Text(title,
-                          style: TextStyle(color: accentColor, fontSize: 35))),
-                  //Exercise Chooser
+                          style: Theme.of(context).textTheme.headlineMedium)),
                   Container(
-                    //
                     margin: const EdgeInsets.only(
                         top: 10, bottom: 10, left: 5, right: 5),
+                    //padding: const EdgeInsets.all(20),
+                    // decoration: BoxDecoration(
+                    //   color: Colors.white,
+                    //   borderRadius: BorderRadius.circular(20.0),
+                    //   boxShadow: const [
+                    //     BoxShadow(
+                    //         color: Color.fromARGB(36, 0, 0, 0),
+                    //         offset: Offset(0.0, 5.0),
+                    //         blurRadius: 15.0),
+                    //     BoxShadow(
+                    //         color: Color.fromARGB(36, 0, 0, 0),
+                    //         offset: Offset(0.0, -5.0),
+                    //         blurRadius: 10.0),
+                    //   ],
+                    // ),
                     child: Column(
                       children: [
                         TextField(
+                          // decoration:
+                          //     InputDecoration(labelText: name, fillColor: Colors.black),
                           controller: exerciseNameField,
-                          style: TextStyle(color: textColor),
                           onChanged: (value) {
                             setModalState(() {
                               filterSearchResults(value);
@@ -503,29 +483,10 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               },
                             );
                           },
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
-                              borderSide: BorderSide(
-                                width: 2,
-                                color: accentColor,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)),
-                                borderSide:
-                                    BorderSide(width: 2, color: accentColor)),
-                            //fillColor: textColor,
+                          decoration: const InputDecoration(
                             labelText: "Search",
                             hintText: "Search",
-                            focusColor: textColor,
-                            floatingLabelStyle: TextStyle(color: textColor),
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: accentColor,
-                            ),
+                            prefixIcon: Icon(Icons.search),
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(25.0))),
@@ -539,40 +500,26 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           child: ListView.builder(
                             itemCount: exerciseTempList.length,
                             itemBuilder: (context, index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: accentColor, width: 2)),
-                                ),
-                                child: ListTile(
-                                  title: Text(
-                                    exerciseTempList[index],
-                                    style: TextStyle(color: textColor),
-                                  ),
-                                  // ignore: prefer_interpolation_to_compose_strings
-                                  subtitle: Text(
-                                    difficultyTempList[index] +
-                                        "   |   "
-                                            '${muscleTempList[index]}',
-                                    style: TextStyle(color: textColor),
-                                  ),
-                                  onTap: () {
-                                    setModalState(
-                                      () {
-                                        setState(() {
-                                          choosingExercise = false;
-                                          newName = exerciseNameField.text =
-                                              exerciseTempList[index];
-                                        });
-                                      },
-                                    );
-                                  },
-                                  trailing: IconButton(
-                                    color: textColor,
-                                    icon: const Icon(Icons.info_outline),
-                                    onPressed: () {},
-                                  ),
+                              return ListTile(
+                                title: Text(exerciseTempList[index]),
+                                // ignore: prefer_interpolation_to_compose_strings
+                                subtitle: Text(difficultyTempList[index] +
+                                    "   |   "
+                                        '${muscleTempList[index]}'),
+                                onTap: () {
+                                  choosingExercise = false;
+                                  setModalState(
+                                    () {
+                                      setState(() {
+                                        newName = exerciseNameField.text =
+                                            exerciseTempList[index];
+                                      });
+                                    },
+                                  );
+                                },
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.info_outline),
+                                  onPressed: () {},
                                 ),
                               );
                             },
@@ -581,125 +528,104 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                       ],
                     ),
                   ),
-                  //Set Chooser
-                  GestureDetector(
-                    onTap: () {
-                      setModalState(() {
-                        choosingExercise = false;
-                        //To hide keyboard
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                      });
-                    },
-                    child: AnimatedContainer(
-                      curve: Curves.ease,
-                      duration: Duration(seconds: 1),
-                      decoration: BoxDecoration(
-                        color: foregroundGrey,
-                        borderRadius: BorderRadius.circular(20.0),
-                        // boxShadow: const [
-                        //   BoxShadow(
-                        //       color: Color.fromARGB(36, 0, 0, 0),
-                        //       offset: Offset(0.0, 5.0),
-                        //       blurRadius: 15.0),
-                        //   BoxShadow(
-                        //       color: Color.fromARGB(36, 0, 0, 0),
-                        //       offset: Offset(0.0, -5.0),
-                        //       blurRadius: 10.0),
-                        // ],
-                      ),
-                      alignment: Alignment.center,
-                      width: size.width - 10,
-                      height: choosingExercise
-                          ? size.height / 5.5
-                          : size.height / 2.2297,
-                      child: Column(
-                        children: [
-                          AnimatedContainer(
-                            curve: Curves.ease,
-                            duration: Duration(seconds: 1),
-                            height: choosingExercise
-                                ? size.height / 5.5 - 50
-                                : size.height / 2.2297 - 50,
-                            child: AnimatedList(
-                              scrollDirection: Axis.vertical,
-                              key: _listKey,
-                              padding: EdgeInsets.all(8),
-                              initialItemCount: reps.length,
-                              shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int index,
-                                  Animation<double> animation) {
-                                return SizeTransition(
-                                  sizeFactor: CurvedAnimation(
-                                      parent: animation,
-                                      curve: Curves.bounceOut),
-                                  child: setChooser(
-                                    animation: animation,
-                                    tempValue: -1,
-                                    index: index,
-                                    reps: reps,
-                                    listKey: _listKey,
-                                    setStateParent: updateState,
-                                    removeItem: removeItem,
-                                    choosingExerciseTrue: choosingExerciseTrue,
-                                  ),
-                                );
-                              },
+                  AnimatedContainer(
+                    curve: Curves.ease,
+                    duration: Duration(seconds: 1),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Color.fromARGB(36, 0, 0, 0),
+                            offset: Offset(0.0, 5.0),
+                            blurRadius: 15.0),
+                        BoxShadow(
+                            color: Color.fromARGB(36, 0, 0, 0),
+                            offset: Offset(0.0, -5.0),
+                            blurRadius: 10.0),
+                      ],
+                    ),
+                    alignment: Alignment.center,
+                    width: size.width - 10,
+                    height: choosingExercise
+                        ? size.height / 5.5
+                        : size.height / 2.2297,
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 100,
+                          child: AnimatedList(
+                            scrollDirection: Axis.vertical,
+                            key: _listKey,
+                            padding: EdgeInsets.all(8),
+                            initialItemCount: reps.length,
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index,
+                                Animation<double> animation) {
+                              return SizeTransition(
+                                sizeFactor: animation,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text("Set " + (index + 1).toString()),
+                                    NumberPicker(
+                                      haptics: true,
+                                      value: reps[index],
+                                      minValue: 0,
+                                      maxValue: 50,
+                                      itemHeight: 75,
+                                      itemWidth: 75,
+                                      axis: Axis.horizontal,
+                                      onChanged: (value) => setModalState(() {
+                                        reps[index] = value;
+                                      }),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16),
+                                        border:
+                                            Border.all(color: Colors.black26),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        setModalState(() {
+                                          if (reps.length <= 1) {
+                                            return null;
+                                          } else {
+                                            reps.removeAt(index);
+                                            _listKey.currentState!.removeItem(
+                                                index, (context, animation) {
+                                              return SizeTransition(
+                                                  sizeFactor: animation);
+                                            });
+                                          }
+                                        });
+                                      },
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    minimumSize:
-                                        Size((size.width - 50) / 2, 30),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(15),
-                                        bottomLeft: Radius.circular(15),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    choosingExerciseTrue();
-                                    _listKey.currentState!.insertItem(
-                                        reps.length,
-                                        duration: const Duration(seconds: 1));
-                                    setModalState(() {
-                                      reps.add(3);
-                                    });
-                                  },
-                                  child: Text("Add new set")),
-                              VerticalDivider(
-                                color: accentColor,
-                                thickness: 10,
-                                width: 10,
-                              ),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    minimumSize:
-                                        Size((size.width - 50) / 2, 30),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(15),
-                                        bottomRight: Radius.circular(15),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    choosingExerciseTrue();
-                                    _listKey.currentState!.insertItem(
-                                        reps.length,
-                                        duration: const Duration(seconds: 1));
-                                    setModalState(() {
-                                      reps.add(3);
-                                    });
-                                  },
-                                  child: Text("Remove set")),
-                            ],
-                          ),
-                        ],
-                      ),
+                            onPressed: () {
+                              _listKey.currentState!.insertItem(reps.length,
+                                  duration: const Duration(seconds: 1));
+                              setModalState(() {
+                                reps.add(3);
+                              });
+                            },
+                            child: Text("Add new set")),
+                      ],
                     ),
                   ),
                   Container(

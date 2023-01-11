@@ -228,7 +228,6 @@ class _MyAppBarState extends State<MyAppBar>
                 duration: const Duration(milliseconds: 250),
                 curve: Curves.fastOutSlowIn,
                 child: DropdownButton2(
-                  buttonSplashColor: Colors.transparent,
                   onMenuStateChange: (isOpen) {
                     if (isOpen) {
                       setState(() {
@@ -241,7 +240,6 @@ class _MyAppBarState extends State<MyAppBar>
                     }
                   },
                   buttonDecoration: BoxDecoration(
-                    color: Colors.transparent,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30),
@@ -257,7 +255,7 @@ class _MyAppBarState extends State<MyAppBar>
                       visible: false, child: Icon(Icons.arrow_downward)),
                   isExpanded: true,
                   dropdownMaxHeight: 150,
-                  //barrierColor: Color.fromARGB(45, 0, 0, 0),
+                  barrierColor: Color.fromARGB(45, 0, 0, 0),
                   hint: Center(
                     child: Text(
                       currentWorkout.getName(),
