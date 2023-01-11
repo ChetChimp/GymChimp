@@ -155,15 +155,18 @@ class _PlanPage extends State<PlanPage> {
                         );
                       })),
                   floatingActionButton: FloatingActionButton(
+                    backgroundColor: foregroundGrey,
                     onPressed: () async {
                       await pushWorkoutToDatabase(context);
                       setState(() {
                         currentUser.addWorkout(Workout(workoutName));
                       });
                       newWorkout(context, currentUser.getNumWorkouts - 1);
-                      dropdownUpdate();
                     },
-                    child: Icon(Icons.add),
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
                   ),
                 ));
       },

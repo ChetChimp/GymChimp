@@ -65,20 +65,12 @@ class _MyAppBarState extends State<MyAppBar>
 
   @override
   void initState() {
-    setWorkoutListState();
-    dropdownListUpdate = setWorkoutListState;
     if (screenName == "new_workout") {
       workoutNameEditController.text =
           currentUser.userWorkouts[workoutIndex].getName();
     }
 
     super.initState();
-  }
-
-  void setWorkoutListState() {
-    setState(() {
-      listLength = currentUser.userWorkouts.length;
-    });
   }
 
   void updateWorkoutName() async {
@@ -130,6 +122,26 @@ class _MyAppBarState extends State<MyAppBar>
         Spacer(
             //flex: 5,
             ),
+        if (screenName == "plan_page")
+          Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            padding: EdgeInsets.all(3),
+            decoration: BoxDecoration(
+                // color: foregroundGrey,
+                // borderRadius: BorderRadius.all(
+                // Radius.circular(10),
+                // ),
+                ),
+            child: Center(
+              child: Text(
+                textAlign: TextAlign.center,
+                "Workouts",
+                style: TextStyle(
+                    color: accentColor,
+                    fontSize: MediaQuery.of(context).size.width / 16),
+              ),
+            ),
+          ),
         if (screenName == "new_workout")
           GestureDetector(
             onTap: (() {

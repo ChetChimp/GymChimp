@@ -44,6 +44,17 @@ class Workout {
     return reps[index];
   }
 
+  String printReps(int index) {
+    String returnString = "";
+    List<int> reps = getRepsForExercise(index);
+    int i = 1;
+    for (var element in reps) {
+      returnString += element.toString() + ", ";
+      i++;
+    }
+    return returnString;
+  }
+
   String getExercise(int index) {
     if (exercises.isEmpty) {
       return "";

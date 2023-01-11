@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gymchimp/Main%20App%20Body/plan/exercise_container.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
@@ -37,10 +38,11 @@ class NewWorkoutPage extends StatefulWidget {
 }
 
 var workoutIndex;
+Workout newWorkout = Workout("");
+Function modExercise = () {};
 
 class _NewWorkoutPage extends State<NewWorkoutPage> {
   int index;
-  Workout newWorkout = Workout("");
   _NewWorkoutPage({required this.index});
   List<Map<String, String>> data = [];
   List<String> searchList = [];
@@ -56,6 +58,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
 
   @override
   void initState() {
+    modExercise = modifyExercise;
     workoutIndex = index;
     newWorkout = currentUser.userWorkouts[index];
     getWorkoutID();
@@ -322,61 +325,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                             for (int index = 0;
                                 index < newWorkout.getNumExercises();
                                 index += 1)
-                              Container(
-                                padding: EdgeInsets.all(2),
-                                key: Key('$index'),
-                                height: size.height / 10,
-                                child: OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor: foregroundGrey,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(15))),
-                                  ),
-                                  onPressed: () {},
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.drag_indicator,
-                                          color: accentColor),
-                                      Spacer(),
-                                      Container(
-                                          width: size.width / 3,
-                                          child: Text(
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                            newWorkout.getExercise(index),
-                                          )),
-                                      Spacer(),
-                                      Text("Sets: ",
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                      Container(
-                                          width: size.width / 6,
-                                          child: Text(
-                                              newWorkout
-                                                  .getRepsForExercise(index)
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: Colors.white))),
-                                      Spacer(),
-                                      OutlinedButton(
-                                        style: OutlinedButton.styleFrom(
-                                            backgroundColor: Colors.transparent,
-                                            side: BorderSide(
-                                                color: Colors.transparent)),
-                                        child: Icon(Icons.edit,
-                                            color: accentColor),
-                                        onPressed: () {
-                                          modifyExercise(
-                                              ctx,
-                                              '${newWorkout.getExercise(index)}',
-                                              index);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              ExerciseContainer(Key('$index'), ctx, index),
                           ],
                         ),
                       ),
