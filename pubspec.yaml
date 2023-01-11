@@ -47,6 +47,8 @@ dependencies:
   flutter_gradient_colors: ^2.1.1
   gradient_widgets: ^0.6.0
   searchable_listview: ^2.2.1
+  flushbar: ^1.10.4
+  top_snackbar_flutter: ^3.0.0+1
  
 
 

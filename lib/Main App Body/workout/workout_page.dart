@@ -412,7 +412,7 @@ class _WorkoutPage extends State<WorkoutPage>
                               ],
                             ),
                           ),
-                          SizedBox(height: size.height / 50),
+                          SizedBox(height: size.height / 75),
                           Padding(
                             padding: EdgeInsets.only(
                                 left: size.width / 5, right: size.width / 5),
