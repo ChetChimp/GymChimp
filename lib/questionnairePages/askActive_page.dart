@@ -11,19 +11,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
+import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
+import 'package:gymchimp/questionnairePages/askGoal_page.dart';
 import 'package:gymchimp/questionnairePages/askSex.dart';
 import '../firebase_options.dart';
-import '../main.dart';
 
-class askGoal extends StatefulWidget {
-  const askGoal({Key? key}) : super(key: key);
+class askActive extends StatefulWidget {
+  const askActive({Key? key}) : super(key: key);
 
   @override
-  State<askGoal> createState() => _askGoal();
+  State<askActive> createState() => _askActive();
 }
 
-var goal = "";
+var level = "";
 
 /*
   - Called when top left back arrow is pressed
@@ -39,33 +40,39 @@ void goBack(BuildContext ctx) {
 Route navigate(Widget page) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => page,
-    transitionDuration: Duration(milliseconds: 1),
-    transitionsBuilder: (BuildContext context, Animation<double> animation,
-        Animation<double> secondaryAnimation, Widget child) {
-      return new SlideTransition(
-        position: new Tween<Offset>(
-          begin: const Offset(-1.0, 0.0),
-          end: Offset.zero,
-        ).animate(animation),
-        child: child,
-      );
-    },
+    // transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //   const begin = Offset(1.0, 0.0);
+    //   const end = Offset.zero;
+    //   const curve = Curves.ease;
+
+    //   var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+    // return SlideTransition(
+    //   position: animation.drive(tween),
+    //   child: child,
+    // );
+    //},
   );
 }
 
-class _askGoal extends State<askGoal> {
+class _askActive extends State<askActive> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: backgroundGrey,
-      appBar: MyAppBar(context, true, "askGoal"),
+      appBar: MyAppBar(context, true, "askActive"),
       body: Center(
         child: Column(
           children: [
+            const LinearProgressIndicator(
+                backgroundColor: Color.fromARGB(255, 209, 209, 209),
+                valueColor:
+                    AlwaysStoppedAnimation(Color.fromARGB(185, 54, 255, 40)),
+                value: 0.5),
             Container(
               height: size.width / 5,
               child: Text(
-                'Select Your Weight Goal',
+                'How Active Are You?',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.quicksand(
                   textStyle: const TextStyle(
@@ -78,6 +85,7 @@ class _askGoal extends State<askGoal> {
               ),
             ),
             Spacer(flex: 2),
+
             /*
             Container containing FloatingActionButton
             */
@@ -90,18 +98,19 @@ class _askGoal extends State<askGoal> {
               -background = white
               -when pressed make call to loggedIn(), takes user to login page
               */
+
               child: FloatingActionButton.extended(
-                heroTag: "btn1",
+                heroTag: 1,
                 extendedPadding: EdgeInsets.only(
                     left: size.width / 8,
                     right: size.width / 8,
                     top: size.width / 2,
                     bottom: size.width / 2),
                 label: Text(
-                  'Cut',
+                  'No exercise',
                   style: GoogleFonts.lato(
                     textStyle: const TextStyle(
-                        fontSize: 30,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(197, 68, 83, 100),
                         letterSpacing: .5,
@@ -110,24 +119,24 @@ class _askGoal extends State<askGoal> {
                 ), // <-- Text
                 backgroundColor: Color.fromARGB(255, 255, 255, 255),
                 onPressed: () {
-                  goal = "Cut";
-                  Navigator.of(context).push(navigate(askSex()));
+                  level = "1";
+                  Navigator.of(context).push(navigate(askGoal()));
                 },
               ),
             ),
             Spacer(flex: 1),
             FloatingActionButton.extended(
-              heroTag: "btn2",
+              heroTag: 2,
               extendedPadding: EdgeInsets.only(
                   left: size.width / 8,
                   right: size.width / 8,
                   top: size.width / 2,
                   bottom: size.width / 2),
               label: Text(
-                'Bulk',
+                'Light: 1-2 days/week',
                 style: GoogleFonts.lato(
                   textStyle: const TextStyle(
-                      fontSize: 30,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(197, 68, 83, 100),
                       letterSpacing: .5,
@@ -136,23 +145,23 @@ class _askGoal extends State<askGoal> {
               ), // <-- Text
               backgroundColor: Color.fromARGB(255, 255, 255, 255),
               onPressed: () {
-                goal = "Bulk";
-                Navigator.of(context).push(navigate(askSex()));
+                level = "2";
+                Navigator.of(context).push(navigate(askGoal()));
               },
             ),
-            Spacer(),
+            Spacer(flex: 1),
             FloatingActionButton.extended(
-              heroTag: "btn3",
+              heroTag: 3,
               extendedPadding: EdgeInsets.only(
                   left: size.width / 8,
                   right: size.width / 8,
                   top: size.width / 2,
                   bottom: size.width / 2),
               label: Text(
-                'Mantain',
+                'Moderate: 3-5 days/week ',
                 style: GoogleFonts.lato(
                   textStyle: const TextStyle(
-                      fontSize: 30,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(197, 68, 83, 100),
                       letterSpacing: .5,
@@ -161,11 +170,61 @@ class _askGoal extends State<askGoal> {
               ), // <-- Text
               backgroundColor: Color.fromARGB(255, 255, 255, 255),
               onPressed: () {
-                goal = "Maintain";
-                Navigator.of(context).push(navigate(askSex()));
+                level = "3";
+                Navigator.of(context).push(navigate(askGoal()));
               },
             ),
-            Spacer(flex: 8),
+            Spacer(flex: 1),
+            FloatingActionButton.extended(
+              heroTag: 4,
+              extendedPadding: EdgeInsets.only(
+                  left: size.width / 8,
+                  right: size.width / 8,
+                  top: size.width / 2,
+                  bottom: size.width / 2),
+              label: Text(
+                'Active: 6-7 days/week',
+                style: GoogleFonts.lato(
+                  textStyle: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(197, 68, 83, 100),
+                      letterSpacing: .5,
+                      decoration: TextDecoration.none),
+                ),
+              ), // <-- Text
+              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              onPressed: () {
+                level = "4";
+                Navigator.of(context).push(navigate(askGoal()));
+              },
+            ),
+            Spacer(flex: 1),
+            FloatingActionButton.extended(
+              heroTag: 5,
+              extendedPadding: EdgeInsets.only(
+                  left: size.width / 8,
+                  right: size.width / 8,
+                  top: size.width / 2,
+                  bottom: size.width / 2),
+              label: Text(
+                'Athlete: 2x per day',
+                style: GoogleFonts.lato(
+                  textStyle: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(197, 68, 83, 100),
+                      letterSpacing: .5,
+                      decoration: TextDecoration.none),
+                ),
+              ), // <-- Text
+              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              onPressed: () {
+                level = "5";
+                Navigator.of(context).push(navigate(askGoal()));
+              },
+            ),
+            Spacer(flex: 10),
           ],
         ),
       ),

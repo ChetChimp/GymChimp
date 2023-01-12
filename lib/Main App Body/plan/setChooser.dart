@@ -25,7 +25,7 @@ class setChooser extends StatelessWidget {
     required GlobalKey<AnimatedListState> listKey,
     Key? key,
     required this.setStateParent,
-    required this.removeItem,
+    //required this.removeItem,
     required this.reps,
     required this.index,
     required this.animation,
@@ -38,7 +38,7 @@ class setChooser extends StatelessWidget {
   final int tempValue;
   final List<int> reps;
   final Function setStateParent;
-  final Function removeItem;
+  //final Function removeItem;
   final Function choosingExerciseTrue;
   final Animation<double> animation;
   final GlobalKey<AnimatedListState> _listKey;
@@ -77,22 +77,22 @@ class setChooser extends StatelessWidget {
               //color: textColor,
             ),
           ),
-          IconButton(
-            onPressed: () {
-              if (tempValue > 0 || reps.length <= 1) {
-                return null;
-              } else {
-                removeItem(index);
-              }
-              choosingExerciseTrue();
-              setStateParent();
-            },
-            icon: Icon(
-              Icons.delete,
-              color: accentColor,
-              size: 25,
-            ),
-          )
+          // IconButton(
+          //   onPressed: () {
+          //     if (tempValue > 0 || reps.length <= 1) {
+          //       return null;
+          //     } else {
+          //       removeItem(index);
+          //     }
+          //     choosingExerciseTrue();
+          //     setStateParent();
+          //   },
+          //   icon: Icon(
+          //     Icons.delete,
+          //     color: accentColor,
+          //     size: 25,
+          //   ),
+          // )
         ],
       ),
     );

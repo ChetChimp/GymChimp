@@ -5,9 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gymchimp/main.dart';
 import 'package:gymchimp/Sign%20up/verify.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymchimp/questionnairePages/askActive_page.dart';
 
 import '../questionnairePages/askGoal_page.dart';
-import '../questionnairePages/askLevel_page.dart';
 import '../questionnairePages/askName_page.dart';
 import '../questionnairePages/askSex.dart';
 
