@@ -458,7 +458,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                   child: setChooser(
                       animation: animation,
                       setStateParent: () => {},
-                      removeItem: () => {},
+                      //removeItem: () => {},
                       choosingExerciseTrue: choosingExerciseTrue,
                       reps: [],
                       tempValue: temp,
@@ -642,7 +642,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                     reps: reps,
                                     listKey: _listKey,
                                     setStateParent: updateState,
-                                    removeItem: removeItem,
+                                    //removeItem: removeItem,
                                     choosingExerciseTrue: choosingExerciseTrue,
                                   ),
                                 );
@@ -690,13 +690,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    choosingExerciseTrue();
-                                    _listKey.currentState!.insertItem(
-                                        reps.length,
-                                        duration: const Duration(seconds: 1));
-                                    setModalState(() {
-                                      reps.add(3);
-                                    });
+                                    removeItem(reps.length - 1);
                                   },
                                   child: Text("Remove set")),
                             ],
