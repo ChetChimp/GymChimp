@@ -19,15 +19,16 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return AnimatedContainer(
-      constraints: BoxConstraints(maxHeight: size.height / 1.75),
+      constraints: BoxConstraints(maxHeight: (size.height + 15) / 1.75),
       duration: const Duration(milliseconds: 250),
       padding: const EdgeInsets.all(2),
       key: Key('$widget.ind'),
       height: changeHeight
-          ? ((size.height / 14) +
+          ? ((size.height / 16) +
+              15 +
               newWorkout.getRepsForExercise(widget.ind).length *
                   (size.height / 20))
-          : size.height / 14,
+          : size.height / 16,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
           backgroundColor: foregroundGrey,
@@ -38,9 +39,11 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
         child: Column(
           children: [
             Row(
+              // crossAxisAlignment: changeHeight
+              //     ? CrossAxisAlignment.center
+              //     : CrossAxisAlignment.start,
               children: [
                 Icon(Icons.drag_indicator, color: accentColor),
-                const Spacer(),
                 Container(
                     width: size.width / 2,
                     child: Text(

@@ -43,7 +43,7 @@ class _StopWatchState extends State<StopWatch>
   void addTime() {
     if (mounted) {
       setState(() {
-        if (milliseconds + 1.24133004 >= 1000 &&
+        if (milliseconds + 1 >= 1000 &&
             seconds + 1 == 60 &&
             minutes + 1 == 60) {
           hours += 1;
@@ -60,7 +60,7 @@ class _StopWatchState extends State<StopWatch>
           } else {
             hoursString = '0$hours';
           }
-        } else if (milliseconds + 1.24133004 >= 1000 && seconds + 1 == 60) {
+        } else if (milliseconds + 1 >= 1000 && seconds + 1 == 60) {
           minutes += 1;
 
           seconds = 0;
@@ -73,7 +73,7 @@ class _StopWatchState extends State<StopWatch>
           } else {
             minutesString = '0$minutes';
           }
-        } else if (milliseconds + 1.24133004 >= 1000) {
+        } else if (milliseconds + 1 >= 1000) {
           seconds += 1;
 
           milliseconds = 0;
@@ -85,7 +85,7 @@ class _StopWatchState extends State<StopWatch>
             secondsString = '0$seconds';
           }
         } else {
-          milliseconds += 1.24133004;
+          milliseconds += 1;
           millisecondsString =
               milliseconds.toString().substring(0, 1).padLeft(2, '0');
           if (milliseconds > 9) {

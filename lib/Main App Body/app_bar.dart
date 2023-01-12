@@ -151,6 +151,7 @@ class _MyAppBarState extends State<MyAppBar>
                         ),
                       ),
                       child: TextField(
+                          maxLength: 20,
                           autofocus: true,
                           style: TextStyle(
                               color: accentColor,
@@ -305,7 +306,8 @@ class _MyAppBarState extends State<MyAppBar>
             screenName != "askGoal" &&
             screenName != "askName" &&
             screenName != "askSex" &&
-            screenName != "askInfo")
+            screenName != "askInfo" &&
+            screenName != "signUp")
           PopupMenuButton(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),

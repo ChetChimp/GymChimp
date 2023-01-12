@@ -7,6 +7,7 @@ import 'package:gymchimp/Sign%20up/verify.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/questionnairePages/askActive_page.dart';
 
+import '../Main App Body/app_bar.dart';
 import '../questionnairePages/askGoal_page.dart';
 import '../questionnairePages/askName_page.dart';
 import '../questionnairePages/askSex.dart';
@@ -22,10 +23,6 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class _SignUpPageState extends State<SignUpPage> {
   final _auth = FirebaseAuth.instance;
-
-  void goBack(BuildContext ctx) {
-    Navigator.of(ctx).pop();
-  }
 
   //***************************************************//
   //called when all input is valid, submits info to
@@ -127,8 +124,8 @@ class _SignUpPageState extends State<SignUpPage> {
 //Validates info on signup page, if everything is valid, submits info
 //if not valid, displays overlay explaining error to user
   validation(BuildContext context) {
-    if (!email.contains('@')) {
-      invalidEmailOverlay(context, 'Invalid Email');
+    if (!email.contains('@') || email.contains(" ")) {
+      invalidEmailOverlay(context, 'Invalid email format');
     } else if (password.length < 7) {
       invalidEmailOverlay(context, 'Password is too short');
       resetPass();
@@ -144,46 +141,22 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment(0.8, 1),
-          colors: <Color>[
-            Color.fromARGB(255, 228, 240, 255),
-            Color.fromARGB(255, 169, 188, 211),
-          ], // Gradient from https://learnui.design/tools/gradient-generator.html
-          tileMode: TileMode.mirror,
-        ),
-      ),
-      height: size.height,
-      // width: size.width / 1.5,
-      child: Container(
-        margin: EdgeInsets.only(top: size.width * 1 / 4),
+    return Scaffold(
+      appBar: MyAppBar(context, true, "signUp"),
+      backgroundColor: backgroundGrey,
+      body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Spacer(flex: 2),
             Center(
-              child: Card(
-                shadowColor: Colors.transparent,
-                color: Color.fromARGB(0, 255, 255, 255),
-                child: Container(
-                  child: Text(
-                    'Sign-Up',
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 45,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.black,
-                          letterSpacing: .5,
-                          decoration: TextDecoration.none),
-                    ),
-                  ),
-                ),
+              child: Text(
+                'Sign-Up',
+                style:
+                    TextStyle(color: Colors.white, fontSize: size.height / 20),
               ),
             ),
             //////// Email label and textfield/////////
+            Spacer(),
             Container(
               margin: EdgeInsets.only(
                   left: size.width * 1 / 8,
@@ -197,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 placeholder: 'Email:',
                 placeholderStyle: TextStyle(
                   color: Color.fromARGB(255, 73, 73, 73),
-                  fontSize: 18,
+                  fontSize: size.height / 52,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -206,7 +179,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 suffix: Material(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   child: IconButton(
-                      iconSize: 18,
+                      iconSize: size.height / 52,
                       onPressed: () {
                         _emailController.clear();
                       },
@@ -230,7 +203,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 placeholder: 'Password:',
                 placeholderStyle: TextStyle(
                   color: Color.fromARGB(255, 73, 73, 73),
-                  fontSize: 18,
+                  fontSize: size.height / 52,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -239,7 +212,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 suffix: Material(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   child: IconButton(
-                      iconSize: 18,
+                      iconSize: size.height / 52,
                       onPressed: () {
                         _passController.clear();
                         password = '';
@@ -264,7 +237,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 placeholder: 'Confirm Password',
                 placeholderStyle: TextStyle(
                   color: Color.fromARGB(255, 73, 73, 73),
-                  fontSize: 18,
+                  fontSize: size.height / 52,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -273,7 +246,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 suffix: Material(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   child: IconButton(
-                      iconSize: 18,
+                      iconSize: size.height / 52,
                       onPressed: () {
                         _passConfirmController.clear();
                         confirmPassword = '';
@@ -284,9 +257,10 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             //***************************************************//
             //////////// Confirm Button 'check' //////////
+            Spacer(),
             CupertinoButton(
               // pressedOpacity: 100,
-              color: Color.fromARGB(255, 0, 0, 0),
+              color: foregroundGrey,
               borderRadius: const BorderRadius.all(
                 Radius.circular(20.0),
               ),
@@ -296,34 +270,15 @@ class _SignUpPageState extends State<SignUpPage> {
                   top: 5,
                   bottom: 5),
               child: Icon(
+                color: accentColor,
                 Icons.check,
-                size: 25,
+                size: size.height / 32,
               ),
               onPressed: () {
                 validation(context);
               }, //validation(context),
             ),
             Spacer(flex: 1),
-            Container(
-              margin: EdgeInsets.only(top: size.width * 1 / 3),
-              child: Material(
-                  type: MaterialType.transparency,
-                  child: IconButton(
-                    splashRadius: 20,
-                    onPressed: () {
-                      goBack(context);
-                    },
-                    color: Color.fromARGB(255, 0, 0, 0),
-
-                    highlightColor:
-                        Color.fromARGB(255, 135, 135, 135), //<-- SEE HERE
-                    iconSize: 40,
-                    icon: Icon(
-                      Icons.arrow_back,
-                    ),
-                  )),
-            ),
-            Spacer(flex: 1)
           ],
         ),
       ),

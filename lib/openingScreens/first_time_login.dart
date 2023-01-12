@@ -20,9 +20,9 @@ class FirstLogIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      decoration: backGround(),
-      child:
+    return Scaffold(
+      backgroundColor: backgroundGrey,
+      body:
           /*
         Column with three widgets:
           -Container for title
@@ -50,17 +50,9 @@ class FirstLogIn extends StatelessWidget {
                     Text widget: "GymChimp", drop shadow, font = lato
                                 -fontSize = 60, color = black
                     */
-                  Text(
-                    'GymChimp',
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 60,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.black,
-                          letterSpacing: .5,
-                          decoration: TextDecoration.none),
-                    ),
-                  ),
+                  Text('GymChimp',
+                      style: TextStyle(
+                          color: accentColor, fontSize: size.height / 16)),
                   /*
                     Container with margin to offset from previous container
                     -contains FloatingActionButton
@@ -81,18 +73,11 @@ class FirstLogIn extends StatelessWidget {
                           right: size.width / 8,
                           top: size.width / 16,
                           bottom: size.width / 16),
-                      label: Text(
-                        'Get Started',
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              letterSpacing: 1,
-                              decoration: TextDecoration.none),
-                        ),
-                      ), // <-- Text
-                      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                      label: Text('Get Started',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: size.height / 32)), // <-- Text
+                      backgroundColor: foregroundGrey,
                       onPressed: () {
                         changePage(context, askName());
                       },
@@ -124,15 +109,10 @@ class FirstLogIn extends StatelessWidget {
               label: Text(
                 'Already have an account? Log in here!',
                 style: GoogleFonts.lato(
-                  textStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                      letterSpacing: .5,
-                      decoration: TextDecoration.none),
-                ),
+                    textStyle: TextStyle(
+                        color: Colors.white, fontSize: size.height / 48)),
               ), // <-- Text
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: foregroundGrey,
               onPressed: () {
                 changePage(context, LoginPage());
               },

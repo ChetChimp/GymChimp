@@ -106,6 +106,7 @@ class _askInfoState extends State<askInfo> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: backgroundGrey,
         appBar: MyAppBar(context, true, "askInfo"),
@@ -113,15 +114,11 @@ class _askInfoState extends State<askInfo> {
             child: Column(
           children: [
             Text(
-              'Enter Your Information',
+              'Extra Info',
               textAlign: TextAlign.center,
-              style: GoogleFonts.quicksand(
-                textStyle: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    letterSpacing: .5,
-                    decoration: TextDecoration.none),
+              style: TextStyle(
+                color: accentColor,
+                fontSize: size.height / 32,
               ),
             ),
             Spacer(),
@@ -129,26 +126,24 @@ class _askInfoState extends State<askInfo> {
             Row(
               children: [
                 Container(
-                  //decoration: backGround(),
-
-                  width: 300,
+                  width: size.width * (3 / 4),
                   child: TextFormField(
-//
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(vertical: 5),
                       hintText: 'Enter your height',
                       hintStyle: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w100,
+                        color: Colors.white,
+                        fontSize: size.height / 32,
                       ),
                     ),
-                    style: const TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w100,
+                      color: Colors.white,
+                      fontSize: size.height / 32,
                     ),
-//
                     onTap: selectedHeightUnit == HeightUnit.ft
                         ? () {
                             FocusScope.of(context)
@@ -157,8 +152,8 @@ class _askInfoState extends State<askInfo> {
                                 context: context,
                                 builder: (context) {
                                   return Container(
-                                    height: 200,
-                                    color: Color.fromARGB(255, 201, 200, 200),
+                                    height: size.height / 4,
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                     child: Row(
                                       children: [
                                         Expanded(
@@ -166,7 +161,7 @@ class _askInfoState extends State<askInfo> {
                                           child: CupertinoPicker(
                                             itemExtent: 32.0,
                                             onSelectedItemChanged: (int index) {
-                                              print(index + 1);
+                                              // print(index + 1);
                                               setState(() {
                                                 ft = (index + 1);
                                                 heightController.text =
@@ -182,7 +177,7 @@ class _askInfoState extends State<askInfo> {
                                           ),
                                         ),
                                         const Expanded(
-                                            flex: 1,
+                                            // flex: 1,
                                             child: Center(
                                                 child: Text('ft',
                                                     style: TextStyle(
@@ -308,22 +303,24 @@ class _askInfoState extends State<askInfo> {
                 Container(
                   //decoration: backGround(),
 
-                  width: 300,
+                  width: size.width * (3 / 4),
                   child: TextFormField(
 //
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
                       contentPadding: EdgeInsets.symmetric(vertical: 5),
                       hintText: 'Enter your weight',
                       hintStyle: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w100,
+                        color: Colors.white,
+                        fontSize: size.height / 32,
                       ),
                     ),
-                    style: const TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w100,
+                      color: Colors.white,
+                      fontSize: size.height / 32,
                     ),
 //
                     onTap: selectedWeightUnit == WeightUnit.lbs

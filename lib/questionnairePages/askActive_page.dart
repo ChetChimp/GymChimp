@@ -40,18 +40,18 @@ void goBack(BuildContext ctx) {
 Route navigate(Widget page) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => page,
-    // transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //   const begin = Offset(1.0, 0.0);
-    //   const end = Offset.zero;
-    //   const curve = Curves.ease;
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
 
-    //   var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-    // return SlideTransition(
-    //   position: animation.drive(tween),
-    //   child: child,
-    // );
-    //},
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
   );
 }
 
@@ -64,23 +64,19 @@ class _askActive extends State<askActive> {
       body: Center(
         child: Column(
           children: [
-            const LinearProgressIndicator(
-                backgroundColor: Color.fromARGB(255, 209, 209, 209),
-                valueColor:
-                    AlwaysStoppedAnimation(Color.fromARGB(185, 54, 255, 40)),
-                value: 0.5),
+            // const LinearProgressIndicator(
+            //     backgroundColor: Color.fromARGB(255, 209, 209, 209),
+            //     valueColor:
+            //         AlwaysStoppedAnimation(Color.fromARGB(185, 54, 255, 40)),
+            //     value: 0.5),
             Container(
               height: size.width / 5,
               child: Text(
                 'How Active Are You?',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
-                  textStyle: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      letterSpacing: .5,
-                      decoration: TextDecoration.none),
+                style: TextStyle(
+                  color: accentColor,
+                  fontSize: size.height / 32,
                 ),
               ),
             ),
@@ -108,16 +104,12 @@ class _askActive extends State<askActive> {
                     bottom: size.width / 2),
                 label: Text(
                   'No exercise',
-                  style: GoogleFonts.lato(
-                    textStyle: const TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(197, 68, 83, 100),
-                        letterSpacing: .5,
-                        decoration: TextDecoration.none),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: size.height / 40,
                   ),
                 ), // <-- Text
-                backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                backgroundColor: foregroundGrey,
                 onPressed: () {
                   level = "1";
                   Navigator.of(context).push(navigate(askGoal()));
@@ -134,16 +126,12 @@ class _askActive extends State<askActive> {
                   bottom: size.width / 2),
               label: Text(
                 'Light: 1-2 days/week',
-                style: GoogleFonts.lato(
-                  textStyle: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(197, 68, 83, 100),
-                      letterSpacing: .5,
-                      decoration: TextDecoration.none),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: size.height / 40,
                 ),
               ), // <-- Text
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: foregroundGrey,
               onPressed: () {
                 level = "2";
                 Navigator.of(context).push(navigate(askGoal()));
@@ -158,17 +146,13 @@ class _askActive extends State<askActive> {
                   top: size.width / 2,
                   bottom: size.width / 2),
               label: Text(
-                'Moderate: 3-5 days/week ',
-                style: GoogleFonts.lato(
-                  textStyle: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(197, 68, 83, 100),
-                      letterSpacing: .5,
-                      decoration: TextDecoration.none),
+                'Moderate: 3-5 days/week',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: size.height / 40,
                 ),
               ), // <-- Text
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: foregroundGrey,
               onPressed: () {
                 level = "3";
                 Navigator.of(context).push(navigate(askGoal()));
@@ -184,16 +168,12 @@ class _askActive extends State<askActive> {
                   bottom: size.width / 2),
               label: Text(
                 'Active: 6-7 days/week',
-                style: GoogleFonts.lato(
-                  textStyle: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(197, 68, 83, 100),
-                      letterSpacing: .5,
-                      decoration: TextDecoration.none),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: size.height / 40,
                 ),
               ), // <-- Text
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: foregroundGrey,
               onPressed: () {
                 level = "4";
                 Navigator.of(context).push(navigate(askGoal()));
@@ -209,16 +189,12 @@ class _askActive extends State<askActive> {
                   bottom: size.width / 2),
               label: Text(
                 'Athlete: 2x per day',
-                style: GoogleFonts.lato(
-                  textStyle: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(197, 68, 83, 100),
-                      letterSpacing: .5,
-                      decoration: TextDecoration.none),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: size.height / 40,
                 ),
               ), // <-- Text
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: foregroundGrey,
               onPressed: () {
                 level = "5";
                 Navigator.of(context).push(navigate(askGoal()));

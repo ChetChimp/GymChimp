@@ -11,7 +11,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
+import 'package:gymchimp/Sign%20up/sign_up_page.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
+import 'package:gymchimp/questionnairePages/askInfo_page.dart';
 import 'package:gymchimp/questionnairePages/askSex.dart';
 import '../firebase_options.dart';
 import '../main.dart';
@@ -67,13 +69,9 @@ class _askGoal extends State<askGoal> {
               child: Text(
                 'Select Your Weight Goal',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
-                  textStyle: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      letterSpacing: .5,
-                      decoration: TextDecoration.none),
+                style: TextStyle(
+                  color: accentColor,
+                  fontSize: size.height / 32,
                 ),
               ),
             ),
@@ -99,48 +97,19 @@ class _askGoal extends State<askGoal> {
                     bottom: size.width / 2),
                 label: Text(
                   'Cut',
-                  style: GoogleFonts.lato(
-                    textStyle: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(197, 68, 83, 100),
-                        letterSpacing: .5,
-                        decoration: TextDecoration.none),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: size.height / 32,
                   ),
                 ), // <-- Text
-                backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                backgroundColor: foregroundGrey,
                 onPressed: () {
                   goal = "Cut";
-                  Navigator.of(context).push(navigate(askSex()));
+                  Navigator.of(context).push(navigate(SignUpPage()));
                 },
               ),
             ),
             Spacer(flex: 1),
-            FloatingActionButton.extended(
-              heroTag: "btn2",
-              extendedPadding: EdgeInsets.only(
-                  left: size.width / 8,
-                  right: size.width / 8,
-                  top: size.width / 2,
-                  bottom: size.width / 2),
-              label: Text(
-                'Bulk',
-                style: GoogleFonts.lato(
-                  textStyle: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(197, 68, 83, 100),
-                      letterSpacing: .5,
-                      decoration: TextDecoration.none),
-                ),
-              ), // <-- Text
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
-              onPressed: () {
-                goal = "Bulk";
-                Navigator.of(context).push(navigate(askSex()));
-              },
-            ),
-            Spacer(),
             FloatingActionButton.extended(
               heroTag: "btn3",
               extendedPadding: EdgeInsets.only(
@@ -150,19 +119,36 @@ class _askGoal extends State<askGoal> {
                   bottom: size.width / 2),
               label: Text(
                 'Mantain',
-                style: GoogleFonts.lato(
-                  textStyle: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(197, 68, 83, 100),
-                      letterSpacing: .5,
-                      decoration: TextDecoration.none),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: size.height / 32,
                 ),
               ), // <-- Text
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: foregroundGrey,
               onPressed: () {
                 goal = "Maintain";
-                Navigator.of(context).push(navigate(askSex()));
+                Navigator.of(context).push(navigate(SignUpPage()));
+              },
+            ),
+            Spacer(),
+            FloatingActionButton.extended(
+              heroTag: "btn2",
+              extendedPadding: EdgeInsets.only(
+                  left: size.width / 8,
+                  right: size.width / 8,
+                  top: size.width / 2,
+                  bottom: size.width / 2),
+              label: Text(
+                'Bulk',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: size.height / 32,
+                ),
+              ), // <-- Text
+              backgroundColor: foregroundGrey,
+              onPressed: () {
+                goal = "Bulk";
+                Navigator.of(context).push(navigate(SignUpPage()));
               },
             ),
             Spacer(flex: 8),

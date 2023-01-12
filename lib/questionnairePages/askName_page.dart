@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_new
+// ignore_for_file: unnecessary_new, prefer_const_constructors
 
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
@@ -27,7 +27,7 @@ class askName extends StatefulWidget {
 
 var name = "";
 final shakeKey = GlobalKey<ShakeWidgetState>();
-
+TextEditingController nameControl = TextEditingController(text: "");
 FocusNode inputNode = FocusNode();
 
 /*
@@ -68,6 +68,7 @@ class _askName extends State<askName> {
   }
 
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     // to open keyboard call this function;
 
     void openKeyboard() {
@@ -75,91 +76,95 @@ class _askName extends State<askName> {
     }
 
     return Scaffold(
-        backgroundColor: backgroundGrey,
-        appBar: MyAppBar(context, true, "askName"),
-        body: Container(
-          child: Center(
-            child: Column(
-                /*
+      backgroundColor: backgroundGrey,
+      appBar: MyAppBar(context, true, "askName"),
+      body: Container(
+        child: Center(
+          child: Column(
+            /*
                     Text Form Field 
                       - Asks User 'Enter your first name'
                       - When Form is Submitted (clicking done on Keyboard popup) screen routes to askLevel page
                       - Horizontally centered
                       - Width: 350, Height: 400
                   */
-                children: [
-                  const LinearProgressIndicator(
-                      backgroundColor: Color.fromARGB(255, 209, 209, 209),
-                      valueColor: AlwaysStoppedAnimation(
-                          Color.fromARGB(185, 54, 255, 40)),
-                      value: 0.0),
-                  //Spacer(),
-                  Text(
-                    'What is your name?',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.quicksand(
-                      textStyle: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          letterSpacing: .5,
-                          decoration: TextDecoration.none),
-                    ),
-                  ),
+            children: [
+              // const LinearProgressIndicator(
+              //     backgroundColor: Color.fromARGB(255, 209, 209, 209),
+              //     valueColor: AlwaysStoppedAnimation(
+              //         Color.fromARGB(185, 54, 255, 40)),
+              //     value: 0.0),
+              //Spacer(),
+              Text(
+                'What is your name?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: size.height / 32,
+                  color: accentColor,
+                ),
+              ),
 
-                  //Spacer(flex: 10),
-                  ShakeWidget(
-                    // 4. pass the GlobalKey as an argument
-                    key: shakeKey,
-                    // 5. configure the animation parameters
-                    shakeCount: 3,
-                    shakeOffset: 10,
-                    shakeDuration: Duration(milliseconds: 500),
-                    // 6. Add the child widget that will be animated
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * (7 / 8),
-                      height: MediaQuery.of(context).size.height / 4,
-                      child: TextFormField(
-                          autofocus: true,
-                          focusNode: inputNode,
-                          controller: TextEditingController(),
-                          textAlign: TextAlign.center,
-                          decoration: const InputDecoration(
-                            border: UnderlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(vertical: 5),
-                            hintText: 'Your first name',
-                            hintStyle: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          style: const TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          onFieldSubmitted: (value) {
-                            if (value != null) {
-                              name = value;
-                              Navigator.of(context).push(navigate(askSex()));
-                            } else {
-                              ShakeWidget(child: Text("test"), shakeOffset: 3);
-                            }
-                          }),
+              //Spacer(flex: 10),
+              ShakeWidget(
+                // 4. pass the GlobalKey as an argument
+                key: shakeKey,
+                // 5. configure the animation parameters
+                shakeCount: 3,
+                shakeOffset: 10,
+                shakeDuration: Duration(milliseconds: 500),
+                // 6. Add the child widget that will be animated
+                child: SizedBox(
+                  width: 350,
+                  height: size.height / 3,
+                  child: TextFormField(
+                    autofocus: true,
+                    focusNode: inputNode,
+                    controller: nameControl,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(vertical: 5),
+                      hintText: 'Enter your first name',
+                      hintStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    // 2. shake the widget via the GlobalKey when a button is pressed
-                    child: ElevatedButton(
-                      child: Text('Continue', style: TextStyle(fontSize: 30)),
-                      onPressed: () => shakeKey.currentState?.shake(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
                     ),
+                    onFieldSubmitted: (value) {
+                      if (nameControl.text.isNotEmpty) {
+                        name = nameControl.text;
+                        Navigator.of(context).push(navigate(askSex()));
+                      } else {
+                        ShakeWidget(child: Text("test"), shakeOffset: 3);
+                      }
+                    },
                   ),
-                  // SizedBox(
-                  //   height: MediaQuery.of(context).size.height / 2,
-                  // ),
-                  //Spacer(flex: 10)
-                ]),
+                ),
+              ),
+              SizedBox(
+                height: 48,
+                child: ElevatedButton(
+                  child: Text('Next', style: TextStyle(fontSize: 30)),
+                  onPressed: () {
+                    if (nameControl.text.isNotEmpty) {
+                      name = nameControl.text;
+                      Navigator.of(context).push(navigate(askSex()));
+                    } else {
+                      ShakeWidget(child: Text("test"), shakeOffset: 3);
+                    }
+                  },
+                ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
