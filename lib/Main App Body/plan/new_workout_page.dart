@@ -211,7 +211,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .collection('workouts')
-          .doc(newWorkout.getName()));
+          .doc(workoutIDFirebase));
     });
     widget.callback(widget.index);
     Navigator.of(ctx).pop();
