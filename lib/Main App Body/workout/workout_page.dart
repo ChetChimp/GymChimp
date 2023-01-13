@@ -280,7 +280,7 @@ class _WorkoutPage extends State<WorkoutPage>
                                           activepage = index;
                                         });
                                       }),
-                                      viewportFraction: .8,
+                                      viewportFraction: .925,
                                     ),
                                   ),
                                 ),
@@ -403,31 +403,6 @@ class _WorkoutPage extends State<WorkoutPage>
                                     ),
                                   ),
                                 ),
-                                // Container(
-                                //   child: Row(
-                                //     children: const [
-                                //       // Spacer(),
-                                //       // Text(
-                                //       //   "  Set ",
-                                //       //   style: TextStyle(
-                                //       //       fontSize: 28, color: Colors.white),
-                                //       // ),
-                                //       Spacer(),
-                                //       Text(
-                                //         "Reps",
-                                //         style: TextStyle(
-                                //             fontSize: 28, color: Colors.white),
-                                //       ),
-                                //       Spacer(),
-                                //       Text(
-                                //         "Weight ",
-                                //         style: TextStyle(
-                                //             fontSize: 28, color: Colors.white),
-                                //       ),
-                                //       Spacer(),
-                                //     ],
-                                //   ),
-                                // ),
                                 Container(
                                   height: size.height / 5,
                                   child: Scrollbar(

@@ -29,7 +29,12 @@ class NewWorkoutPage extends StatefulWidget {
   final int index;
   final Function callback;
 
-  const NewWorkoutPage({Key? key, required this.workoutName, required this.index, required this.callback}) : super(key: key);
+  const NewWorkoutPage(
+      {Key? key,
+      required this.workoutName,
+      required this.index,
+      required this.callback})
+      : super(key: key);
 
   @override
   State<NewWorkoutPage> createState() => _NewWorkoutPage(index: this.index);
@@ -71,7 +76,11 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
       i++;
     }
     await firestore.runTransaction((Transaction myTransaction) async {
-      myTransaction.delete(firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').doc(workoutIDFirebase));
+      myTransaction.delete(firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('workouts')
+          .doc(workoutIDFirebase));
     });
     widget.callback(widget.index);
     Navigator.of(ctx).pop();
@@ -79,12 +88,20 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
 
   void getWorkoutID(setState) async {
     String id = "";
-    QuerySnapshot querySnapshot = await firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').get();
+    QuerySnapshot querySnapshot = await firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .get();
     var doc;
     bool found = false;
     List list = querySnapshot.docs;
     for (var element in list) {
-      doc = await firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').doc(element.id);
+      doc = await firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('workouts')
+          .doc(element.id);
       doc.get().then((value) async {
         if (value.get('name') == newWorkout.getName()) {
           setState(() {
@@ -96,7 +113,8 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
   }
 
   Future<void> readJson() async {
-    final String response = await rootBundle.loadString('json/exerciseList.json');
+    final String response =
+        await rootBundle.loadString('json/exerciseList.json');
     List map = await json.decode(response);
     map.forEach(
       (element) {
@@ -108,7 +126,11 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
         difficultyTempList.add(element['difficulty']);
         muscleTempList.add(element['muscle']);
 
-        data.add({'muscle': element['muscle'], 'exercise': element['exercise'], "difficulty": element["difficulty"]});
+        data.add({
+          'muscle': element['muscle'],
+          'exercise': element['exercise'],
+          "difficulty": element["difficulty"]
+        });
       },
     );
   }
@@ -143,13 +165,17 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           },
                           padding: EdgeInsets.all(8),
                           children: <Widget>[
-                            for (int index = 0; index < newWorkout.getNumExercises(); index += 1) ExerciseContainer(Key('$index'), ctx, index),
+                            for (int index = 0;
+                                index < newWorkout.getNumExercises();
+                                index += 1)
+                              ExerciseContainer(Key('$index'), ctx, index),
                           ],
                         ),
                       ),
                       //Container for add and delete buttons
                       Container(
-                          padding: EdgeInsets.only(left: size.width / 8, right: size.width / 8),
+                          padding: EdgeInsets.only(
+                              left: size.width / 8, right: size.width / 8),
                           key: Key("-1"),
                           height: size.height / 8,
                           child: Column(
@@ -163,7 +189,9 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                     backgroundColor: foregroundGrey,
                                   ),
                                   onPressed: () {
-                                    print(currentUser.getUserWorkouts[0].getExercisesList().toString());
+                                    print(currentUser.getUserWorkouts[0]
+                                        .getExercisesList()
+                                        .toString());
                                     modifyExercise(
                                       ctx: ctx,
                                       name: "",
@@ -180,7 +208,8 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                     style: OutlinedButton.styleFrom(
                                         backgroundColor: foregroundGrey,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10.0),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
                                         )),
                                     onPressed: () {
                                       setState(() {
@@ -190,7 +219,9 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                     child: Row(
                                       children: const [
                                         Spacer(),
-                                        Text("Delete Workout", style: TextStyle(color: Colors.red)),
+                                        Text("Delete Workout",
+                                            style:
+                                                TextStyle(color: Colors.red)),
                                         Spacer(),
                                       ],
                                     )),
