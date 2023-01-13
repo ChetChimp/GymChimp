@@ -65,7 +65,7 @@ class CurrentUser {
         return w;
       }
     }
-    return Workout("Empty Workout");
+    return Workout("");
   }
 
   get getNumWorkouts => this.userWorkouts.length;

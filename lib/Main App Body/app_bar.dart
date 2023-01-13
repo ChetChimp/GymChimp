@@ -14,6 +14,8 @@ import 'package:gymchimp/questionnairePages/askGoal_page.dart';
 import 'package:gymchimp/questionnairePages/askInfo_page.dart';
 import 'package:gymchimp/questionnairePages/askName_page.dart';
 import 'package:gymchimp/questionnairePages/askSex.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../openingScreens/first_time_login.dart';
 import 'package:gymchimp/main.dart';
 import 'plan/plan_page.dart';
@@ -140,6 +142,7 @@ class _MyAppBarState extends State<MyAppBar>
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25))),
                     title: Text('Rename workout',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: MediaQuery.of(context).size.width / 16)),
@@ -158,6 +161,7 @@ class _MyAppBarState extends State<MyAppBar>
                               fontSize: MediaQuery.of(context).size.width / 16),
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
+                            counterText: "",
                             border: InputBorder.none,
                           ),
                           autocorrect: true,
@@ -173,7 +177,9 @@ class _MyAppBarState extends State<MyAppBar>
                               fontSize: MediaQuery.of(context).size.width / 24),
                         ),
                         onPressed: () {
-                          workoutNameEditController.text = holder;
+                          setState(() {
+                            workoutNameEditController.text = holder;
+                          });
                           Navigator.of(context).pop();
                         },
                       ),
@@ -186,9 +192,26 @@ class _MyAppBarState extends State<MyAppBar>
                         ),
                         onPressed: () {
                           setState(() {
-                            updateWorkoutName();
+                            if (currentUser
+                                    .getWorkoutByName(
+                                        workoutNameEditController.text)
+                                    .getName()
+                                    .isEmpty &&
+                                workoutNameEditController.text != "") {
+                              updateWorkoutName();
+                              Navigator.of(context).pop();
+                            } else {
+                              showTopSnackBar(
+                                curve: Curves.easeIn,
+                                animationDuration: Duration(milliseconds: 450),
+                                displayDuration: Duration(milliseconds: 950),
+                                Overlay.of(context)!,
+                                const CustomSnackBar.error(
+                                  message: 'Invalid or duplicate workout name',
+                                ),
+                              );
+                            }
                           });
-                          Navigator.of(context).pop();
                         },
                       )
                     ],

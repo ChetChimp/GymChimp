@@ -77,6 +77,24 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     Navigator.of(ctx).pop();
   }
 
+  void getWorkoutID(setState) async {
+    String id = "";
+    QuerySnapshot querySnapshot = await firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').get();
+    var doc;
+    bool found = false;
+    List list = querySnapshot.docs;
+    for (var element in list) {
+      doc = await firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').doc(element.id);
+      doc.get().then((value) async {
+        if (value.get('name') == newWorkout.getName()) {
+          setState(() {
+            workoutIDFirebase = element.id;
+          });
+        }
+      });
+    }
+  }
+
   Future<void> readJson() async {
     final String response = await rootBundle.loadString('json/exerciseList.json');
     List map = await json.decode(response);
@@ -196,5 +214,4 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 */
   //Modify Exercise Popup
-
 }
