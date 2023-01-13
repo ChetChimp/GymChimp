@@ -52,29 +52,36 @@ class setChooser extends StatelessWidget {
         children: <Widget>[
           Text(
             "Set " + (index + 1).toString(),
-            style: TextStyle(color: textColor),
+            style: TextStyle(color: accentColor),
           ),
-          NumberPicker(
-            haptics: true,
-            textStyle: TextStyle(color: textColor),
-            selectedTextStyle: TextStyle(color: accentColor, fontSize: 30),
-            value: tempValue < 0 ? reps[index] : tempValue,
-            minValue: 0,
-            maxValue: 50,
-            itemHeight: 75,
-            itemWidth: 75,
-            axis: Axis.horizontal,
-            onChanged: (value) {
-              choosingExerciseTrue();
-              if (tempValue < 0) {
-                reps[index] = value;
-                setStateParent();
-              }
-            },
+          Container(
+            margin: EdgeInsets.only(left: 20),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: accentColor),
-              //color: textColor,
+              borderRadius: BorderRadius.circular(15),
+              color: backgroundGrey,
+            ),
+            child: NumberPicker(
+              haptics: true,
+              textStyle: TextStyle(color: textColor),
+              selectedTextStyle: TextStyle(color: accentColor, fontSize: 30),
+              value: tempValue < 0 ? reps[index] : tempValue,
+              minValue: 0,
+              maxValue: 50,
+              itemHeight: 75,
+              itemWidth: 75,
+              axis: Axis.horizontal,
+              onChanged: (value) {
+                choosingExerciseTrue();
+                if (tempValue < 0) {
+                  reps[index] = value;
+                  setStateParent();
+                }
+              },
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: accentColor),
+                //color: textColor,
+              ),
             ),
           ),
           // IconButton(

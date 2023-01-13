@@ -27,12 +27,7 @@ class NewWorkoutPage extends StatefulWidget {
   final int index;
   final Function callback;
 
-  const NewWorkoutPage(
-      {Key? key,
-      required this.workoutName,
-      required this.index,
-      required this.callback})
-      : super(key: key);
+  const NewWorkoutPage({Key? key, required this.workoutName, required this.index, required this.callback}) : super(key: key);
 
   @override
   State<NewWorkoutPage> createState() => _NewWorkoutPage(index: this.index);
@@ -69,20 +64,12 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
 
   void getWorkoutID() async {
     String id = "";
-    QuerySnapshot querySnapshot = await firestore
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('workouts')
-        .get();
+    QuerySnapshot querySnapshot = await firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').get();
     var doc;
     bool found = false;
     List list = querySnapshot.docs;
     for (var element in list) {
-      doc = await firestore
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('workouts')
-          .doc(element.id);
+      doc = await firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').doc(element.id);
       doc.get().then((value) async {
         if (value.get('name') == newWorkout.getName()) {
           setState(() {
@@ -101,8 +88,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
 
       searchList.forEach((element) {
         int ind = searchList.indexOf(element);
-        if (element.toLowerCase().contains(query.toLowerCase()) ||
-            muscleList[ind].toLowerCase().contains(query.toLowerCase())) {
+        if (element.toLowerCase().contains(query.toLowerCase()) || muscleList[ind].toLowerCase().contains(query.toLowerCase())) {
           dummyListData.add(element);
           dummyMuscleListData.add(muscleList[ind]);
           dummyDifficultyList.add(difficultyList[ind]);
@@ -133,8 +119,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
   }
 
   Future<void> readJson() async {
-    final String response =
-        await rootBundle.loadString('json/exerciseList.json');
+    final String response = await rootBundle.loadString('json/exerciseList.json');
     List map = await json.decode(response);
     map.forEach(
       (element) {
@@ -146,11 +131,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
         difficultyTempList.add(element['difficulty']);
         muscleTempList.add(element['muscle']);
 
-        data.add({
-          'muscle': element['muscle'],
-          'exercise': element['exercise'],
-          "difficulty": element["difficulty"]
-        });
+        data.add({'muscle': element['muscle'], 'exercise': element['exercise'], "difficulty": element["difficulty"]});
       },
     );
   }
@@ -207,11 +188,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
       i++;
     }
     await firestore.runTransaction((Transaction myTransaction) async {
-      myTransaction.delete(firestore
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('workouts')
-          .doc(workoutIDFirebase));
+      myTransaction.delete(firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').doc(workoutIDFirebase));
     });
     widget.callback(widget.index);
     Navigator.of(ctx).pop();
@@ -246,11 +223,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
               .doc(workoutIDFirebase)
               .collection('exercises')
               .doc(element.id)
-              .update({
-            'index': i,
-            'name': newWorkout.exercises[i],
-            'reps': newWorkout.reps[i]
-          });
+              .update({'index': i, 'name': newWorkout.exercises[i], 'reps': newWorkout.reps[i]});
           i++;
         } else {
           return;
@@ -286,11 +259,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
         .doc(workoutIDFirebase)
         .collection('exercises')
         .doc(exerciseName)
-        .set({
-      'name': newWorkout.getExercise(indx),
-      'reps': newWorkout.getRepsForExercise(indx),
-      'index': newWorkout.exercises.length - 1
-    });
+        .set({'name': newWorkout.getExercise(indx), 'reps': newWorkout.getRepsForExercise(indx), 'index': newWorkout.exercises.length - 1});
   }
 
   Widget build(BuildContext ctx) {
@@ -323,55 +292,44 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           },
                           padding: EdgeInsets.all(8),
                           children: <Widget>[
-                            for (int index = 0;
-                                index < newWorkout.getNumExercises();
-                                index += 1)
-                              ExerciseContainer(Key('$index'), ctx, index),
+                            for (int index = 0; index < newWorkout.getNumExercises(); index += 1) ExerciseContainer(Key('$index'), ctx, index),
                           ],
                         ),
                       ),
                       Container(
                           //Add Button
-                          padding: EdgeInsets.only(
-                              left: size.width / 8, right: size.width / 8),
+                          padding: EdgeInsets.only(left: size.width / 8, right: size.width / 8),
                           key: Key("-1"),
                           height: size.height / 8,
                           child: Column(
                             children: [
                               Spacer(),
                               GestureDetector(
-                                onLongPress:
-                                    () {}, //Ensures that the plus button cannot be moved
+                                onLongPress: () {}, //Ensures that the plus button cannot be moved
                                 child: OutlinedButton(
                                     style: OutlinedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
+                                        borderRadius: BorderRadius.circular(10.0),
                                       ),
                                       backgroundColor: foregroundGrey,
                                     ),
                                     onPressed: () {
-                                      print(currentUser.getUserWorkouts[0]
-                                          .getExercisesList()
-                                          .toString());
+                                      print(currentUser.getUserWorkouts[0].getExercisesList().toString());
                                       modifyExercise(ctx, "", -1);
                                     },
                                     child: Center(
-                                      child:
-                                          Icon(Icons.add, color: accentColor),
+                                      child: Icon(Icons.add, color: accentColor),
                                     )),
                               ),
                               Container(
                                 width: size.width / 2,
                                 child: GestureDetector(
-                                  onLongPress:
-                                      () {}, //Ensures that the plus button cannot be moved
+                                  onLongPress: () {}, //Ensures that the plus button cannot be moved
                                   child: OutlinedButton(
                                       style: OutlinedButton.styleFrom(
                                           backgroundColor: foregroundGrey,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
+                                            borderRadius: BorderRadius.circular(10.0),
                                           )),
                                       onPressed: () {
                                         setState(() {
@@ -381,9 +339,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                       child: Row(
                                         children: const [
                                           Spacer(),
-                                          Text("Delete Workout",
-                                              style:
-                                                  TextStyle(color: Colors.red)),
+                                          Text("Delete Workout", style: TextStyle(color: Colors.red)),
                                           Spacer(),
                                         ],
                                       )),
@@ -415,10 +371,9 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     //GlobalKey<AnimatedListState>();
     String newName = name;
     String title = changeIndex == -1 ? "New Exercise" : "Edit Exercise";
+    bool choosingExercise = changeIndex == -1;
     exerciseNameField.text = name;
-    List<int> reps = changeIndex == -1
-        ? <int>[3]
-        : newWorkout.getRepsForExercise(changeIndex);
+    List<int> reps = changeIndex == -1 ? <int>[3] : newWorkout.getRepsForExercise(changeIndex);
 
     //sets numReps to a default 3 if making a new workout, or to the current value if modifying workout
     //int numReps = changeIndex == -1 ? 3 : newWorkout.getReps(changeIndex)[0];
@@ -426,20 +381,18 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     showModalBottomSheet<void>(
       backgroundColor: backgroundGrey,
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(35))),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(35))),
       context: ctx,
       builder: (BuildContext context) {
-        var choosingExercise = true;
         return FractionallySizedBox(
           heightFactor: 0.9,
-          child: StatefulBuilder(
-              builder: (BuildContext context2, StateSetter setModalState) {
+          child: StatefulBuilder(builder: (BuildContext context2, StateSetter setModalState) {
             updateState() {
               setModalState(() {});
             }
 
             Size size = MediaQuery.of(context).size;
+            final ScrollController _animatedScrollController = ScrollController();
 
             choosingExerciseTrue() {
               setModalState() {
@@ -449,12 +402,10 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
 
             removeItem(int index) {
               int temp = reps.removeAt(index);
-              _listKey.currentState!.removeItem(
-                  duration: Duration(seconds: 1), index, (context, animation) {
+              _listKey.currentState!.removeItem(duration: Duration(milliseconds: 750), index, (context, animation) {
                 //return Container();
                 return SizeTransition(
-                  sizeFactor: CurvedAnimation(
-                      parent: animation, curve: Curves.bounceIn),
+                  sizeFactor: CurvedAnimation(parent: animation, curve: Curves.easeOut),
                   child: setChooser(
                       animation: animation,
                       setStateParent: () => {},
@@ -480,15 +431,10 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   //New/Edit Exercise Title
-                  Container(
-                      margin: EdgeInsets.all(30),
-                      child: Text(title,
-                          style: TextStyle(color: accentColor, fontSize: 35))),
+                  Container(margin: EdgeInsets.all(30), child: Text(title, style: TextStyle(color: accentColor, fontSize: 35))),
                   //Exercise Chooser
                   Container(
-                    //
-                    margin: const EdgeInsets.only(
-                        top: 10, bottom: 10, left: 5, right: 5),
+                    margin: const EdgeInsets.only(top: 10, bottom: 10, left: 5, right: 5),
                     child: Column(
                       children: [
                         TextField(
@@ -508,18 +454,14 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           },
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
+                              borderRadius: BorderRadius.all(Radius.circular(25)),
                               borderSide: BorderSide(
                                 width: 2,
                                 color: accentColor,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)),
-                                borderSide:
-                                    BorderSide(width: 2, color: accentColor)),
+                                borderRadius: BorderRadius.all(Radius.circular(25)), borderSide: BorderSide(width: 2, color: accentColor)),
                             //fillColor: textColor,
                             labelText: "Search",
                             hintText: "Search",
@@ -529,11 +471,10 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               Icons.search,
                               color: accentColor,
                             ),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25.0))),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))),
                           ),
                         ),
+                        //Animated container for live list of exercises
                         AnimatedContainer(
                           duration: Duration(seconds: 1),
                           curve: Curves.ease,
@@ -544,9 +485,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                             itemBuilder: (context, index) {
                               return Container(
                                 decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: accentColor, width: 2)),
+                                  border: Border(bottom: BorderSide(color: accentColor, width: 2)),
                                 ),
                                 child: ListTile(
                                   title: Text(
@@ -565,8 +504,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                       () {
                                         setState(() {
                                           choosingExercise = false;
-                                          newName = exerciseNameField.text =
-                                              exerciseTempList[index];
+                                          newName = exerciseNameField.text = exerciseTempList[index];
                                         });
                                       },
                                     );
@@ -584,7 +522,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                       ],
                     ),
                   ),
-                  //Set Chooser
+                  //Set Choosers Gesture detector
                   GestureDetector(
                     onTap: () {
                       setModalState(() {
@@ -593,111 +531,88 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                         FocusScope.of(context).requestFocus(new FocusNode());
                       });
                     },
+                    //animated container for set choosers list
                     child: AnimatedContainer(
-                      curve: Curves.ease,
-                      duration: Duration(seconds: 1),
                       decoration: BoxDecoration(
                         color: foregroundGrey,
                         borderRadius: BorderRadius.circular(20.0),
-                        // boxShadow: const [
-                        //   BoxShadow(
-                        //       color: Color.fromARGB(36, 0, 0, 0),
-                        //       offset: Offset(0.0, 5.0),
-                        //       blurRadius: 15.0),
-                        //   BoxShadow(
-                        //       color: Color.fromARGB(36, 0, 0, 0),
-                        //       offset: Offset(0.0, -5.0),
-                        //       blurRadius: 10.0),
-                        // ],
                       ),
-                      alignment: Alignment.center,
+                      curve: Curves.ease,
+                      duration: Duration(seconds: 1),
+                      height: choosingExercise ? size.height / 5.5 - 50 : size.height / 2.2297 - 50,
                       width: size.width - 10,
-                      height: choosingExercise
-                          ? size.height / 5.5
-                          : size.height / 2.2297,
-                      child: Column(
-                        children: [
-                          AnimatedContainer(
-                            curve: Curves.ease,
-                            duration: Duration(seconds: 1),
-                            height: choosingExercise
-                                ? size.height / 5.5 - 50
-                                : size.height / 2.2297 - 50,
-                            child: AnimatedList(
-                              scrollDirection: Axis.vertical,
-                              key: _listKey,
-                              padding: EdgeInsets.all(8),
-                              initialItemCount: reps.length,
-                              shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int index,
-                                  Animation<double> animation) {
-                                return SizeTransition(
-                                  sizeFactor: CurvedAnimation(
-                                      parent: animation,
-                                      curve: Curves.bounceOut),
-                                  child: setChooser(
-                                    animation: animation,
-                                    tempValue: -1,
-                                    index: index,
-                                    reps: reps,
-                                    listKey: _listKey,
-                                    setStateParent: updateState,
-                                    //removeItem: removeItem,
-                                    choosingExerciseTrue: choosingExerciseTrue,
-                                  ),
-                                );
-                              },
+                      child: AnimatedList(
+                        controller: _animatedScrollController,
+                        scrollDirection: Axis.vertical,
+                        key: _listKey,
+                        padding: EdgeInsets.all(8),
+                        initialItemCount: reps.length,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index, Animation<double> animation) {
+                          return SizeTransition(
+                            sizeFactor: CurvedAnimation(parent: animation, curve: Curves.ease),
+                            child: setChooser(
+                              animation: animation,
+                              tempValue: -1,
+                              index: index,
+                              reps: reps,
+                              listKey: _listKey,
+                              setStateParent: updateState,
+                              //removeItem: removeItem,
+                              choosingExerciseTrue: choosingExerciseTrue,
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    minimumSize:
-                                        Size((size.width - 50) / 2, 30),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(15),
-                                        bottomLeft: Radius.circular(15),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    choosingExerciseTrue();
-                                    _listKey.currentState!.insertItem(
-                                        reps.length,
-                                        duration: const Duration(seconds: 1));
-                                    setModalState(() {
-                                      reps.add(3);
-                                    });
-                                  },
-                                  child: Text("Add new set")),
-                              VerticalDivider(
-                                color: accentColor,
-                                thickness: 10,
-                                width: 10,
-                              ),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    minimumSize:
-                                        Size((size.width - 50) / 2, 30),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(15),
-                                        bottomRight: Radius.circular(15),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    removeItem(reps.length - 1);
-                                  },
-                                  child: Text("Remove set")),
-                            ],
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     ),
+                  ),
+                  //Add and Remove set buttons
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size((size.width - 50) / 2, 30),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                bottomLeft: Radius.circular(15),
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                            _animatedScrollController.animateTo(
+                              _animatedScrollController.position.maxScrollExtent + 75,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.fastOutSlowIn,
+                            );
+                            choosingExerciseTrue();
+                            _listKey.currentState!.insertItem(reps.length, duration: const Duration(milliseconds: 750));
+                            setModalState(() {
+                              reps.add(3);
+                            });
+                          },
+                          child: Text("Add new set")),
+                      VerticalDivider(
+                        color: accentColor,
+                        thickness: 10,
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size((size.width - 50) / 2, 30),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(15),
+                                bottomRight: Radius.circular(15),
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                            removeItem(reps.length - 1);
+                          },
+                          child: Text("Remove set")),
+                    ],
                   ),
                   Container(
                     margin: EdgeInsets.all(25),
@@ -708,24 +623,18 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                         ),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15))),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
                                 padding: EdgeInsets.all(25),
                                 primary: Colors.red,
                                 minimumSize: Size(150, 75)),
                             onPressed: () {
                               showDialog<String>(
                                 context: context,
-                                barrierDismissible:
-                                    false, // user must tap button!
+                                barrierDismissible: false, // user must tap button!
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(25))),
-                                    title: const Text(
-                                        'Are you sure you want to delete this exercise?'),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
+                                    title: const Text('Are you sure you want to delete this exercise?'),
                                     actions: <Widget>[
                                       TextButton(
                                         child: const Text('No, go back'),
@@ -743,8 +652,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                           Navigator.pop(ctx);
                                           setState(() {
                                             if (changeIndex != -1) {
-                                              firebaseRemoveExercise(
-                                                  changeIndex, false);
+                                              firebaseRemoveExercise(changeIndex, false);
                                             }
                                           });
                                         },
@@ -758,15 +666,12 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                         Spacer(),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15))),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
                               padding: EdgeInsets.all(25),
                               primary: Colors.blue,
                               minimumSize: Size(150, 75)),
                           onPressed: () {
-                            if (currentWorkout.getName() ==
-                                newWorkout.getName()) {
+                            if (currentWorkout.getName() == newWorkout.getName()) {
                               workoutState(newWorkout);
                             }
 
@@ -781,13 +686,9 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                 Navigator.pop(context);
                                 if (changeIndex == -1) {
                                   newWorkout.addExercise(newName, reps);
-                                  pushExerciseToWorkoutFirebase(
-                                      changeIndex == -1
-                                          ? newWorkout.getNumExercises() - 1
-                                          : changeIndex + 1);
+                                  pushExerciseToWorkoutFirebase(changeIndex == -1 ? newWorkout.getNumExercises() - 1 : changeIndex + 1);
                                 } else {
-                                  newWorkout.renameExercise(
-                                      changeIndex, newName);
+                                  newWorkout.renameExercise(changeIndex, newName);
                                   newWorkout.setReps(changeIndex, reps);
                                 }
                                 updateWorkoutFirebase();
