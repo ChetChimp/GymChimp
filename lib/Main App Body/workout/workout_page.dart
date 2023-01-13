@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymchimp/Main%20App%20Body/home_page.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/countdown.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/stopwatch.dart';
 import 'package:gymchimp/main.dart';
@@ -41,8 +44,7 @@ TextStyle fontstyle(double size) {
       decoration: TextDecoration.none);
 }
 
-class _WorkoutPage extends State<WorkoutPage>
-    with AutomaticKeepAliveClientMixin {
+class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     getRows(selectedExercise);
@@ -83,18 +85,14 @@ class _WorkoutPage extends State<WorkoutPage>
         margin: EdgeInsets.all(3),
         width: 10,
         height: 10,
-        decoration: BoxDecoration(
-            color: currentIndex == index ? Colors.white : Colors.grey,
-            shape: BoxShape.circle),
+        decoration: BoxDecoration(color: currentIndex == index ? Colors.white : Colors.grey, shape: BoxShape.circle),
       );
     });
   }
 
   void updateProgress() {
     setState(() {
-      multiplier = currentWorkout.exercises.isEmpty
-          ? 0
-          : 1 / currentWorkout.exercises.length;
+      multiplier = currentWorkout.exercises.isEmpty ? 0 : 1 / currentWorkout.exercises.length;
       progress = multiplier * (index + 1);
     });
   }
@@ -181,6 +179,18 @@ class _WorkoutPage extends State<WorkoutPage>
   }
 
   Widget build(BuildContext context) {
+    int lateIndex = index;
+    void updateLateIndex() {
+      int tempIndex = index;
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setState(() {
+          lateIndex = tempIndex;
+        });
+      });
+    }
+
+    GlobalKey nextKey = GlobalKey();
+    GlobalKey previousKey = GlobalKey();
     super.build(context);
     Size size = MediaQuery.of(context).size;
     return Navigator(onGenerateRoute: (settings) {
@@ -193,9 +203,7 @@ class _WorkoutPage extends State<WorkoutPage>
             onRefresh: (() {
               return Future.delayed(Duration(milliseconds: 1), (() {
                 setState(() {
-                  getRows(currentWorkout.exercises.isEmpty
-                      ? ""
-                      : currentWorkout.exercises[0]);
+                  getRows(currentWorkout.exercises.isEmpty ? "" : currentWorkout.exercises[0]);
                   index = 0;
                   updateProgress();
                 });
@@ -224,22 +232,18 @@ class _WorkoutPage extends State<WorkoutPage>
                                       Container(
                                           decoration: BoxDecoration(
                                             color: foregroundGrey,
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
+                                            borderRadius: BorderRadius.circular(12.0),
                                             // boxShadow: shadow
                                           ),
-                                          margin: EdgeInsets.only(
-                                              left: 10, right: 10),
+                                          margin: EdgeInsets.only(left: 10, right: 10),
                                           child: countdown()),
                                       Container(
-                                          margin: EdgeInsets.only(
-                                              left: 10, right: 10),
+                                          margin: EdgeInsets.only(left: 10, right: 10),
                                           decoration: BoxDecoration(
                                             color: foregroundGrey,
                                             // gradient: LinearGradient(
                                             //     colors: primaryGradient),
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
+                                            borderRadius: BorderRadius.circular(12.0),
                                           ),
                                           child: StopWatch()),
                                     ],
@@ -289,18 +293,15 @@ class _WorkoutPage extends State<WorkoutPage>
                             ],
                           ),
                           Container(
-                            margin: EdgeInsets.only(
-                                top: 5, bottom: 5, left: 17, right: 17),
+                            margin: EdgeInsets.only(top: 5, bottom: 5, left: 17, right: 17),
                             child: GradientProgressIndicator(
-                              gradient: LinearGradient(
-                                  colors: [foregroundGrey, accentColor]),
+                              gradient: LinearGradient(colors: [foregroundGrey, accentColor]),
                               value: progress,
                             ),
                           ),
                           Container(
                             height: size.height / 3,
-                            margin: const EdgeInsets.only(
-                                top: 10, bottom: 10, left: 20, right: 20),
+                            margin: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
                             decoration: BoxDecoration(
                               color: foregroundGrey,
                               borderRadius: BorderRadius.circular(20.0),
@@ -310,10 +311,7 @@ class _WorkoutPage extends State<WorkoutPage>
                                 AnimatedContainer(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20),
-                                        bottomLeft: radius,
-                                        bottomRight: radius),
+                                        topLeft: Radius.circular(20), topRight: Radius.circular(20), bottomLeft: radius, bottomRight: radius),
                                     color: accentColor,
                                   ),
                                   duration: Duration(milliseconds: 200),
@@ -339,32 +337,25 @@ class _WorkoutPage extends State<WorkoutPage>
                                       iconEnabledColor: foregroundGrey,
                                       isExpanded: true,
                                       barrierColor: Color.fromARGB(45, 0, 0, 0),
-                                      hint: Text(selectedExercise,
-                                          style: TextStyle(
-                                              color: foregroundGrey,
-                                              fontSize: 21,
-                                              fontWeight: FontWeight.w500)),
+                                      hint:
+                                          Text(selectedExercise, style: TextStyle(color: foregroundGrey, fontSize: 21, fontWeight: FontWeight.w500)),
                                       items: currentWorkout.exercises
-                                          .map((item) =>
-                                              DropdownMenuItem<String>(
+                                          .map((item) => DropdownMenuItem<String>(
                                                 value: item,
                                                 child: Text(
                                                   item,
                                                   style: const TextStyle(
                                                     fontSize: 20,
-                                                    color: Color.fromARGB(
-                                                        255, 0, 0, 0),
+                                                    color: Color.fromARGB(255, 0, 0, 0),
                                                   ),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                                  overflow: TextOverflow.ellipsis,
                                                 ),
                                               ))
                                           .toList(),
                                       onChanged: (String? value) {
                                         setState(
                                           () {
-                                            index = currentWorkout.exercises
-                                                .indexOf(value!);
+                                            index = currentWorkout.exercises.indexOf(value!);
                                             selectedExercise = value;
                                             getRows(selectedExercise);
                                             updateProgress();
@@ -413,46 +404,113 @@ class _WorkoutPage extends State<WorkoutPage>
                             ),
                           ),
                           SizedBox(height: size.height / 75),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: size.width / 5, right: size.width / 5),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(0.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                              ),
-                              onPressed: (() {
-                                setState(() {
-                                  index++;
-                                  if (index <
-                                      currentWorkout.getNumExercises()) {
-                                    selectedExercise =
-                                        currentWorkout.exercises[index];
-                                    getRows(selectedExercise);
-                                    updateProgress();
-                                  }
-                                });
-                              }),
-                              child: Ink(
-                                decoration: BoxDecoration(
-                                  color: foregroundGrey,
-                                  // gradient: LinearGradient(
-                                  //     colors: GradientColors.royalBlue),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30.0)),
-                                ),
-                                child: Container(
-                                  padding: EdgeInsets.all(15),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    style: TextStyle(
-                                        fontSize: 26, color: accentColor),
-                                    "Next exercise",
-                                    textAlign: TextAlign.center,
+
+                          GestureDetector(
+                            onTapDown: (details) {
+                              var position = details.globalPosition;
+                              if (nextKey.currentContext != null) {
+                                var box = nextKey.currentContext?.findRenderObject() as RenderBox;
+                                var position2 = box.localToGlobal(Offset.zero);
+                                var x1 = position.dx;
+                                var y1 = position.dy;
+                                var x2 = position2.dx + size.width / 6;
+                                var y2 = position2.dy + size.height / 40;
+                                if (sqrt(pow(x2 - x1, 2) + 8 * pow(y2 - y1, 2)) < 75) {
+                                  setState(() {
+                                    if (index < currentWorkout.getNumExercises() - 1) {
+                                      index++;
+                                      updateLateIndex();
+                                      selectedExercise = currentWorkout.exercises[index];
+                                      getRows(selectedExercise);
+                                      updateProgress();
+                                    }
+                                  });
+                                }
+                              }
+                              if (previousKey.currentContext != null) {
+                                var box = previousKey.currentContext?.findRenderObject() as RenderBox;
+                                var position2 = box.localToGlobal(Offset.zero);
+                                var x1 = position.dx;
+                                var y1 = position.dy;
+                                var x2 = position2.dx + size.width / 6;
+                                var y2 = position2.dy + size.height / 40;
+                                if (sqrt(pow(x2 - x1, 2) + 8 * pow(y2 - y1, 2)) < 75) {
+                                  setState(() {
+                                    if (index > 0) {
+                                      index--;
+                                      updateLateIndex();
+                                      selectedExercise = currentWorkout.exercises[index];
+                                      getRows(selectedExercise);
+                                      updateProgress();
+                                    }
+                                  });
+                                }
+                              }
+                            },
+                            child: SizedBox(
+                              width: size.width,
+                              height: size.height / 10,
+                              child: Stack(
+                                children: <Widget>[
+                                  AnimatedContainer(
+                                    curve: Curves.ease,
+                                    width: size.width,
+                                    height: size.height / 10,
+                                    color: Colors.transparent,
+                                    alignment: index == currentWorkout.getNumExercises() - 1 || index <= 0 ? Alignment.center : Alignment(-1.5, 0),
+                                    duration: Duration(milliseconds: 500),
+                                    padding: EdgeInsets.only(left: size.width / 5, right: size.width / 5),
+                                    child: Visibility(
+                                      //maintainInteractivity: false,
+                                      visible: lateIndex > 0 || index > 0,
+                                      child: MaterialButton(
+                                        key: previousKey,
+                                        disabledColor: foregroundGrey,
+                                        color: foregroundGrey,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(30.0),
+                                        ),
+                                        height: size.height / 20,
+                                        minWidth: size.width / 3,
+                                        onPressed: null,
+                                        child: Text(
+                                          style: TextStyle(fontSize: 26, color: accentColor),
+                                          "Previous",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  AnimatedContainer(
+                                    curve: Curves.ease,
+                                    width: size.width,
+                                    height: size.height / 10,
+                                    color: Colors.transparent,
+                                    alignment: index == currentWorkout.getNumExercises() - 1 || index <= 0 ? Alignment.center : Alignment(1.5, 0),
+                                    duration: Duration(milliseconds: 500),
+                                    padding: EdgeInsets.only(left: size.width / 5, right: size.width / 5),
+                                    child: Visibility(
+                                      //maintainInteractivity: false,
+                                      visible: lateIndex < currentWorkout.getNumExercises() - 1 || index < currentWorkout.getNumExercises() - 1,
+                                      child: MaterialButton(
+                                        key: nextKey,
+                                        disabledColor: foregroundGrey,
+                                        color: foregroundGrey,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(30.0),
+                                        ),
+                                        height: size.height / 20,
+                                        minWidth: size.width / 3,
+                                        onPressed: null,
+                                        child: Text(
+                                          style: TextStyle(fontSize: 26, color: accentColor),
+                                          "Next",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
