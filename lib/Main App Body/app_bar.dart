@@ -158,7 +158,7 @@ class _MyAppBarState extends State<MyAppBar>
                           autofocus: true,
                           style: TextStyle(
                               color: accentColor,
-                              fontSize: MediaQuery.of(context).size.width / 16),
+                              fontSize: MediaQuery.of(context).size.width / 20),
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
                             counterText: "",
@@ -229,12 +229,19 @@ class _MyAppBarState extends State<MyAppBar>
                 ),
               ),
               child: Center(
-                child: Text(
-                  textAlign: TextAlign.center,
-                  workoutNameEditController.text,
-                  style: TextStyle(
-                      color: accentColor,
-                      fontSize: MediaQuery.of(context).size.width / 16),
+                child: Row(
+                  children: [
+                    Spacer(flex: 3),
+                    Text(
+                      textAlign: TextAlign.center,
+                      workoutNameEditController.text,
+                      style: TextStyle(
+                          color: accentColor,
+                          fontSize: MediaQuery.of(context).size.width / 20),
+                    ),
+                    Spacer(flex: 2),
+                    Icon(Icons.edit_note),
+                  ],
                 ),
               ),
             ),

@@ -79,23 +79,42 @@ class _WorkoutPage extends State<WorkoutPage>
 
   int activepage = 0;
   double progress = 0;
+  CarouselController carouselController = CarouselController();
 
   List<Widget> indicators(currentIndex) {
     return List<Widget>.generate(2, (index) {
       if (index == 0) {
         return Container(
-          margin: EdgeInsets.only(left: 5, right: 5),
-          child: Icon(
-            Icons.schedule,
-            color: currentIndex == index ? Colors.white : Colors.grey,
+          // margin: EdgeInsets.only(left: 5, right: 5),
+          child: IconButton(
+            splashRadius: 1,
+            onPressed: () {
+              carouselController.animateToPage(0);
+              setState(() {
+                indicators(0);
+              });
+            },
+            icon: Icon(
+              Icons.schedule,
+              color: currentIndex == index ? Colors.white : Colors.grey,
+            ),
           ),
         );
       } else if (index == 1) {
         return Container(
-          margin: EdgeInsets.only(left: 5, right: 5),
-          child: Icon(
-            Icons.timer,
-            color: currentIndex == index ? Colors.white : Colors.grey,
+          // margin: EdgeInsets.only(left: 5, right: 5),
+          child: IconButton(
+            splashRadius: 1,
+            onPressed: () {
+              carouselController.animateToPage(1);
+              setState(() {
+                indicators(1);
+              });
+            },
+            icon: Icon(
+              Icons.timer,
+              color: currentIndex == index ? Colors.white : Colors.grey,
+            ),
           ),
         );
       } else {
@@ -249,6 +268,7 @@ class _WorkoutPage extends State<WorkoutPage>
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                   child: CarouselSlider(
+                                    carouselController: carouselController,
                                     items: [
                                       Container(
                                           decoration: BoxDecoration(
@@ -280,7 +300,7 @@ class _WorkoutPage extends State<WorkoutPage>
                                           activepage = index;
                                         });
                                       }),
-                                      viewportFraction: .925,
+                                      viewportFraction: .92,
                                     ),
                                   ),
                                 ),
@@ -298,16 +318,6 @@ class _WorkoutPage extends State<WorkoutPage>
                                         topRight: Radius.circular(8),
                                         bottomLeft: Radius.circular(8),
                                         bottomRight: Radius.circular(8)),
-                                    // boxShadow: [
-                                    //   BoxShadow(
-                                    //       color: Color.fromARGB(36, 0, 0, 0),
-                                    //       offset: Offset(0.0, 5.0),
-                                    //       blurRadius: 15.0),
-                                    //   BoxShadow(
-                                    //       color: Color.fromARGB(36, 0, 0, 0),
-                                    //       offset: Offset(0.0, -5.0),
-                                    //       blurRadius: 10.0),
-                                    // ],
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,

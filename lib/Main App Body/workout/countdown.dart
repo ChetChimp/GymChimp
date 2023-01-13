@@ -194,8 +194,21 @@ class _countdownState extends State<countdown>
         margin: EdgeInsets.all(5),
         child: Column(
           children: [
-            Text("Timer",
-                style: TextStyle(color: accentColor, fontSize: size.width / 9)),
+            Row(
+              children: [
+                SizedBox(
+                  width: size.width / 3.75,
+                ),
+                Text("Timer",
+                    style: TextStyle(
+                        color: accentColor, fontSize: size.width / 9)),
+                Spacer(flex: 1),
+                Icon(Icons.edit_notifications_sharp, color: Colors.white),
+                SizedBox(
+                  width: size.width / 28,
+                ),
+              ],
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -226,18 +239,18 @@ class _countdownState extends State<countdown>
               // mainAxisAlignment: MainAxisAlignment.center,
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Spacer(),
+                SizedBox(width: size.width / 5.25),
                 IconButton(
                   splashRadius: .01,
                   icon: on
                       ? Icon(
                           color: accentColor,
                           Icons.play_arrow_sharp,
-                          size: size.width / 9,
+                          size: size.width / 8,
                         )
                       : Icon(
                           Icons.stop_sharp,
-                          size: size.width / 9,
+                          size: size.width / 8,
                           color: accentColor,
                         ),
                   onPressed: (() {
@@ -251,7 +264,7 @@ class _countdownState extends State<countdown>
                     }
                   }),
                 ),
-                const Spacer(),
+                Spacer(),
                 IconButton(
                     color: accentColor,
                     splashRadius: .01,
@@ -259,9 +272,9 @@ class _countdownState extends State<countdown>
                     icon: Icon(
                       color: accentColor,
                       Icons.restore_sharp,
-                      size: size.width / 10,
+                      size: size.width / 8,
                     )),
-                const Spacer(),
+                SizedBox(width: size.width / 4.50),
               ],
             ),
           ],
