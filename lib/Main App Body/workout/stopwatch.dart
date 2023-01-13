@@ -167,7 +167,7 @@ class _StopWatchState extends State<StopWatch>
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Spacer(),
+              SizedBox(width: size.width / 6.25),
               IconButton(
                 splashRadius: .01,
                 icon: on
@@ -192,7 +192,7 @@ class _StopWatchState extends State<StopWatch>
                   }
                 }),
               ),
-              const Spacer(),
+              Spacer(),
               IconButton(
                   color: Colors.white,
                   splashRadius: .01,
@@ -200,9 +200,9 @@ class _StopWatchState extends State<StopWatch>
                   icon: Icon(
                     Icons.replay_sharp,
                     color: accentColor,
-                    size: size.width / 10,
+                    size: size.width / 8,
                   )),
-              const Spacer(),
+              SizedBox(width: size.width / 5),
             ],
           ),
         ],
