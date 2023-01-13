@@ -38,7 +38,8 @@ void modifyExercise({
   bool choosingExercise = changeIndex == -1;
   TextEditingController exerciseNameField = new TextEditingController(text: "");
   exerciseNameField.text = name;
-  List<int> reps = changeIndex == -1 ? <int>[3] : newWorkout.getRepsForExercise(changeIndex);
+  List<int> reps =
+      changeIndex == -1 ? <int>[3] : newWorkout.getRepsForExercise(changeIndex);
 
   //sets numReps to a default 3 if making a new workout, or to the current value if modifying workout
   //int numReps = changeIndex == -1 ? 3 : newWorkout.getReps(changeIndex)[0];
@@ -46,12 +47,14 @@ void modifyExercise({
   showModalBottomSheet<void>(
     backgroundColor: backgroundGrey,
     isScrollControlled: true,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(35))),
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(35))),
     context: ctx,
     builder: (BuildContext context) {
       return FractionallySizedBox(
         heightFactor: 0.9,
-        child: StatefulBuilder(builder: (BuildContext context2, StateSetter setModalState) {
+        child: StatefulBuilder(
+            builder: (BuildContext context2, StateSetter setModalState) {
           updateState() {
             setModalState(() {});
           }
@@ -67,10 +70,13 @@ void modifyExercise({
 
           removeItem(int index) {
             int temp = reps.removeAt(index);
-            _listKey.currentState!.removeItem(duration: Duration(milliseconds: 750), index, (context, animation) {
+            _listKey.currentState!.removeItem(
+                duration: Duration(milliseconds: 750),
+                index, (context, animation) {
               //return Container();
               return SizeTransition(
-                sizeFactor: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+                sizeFactor:
+                    CurvedAnimation(parent: animation, curve: Curves.easeOut),
                 child: setChooser(
                     animation: animation,
                     setStateParent: () => {},
@@ -96,10 +102,14 @@ void modifyExercise({
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 //New/Edit Exercise Title
-                Container(margin: EdgeInsets.all(30), child: Text(title, style: TextStyle(color: accentColor, fontSize: 35))),
+                Container(
+                    margin: EdgeInsets.all(30),
+                    child: Text(title,
+                        style: TextStyle(color: accentColor, fontSize: 35))),
                 //Exercise Chooser
                 Container(
-                  margin: const EdgeInsets.only(top: 10, bottom: 10, left: 5, right: 5),
+                  margin: const EdgeInsets.only(
+                      top: 10, bottom: 10, left: 5, right: 5),
                   child: Column(
                     children: [
                       TextField(
@@ -126,9 +136,13 @@ void modifyExercise({
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(25)), borderSide: BorderSide(width: 2, color: accentColor)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
+                              borderSide:
+                                  BorderSide(width: 2, color: accentColor)),
                           //fillColor: textColor,
                           labelText: "Search",
+                          labelStyle: TextStyle(color: Colors.white),
                           hintText: "Search",
                           focusColor: textColor,
                           floatingLabelStyle: TextStyle(color: textColor),
@@ -136,7 +150,9 @@ void modifyExercise({
                             Icons.search,
                             color: accentColor,
                           ),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.0))),
                         ),
                       ),
                       //Animated container for live list of exercises
@@ -150,7 +166,9 @@ void modifyExercise({
                           itemBuilder: (context, index) {
                             return Container(
                               decoration: BoxDecoration(
-                                border: Border(bottom: BorderSide(color: accentColor, width: 2)),
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: accentColor, width: 2)),
                               ),
                               child: ListTile(
                                 title: Text(
@@ -168,7 +186,8 @@ void modifyExercise({
                                   setModalState(
                                     () {
                                       choosingExercise = false;
-                                      newName = exerciseNameField.text = exerciseTempList[index];
+                                      newName = exerciseNameField.text =
+                                          exerciseTempList[index];
                                       setState(() {});
                                     },
                                   );
@@ -203,7 +222,9 @@ void modifyExercise({
                     ),
                     curve: Curves.ease,
                     duration: Duration(seconds: 1),
-                    height: choosingExercise ? size.height / 5.5 - 50 : size.height / 2.2297 - 50,
+                    height: choosingExercise
+                        ? size.height / 5.5 - 50
+                        : size.height / 2.2297 - 50,
                     width: size.width - 10, //-10
                     child: AnimatedList(
                       controller: _animatedScrollController,
@@ -212,9 +233,11 @@ void modifyExercise({
                       padding: EdgeInsets.all(8),
                       initialItemCount: reps.length,
                       shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index, Animation<double> animation) {
+                      itemBuilder: (BuildContext context, int index,
+                          Animation<double> animation) {
                         return SizeTransition(
-                          sizeFactor: CurvedAnimation(parent: animation, curve: Curves.ease),
+                          sizeFactor: CurvedAnimation(
+                              parent: animation, curve: Curves.ease),
                           child: setChooser(
                             animation: animation,
                             tempValue: -1,
@@ -247,14 +270,17 @@ void modifyExercise({
                         onPressed: () {
                           if (reps.length >= 4) {
                             _animatedScrollController.animateTo(
-                              _animatedScrollController.position.maxScrollExtent + 75,
+                              _animatedScrollController
+                                      .position.maxScrollExtent +
+                                  75,
                               duration: Duration(milliseconds: 500),
                               curve: Curves.fastOutSlowIn,
                             );
                           }
 
                           choosingExerciseTrue();
-                          _listKey.currentState!.insertItem(reps.length, duration: const Duration(milliseconds: 750));
+                          _listKey.currentState!.insertItem(reps.length,
+                              duration: const Duration(milliseconds: 750));
                           setModalState(() {
                             reps.add(8);
                           });
@@ -301,12 +327,15 @@ void modifyExercise({
                       Spacer(),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
                             padding: EdgeInsets.all(25),
                             primary: Colors.blue,
                             minimumSize: Size(150, 75)),
                         onPressed: () {
-                          if (currentWorkout.getName() == newWorkout.getName()) {
+                          if (currentWorkout.getName() ==
+                              newWorkout.getName()) {
                             workoutState(newWorkout);
                           }
 
@@ -320,7 +349,9 @@ void modifyExercise({
                             Navigator.pop(context);
                             if (changeIndex == -1) {
                               newWorkout.addExercise(newName, reps);
-                              pushExerciseToWorkoutFirebase(changeIndex == -1 ? newWorkout.getNumExercises() - 1 : changeIndex + 1);
+                              pushExerciseToWorkoutFirebase(changeIndex == -1
+                                  ? newWorkout.getNumExercises() - 1
+                                  : changeIndex + 1);
                             } else {
                               newWorkout.renameExercise(changeIndex, newName);
                               newWorkout.setReps(changeIndex, reps);
