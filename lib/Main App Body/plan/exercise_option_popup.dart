@@ -114,10 +114,13 @@ void modifyExercise({
                                   BorderSide(width: 2, color: accentColor)),
                           //fillColor: textColor,
                           labelText: "Search",
-                          labelStyle: TextStyle(color: Colors.white),
-                          hintText: "Search",
+                          labelStyle: TextStyle(
+                              color: Colors.white,
+                              backgroundColor: Colors.transparent),
                           focusColor: textColor,
-                          floatingLabelStyle: TextStyle(color: textColor),
+                          floatingLabelStyle: TextStyle(
+                              color: textColor,
+                              backgroundColor: Colors.transparent),
                           prefixIcon: Icon(
                             Icons.search,
                             color: accentColor,
