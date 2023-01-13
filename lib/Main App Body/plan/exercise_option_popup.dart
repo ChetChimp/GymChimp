@@ -59,31 +59,6 @@ void modifyExercise({
           Size size = MediaQuery.of(context).size;
           final ScrollController _animatedScrollController = ScrollController();
 
-          choosingExerciseTrue() {
-            setModalState() {
-              choosingExercise = false;
-            }
-          }
-
-          removeItem(int index) {
-            int temp = reps.removeAt(index);
-            _listKey.currentState!.removeItem(duration: Duration(milliseconds: 750), index, (context, animation) {
-              //return Container();
-              return SizeTransition(
-                sizeFactor: CurvedAnimation(parent: animation, curve: Curves.easeOut),
-                child: setChooser(
-                    animation: animation,
-                    setStateParent: () => {},
-                    //removeItem: () => {},
-                    choosingExerciseTrue: choosingExerciseTrue,
-                    reps: [],
-                    tempValue: temp,
-                    listKey: _listKey,
-                    index: index),
-              );
-            });
-          }
-
           return Container(
             decoration: BoxDecoration(
               color: backgroundGrey,
@@ -223,7 +198,6 @@ void modifyExercise({
                             listKey: _listKey,
                             setStateParent: updateState,
                             //removeItem: removeItem,
-                            choosingExerciseTrue: choosingExerciseTrue,
                           ),
                         );
                       },
@@ -253,10 +227,10 @@ void modifyExercise({
                             );
                           }
 
-                          choosingExerciseTrue();
                           _listKey.currentState!.insertItem(reps.length, duration: const Duration(milliseconds: 750));
+                          reps.add(8);
                           setModalState(() {
-                            reps.add(8);
+                            choosingExercise = false;
                           });
                         },
                         child: Text("Add new set")),
@@ -276,8 +250,24 @@ void modifyExercise({
                           ),
                         ),
                         onPressed: () {
+                          choosingExercise = false;
+
                           if (reps.length > 1) {
-                            removeItem(reps.length - 1);
+                            int index = reps.length - 1;
+                            int tempRep = reps.removeAt(index);
+
+                            _listKey.currentState!.removeItem(duration: Duration(milliseconds: 750), index, (context, animation) {
+                              //return Container();
+                              return SizeTransition(
+                                sizeFactor: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+                                child: setChooser(
+                                    animation: animation, setStateParent: () => {}, reps: [], tempValue: tempRep, listKey: _listKey, index: index),
+                              );
+                            });
+
+                            setModalState(() {
+                              choosingExercise = false;
+                            });
                           }
                         },
                         child: Text("Remove set")),

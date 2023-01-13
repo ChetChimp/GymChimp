@@ -30,7 +30,6 @@ class setChooser extends StatelessWidget {
     required this.index,
     required this.animation,
     required this.tempValue,
-    required this.choosingExerciseTrue,
   })  : _listKey = listKey,
         super(key: key);
 
@@ -39,7 +38,6 @@ class setChooser extends StatelessWidget {
   final List<int> reps;
   final Function setStateParent;
   //final Function removeItem;
-  final Function choosingExerciseTrue;
   final Animation<double> animation;
   final GlobalKey<AnimatedListState> _listKey;
 
@@ -71,7 +69,6 @@ class setChooser extends StatelessWidget {
               itemWidth: 75,
               axis: Axis.horizontal,
               onChanged: (value) {
-                choosingExerciseTrue();
                 if (tempValue < 0) {
                   reps[index] = value;
                   setStateParent();
