@@ -44,7 +44,8 @@ TextStyle fontstyle(double size) {
       decoration: TextDecoration.none);
 }
 
-class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin {
+class _WorkoutPage extends State<WorkoutPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     getRows(selectedExercise);
@@ -79,20 +80,38 @@ class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin
   int activepage = 0;
   double progress = 0;
 
-  List<Widget> indicators(imagesLength, currentIndex) {
-    return List<Widget>.generate(imagesLength, (index) {
-      return Container(
-        margin: EdgeInsets.all(3),
-        width: 10,
-        height: 10,
-        decoration: BoxDecoration(color: currentIndex == index ? Colors.white : Colors.grey, shape: BoxShape.circle),
-      );
+  List<Widget> indicators(currentIndex) {
+    return List<Widget>.generate(2, (index) {
+      if (index == 0) {
+        return Container(
+          margin: EdgeInsets.only(left: 5, right: 5),
+          child: Icon(
+            Icons.schedule,
+            color: currentIndex == index ? Colors.white : Colors.grey,
+          ),
+        );
+      } else if (index == 1) {
+        return Container(
+          margin: EdgeInsets.only(left: 5, right: 5),
+          child: Icon(
+            Icons.timer,
+            color: currentIndex == index ? Colors.white : Colors.grey,
+          ),
+        );
+      } else {
+        return Icon(
+          Icons.schedule,
+          color: currentIndex == index ? Colors.white : Colors.grey,
+        );
+      }
     });
   }
 
   void updateProgress() {
     setState(() {
-      multiplier = currentWorkout.exercises.isEmpty ? 0 : 1 / currentWorkout.exercises.length;
+      multiplier = currentWorkout.exercises.isEmpty
+          ? 0
+          : 1 / currentWorkout.exercises.length;
       progress = multiplier * (index + 1);
     });
   }
@@ -203,7 +222,9 @@ class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin
             onRefresh: (() {
               return Future.delayed(Duration(milliseconds: 1), (() {
                 setState(() {
-                  getRows(currentWorkout.exercises.isEmpty ? "" : currentWorkout.exercises[0]);
+                  getRows(currentWorkout.exercises.isEmpty
+                      ? ""
+                      : currentWorkout.exercises[0]);
                   index = 0;
                   updateProgress();
                 });
@@ -232,18 +253,22 @@ class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin
                                       Container(
                                           decoration: BoxDecoration(
                                             color: foregroundGrey,
-                                            borderRadius: BorderRadius.circular(12.0),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
                                             // boxShadow: shadow
                                           ),
-                                          margin: EdgeInsets.only(left: 10, right: 10),
+                                          margin: EdgeInsets.only(
+                                              left: 10, right: 10),
                                           child: countdown()),
                                       Container(
-                                          margin: EdgeInsets.only(left: 10, right: 10),
+                                          margin: EdgeInsets.only(
+                                              left: 10, right: 10),
                                           decoration: BoxDecoration(
                                             color: foregroundGrey,
                                             // gradient: LinearGradient(
                                             //     colors: primaryGradient),
-                                            borderRadius: BorderRadius.circular(12.0),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
                                           ),
                                           child: StopWatch()),
                                     ],
@@ -255,7 +280,7 @@ class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin
                                           activepage = index;
                                         });
                                       }),
-                                      viewportFraction: 1,
+                                      viewportFraction: .8,
                                     ),
                                   ),
                                 ),
@@ -286,22 +311,25 @@ class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: indicators(2, activepage),
+                                    children: indicators(activepage),
                                   ),
                                 ),
                               ),
                             ],
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 5, bottom: 5, left: 17, right: 17),
+                            margin: EdgeInsets.only(
+                                top: 5, bottom: 5, left: 17, right: 17),
                             child: GradientProgressIndicator(
-                              gradient: LinearGradient(colors: [foregroundGrey, accentColor]),
+                              gradient: LinearGradient(
+                                  colors: [foregroundGrey, accentColor]),
                               value: progress,
                             ),
                           ),
                           Container(
                             height: size.height / 3,
-                            margin: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+                            margin: const EdgeInsets.only(
+                                top: 10, bottom: 10, left: 20, right: 20),
                             decoration: BoxDecoration(
                               color: foregroundGrey,
                               borderRadius: BorderRadius.circular(20.0),
@@ -311,7 +339,10 @@ class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin
                                 AnimatedContainer(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20), topRight: Radius.circular(20), bottomLeft: radius, bottomRight: radius),
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                        bottomLeft: radius,
+                                        bottomRight: radius),
                                     color: accentColor,
                                   ),
                                   duration: Duration(milliseconds: 200),
@@ -337,25 +368,32 @@ class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin
                                       iconEnabledColor: foregroundGrey,
                                       isExpanded: true,
                                       barrierColor: Color.fromARGB(45, 0, 0, 0),
-                                      hint:
-                                          Text(selectedExercise, style: TextStyle(color: foregroundGrey, fontSize: 21, fontWeight: FontWeight.w500)),
+                                      hint: Text(selectedExercise,
+                                          style: TextStyle(
+                                              color: foregroundGrey,
+                                              fontSize: 21,
+                                              fontWeight: FontWeight.w500)),
                                       items: currentWorkout.exercises
-                                          .map((item) => DropdownMenuItem<String>(
+                                          .map((item) =>
+                                              DropdownMenuItem<String>(
                                                 value: item,
                                                 child: Text(
                                                   item,
                                                   style: const TextStyle(
                                                     fontSize: 20,
-                                                    color: Color.fromARGB(255, 0, 0, 0),
+                                                    color: Color.fromARGB(
+                                                        255, 0, 0, 0),
                                                   ),
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ))
                                           .toList(),
                                       onChanged: (String? value) {
                                         setState(
                                           () {
-                                            index = currentWorkout.exercises.indexOf(value!);
+                                            index = currentWorkout.exercises
+                                                .indexOf(value!);
                                             selectedExercise = value;
                                             getRows(selectedExercise);
                                             updateProgress();
@@ -409,18 +447,23 @@ class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin
                             onTapDown: (details) {
                               var position = details.globalPosition;
                               if (nextKey.currentContext != null) {
-                                var box = nextKey.currentContext?.findRenderObject() as RenderBox;
+                                var box = nextKey.currentContext
+                                    ?.findRenderObject() as RenderBox;
                                 var position2 = box.localToGlobal(Offset.zero);
                                 var x1 = position.dx;
                                 var y1 = position.dy;
                                 var x2 = position2.dx + size.width / 6;
                                 var y2 = position2.dy + size.height / 40;
-                                if (sqrt(pow(x2 - x1, 2) + 8 * pow(y2 - y1, 2)) < 75) {
+                                if (sqrt(
+                                        pow(x2 - x1, 2) + 8 * pow(y2 - y1, 2)) <
+                                    75) {
                                   setState(() {
-                                    if (index < currentWorkout.getNumExercises() - 1) {
+                                    if (index <
+                                        currentWorkout.getNumExercises() - 1) {
                                       index++;
                                       updateLateIndex();
-                                      selectedExercise = currentWorkout.exercises[index];
+                                      selectedExercise =
+                                          currentWorkout.exercises[index];
                                       getRows(selectedExercise);
                                       updateProgress();
                                     }
@@ -428,18 +471,22 @@ class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin
                                 }
                               }
                               if (previousKey.currentContext != null) {
-                                var box = previousKey.currentContext?.findRenderObject() as RenderBox;
+                                var box = previousKey.currentContext
+                                    ?.findRenderObject() as RenderBox;
                                 var position2 = box.localToGlobal(Offset.zero);
                                 var x1 = position.dx;
                                 var y1 = position.dy;
                                 var x2 = position2.dx + size.width / 6;
                                 var y2 = position2.dy + size.height / 40;
-                                if (sqrt(pow(x2 - x1, 2) + 8 * pow(y2 - y1, 2)) < 75) {
+                                if (sqrt(
+                                        pow(x2 - x1, 2) + 8 * pow(y2 - y1, 2)) <
+                                    75) {
                                   setState(() {
                                     if (index > 0) {
                                       index--;
                                       updateLateIndex();
-                                      selectedExercise = currentWorkout.exercises[index];
+                                      selectedExercise =
+                                          currentWorkout.exercises[index];
                                       getRows(selectedExercise);
                                       updateProgress();
                                     }
@@ -457,9 +504,17 @@ class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin
                                     width: size.width,
                                     height: size.height / 10,
                                     color: Colors.transparent,
-                                    alignment: index == currentWorkout.getNumExercises() - 1 || index <= 0 ? Alignment.center : Alignment(-1.5, 0),
+                                    alignment: index ==
+                                                currentWorkout
+                                                        .getNumExercises() -
+                                                    1 ||
+                                            index <= 0
+                                        ? Alignment.center
+                                        : Alignment(-1.5, 0),
                                     duration: Duration(milliseconds: 500),
-                                    padding: EdgeInsets.only(left: size.width / 5, right: size.width / 5),
+                                    padding: EdgeInsets.only(
+                                        left: size.width / 5,
+                                        right: size.width / 5),
                                     child: Visibility(
                                       //maintainInteractivity: false,
                                       visible: lateIndex > 0 || index > 0,
@@ -468,13 +523,15 @@ class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin
                                         disabledColor: foregroundGrey,
                                         color: foregroundGrey,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(30.0),
+                                          borderRadius:
+                                              BorderRadius.circular(30.0),
                                         ),
                                         height: size.height / 20,
                                         minWidth: size.width / 3,
                                         onPressed: null,
                                         child: Text(
-                                          style: TextStyle(fontSize: 26, color: accentColor),
+                                          style: TextStyle(
+                                              fontSize: 26, color: accentColor),
                                           "Previous",
                                           textAlign: TextAlign.center,
                                         ),
@@ -486,24 +543,39 @@ class _WorkoutPage extends State<WorkoutPage> with AutomaticKeepAliveClientMixin
                                     width: size.width,
                                     height: size.height / 10,
                                     color: Colors.transparent,
-                                    alignment: index == currentWorkout.getNumExercises() - 1 || index <= 0 ? Alignment.center : Alignment(1.5, 0),
+                                    alignment: index ==
+                                                currentWorkout
+                                                        .getNumExercises() -
+                                                    1 ||
+                                            index <= 0
+                                        ? Alignment.center
+                                        : Alignment(1.5, 0),
                                     duration: Duration(milliseconds: 500),
-                                    padding: EdgeInsets.only(left: size.width / 5, right: size.width / 5),
+                                    padding: EdgeInsets.only(
+                                        left: size.width / 5,
+                                        right: size.width / 5),
                                     child: Visibility(
                                       //maintainInteractivity: false,
-                                      visible: lateIndex < currentWorkout.getNumExercises() - 1 || index < currentWorkout.getNumExercises() - 1,
+                                      visible: lateIndex <
+                                              currentWorkout.getNumExercises() -
+                                                  1 ||
+                                          index <
+                                              currentWorkout.getNumExercises() -
+                                                  1,
                                       child: MaterialButton(
                                         key: nextKey,
                                         disabledColor: foregroundGrey,
                                         color: foregroundGrey,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(30.0),
+                                          borderRadius:
+                                              BorderRadius.circular(30.0),
                                         ),
                                         height: size.height / 20,
                                         minWidth: size.width / 3,
                                         onPressed: null,
                                         child: Text(
-                                          style: TextStyle(fontSize: 26, color: accentColor),
+                                          style: TextStyle(
+                                              fontSize: 26, color: accentColor),
                                           "Next",
                                           textAlign: TextAlign.center,
                                         ),

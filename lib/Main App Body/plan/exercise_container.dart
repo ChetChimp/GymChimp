@@ -57,6 +57,8 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
                       side: const BorderSide(color: Colors.transparent)),
                   child: Icon(Icons.edit, color: accentColor),
                   onPressed: () {
+                    print("here");
+                    filterResults("");
                     modExercise(widget.ctx,
                         '${newWorkout.getExercise(widget.ind)}', widget.ind);
                   },

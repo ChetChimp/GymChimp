@@ -27,7 +27,12 @@ class NewWorkoutPage extends StatefulWidget {
   final int index;
   final Function callback;
 
-  const NewWorkoutPage({Key? key, required this.workoutName, required this.index, required this.callback}) : super(key: key);
+  const NewWorkoutPage(
+      {Key? key,
+      required this.workoutName,
+      required this.index,
+      required this.callback})
+      : super(key: key);
 
   @override
   State<NewWorkoutPage> createState() => _NewWorkoutPage(index: this.index);
@@ -36,48 +41,33 @@ class NewWorkoutPage extends StatefulWidget {
 var workoutIndex;
 Workout newWorkout = Workout("");
 Function modExercise = () {};
+List<Map<String, String>> data = [];
+List<String> searchList = [];
+List<String> difficultyList = [];
+List<String> muscleList = [];
+
+List<String> exerciseTempList = [];
+List<String> difficultyTempList = [];
+List<String> muscleTempList = [];
+
+Function filterResults = () {};
 
 class _NewWorkoutPage extends State<NewWorkoutPage> {
   int index;
   _NewWorkoutPage({required this.index});
-  List<Map<String, String>> data = [];
-  List<String> searchList = [];
-  List<String> difficultyList = [];
-  List<String> muscleList = [];
-
-  List<String> exerciseTempList = [];
-  List<String> difficultyTempList = [];
-  List<String> muscleTempList = [];
 
   TextEditingController exerciseNameField = new TextEditingController(text: "");
   String workoutIDFirebase = "";
 
   @override
   void initState() {
+    readJson();
+    filterResults = filterSearchResults;
     modExercise = modifyExercise;
     workoutIndex = index;
     newWorkout = currentUser.userWorkouts[index];
     getWorkoutID();
-    readJson();
     super.initState();
-  }
-
-  void getWorkoutID() async {
-    String id = "";
-    QuerySnapshot querySnapshot = await firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').get();
-    var doc;
-    bool found = false;
-    List list = querySnapshot.docs;
-    for (var element in list) {
-      doc = await firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').doc(element.id);
-      doc.get().then((value) async {
-        if (value.get('name') == newWorkout.getName()) {
-          setState(() {
-            workoutIDFirebase = element.id;
-          });
-        }
-      });
-    }
   }
 
   void filterSearchResults(String query) {
@@ -88,7 +78,8 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
 
       searchList.forEach((element) {
         int ind = searchList.indexOf(element);
-        if (element.toLowerCase().contains(query.toLowerCase()) || muscleList[ind].toLowerCase().contains(query.toLowerCase())) {
+        if (element.toLowerCase().contains(query.toLowerCase()) ||
+            muscleList[ind].toLowerCase().contains(query.toLowerCase())) {
           dummyListData.add(element);
           dummyMuscleListData.add(muscleList[ind]);
           dummyDifficultyList.add(difficultyList[ind]);
@@ -118,8 +109,35 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     }
   }
 
+  void getWorkoutID() async {
+    String id = "";
+    QuerySnapshot querySnapshot = await firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .get();
+    var doc;
+    bool found = false;
+    List list = querySnapshot.docs;
+    for (var element in list) {
+      doc = await firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('workouts')
+          .doc(element.id);
+      doc.get().then((value) async {
+        if (value.get('name') == newWorkout.getName()) {
+          setState(() {
+            workoutIDFirebase = element.id;
+          });
+        }
+      });
+    }
+  }
+
   Future<void> readJson() async {
-    final String response = await rootBundle.loadString('json/exerciseList.json');
+    final String response =
+        await rootBundle.loadString('json/exerciseList.json');
     List map = await json.decode(response);
     map.forEach(
       (element) {
@@ -131,7 +149,11 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
         difficultyTempList.add(element['difficulty']);
         muscleTempList.add(element['muscle']);
 
-        data.add({'muscle': element['muscle'], 'exercise': element['exercise'], "difficulty": element["difficulty"]});
+        data.add({
+          'muscle': element['muscle'],
+          'exercise': element['exercise'],
+          "difficulty": element["difficulty"]
+        });
       },
     );
   }
@@ -188,7 +210,11 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
       i++;
     }
     await firestore.runTransaction((Transaction myTransaction) async {
-      myTransaction.delete(firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').doc(workoutIDFirebase));
+      myTransaction.delete(firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('workouts')
+          .doc(workoutIDFirebase));
     });
     widget.callback(widget.index);
     Navigator.of(ctx).pop();
@@ -223,7 +249,11 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
               .doc(workoutIDFirebase)
               .collection('exercises')
               .doc(element.id)
-              .update({'index': i, 'name': newWorkout.exercises[i], 'reps': newWorkout.reps[i]});
+              .update({
+            'index': i,
+            'name': newWorkout.exercises[i],
+            'reps': newWorkout.reps[i]
+          });
           i++;
         } else {
           return;
@@ -259,7 +289,11 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
         .doc(workoutIDFirebase)
         .collection('exercises')
         .doc(exerciseName)
-        .set({'name': newWorkout.getExercise(indx), 'reps': newWorkout.getRepsForExercise(indx), 'index': newWorkout.exercises.length - 1});
+        .set({
+      'name': newWorkout.getExercise(indx),
+      'reps': newWorkout.getRepsForExercise(indx),
+      'index': newWorkout.exercises.length - 1
+    });
   }
 
   Widget build(BuildContext ctx) {
@@ -292,44 +326,55 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           },
                           padding: EdgeInsets.all(8),
                           children: <Widget>[
-                            for (int index = 0; index < newWorkout.getNumExercises(); index += 1) ExerciseContainer(Key('$index'), ctx, index),
+                            for (int index = 0;
+                                index < newWorkout.getNumExercises();
+                                index += 1)
+                              ExerciseContainer(Key('$index'), ctx, index),
                           ],
                         ),
                       ),
                       Container(
                           //Add Button
-                          padding: EdgeInsets.only(left: size.width / 8, right: size.width / 8),
+                          padding: EdgeInsets.only(
+                              left: size.width / 8, right: size.width / 8),
                           key: Key("-1"),
                           height: size.height / 8,
                           child: Column(
                             children: [
                               Spacer(),
                               GestureDetector(
-                                onLongPress: () {}, //Ensures that the plus button cannot be moved
+                                onLongPress:
+                                    () {}, //Ensures that the plus button cannot be moved
                                 child: OutlinedButton(
                                     style: OutlinedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
                                       ),
                                       backgroundColor: foregroundGrey,
                                     ),
                                     onPressed: () {
-                                      print(currentUser.getUserWorkouts[0].getExercisesList().toString());
+                                      print(currentUser.getUserWorkouts[0]
+                                          .getExercisesList()
+                                          .toString());
                                       modifyExercise(ctx, "", -1);
                                     },
                                     child: Center(
-                                      child: Icon(Icons.add, color: accentColor),
+                                      child:
+                                          Icon(Icons.add, color: accentColor),
                                     )),
                               ),
                               Container(
                                 width: size.width / 2,
                                 child: GestureDetector(
-                                  onLongPress: () {}, //Ensures that the plus button cannot be moved
+                                  onLongPress:
+                                      () {}, //Ensures that the plus button cannot be moved
                                   child: OutlinedButton(
                                       style: OutlinedButton.styleFrom(
                                           backgroundColor: foregroundGrey,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(10.0),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
                                           )),
                                       onPressed: () {
                                         setState(() {
@@ -339,7 +384,9 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                       child: Row(
                                         children: const [
                                           Spacer(),
-                                          Text("Delete Workout", style: TextStyle(color: Colors.red)),
+                                          Text("Delete Workout",
+                                              style:
+                                                  TextStyle(color: Colors.red)),
                                           Spacer(),
                                         ],
                                       )),
@@ -365,6 +412,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
 */
   //Modify Exercise Popup
   void modifyExercise(BuildContext ctx, String name, int changeIndex) {
+    filterResults("");
     //If changeIndex is -1, we are adding a new exercise
     final GlobalKey<AnimatedListState> _listKey = GlobalKey();
     //final GlobalKey<AnimatedListState> _listKey2 =
@@ -373,7 +421,9 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     String title = changeIndex == -1 ? "New Exercise" : "Edit Exercise";
     bool choosingExercise = changeIndex == -1;
     exerciseNameField.text = name;
-    List<int> reps = changeIndex == -1 ? <int>[3] : newWorkout.getRepsForExercise(changeIndex);
+    List<int> reps = changeIndex == -1
+        ? <int>[3]
+        : newWorkout.getRepsForExercise(changeIndex);
 
     //sets numReps to a default 3 if making a new workout, or to the current value if modifying workout
     //int numReps = changeIndex == -1 ? 3 : newWorkout.getReps(changeIndex)[0];
@@ -381,18 +431,21 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     showModalBottomSheet<void>(
       backgroundColor: backgroundGrey,
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(35))),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(35))),
       context: ctx,
       builder: (BuildContext context) {
         return FractionallySizedBox(
           heightFactor: 0.9,
-          child: StatefulBuilder(builder: (BuildContext context2, StateSetter setModalState) {
+          child: StatefulBuilder(
+              builder: (BuildContext context2, StateSetter setModalState) {
             updateState() {
               setModalState(() {});
             }
 
             Size size = MediaQuery.of(context).size;
-            final ScrollController _animatedScrollController = ScrollController();
+            final ScrollController _animatedScrollController =
+                ScrollController();
 
             choosingExerciseTrue() {
               setModalState() {
@@ -402,10 +455,13 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
 
             removeItem(int index) {
               int temp = reps.removeAt(index);
-              _listKey.currentState!.removeItem(duration: Duration(milliseconds: 750), index, (context, animation) {
+              _listKey.currentState!.removeItem(
+                  duration: Duration(milliseconds: 750),
+                  index, (context, animation) {
                 //return Container();
                 return SizeTransition(
-                  sizeFactor: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+                  sizeFactor:
+                      CurvedAnimation(parent: animation, curve: Curves.easeOut),
                   child: setChooser(
                       animation: animation,
                       setStateParent: () => {},
@@ -431,10 +487,14 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   //New/Edit Exercise Title
-                  Container(margin: EdgeInsets.all(30), child: Text(title, style: TextStyle(color: accentColor, fontSize: 35))),
+                  Container(
+                      margin: EdgeInsets.all(30),
+                      child: Text(title,
+                          style: TextStyle(color: accentColor, fontSize: 35))),
                   //Exercise Chooser
                   Container(
-                    margin: const EdgeInsets.only(top: 10, bottom: 10, left: 5, right: 5),
+                    margin: const EdgeInsets.only(
+                        top: 10, bottom: 10, left: 5, right: 5),
                     child: Column(
                       children: [
                         TextField(
@@ -454,24 +514,32 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           },
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(25)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
                               borderSide: BorderSide(
                                 width: 2,
                                 color: accentColor,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(25)), borderSide: BorderSide(width: 2, color: accentColor)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                                borderSide:
+                                    BorderSide(width: 2, color: accentColor)),
                             //fillColor: textColor,
                             labelText: "Search",
+                            labelStyle: TextStyle(color: Colors.white),
                             hintText: "Search",
+                            hintStyle: TextStyle(color: Colors.white),
                             focusColor: textColor,
                             floatingLabelStyle: TextStyle(color: textColor),
                             prefixIcon: Icon(
                               Icons.search,
                               color: accentColor,
                             ),
-                            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25.0))),
                           ),
                         ),
                         //Animated container for live list of exercises
@@ -485,7 +553,9 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                             itemBuilder: (context, index) {
                               return Container(
                                 decoration: BoxDecoration(
-                                  border: Border(bottom: BorderSide(color: accentColor, width: 2)),
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: accentColor, width: 2)),
                                 ),
                                 child: ListTile(
                                   title: Text(
@@ -504,7 +574,8 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                       () {
                                         setState(() {
                                           choosingExercise = false;
-                                          newName = exerciseNameField.text = exerciseTempList[index];
+                                          newName = exerciseNameField.text =
+                                              exerciseTempList[index];
                                         });
                                       },
                                     );
@@ -539,7 +610,9 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                       ),
                       curve: Curves.ease,
                       duration: Duration(seconds: 1),
-                      height: choosingExercise ? size.height / 5.5 - 50 : size.height / 2.2297 - 50,
+                      height: choosingExercise
+                          ? size.height / 5.5 - 50
+                          : size.height / 2.2297 - 50,
                       width: size.width - 10,
                       child: AnimatedList(
                         controller: _animatedScrollController,
@@ -548,9 +621,11 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                         padding: EdgeInsets.all(8),
                         initialItemCount: reps.length,
                         shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index, Animation<double> animation) {
+                        itemBuilder: (BuildContext context, int index,
+                            Animation<double> animation) {
                           return SizeTransition(
-                            sizeFactor: CurvedAnimation(parent: animation, curve: Curves.ease),
+                            sizeFactor: CurvedAnimation(
+                                parent: animation, curve: Curves.ease),
                             child: setChooser(
                               animation: animation,
                               tempValue: -1,
@@ -582,12 +657,15 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           ),
                           onPressed: () {
                             _animatedScrollController.animateTo(
-                              _animatedScrollController.position.maxScrollExtent + 75,
+                              _animatedScrollController
+                                      .position.maxScrollExtent +
+                                  75,
                               duration: Duration(milliseconds: 500),
                               curve: Curves.fastOutSlowIn,
                             );
                             choosingExerciseTrue();
-                            _listKey.currentState!.insertItem(reps.length, duration: const Duration(milliseconds: 750));
+                            _listKey.currentState!.insertItem(reps.length,
+                                duration: const Duration(milliseconds: 750));
                             setModalState(() {
                               reps.add(3);
                             });
@@ -623,18 +701,24 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                         ),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
                                 padding: EdgeInsets.all(25),
                                 primary: Colors.red,
                                 minimumSize: Size(150, 75)),
                             onPressed: () {
                               showDialog<String>(
                                 context: context,
-                                barrierDismissible: false, // user must tap button!
+                                barrierDismissible:
+                                    false, // user must tap button!
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
-                                    title: const Text('Are you sure you want to delete this exercise?'),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(25))),
+                                    title: const Text(
+                                        'Are you sure you want to delete this exercise?'),
                                     actions: <Widget>[
                                       TextButton(
                                         child: const Text('No, go back'),
@@ -652,7 +736,8 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                           Navigator.pop(ctx);
                                           setState(() {
                                             if (changeIndex != -1) {
-                                              firebaseRemoveExercise(changeIndex, false);
+                                              firebaseRemoveExercise(
+                                                  changeIndex, false);
                                             }
                                           });
                                         },
@@ -666,12 +751,15 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                         Spacer(),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
                               padding: EdgeInsets.all(25),
                               primary: Colors.blue,
                               minimumSize: Size(150, 75)),
                           onPressed: () {
-                            if (currentWorkout.getName() == newWorkout.getName()) {
+                            if (currentWorkout.getName() ==
+                                newWorkout.getName()) {
                               workoutState(newWorkout);
                             }
 
@@ -686,9 +774,13 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                 Navigator.pop(context);
                                 if (changeIndex == -1) {
                                   newWorkout.addExercise(newName, reps);
-                                  pushExerciseToWorkoutFirebase(changeIndex == -1 ? newWorkout.getNumExercises() - 1 : changeIndex + 1);
+                                  pushExerciseToWorkoutFirebase(
+                                      changeIndex == -1
+                                          ? newWorkout.getNumExercises() - 1
+                                          : changeIndex + 1);
                                 } else {
-                                  newWorkout.renameExercise(changeIndex, newName);
+                                  newWorkout.renameExercise(
+                                      changeIndex, newName);
                                   newWorkout.setReps(changeIndex, reps);
                                 }
                                 updateWorkoutFirebase();
