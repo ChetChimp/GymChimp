@@ -16,6 +16,7 @@ import '../app_bar.dart';
 import '../home_page.dart';
 import '../start_page.dart';
 import '../workout/workout_page.dart';
+import 'firebase_functions.dart';
 import 'new_workout_page.dart';
 import '../workout/workout.dart';
 import 'dart:async';
@@ -68,11 +69,7 @@ class _PlanPage extends State<PlanPage> {
   }
 
   Future<void> pushWorkoutToDatabase(BuildContext ctx) async {
-    QuerySnapshot querySnapshot = await firestore
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('workouts')
-        .get();
+    QuerySnapshot querySnapshot = await firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').get();
 
     List list = querySnapshot.docs;
     List list2 = [];
@@ -117,24 +114,19 @@ class _PlanPage extends State<PlanPage> {
                           currentUser.moveWorkout(oldIndex, newIndex);
                         });
                       },
-                      children: List.generate(currentUser.userWorkouts.length,
-                          (index) {
+                      children: List.generate(currentUser.userWorkouts.length, (index) {
                         return Container(
                           key: Key('$index'),
                           margin: EdgeInsets.only(top: 10, left: 15, right: 15),
                           //margin: EdgeInsets.all(30),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              color: Colors.transparent
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.0), color: Colors.transparent
                               // gradient: LinearGradient(colors: primaryGradient),
                               ),
                           child: TextButton(
                             style: OutlinedButton.styleFrom(
                               padding: EdgeInsets.only(top: 35, bottom: 35),
                               backgroundColor: foregroundGrey,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15))),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
                             ),
                             onPressed: () {
                               newWorkout(context, index);
@@ -145,8 +137,7 @@ class _PlanPage extends State<PlanPage> {
                                 Container(
                                   child: Text(
                                     currentUser.userWorkouts[index].getName(),
-                                    style: TextStyle(
-                                        fontSize: 25, color: accentColor),
+                                    style: TextStyle(fontSize: 25, color: accentColor),
                                   ),
                                 ),
                                 Spacer(),

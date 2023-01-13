@@ -52,7 +52,7 @@ class setChooser extends StatelessWidget {
         children: <Widget>[
           Text(
             "Set " + (index + 1).toString(),
-            style: TextStyle(color: accentColor),
+            style: TextStyle(color: accentColor, fontSize: 18),
           ),
           Container(
             margin: EdgeInsets.only(left: 20),
@@ -62,7 +62,7 @@ class setChooser extends StatelessWidget {
             ),
             child: NumberPicker(
               haptics: true,
-              textStyle: TextStyle(color: textColor),
+              textStyle: TextStyle(color: textColor, fontSize: 20),
               selectedTextStyle: TextStyle(color: accentColor, fontSize: 30),
               value: tempValue < 0 ? reps[index] : tempValue,
               minValue: 0,
