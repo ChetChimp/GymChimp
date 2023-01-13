@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_new
+// ignore_for_file: unnecessary_new, prefer_const_constructors
 
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
@@ -9,10 +9,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
+import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
-import 'package:gymchimp/questionnairePages/askLevel_page.dart';
+
+import 'package:gymchimp/questionnairePages/askSex.dart';
+import '../customWidgets/ShakerState.dart';
 import '../firebase_options.dart';
-import '../main.dart';
 
 class askName extends StatefulWidget {
   const askName({Key? key}) : super(key: key);
@@ -22,6 +26,9 @@ class askName extends StatefulWidget {
 }
 
 var name = "";
+final shakeKey = GlobalKey<ShakeWidgetState>();
+TextEditingController nameControl = TextEditingController(text: "");
+FocusNode inputNode = FocusNode();
 
 /*
   - Called when top left back arrow is pressed
@@ -37,14 +44,15 @@ void goBack(BuildContext ctx) {
 Route navigate(Widget page) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => page,
-    transitionDuration: Duration(milliseconds: 1),
-    transitionsBuilder: (BuildContext context, Animation<double> animation,
-        Animation<double> secondaryAnimation, Widget child) {
-      return new SlideTransition(
-        position: new Tween<Offset>(
-          begin: const Offset(-1.0, 0.0),
-          end: Offset.zero,
-        ).animate(animation),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
         child: child,
       );
     },
@@ -52,66 +60,110 @@ Route navigate(Widget page) {
 }
 
 class _askName extends State<askName> {
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Container(
-        decoration: backGround(),
-        child: Scaffold(
-            backgroundColor: Color.fromRGBO(0, 0, 0, 0),
-            appBar: AppBar(
-              systemOverlayStyle: SystemUiOverlayStyle.dark,
-              elevation: 0,
-              leading: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back_outlined,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    goBack(context);
-                  }),
-              backgroundColor: Colors.transparent,
-              actions: <Widget>[
-                IconButton(
-                    color: Colors.black,
-                    icon: const Icon(Icons.settings_outlined),
-                    onPressed: () {}),
-              ],
-            ),
-            body: Container(
-              child: Center(
-                /*
-                  Text Form Field 
-                    - Asks User 'Enter your first name'
-                    - When Form is Submitted (clicking done on Keyboard popup) screen routes to askLevel page
-                    - Horizontally centered
-                    - Width: 350, Height: 400
-                */
-                child: SizedBox(
-                  width: 350,
-                  height: 400,
-                  child: TextFormField(
-                      textAlign: TextAlign.center,
-                      decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        contentPadding: EdgeInsets.symmetric(vertical: 5),
-                        hintText: 'Enter your first name',
-                        hintStyle: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      style: const TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      // When form is submitted routes to askLevel page
-                      onFieldSubmitted: (value) {
-                        name = value;
-                        Navigator.of(context).push(navigate(askLevel()));
-                      }),
+    Size size = MediaQuery.of(context).size;
+    // to open keyboard call this function;
+
+    void openKeyboard() {
+      FocusScope.of(context).requestFocus(inputNode);
+    }
+
+    return Scaffold(
+      backgroundColor: backgroundGrey,
+      appBar: MyAppBar(context, true, "askName"),
+      body: Container(
+        child: Center(
+          child: Column(
+            /*
+                    Text Form Field 
+                      - Asks User 'Enter your first name'
+                      - When Form is Submitted (clicking done on Keyboard popup) screen routes to askLevel page
+                      - Horizontally centered
+                      - Width: 350, Height: 400
+                  */
+            children: [
+              // const LinearProgressIndicator(
+              //     backgroundColor: Color.fromARGB(255, 209, 209, 209),
+              //     valueColor: AlwaysStoppedAnimation(
+              //         Color.fromARGB(185, 54, 255, 40)),
+              //     value: 0.0),
+              //Spacer(),
+              Text(
+                'What is your name?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: size.height / 32,
+                  color: accentColor,
                 ),
               ),
-            )),
+
+              //Spacer(flex: 10),
+              ShakeWidget(
+                // 4. pass the GlobalKey as an argument
+                key: shakeKey,
+                // 5. configure the animation parameters
+                shakeCount: 3,
+                shakeOffset: 10,
+                shakeDuration: Duration(milliseconds: 500),
+                // 6. Add the child widget that will be animated
+                child: SizedBox(
+                  width: 350,
+                  height: size.height / 3,
+                  child: TextFormField(
+                    autofocus: true,
+                    focusNode: inputNode,
+                    controller: nameControl,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(vertical: 5),
+                      hintText: 'Enter your first name',
+                      hintStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    onFieldSubmitted: (value) {
+                      if (nameControl.text.isNotEmpty) {
+                        name = nameControl.text;
+                        Navigator.of(context).push(navigate(askSex()));
+                      } else {
+                        ShakeWidget(child: Text("test"), shakeOffset: 3);
+                      }
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 48,
+                child: ElevatedButton(
+                  child: Text('Next', style: TextStyle(fontSize: 30)),
+                  onPressed: () {
+                    if (nameControl.text.isNotEmpty) {
+                      name = nameControl.text;
+                      Navigator.of(context).push(navigate(askSex()));
+                    } else {
+                      ShakeWidget(child: Text("test"), shakeOffset: 3);
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

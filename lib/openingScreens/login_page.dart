@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gymchimp/Sign%20up/sign_up_page.dart';
 import 'package:gymchimp/main.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:gymchimp/openingScreens/forgot_pass.dart';
@@ -73,7 +74,7 @@ class _LoginPage extends State<LoginPage> {
           child: AlertDialog(
             backgroundColor: Colors.red[300],
             content: Text(
-              err.toString(),
+              "Invalid username or password",
               textAlign: TextAlign.center,
             ),
           ),
@@ -95,14 +96,13 @@ class _LoginPage extends State<LoginPage> {
     -Container used for background with light gray to gray gradient
     -Child: container
     */
-    return Container(
-      decoration: backGround(),
-      height: size.height,
+    return Scaffold(
+      backgroundColor: backgroundGrey,
       /*
       Container with column as child
       -inset margin size 25% of the height of the screen
       */
-      child: Container(
+      body: Container(
         margin: EdgeInsets.only(top: size.width * 1 / 4),
         /*
           Column with a 3 containers, cupertinoButton and IconButton
@@ -133,14 +133,8 @@ class _LoginPage extends State<LoginPage> {
                     */
                       Text(
                     'Login',
-                    style: GoogleFonts.quicksand(
-                      textStyle: TextStyle(
-                          fontSize: 45,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.black,
-                          letterSpacing: .5,
-                          decoration: TextDecoration.none),
-                    ),
+                    style: TextStyle(
+                        color: Colors.white, fontSize: size.height / 28),
                   ),
                 ),
                 //Container for cupertinoTextField, has margins
@@ -149,16 +143,6 @@ class _LoginPage extends State<LoginPage> {
                       left: size.width * 1 / 8,
                       right: size.width * 1 / 8,
                       bottom: size.width * 1 / 32),
-                  /*
-                    CuperTinoTextField: 
-                    -takes input into _emailController
-                    -when value is changed email variable is updated
-                    -"Email" placeholder, gray text, fontSize = 18
-                    -rounded
-                    -IconButton suffix
-                            - "X" icon
-                            - when pressed, clears textField
-                    */
                   child: CupertinoTextField(
                     controller: _emailController,
                     onChanged: (value) {
@@ -167,7 +151,7 @@ class _LoginPage extends State<LoginPage> {
                     placeholder: 'Email:',
                     placeholderStyle: TextStyle(
                       color: Color.fromARGB(255, 73, 73, 73),
-                      fontSize: 18,
+                      fontSize: size.height / 52,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -176,7 +160,7 @@ class _LoginPage extends State<LoginPage> {
                     suffix: Material(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       child: IconButton(
-                        iconSize: 18,
+                        iconSize: size.height / 52,
                         onPressed: () {
                           _emailController.clear();
                         },
@@ -210,7 +194,7 @@ class _LoginPage extends State<LoginPage> {
                     placeholder: 'Password:',
                     placeholderStyle: TextStyle(
                       color: Color.fromARGB(255, 73, 73, 73),
-                      fontSize: 18,
+                      fontSize: size.height / 52,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -219,7 +203,7 @@ class _LoginPage extends State<LoginPage> {
                     suffix: Material(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       child: IconButton(
-                          iconSize: 18,
+                          iconSize: size.height / 52,
                           onPressed: () {
                             _passController.clear();
                             password = '';
@@ -236,7 +220,7 @@ class _LoginPage extends State<LoginPage> {
                       with the database
                   */
                 CupertinoButton(
-                  color: Color.fromARGB(255, 0, 0, 0),
+                  color: foregroundGrey,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(20.0),
                   ),
@@ -246,8 +230,9 @@ class _LoginPage extends State<LoginPage> {
                       top: size.height * 1 / 80,
                       bottom: size.height * 1 / 80),
                   child: Icon(
+                    color: accentColor,
                     Icons.check,
-                    size: 25,
+                    size: size.height / 36,
                   ),
                   onPressed: () {
                     _submitForm(email, password, context);
@@ -281,16 +266,14 @@ class _LoginPage extends State<LoginPage> {
                     bottom: size.width / 16),
                 label: Text(
                   'Forgot password?',
-                  style: GoogleFonts.lato(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
-                        letterSpacing: .5,
-                        decoration: TextDecoration.none),
-                  ),
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      color: accentColor,
+                      letterSpacing: .5,
+                      decoration: TextDecoration.none),
                 ), // <-- Text
-                backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                backgroundColor: foregroundGrey,
                 onPressed: () {
                   forgotPass(context);
                 },
@@ -302,13 +285,14 @@ class _LoginPage extends State<LoginPage> {
                 child: IconButton(
                   splashRadius: 20,
                   onPressed: () {
-                    goBack(context);
+                    changePage(context, FirstLogIn());
                   },
                   color: Color.fromARGB(255, 0, 0, 0),
                   highlightColor:
                       Color.fromARGB(255, 135, 135, 135), //<-- SEE HERE
-                  iconSize: 40,
+                  iconSize: size.height / 22,
                   icon: Icon(
+                    color: Colors.white,
                     Icons.arrow_back,
                   ),
                 )),

@@ -42,9 +42,9 @@ class _VerificationState extends State<Verification> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      decoration: backGround(),
-      child: Column(
+    return Scaffold(
+      backgroundColor: backgroundGrey,
+      body: Column(
         children: [
           Center(
             child: Card(
@@ -53,17 +53,23 @@ class _VerificationState extends State<Verification> {
               color: Color.fromARGB(0, 255, 255, 255),
               child: Text(
                 'Verify Email',
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: accentColor,
+                    fontSize: size.height / 32,
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ),
-          const Center(
+          Center(
             child: Card(
               shadowColor: Colors.transparent,
               color: Color.fromARGB(0, 255, 255, 255),
               child: Text(
                 'Please check your email!',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: size.height / 36,
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ),

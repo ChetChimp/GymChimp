@@ -36,19 +36,37 @@ class Workout {
     return exercises.length;
   }
 
-  List<int> getReps(int index) {
+  List<String> getExercisesList() {
+    return exercises;
+  }
+
+  List<int> getRepsForExercise(int index) {
     return reps[index];
   }
 
+  String printReps(int index) {
+    String returnString = "";
+    List<int> reps = getRepsForExercise(index);
+    int i = 1;
+    for (var element in reps) {
+      returnString += element.toString() + ", ";
+      i++;
+    }
+    return returnString;
+  }
+
   String getExercise(int index) {
+    if (exercises.isEmpty) {
+      return "";
+    }
     return exercises[index];
   }
 
-  void swapIndexes(int oldIndex, int newIndex) {
-    String exercise = exercises.removeAt(oldIndex);
-    exercises.insert(newIndex, exercise);
-    List<int> rep = reps.removeAt(oldIndex);
-    reps.insert(newIndex, rep);
+  void moveExercise(int oldIndex, int newIndex) {
+    String tempExercise = exercises.removeAt(oldIndex);
+    exercises.insert(newIndex, tempExercise);
+    List<int> tempRep = reps.removeAt(oldIndex);
+    reps.insert(newIndex, tempRep);
   }
 
   void setIndex(int input) {

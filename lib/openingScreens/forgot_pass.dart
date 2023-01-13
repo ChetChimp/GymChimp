@@ -38,7 +38,7 @@ Route navigate(Widget page) {
 }
 
 void goBack(BuildContext ctx) {
-  Navigator.of(ctx).push(navigate(LoginPage()));
+  Navigator.of(ctx).pop(navigate(LoginPage()));
 }
 
 void toCheckPass(BuildContext ctx) {
@@ -52,11 +52,10 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      decoration: backGround(),
-      height: size.height,
+    return Scaffold(
+      backgroundColor: backgroundGrey,
       // width: size.width / 1.5,
-      child: Column(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Spacer(flex: 8),
@@ -75,14 +74,12 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
                     */
                 Text(
               'Forgot Password?',
-              style: GoogleFonts.quicksand(
-                textStyle: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    letterSpacing: .5,
-                    decoration: TextDecoration.none),
-              ),
+              style: TextStyle(
+                  fontSize: size.height / 42,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.white,
+                  letterSpacing: .5,
+                  decoration: TextDecoration.none),
             ),
           ),
           //Container for cupertinoTextField, has margins
@@ -109,7 +106,7 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
               placeholder: 'Enter Email:',
               placeholderStyle: TextStyle(
                 color: Color.fromARGB(255, 73, 73, 73),
-                fontSize: 18,
+                fontSize: size.height / 52,
               ),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -118,7 +115,7 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
               suffix: Material(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 child: IconButton(
-                  iconSize: 18,
+                  iconSize: size.height / 52,
                   onPressed: () {
                     _emailController.clear();
                   },
@@ -128,7 +125,7 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
             ),
           ),
           CupertinoButton(
-            color: Color.fromARGB(255, 0, 0, 0),
+            color: foregroundGrey,
             borderRadius: const BorderRadius.all(
               Radius.circular(20.0),
             ),
@@ -138,8 +135,9 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
                 top: size.height * 1 / 80,
                 bottom: size.height * 1 / 80),
             child: Icon(
+              color: accentColor,
               Icons.check,
-              size: 25,
+              size: size.height / 36,
             ),
             onPressed: () {
               _submitForm(email, context);
@@ -159,8 +157,9 @@ class _ForgotPassWordState extends State<ForgotPassWord> {
 
                 highlightColor:
                     Color.fromARGB(255, 135, 135, 135), //<-- SEE HERE
-                iconSize: 40,
+                iconSize: size.height / 22,
                 icon: Icon(
+                  color: Colors.white,
                   Icons.arrow_back,
                 ),
               )),

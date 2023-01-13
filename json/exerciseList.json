@@ -1,0 +1,1347 @@
+[
+  {
+    "muscle": "Abdominals - Lower",
+    "exercise": "Full Reverse Crunch",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Lower",
+    "exercise": "Incline Hip Thrust",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Lower",
+    "exercise": "Incline Reverse Crunch",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Lower",
+    "exercise": "Lying Hip Thrust",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Lower",
+    "exercise": "Reverse Crunch",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Abdominals - Lower",
+    "exercise": "Reverse Medicine Ball Crunch",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Obliques",
+    "exercise": "Alternating Heel Touch",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Abdominals - Obliques",
+    "exercise": "Bent-Knee Medicine Ball Hip Rotation",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Obliques",
+    "exercise": "Cable Chop",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Obliques",
+    "exercise": "Cross Crunch",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Abdominals - Obliques",
+    "exercise": "Cross Crunch w/ Medicine Ball",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Obliques",
+    "exercise": "Decline Cross Sit-Up",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Obliques",
+    "exercise": "Decline Sit-Up w/ Twist",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Obliques",
+    "exercise": "Reverse Cable Chop",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Obliques",
+    "exercise": "Seated Medicine Ball Twist",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Obliques",
+    "exercise": "Trunk Rotator",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Total",
+    "exercise": "Front Plank (from knees)",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Abdominals - Total",
+    "exercise": "Front Plank (from toes)",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Abdominals - Total",
+    "exercise": "Side-Plank (from knees)",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Abdominals - Total",
+    "exercise": "Side-Plank (hip lift)",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Abdominals - Total",
+    "exercise": "Side-Plank (from toes)",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Total",
+    "exercise": "Ab Cycle",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Total",
+    "exercise": "Kneeling Ab Rollout",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Abdominals - Total",
+    "exercise": "Medicine Ball V-Up",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Total",
+    "exercise": "V-Up",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Abdominals - Total",
+    "exercise": "Weighted V-Up",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Abdominals - Upper",
+    "exercise": "Bent Knee Sit-Up",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Abdominals - Upper",
+    "exercise": "Bent-Knee Crunch",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Abdominals - Upper",
+    "exercise": "Crunch",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Abdominals - Upper",
+    "exercise": "Crunch",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Abdominals - Upper",
+    "exercise": "Decline Crunch",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Upper",
+    "exercise": "Decline Sit-Up",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Abdominals - Upper",
+    "exercise": "Heel Touch",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Abdominals - Upper",
+    "exercise": "Sit-Up",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Abdominals - Upper",
+    "exercise": "Weighted Crunch",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Back - Latissimus Dorsi",
+    "exercise": "Assisted Pull-Up",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Latissimus Dorsi",
+    "exercise": "Close-Grip Lat Pulldown",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Latissimus Dorsi",
+    "exercise": "Inverted Pull-Up",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Back - Latissimus Dorsi",
+    "exercise": "Lat Pulldown",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Latissimus Dorsi",
+    "exercise": "Pull-Up",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Latissimus Dorsi",
+    "exercise": "Reverse-Grip Lat Pullown",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Back - Latissimus Dorsi",
+    "exercise": "Reverse-Grip Pull-Up",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Back - Latissimus Dorsi",
+    "exercise": "V-Bar Pull-Up",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Back - Latissimus Dorsi",
+    "exercise": "Wide-Grip Lat Pulldown",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Bent-Over Alternating Dumbbell Row",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Bent-Over Barbell Row",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Bent-Over Dumbbell Row",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Bent-Over Hammer Dumbbell Row",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Bent-Over Long Barbell Row",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Bent-Over Reverse-Grip Barbell Row",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Bent-Over Single-Arm Long Barbell Row",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Machine Row",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "One Arm Dumbbell Row",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Reverse Incline Dumbbell Row",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Rope Cable Row",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Seated Cable Row",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Seated Row",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Single-Arm Cable Row",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Single-Arm Dumbbell Row",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Single-Arm Lat Pulldown",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Standing Cable Row",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Back - Lat.Dorsi/Rhomboids",
+    "exercise": "Standing Single-Arm Cable Row",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Alternating Dumbbell Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Alternating Hammer Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Barbell Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Bicep Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Bottom/Top/Full Curls",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Cable Curl",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Concentration Dumbbell Curl",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Cross Body Hammer Curl",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Dumbbell Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "EZ-Bar Curl",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Hammer Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Incline Alternating Dumbbell Curl",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Incline Alternating Hammer Curl",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Incline Dumbbell Curl",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Incline Hammer Curl",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Kneeling Cable Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Lying Cable Curl",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Lying Double Biceps Cable Curl",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Lying High Cable Curl",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Machine Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Overhead Double Biceps Cable Curl",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Overhead Rope Cable Curl",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Preacher Barbell Curl",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Preacher Cable Curl",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Preacher Dumbbell Curl",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Preacher EZ-Bar Curl",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Preacher Hammer Dumbbell Curl",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Preacher Single-Arm Dumbbell Curl",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Reverse Curl",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Rope Cable Curl",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Seated Alternating Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Seated Alternating Hammer Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Seated Dumbbell Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Seated Hammer Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Single-Arm Barbell Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Single-Arm Cable Curl",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Single-Arm Dumbbell Curl w/ Incline Bench",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Biceps",
+    "exercise": "Spider Curl",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Calves - Gastrocnemius",
+    "exercise": "Barbell Calf Raise",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Calves - Gastrocnemius",
+    "exercise": "Calf Press",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Calves - Gastrocnemius",
+    "exercise": "Calf Raise - Seated",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Calves - Gastrocnemius",
+    "exercise": "Calf Raise - Standing",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Calves - Gastrocnemius",
+    "exercise": "Dumbbell Calf Raise",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Calves - Gastrocnemius",
+    "exercise": "Single-Leg Calf Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Calves - Gastrocnemius",
+    "exercise": "Single-Leg Dumbbell Calf Raise",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Calves - Gastrocnemius",
+    "exercise": "Smith Machine Calf Raise",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Calves - Soleus",
+    "exercise": "Seated Calf Raise",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Calves - Soleus",
+    "exercise": "Seated Single-Leg Calf Raise",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Alternating Dumbbell Bench Press",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Barbell Bench Press",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Chest Press",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Decline Dumbbell Bench Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Decline Smith Machine Bench Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Dumbbell Bench Press",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Dumbbell Push-Up",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Elevated Push-Up",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Flat Bench Press",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Incline Alternating Dumbbell Bench Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Incline Barbell Bench Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Incline Bench Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Incline Dumbbell Bench Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Incline Hammer Dumbbell Bench Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Incline Single-Arm Dumbbell Bench Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Incline Smith Machine Bench Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Incline Twisting Dumbbell Bench Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Kneeling Push-Up",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Machine Bench Press",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Machine Vertical Bench Press",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Medicine Ball Crossover Push-Up",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Push-Up",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Single-Arm Dumbbell Bench Press",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Smith Machine Bench Press",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Twisting Dumbbell Bench Press",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Wide-Grip Push-Up",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Cable Crossover",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Cable Fly",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Decline Dumbbell Fly",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Dumbbell Fly",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "High Cable Crossover",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Incline Cable Fly",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Incline Dumbbell Fly",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Incline Twisting Dumbbell Fly",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Low Cable Crossover",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Pec Deck",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Chest - Pectoralis",
+    "exercise": "Pec Deck Fly",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Hamstrings",
+    "exercise": "Bent-Knee Single-Leg Hip Lift",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Hamstrings",
+    "exercise": "Elevated Hip Lift",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Hamstrings",
+    "exercise": "Elevated Single-Leg Hip Lift",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Hamstrings",
+    "exercise": "Hip Lift",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Hamstrings",
+    "exercise": "Single-Leg Hip Lift",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Hamstrings",
+    "exercise": "Deadlift",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Hamstrings",
+    "exercise": "Leg Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Hamstrings",
+    "exercise": "Lying Alternating Leg Curl",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Hamstrings",
+    "exercise": "Lying Leg Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Hamstrings",
+    "exercise": "Lying Single-Leg Curl",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Hamstrings",
+    "exercise": "Seated Leg Curl",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Barbell Diagonal Lunge",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Barbell Hack Squat",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Barbell Lunge",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Barbell Reverse Lunge",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Barbell Side Lunge",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Barbell Split Squat",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Barbell Squat",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Barbell Step-Up",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Barbell Walking Lunge",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Diagonal Lunge",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Dumbbell Diagonal Lunge",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Dumbbell Lunge",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Dumbbell Reverse Lunge",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Dumbbell Side Lunge",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Dumbbell Split Squat",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Dumbbell Squat",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Dumbbell Step-Up",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Dumbbell Walking Lunge",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Forward Lunge",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Lateral Barbell Squat",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Lateral Barbell Step-Up",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Lateral Squat",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Lateral Step-Up",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Leg Press",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Lunge",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Lying Machine Squat",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Machine Hack Squat",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Reverse Lunge",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Single-Arm Barbell Side Squat",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Single-Arm Dumbbell Side Squat",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Single-Leg Barbell Squat",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Single-Leg Box Squat",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Single-Leg Dumbbell Box Squat",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Single-Leg Dumbbell Squat",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Single-Leg Squat",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Smith Machine Squat",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Split Squat",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Step-Up",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Walking Lunge",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Alternating Leg Extension",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Leg Extension",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Legs - Quadriceps",
+    "exercise": "Single-Leg Extension",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Lower Back - Erector Spinae",
+    "exercise": "Alternating Superman",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Lower Back - Erector Spinae",
+    "exercise": "Back Raise",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Lower Back - Erector Spinae",
+    "exercise": "Quadruped Alternating Superman",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Lower Back - Erector Spinae",
+    "exercise": "Superman",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Lower Back - Erector Spinae",
+    "exercise": "Superman Hold",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Arnold Dumbbell Press",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Barbell Shoulder Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Dumbbell Alternating Shoulder Press",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Dumbbell Front Raise",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Dumbbell Shoulder Press",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Dumbbell Twisting Shoulder Press",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Machine Shoulder Press",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Seated Dumbbell Rear Delt Elbow Raise",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Single-Arm Dumbbell Shoulder Press",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Smith Machine Shoulder Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Barbell Front Raise",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Bent-Over Cable Rear Delt Raise",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Bent-Over Dumbbell Rear Delt Raise",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Cable Front Raise",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Cable Lateral Raise",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Dumbbell Lateral Raise",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Front Plate Raise",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Kneeling Single-Arm Cable Rear Delt Raise",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Lying Dumbbell External Rotation",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Lying Dumbbell Rear Delt Raise",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Lying Single-Arm Dumbbell Rear Delt Raise",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Pec Deck Real Delt Extensions",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Reverse Incline Dumbbell Rear Delt Raise",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Seated Dumbbell Rear Delt Raise",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Shoulders - Delts/Traps",
+    "exercise": "Single-Arm Cable Lateral Raise",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Shoulders - Rotator Cuff",
+    "exercise": "Cable External Rotation",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Close-Grip Bench Press",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Forward Lean Dips",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Assisted Dips",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Bench Dips",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Diamond Push-Up",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Dips",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Machine Dips",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Decline Dumbbell Triceps Extension",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Decline EZ-Bar Tricep Extension",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Decline Single Dumbbell Triceps Extension",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Decline Single-Arm Dumbbell Triceps Extension",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Dumbbell Kickback",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Incline EZ-Bar Tricep Extension",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Kneeling Cable Triceps Extension",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Leaning Overhead Tricep Extension",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Low Cable Triceps Extension",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Lying Cable Triceps Extension",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Lying EZ-Bar Triceps Extension",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Lying Overhead EZ-Bar Tricep Extension",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Lying Reverse EZ-Bar Triceps Extension",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Lying Single Dumbbell Triceps Extension",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Lying Single-Arm Dumbbell Triceps Extension",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Lying Tricep Extensions",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Overhead Dumbbell Triceps Extension",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Overhead EZ-Bar Triceps Extension",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Overhead Rope Cable Tricep Extension",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Overhead Single Dumbbell Tricep Extension",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Overhead Single-Arm Cable Tricep Extension",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Overhead Single-Arm Dumbbell Tricep Extension",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Reverse Tricep Pushdown",
+    "difficulty": "Advanced"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Rope Triceps Pushdown",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Single-Arm Towel Triceps Pushdown",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Single-Arm Triceps Pushdown",
+    "difficulty": "Intermediate"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Towel Triceps Pushdown",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Tricep Extensions",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Tricep Pushdown",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "Tricep Pushdown",
+    "difficulty": "Beginner"
+  },
+  {
+    "muscle": "Triceps",
+    "exercise": "V-Bar Tricep Pushdown",
+    "difficulty": "Beginner"
+  }
+]

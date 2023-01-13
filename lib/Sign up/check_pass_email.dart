@@ -16,9 +16,9 @@ class CheckPassEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      decoration: backGround(),
-      child: Column(
+    return Scaffold(
+      backgroundColor: backgroundGrey,
+      body: Column(
         children: [
           Center(
             child: Card(
@@ -27,7 +27,10 @@ class CheckPassEmail extends StatelessWidget {
               color: Color.fromARGB(0, 255, 255, 255),
               child: Text(
                 'Password change sent to email',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: size.height / 36,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
             ),
           ),
@@ -52,14 +55,14 @@ class CheckPassEmail extends StatelessWidget {
                 'Back to Login',
                 style: GoogleFonts.lato(
                   textStyle: TextStyle(
-                      fontSize: 16,
+                      fontSize: size.height / 52,
                       fontWeight: FontWeight.normal,
-                      color: Colors.black,
+                      color: accentColor,
                       letterSpacing: .5,
                       decoration: TextDecoration.none),
                 ),
               ), // <-- Text
-              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: foregroundGrey,
               onPressed: () {
                 backToLogin(context);
               },

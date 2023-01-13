@@ -13,6 +13,11 @@ class CurrentUser {
 
   List<Workout> userWorkouts = <Workout>[];
 
+  void moveWorkout(int oldIndex, int newIndex) {
+    Workout tempWorkout = userWorkouts.removeAt(oldIndex);
+    userWorkouts.insert(newIndex, tempWorkout);
+  }
+
   CurrentUser();
 
   String get getName => this.name;
@@ -37,6 +42,34 @@ class CurrentUser {
 
   get getUserWorkouts => this.userWorkouts;
 
+  void addAllInfo(
+      String name, String email, String gender, String units, String level) {
+    this.name = name;
+    this.email = email;
+    this.gender = gender;
+    this.units = units;
+    this.level = level;
+  }
+
+  List<String> getUserWorkoutsString() {
+    List<String> userWorkoutsString = <String>[];
+    for (Workout w in userWorkouts) {
+      userWorkoutsString.add(w.name);
+    }
+    return userWorkoutsString;
+  }
+
+  Workout getWorkoutByName(String? name) {
+    for (Workout w in userWorkouts) {
+      if (w.getName() == name) {
+        return w;
+      }
+    }
+    return Workout("");
+  }
+
+  get getNumWorkouts => this.userWorkouts.length;
+
   set setUserWorkouts(userWorkouts) => this.userWorkouts = userWorkouts;
 
   void addWorkout(Workout newWorkout) {
@@ -45,5 +78,11 @@ class CurrentUser {
 
   void removeWorkout(Workout newWorkout) {
     userWorkouts.remove(newWorkout);
+  }
+
+  @override
+  String toString() {
+    String s = "Name: " + name + ", Email: " + email;
+    return s;
   }
 }

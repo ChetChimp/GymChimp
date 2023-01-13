@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -10,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/account_settings.dart';
 import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
+import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:gymchimp/Main%20App%20Body/home_page.dart';
 import 'package:gymchimp/openingScreens/login_page.dart';
@@ -20,11 +22,44 @@ import 'package:google_fonts/google_fonts.dart';
 import '../main.dart';
 
 class StartPage extends StatefulWidget {
-  const StartPage({Key? key}) : super(key: key);
-
   @override
   State<StartPage> createState() => _StartPage();
 }
+
+Widget HomeTile(BuildContext context, int index, String title, Widget icon,
+    LinearGradient gradient) {
+  return Container(
+    decoration: BoxDecoration(
+      gradient: gradient,
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+    child: ElevatedButton(
+        style: TextButton.styleFrom(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            minimumSize: Size(150, 150),
+            backgroundColor: Color.fromARGB(255, 25, 30, 42)),
+        onPressed: () {
+          toHomePage(context, index);
+        },
+        child: Column(
+          children: <Widget>[
+            icon,
+            SizedBox(height: 5),
+            Text(
+              title,
+              style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  letterSpacing: .5,
+                  decoration: TextDecoration.none),
+            )
+          ],
+        )),
+  );
+}
+
+Function holder = () {};
 
 void toHomePage(BuildContext ctx, int page) {
   Navigator.of(ctx).push(
@@ -59,10 +94,6 @@ class _StartPage extends State<StartPage> {
         });
       }
     });
-    super.initState();
-  }
-
-  Widget build(BuildContext context) {
     fetchInfo('name').then((String result) {
       if (mounted) {
         setState(() {
@@ -70,126 +101,78 @@ class _StartPage extends State<StartPage> {
         });
       }
     });
+    holder = mySetState;
+    super.initState();
+  }
+
+  void mySetState(String newName) {
+    setState(() {
+      userName = newName;
+    });
+  }
+
+  Widget build(BuildContext context) {
     return Container(
-      decoration: backGround(),
+      decoration: BoxDecoration(color: backgroundGrey),
       child: Scaffold(
-        appBar: MyAppBar(context, false),
-        backgroundColor: Colors.transparent,
+        appBar: MyAppBar(context, false, "start_page"),
+        backgroundColor: backgroundGrey,
         body: Container(
           child: Column(
             children: <Widget>[
               Spacer(flex: 1),
               Text(
-                "Welcome, $userName",
+                "GymChimp",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.quicksand(
-                  textStyle: const TextStyle(
-                      fontSize: 45,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
-                      letterSpacing: .5,
-                      decoration: TextDecoration.none),
-                ),
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width / 7,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    letterSpacing: .5,
+                    decoration: TextDecoration.none),
               ),
-              Spacer(flex: 1),
+              Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   // Workout Button
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(0.0, 10.0),
-                              blurRadius: 15.0),
-                          BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(0.0, -10.0),
-                              blurRadius: 10.0),
-                        ]),
-                    child: ElevatedButton(
-                        style: TextButton.styleFrom(
-                            //elevation: 10,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            minimumSize: Size(150, 150),
-                            backgroundColor: Colors.white),
-                        onPressed: () {
-                          toHomePage(context, 0);
-                        },
-                        child: Column(
-                          children: <Widget>[
-                            const Icon(
-                              Icons.fitness_center_outlined,
-                              size: 100,
-                              color: Colors.blue,
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              "Workout",
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue,
-                                    letterSpacing: .5,
-                                    decoration: TextDecoration.none),
-                              ),
-                            )
-                          ],
-                        )),
-                  ),
+                  Spacer(flex: 1),
+                  HomeTile(
+                      context,
+                      0,
+                      "Workout",
+                      Text(
+                        String.fromCharCode(
+                            Icons.fitness_center_sharp.codePoint),
+                        style: TextStyle(
+                            fontFamily: Icons.fitness_center_sharp.fontFamily,
+                            inherit: false,
+                            package: Icons.fitness_center_sharp.fontPackage,
+                            color: accentColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.width / 3.5),
+                      ),
+                      LinearGradient(colors: primaryGradient)),
                   SizedBox(width: 15),
                   // Stats Button
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(0.0, 10.0),
-                              blurRadius: 15.0),
-                          BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(0.0, -10.0),
-                              blurRadius: 10.0),
-                        ]),
-                    child: ElevatedButton(
-                        style: TextButton.styleFrom(
-                            elevation: 10,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            minimumSize: Size(150, 150),
-                            backgroundColor: Colors.white),
-                        onPressed: () {
-                          toHomePage(context, 1);
-                        },
-                        child: Column(
-                          children: <Widget>[
-                            const Icon(
-                              Icons.insights_outlined,
-                              size: 100,
-                              color: Colors.blue,
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              "Stats",
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue,
-                                    letterSpacing: .5,
-                                    decoration: TextDecoration.none),
-                              ),
-                            )
-                          ],
-                        )),
-                  ),
+                  HomeTile(
+                      context,
+                      1,
+                      "Stats",
+                      Text(
+                        String.fromCharCode(Icons.insights_sharp.codePoint),
+                        style: TextStyle(
+                            fontFamily: Icons.insights_sharp.fontFamily,
+                            inherit: false,
+                            package: Icons.insights_sharp.fontPackage,
+                            color: accentColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.width / 3.5),
+                      ),
+                      LinearGradient(
+                        colors: [primaryGradient[1], primaryGradient[0]],
+                      )),
+                  Spacer(flex: 1),
                 ],
               ),
               const SizedBox(height: 15),
@@ -197,100 +180,24 @@ class _StartPage extends State<StartPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   // Nutrition Button
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(0.0, 10.0),
-                              blurRadius: 10.0),
-                          BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(0.0, -10.0),
-                              blurRadius: 10.0),
-                        ]),
-                    child: ElevatedButton(
-                        style: TextButton.styleFrom(
-                            elevation: 10,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            minimumSize: Size(150, 150),
-                            backgroundColor: Colors.white),
-                        onPressed: () {
-                          toHomePage(context, 2);
-                        },
-                        child: Column(
-                          children: <Widget>[
-                            const Icon(
-                              Icons.restaurant_outlined,
-                              size: 100,
-                              color: Colors.blue,
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              "Nutrition",
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue,
-                                    letterSpacing: .5,
-                                    decoration: TextDecoration.none),
-                              ),
-                            )
-                          ],
-                        )),
-                  ),
+                  HomeTile(
+                      context,
+                      2,
+                      "Nutrition",
+                      Icon(Icons.fastfood_sharp,
+                          size: MediaQuery.of(context).size.width / 3.5,
+                          color: accentColor),
+                      LinearGradient(colors: primaryGradient)),
                   SizedBox(width: 15),
                   // Plan Button
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(0.0, 10.0),
-                              blurRadius: 10.0),
-                          BoxShadow(
-                              color: Colors.black12,
-                              offset: Offset(0.0, -10.0),
-                              blurRadius: 10.0),
-                        ]),
-                    child: ElevatedButton(
-                        style: TextButton.styleFrom(
-                            elevation: 10,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            minimumSize: Size(150, 150),
-                            backgroundColor: Colors.white),
-                        onPressed: () {
-                          toHomePage(context, 3);
-                        },
-                        child: Column(
-                          children: <Widget>[
-                            const Icon(
-                              Icons.edit,
-                              size: 100,
-                              color: Colors.blue,
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              "Plan",
-                              style: GoogleFonts.quicksand(
-                                textStyle: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue,
-                                    letterSpacing: .5,
-                                    decoration: TextDecoration.none),
-                              ),
-                            )
-                          ],
-                        )),
-                  ),
+                  HomeTile(
+                      context,
+                      3,
+                      "Plan",
+                      Icon(Icons.edit_sharp,
+                          size: MediaQuery.of(context).size.width / 3.5,
+                          color: accentColor),
+                      LinearGradient(colors: primaryGradient))
                 ],
               ),
               Spacer(flex: 5)

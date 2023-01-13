@@ -43,7 +43,7 @@ class _StopWatchState extends State<StopWatch>
   void addTime() {
     if (mounted) {
       setState(() {
-        if (milliseconds + 1.24133004 >= 1000 &&
+        if (milliseconds + 1 >= 1000 &&
             seconds + 1 == 60 &&
             minutes + 1 == 60) {
           hours += 1;
@@ -60,7 +60,7 @@ class _StopWatchState extends State<StopWatch>
           } else {
             hoursString = '0$hours';
           }
-        } else if (milliseconds + 1.24133004 >= 1000 && seconds + 1 == 60) {
+        } else if (milliseconds + 1 >= 1000 && seconds + 1 == 60) {
           minutes += 1;
 
           seconds = 0;
@@ -73,7 +73,7 @@ class _StopWatchState extends State<StopWatch>
           } else {
             minutesString = '0$minutes';
           }
-        } else if (milliseconds + 1.24133004 >= 1000) {
+        } else if (milliseconds + 1 >= 1000) {
           seconds += 1;
 
           milliseconds = 0;
@@ -85,7 +85,7 @@ class _StopWatchState extends State<StopWatch>
             secondsString = '0$seconds';
           }
         } else {
-          milliseconds += 1.24133004;
+          milliseconds += 1;
           millisecondsString =
               milliseconds.toString().substring(0, 1).padLeft(2, '0');
           if (milliseconds > 9) {
@@ -125,14 +125,11 @@ class _StopWatchState extends State<StopWatch>
     super.build(context);
     Size size = MediaQuery.of(context).size;
     return Container(
-      height: size.height / 6,
+      margin: EdgeInsets.all(5),
       child: Column(
         children: [
           Text("Stopwatch",
-              style: GoogleFonts.montserrat(
-                color: Colors.white,
-                fontSize: 26,
-              )),
+              style: TextStyle(color: accentColor, fontSize: size.width / 9)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -170,16 +167,20 @@ class _StopWatchState extends State<StopWatch>
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Spacer(),
+              SizedBox(width: size.width / 6.25),
               IconButton(
                 splashRadius: .01,
                 icon: on
                     ? Icon(
-                        color: Colors.white,
+                        color: accentColor,
                         Icons.play_arrow_sharp,
                         size: size.width / 8,
                       )
-                    : Icon(Icons.stop_rounded, size: size.width / 8),
+                    : Icon(
+                        Icons.stop_rounded,
+                        size: size.width / 8,
+                        color: accentColor,
+                      ),
                 onPressed: (() {
                   setState(() {
                     on = !on;
@@ -191,16 +192,17 @@ class _StopWatchState extends State<StopWatch>
                   }
                 }),
               ),
-              const Spacer(),
+              Spacer(),
               IconButton(
                   color: Colors.white,
                   splashRadius: .01,
                   onPressed: _resetTimer,
                   icon: Icon(
                     Icons.replay_sharp,
-                    size: size.width / 10,
+                    color: accentColor,
+                    size: size.width / 8,
                   )),
-              const Spacer(),
+              SizedBox(width: size.width / 5),
             ],
           ),
         ],
@@ -225,19 +227,21 @@ class timeCard extends StatefulWidget {
 class _timeCardState extends State<timeCard> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
+    return Container(
+      decoration: BoxDecoration(
+        // color: Colors.white,
         borderRadius: BorderRadius.circular(15.0),
+        // boxShadow: shadow,
       ),
-      elevation: 3,
       child: Container(
         padding: EdgeInsets.only(top: 4, bottom: 4),
         width: widget.sizeOfScreen.width / 6 + 4,
         child: Text(
           widget.timeUnit,
           textAlign: TextAlign.center,
-          style: GoogleFonts.quicksand(
-            textStyle: fontstyle(widget.sizeOfScreen),
+          style: TextStyle(
+            fontSize: widget.sizeOfScreen.width / 8,
+            color: Color.fromARGB(255, 255, 255, 255),
           ),
         ),
       ),

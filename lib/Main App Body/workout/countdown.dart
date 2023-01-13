@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymchimp/main.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 import 'stopwatch.dart';
@@ -187,102 +188,97 @@ class _countdownState extends State<countdown>
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      // decoration: BoxDecoration(
-      //     color: Colors.white,
-      //     borderRadius: BorderRadius.circular(8.0),
-      //     boxShadow: const [
-      //       BoxShadow(
-      //           color: Colors.black12,
-      //           offset: Offset(0.0, 10.0),
-      //           blurRadius: 15.0),
-      //       BoxShadow(
-      //           color: Colors.black12,
-      //           offset: Offset(0.0, -10.0),
-      //           blurRadius: 10.0),
-      //     ]),
-      // height: size.height / 6,
-      margin: EdgeInsets.all(5),
-      child: Column(
-        children: [
-          Text("Countdown Timer",
-              style: GoogleFonts.montserrat(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w600)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              timeCard(hoursString, size),
-              Text(
-                ':',
-                style: TextStyle(
-                    fontSize: size.width / 8,
-                    //fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 1,
-                    decoration: TextDecoration.none),
-              ),
-              timeCard(minutesString, size),
-              Text(
-                ':',
-                style: TextStyle(
-                    fontSize: size.width / 8,
-                    //fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 1,
-                    decoration: TextDecoration.none),
-              ),
-              timeCard(secondsString, size),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Spacer(),
-              IconButton(
-                splashRadius: .01,
-                icon: on
-                    ? Icon(
-                        color: Colors.white,
-                        Icons.play_arrow_sharp,
-                        size: size.width / 8,
-                      )
-                    : Icon(Icons.stop_rounded, size: size.width / 8),
-                onPressed: (() {
-                  setState(() {
-                    on = !on;
-                  });
-                  if (!on) {
-                    _beginTimer();
-                  } else {
-                    _stopTimer();
-                  }
-                }),
-              ),
-              const Spacer(),
-              IconButton(
-                  color: Colors.white,
+    return GestureDetector(
+      onTap: () => _openPicker(size),
+      child: Container(
+        margin: EdgeInsets.all(5),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: size.width / 3.75,
+                ),
+                Text("Timer",
+                    style: TextStyle(
+                        color: accentColor, fontSize: size.width / 9)),
+                Spacer(flex: 1),
+                Icon(Icons.edit_notifications_sharp, color: Colors.white),
+                SizedBox(
+                  width: size.width / 28,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                timeCard(hoursString, size),
+                Text(
+                  ':',
+                  style: TextStyle(
+                      fontSize: size.width / 8,
+                      //fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 1,
+                      decoration: TextDecoration.none),
+                ),
+                timeCard(minutesString, size),
+                Text(
+                  ':',
+                  style: TextStyle(
+                      fontSize: size.width / 8,
+                      //fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 1,
+                      decoration: TextDecoration.none),
+                ),
+                timeCard(secondsString, size),
+              ],
+            ),
+            Row(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(width: size.width / 5.25),
+                IconButton(
                   splashRadius: .01,
-                  onPressed: _resetTimer,
-                  icon: Icon(
-                    Icons.restore,
-                    size: size.width / 10,
-                  )),
-              const Spacer(),
-              IconButton(
-                  color: Colors.white,
-                  splashRadius: .01,
-                  onPressed: () => _openPicker(size),
-                  icon: Icon(
-                    Icons.edit,
-                    size: size.width / 10,
-                  )),
-              const Spacer(),
-            ],
-          ),
-        ],
+                  icon: on
+                      ? Icon(
+                          color: accentColor,
+                          Icons.play_arrow_sharp,
+                          size: size.width / 8,
+                        )
+                      : Icon(
+                          Icons.stop_sharp,
+                          size: size.width / 8,
+                          color: accentColor,
+                        ),
+                  onPressed: (() {
+                    setState(() {
+                      on = !on;
+                    });
+                    if (!on) {
+                      _beginTimer();
+                    } else {
+                      _stopTimer();
+                    }
+                  }),
+                ),
+                Spacer(),
+                IconButton(
+                    color: accentColor,
+                    splashRadius: .01,
+                    onPressed: _resetTimer,
+                    icon: Icon(
+                      color: accentColor,
+                      Icons.restore_sharp,
+                      size: size.width / 8,
+                    )),
+                SizedBox(width: size.width / 4.50),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
