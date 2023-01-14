@@ -8,21 +8,16 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:gymchimp/Main%20App%20Body/plan/exercise_container.dart';
+import 'package:gymchimp/Firebase/exercise_container.dart';
+import 'package:gymchimp/Main%20App%20Body/plan/new%20workout%20page/modify_exercise_popup.dart';
+import 'package:gymchimp/Main%20App%20Body/plan/custom_firebase_functions.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/main.dart';
-import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'exercise_option_popup.dart';
-import 'firebase_functions.dart';
-import 'new_workout_page.dart';
-import '../workout/workout.dart';
+import '../../app_bar.dart';
+import '../../../objects/workout.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:searchable_listview/searchable_listview.dart';
-
-import '../app_bar.dart';
-import 'plan_page.dart';
-import 'setChooser.dart';
 
 class NewWorkoutPage extends StatefulWidget {
   final String workoutName;

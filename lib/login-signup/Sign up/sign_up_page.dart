@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gymchimp/Main%20App%20Body/account_settings.dart';
+import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
 import 'package:gymchimp/main.dart';
 import 'package:gymchimp/Sign%20up/verify.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gymchimp/questionnairePages/askActive_page.dart';
 
-import '../Main App Body/app_bar.dart';
-import '../questionnairePages/askGoal_page.dart';
-import '../questionnairePages/askName_page.dart';
-import '../questionnairePages/askSex.dart';
+import '../login-signup/questionnairePages/askActive_page.dart';
+import '../login-signup/questionnairePages/askGoal_page.dart';
+import '../login-signup/questionnairePages/askSex.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);

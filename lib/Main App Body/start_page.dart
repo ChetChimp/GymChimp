@@ -12,14 +12,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/account_settings.dart';
 import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
-import 'package:gymchimp/openingScreens/first_time_login.dart';
-import 'package:gymchimp/Main%20App%20Body/home_page.dart';
-import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:gymchimp/Sign%20up/sign_up_page.dart';
-import '../firebase_options.dart';
+import '../Firebase/firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../main.dart';
+import 'home_page.dart';
 
 class StartPage extends StatefulWidget {
   @override

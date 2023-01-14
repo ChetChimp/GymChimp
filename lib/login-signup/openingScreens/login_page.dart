@@ -4,10 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gymchimp/Sign%20up/sign_up_page.dart';
 import 'package:gymchimp/main.dart';
-import 'package:gymchimp/openingScreens/first_time_login.dart';
-import 'package:gymchimp/openingScreens/forgot_pass.dart';
 import 'package:gymchimp/Main%20App%20Body/start_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'first_time_login.dart';
+import 'forgot_pass.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

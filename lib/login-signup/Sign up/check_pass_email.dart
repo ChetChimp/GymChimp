@@ -3,7 +3,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/main.dart';
-import 'package:gymchimp/openingScreens/login_page.dart';
+
+import '../login-signup/openingScreens/login_page.dart';
 
 class CheckPassEmail extends StatelessWidget {
   const CheckPassEmail({Key? key}) : super(key: key);

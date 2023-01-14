@@ -1,7 +1,5 @@
 import 'dart:collection';
-
-import 'package:gymchimp/Main%20App%20Body/plan/exercises.dart';
-import 'package:gymchimp/Main%20App%20Body/workout/workout.dart';
+import 'package:gymchimp/objects/workout.dart';
 
 class CurrentUser {
   var name;

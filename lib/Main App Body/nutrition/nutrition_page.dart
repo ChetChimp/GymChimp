@@ -4,8 +4,6 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
 
-import '../../openingScreens/first_time_login.dart';
-
 class NutritionPage extends StatefulWidget {
   const NutritionPage({Key? key}) : super(key: key);
 

@@ -5,8 +5,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
 import 'package:gymchimp/Main%20App%20Body/plan/plan_page.dart';
 
-import '../../openingScreens/first_time_login.dart';
-
 class StatsPage extends StatefulWidget {
   const StatsPage({Key? key}) : super(key: key);
 
