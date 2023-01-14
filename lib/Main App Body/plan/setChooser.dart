@@ -10,13 +10,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/main.dart';
-import 'package:gymchimp/openingScreens/login_page.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'new_workout_page.dart';
-import '../workout/workout.dart';
+import '../../objects/workout.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:searchable_listview/searchable_listview.dart';
 
+import 'new workout page/new_workout_page.dart';
 import '../app_bar.dart';
 import 'plan_page.dart';
 

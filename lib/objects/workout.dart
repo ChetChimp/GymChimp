@@ -1,7 +1,5 @@
 import 'dart:collection';
 
-import 'package:gymchimp/Main%20App%20Body/plan/exercises.dart';
-
 class Workout {
   var name;
   var index;

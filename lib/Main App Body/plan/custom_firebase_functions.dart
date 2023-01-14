@@ -1,58 +1,21 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:gymchimp/Main%20App%20Body/plan/exercise_container.dart';
-import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
+import 'package:gymchimp/customReusableWidgets/DeleteConfirmPopup.dart';
 import 'package:gymchimp/main.dart';
-import 'package:gymchimp/openingScreens/login_page.dart';
-import 'package:numberpicker/numberpicker.dart';
-import 'new_workout_page.dart';
-import '../workout/workout.dart';
-import 'package:reorderables/reorderables.dart';
-import 'package:searchable_listview/searchable_listview.dart';
+import 'new workout page/new_workout_page.dart';
 
 Widget NewWorkoutDeleteButton(BuildContext context, Function onPressed) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15))),
         padding: EdgeInsets.all(25),
         primary: Colors.red,
         minimumSize: Size(150, 75)),
     onPressed: () {
-      showDialog<String>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25))),
-            title: const Text('Are you sure you want to delete this exercise?'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('No, go back'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: const Text(
-                  'Yes, delete it',
-                  style: TextStyle(color: Colors.red),
-                ),
-                onPressed: () {
-                  onPressed();
-                },
-              )
-            ],
-          );
-        },
-      );
+      return deleteConfirmPopup(
+          'Are you sure you want to delete this exercise?', context, onPressed);
     },
     child: Text("Delete"),
   );
@@ -80,7 +43,8 @@ void filterSearchResults(String query, Function setState) {
 
     searchList.forEach((element) {
       int ind = searchList.indexOf(element);
-      if (element.toLowerCase().contains(query.toLowerCase()) || muscleList[ind].toLowerCase().contains(query.toLowerCase())) {
+      if (element.toLowerCase().contains(query.toLowerCase()) ||
+          muscleList[ind].toLowerCase().contains(query.toLowerCase())) {
         dummyListData.add(element);
         dummyMuscleListData.add(muscleList[ind]);
         dummyDifficultyList.add(difficultyList[ind]);
@@ -110,7 +74,8 @@ void filterSearchResults(String query, Function setState) {
   }
 }
 
-void firebaseRemoveExercise(int deleteIndex, bool removeAll, Function setState) async {
+void firebaseRemoveExercise(
+    int deleteIndex, bool removeAll, Function setState) async {
   QuerySnapshot querySnapshot = await firestore
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -184,7 +149,11 @@ void updateWorkoutFirebase() async {
             .doc(workoutIDFirebase)
             .collection('exercises')
             .doc(element.id)
-            .update({'index': i, 'name': newWorkout.exercises[i], 'reps': newWorkout.reps[i]});
+            .update({
+          'index': i,
+          'name': newWorkout.exercises[i],
+          'reps': newWorkout.reps[i]
+        });
         i++;
       } else {
         return;
@@ -220,17 +189,29 @@ void pushExerciseToWorkoutFirebase(int indx) async {
       .doc(workoutIDFirebase)
       .collection('exercises')
       .doc(exerciseName)
-      .set({'name': newWorkout.getExercise(indx), 'reps': newWorkout.getRepsForExercise(indx), 'index': newWorkout.exercises.length - 1});
+      .set({
+    'name': newWorkout.getExercise(indx),
+    'reps': newWorkout.getRepsForExercise(indx),
+    'index': newWorkout.exercises.length - 1
+  });
 }
 
 void getWorkoutID(Function setState) async {
   String id = "";
-  QuerySnapshot querySnapshot = await firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').get();
+  QuerySnapshot querySnapshot = await firestore
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('workouts')
+      .get();
   var doc;
   bool found = false;
   List list = querySnapshot.docs;
   for (var element in list) {
-    doc = await firestore.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('workouts').doc(element.id);
+    doc = await firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .doc(element.id);
     doc.get().then((value) async {
       if (value.get('name') == newWorkout.getName()) {
         setState(() {

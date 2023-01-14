@@ -12,7 +12,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 
-import 'workout.dart';
+import '../../objects/workout.dart';
 
 class WorkoutPage extends StatefulWidget {
   const WorkoutPage({Key? key}) : super(key: key);

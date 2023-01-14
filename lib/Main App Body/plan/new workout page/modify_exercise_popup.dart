@@ -8,17 +8,19 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gymchimp/Firebase/exercise_container.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/main.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'custom_firebase_functions.dart';
-import 'new workout page/new_workout_page.dart';
+import '../custom_firebase_functions.dart';
+import '../../../objects/workout.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:searchable_listview/searchable_listview.dart';
 
-import '../app_bar.dart';
-import 'plan_page.dart';
-import 'setChooser.dart';
+import '../../app_bar.dart';
+import 'new_workout_page.dart';
+import '../plan_page.dart';
+import '../setChooser.dart';
 
 void modifyExercise({
   required BuildContext ctx,
@@ -83,8 +85,7 @@ void modifyExercise({
                     children: [
                       TextField(
                         controller: exerciseNameField,
-                        style: TextStyle(
-                            color: textColor, fontSize: size.height / 50),
+                        style: TextStyle(color: textColor),
                         onChanged: (value) {
                           setModalState(() {
                             filterSearchResults(value, setState);
@@ -112,13 +113,10 @@ void modifyExercise({
                                   BorderSide(width: 2, color: accentColor)),
                           //fillColor: textColor,
                           labelText: "Search",
-                          labelStyle: TextStyle(
-                              color: Colors.white,
-                              backgroundColor: Colors.transparent),
+                          labelStyle: TextStyle(color: Colors.white),
+                          hintText: "Search",
                           focusColor: textColor,
-                          floatingLabelStyle: TextStyle(
-                              color: textColor,
-                              backgroundColor: Colors.transparent),
+                          floatingLabelStyle: TextStyle(color: textColor),
                           prefixIcon: Icon(
                             Icons.search,
                             color: accentColor,
@@ -137,47 +135,38 @@ void modifyExercise({
                         child: ListView.builder(
                           itemCount: exerciseTempList.length,
                           itemBuilder: (context, index) {
-                            bool selected = false;
                             return Container(
                               decoration: BoxDecoration(
                                 border: Border(
-                                  bottom:
-                                      BorderSide(color: accentColor, width: 2),
-                                ),
+                                    bottom: BorderSide(
+                                        color: accentColor, width: 2)),
                               ),
-                              child: Material(
-                                color: Colors.transparent,
-                                child: ListTile(
-                                  selectedTileColor: Colors.blue,
-                                  selectedColor: Colors.blue,
-                                  tileColor: Colors.transparent,
-                                  selected: selected,
-                                  title: Text(
-                                    exerciseTempList[index],
-                                    style: TextStyle(color: textColor),
-                                  ),
-                                  // ignore: prefer_interpolation_to_compose_strings
-                                  subtitle: Text(
-                                    difficultyTempList[index] +
-                                        "   |   "
-                                            '${muscleTempList[index]}',
-                                    style: TextStyle(color: textColor),
-                                  ),
-                                  onTap: () {
-                                    setModalState(
-                                      () {
-                                        choosingExercise = false;
-                                        newName = exerciseNameField.text =
-                                            exerciseTempList[index];
-                                        setState(() {});
-                                      },
-                                    );
-                                  },
-                                  trailing: IconButton(
-                                    color: textColor,
-                                    icon: const Icon(Icons.info_outline),
-                                    onPressed: () {},
-                                  ),
+                              child: ListTile(
+                                title: Text(
+                                  exerciseTempList[index],
+                                  style: TextStyle(color: textColor),
+                                ),
+                                // ignore: prefer_interpolation_to_compose_strings
+                                subtitle: Text(
+                                  difficultyTempList[index] +
+                                      "   |   "
+                                          '${muscleTempList[index]}',
+                                  style: TextStyle(color: textColor),
+                                ),
+                                onTap: () {
+                                  setModalState(
+                                    () {
+                                      choosingExercise = false;
+                                      newName = exerciseNameField.text =
+                                          exerciseTempList[index];
+                                      setState(() {});
+                                    },
+                                  );
+                                },
+                                trailing: IconButton(
+                                  color: textColor,
+                                  icon: const Icon(Icons.info_outline),
+                                  onPressed: () {},
                                 ),
                               ),
                             );

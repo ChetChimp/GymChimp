@@ -2,18 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:gymchimp/openingScreens/first_time_login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/start_page.dart';
-import 'package:gymchimp/user.dart';
+import 'package:gymchimp/objects/user.dart';
 import 'package:sqflite/sqflite.dart';
-import 'Main App Body/plan/plan_page.dart';
-import 'Main App Body/workout/workout.dart';
-import 'firebase_options.dart';
+import 'login-signup/openingScreens/first_time_login.dart';
+import 'objects/workout.dart';
+import 'Firebase/firebase_options.dart';
 import 'dart:async';
-
-import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

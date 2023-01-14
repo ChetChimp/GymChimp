@@ -11,12 +11,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
-import 'package:gymchimp/main.dart';
-import 'package:gymchimp/openingScreens/login_page.dart';
-
-import 'package:gymchimp/questionnairePages/askSex.dart';
-import '../customWidgets/ShakerState.dart';
-import '../firebase_options.dart';
+import 'package:gymchimp/login-signup/questionnairePages/askSex.dart';
+import '../../customReusableWidgets/ShakerState.dart';
+import '../../main.dart';
 
 class askName extends StatefulWidget {
   const askName({Key? key}) : super(key: key);
