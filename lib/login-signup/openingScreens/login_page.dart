@@ -63,7 +63,10 @@ class _LoginPage extends State<LoginPage> {
         email: email,
         password: password,
       );
-      changePage(ctx, LoadingPage());
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoadingPage()),
+      );
     } catch (err) {
       //if there is an error with the user's input, return the error String to the user as a popup
       //pop up duration lasts for 2 seconds
