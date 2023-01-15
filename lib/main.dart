@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gymchimp/Main%20App%20Body/loading_page.dart';
 import 'package:gymchimp/Main%20App%20Body/start_page.dart';
 import 'package:gymchimp/objects/user.dart';
 import 'package:sqflite/sqflite.dart';
@@ -12,6 +13,7 @@ import 'Firebase/firebase_options.dart';
 import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 //initialize and connect to flutter firebase, run main function
 void main() async {
@@ -116,6 +118,8 @@ Future<void> addUserInfo() async {
   });
 }
 
+bool isLoading = false;
+
 void readWorkoutsFirebase() async {
   QuerySnapshot querySnapshot = await firestore
       .collection('users')
@@ -183,6 +187,7 @@ void readWorkoutsFirebase() async {
 
     i++;
   }
+  isLoading = true;
 }
 
 class MyApp extends StatelessWidget {
@@ -195,8 +200,6 @@ class MyApp extends StatelessWidget {
     bool loggedIn = false;
     if (FirebaseAuth.instance.currentUser != null) {
       loggedIn = true;
-      addUserInfo();
-      readWorkoutsFirebase();
     } else {
       loggedIn = false;
     }
@@ -220,7 +223,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'MerriweatherSans',
       ),
       title: 'GymChimp',
-      home: loggedIn ? StartPage() : const FirstLogIn(),
+      home: loggedIn ? LoadingPage() : const FirstLogIn(),
     );
   }
 }

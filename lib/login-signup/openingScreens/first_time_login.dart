@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/main.dart';
-import 'package:gymchimp/Sign%20up/sign_up_page.dart';
 
 import '../questionnairePages/askName_page.dart';
 import 'login_page.dart';

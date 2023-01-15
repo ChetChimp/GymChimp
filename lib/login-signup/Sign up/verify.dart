@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gymchimp/login-signup/openingScreens/login_page.dart';
 import 'package:gymchimp/main.dart';
-
-import '../login-signup/openingScreens/login_page.dart';
 
 class Verification extends StatefulWidget {
   const Verification({Key? key}) : super(key: key);
