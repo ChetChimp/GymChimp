@@ -11,15 +11,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/main.dart';
-import '../app_bar.dart';
-import '../home_page.dart';
-import '../start_page.dart';
-import '../workout/workout_page.dart';
-import 'custom_firebase_functions.dart';
-import '../../objects/workout.dart';
+import '../../app_bar.dart';
+import '../../home_page.dart';
+import '../../start_page.dart';
+import '../../workout/workout_page.dart';
+import '../../../Firebase/custom_firebase_functions.dart';
+import '../../../objects/workout.dart';
 import 'dart:async';
 
-import 'new workout page/new_workout_page.dart';
+import '../new workout page/new_workout_page.dart';
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';

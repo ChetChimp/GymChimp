@@ -8,12 +8,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gymchimp/Main%20App%20Body/account_settings.dart';
 import 'package:gymchimp/Main%20App%20Body/plan/new%20workout%20page/new_workout_page.dart';
+import 'package:gymchimp/Main%20App%20Body/plan/plan%20page/plan_page.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/main.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../login-signup/openingScreens/first_time_login.dart';
-import 'plan/plan_page.dart';
 import '../objects/workout.dart';
 
 void logOutUser(BuildContext ctx) {

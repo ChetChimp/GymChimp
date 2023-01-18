@@ -3,23 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gymchimp/customReusableWidgets/DeleteConfirmPopup.dart';
 import 'package:gymchimp/main.dart';
-import 'new workout page/new_workout_page.dart';
-
-Widget NewWorkoutDeleteButton(BuildContext context, Function onPressed) {
-  return ElevatedButton(
-    style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(15))),
-        padding: EdgeInsets.all(25),
-        primary: Colors.red,
-        minimumSize: Size(150, 75)),
-    onPressed: () {
-      return deleteConfirmPopup(
-          'Are you sure you want to delete this exercise?', context, onPressed);
-    },
-    child: Text("Delete"),
-  );
-}
+import '../Main App Body/plan/new workout page/new_workout_page.dart';
 
 //Used for removing the shadow when re-ordering exercises
 Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
@@ -104,16 +88,22 @@ void firebaseRemoveExercise(
             .collection('exercises')
             .doc(element.id)
             .delete();
-        setState(() {
-          if (removeAll) {
-            newWorkout.removeExercise(0);
-          } else {
-            newWorkout.removeExercise(deleteIndex);
-          }
-          if (newWorkout.exercises.isNotEmpty) {
-            updateWorkoutFirebase();
-          }
-        });
+        WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+              // if (removeAll) {
+              //   newWorkout.removeExercise(0);
+              // } else {
+              //   newWorkout.removeExercise(deleteIndex);
+              // }
+              // if (newWorkout.exercises.isNotEmpty) {
+              //   updateWorkoutFirebase();
+              // }
+
+              print(newWorkout.getNumExercises());
+              print(newWorkout.getExercisesList().toString());
+            }));
+        //setState(() {
+        //newWorkout.removeExercise(0);
+        //});
         return;
       }
     });

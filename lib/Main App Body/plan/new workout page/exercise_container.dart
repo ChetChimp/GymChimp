@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../main.dart';
-import '../Main App Body/plan/new workout page/modify_exercise_popup.dart';
-import '../Main App Body/plan/new workout page/new_workout_page.dart';
+import '../../../main.dart';
+import 'modify_exercise_popup.dart';
+import 'new_workout_page.dart';
 
+//Container for each exercise in new workout page
 class ExerciseContainer extends StatefulWidget {
   final ctx;
   final ind;
@@ -15,7 +16,7 @@ class ExerciseContainer extends StatefulWidget {
 
 class _ExerciseContainerState extends State<ExerciseContainer> {
   bool changeHeight = false;
-
+  late String _title;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

@@ -5,12 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gymchimp/Main%20App%20Body/account_settings.dart';
 import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
 import 'package:gymchimp/main.dart';
+import 'package:gymchimp/login-signup/Sign%20up/verify.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../questionnairePages/askActive_page.dart';
 import '../questionnairePages/askGoal_page.dart';
 import '../questionnairePages/askSex.dart';
-import 'verify.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);

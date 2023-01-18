@@ -11,14 +11,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/main.dart';
 import 'package:numberpicker/numberpicker.dart';
-import '../../objects/workout.dart';
+import '../../../objects/workout.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:searchable_listview/searchable_listview.dart';
 
-import 'new workout page/new_workout_page.dart';
-import '../app_bar.dart';
-import 'plan_page.dart';
+import 'new_workout_page.dart';
+import '../../app_bar.dart';
 
+//This class represents the horizontal set chooser numberpicker in the new workout page
 class setChooser extends StatelessWidget {
   const setChooser({
     required GlobalKey<AnimatedListState> listKey,

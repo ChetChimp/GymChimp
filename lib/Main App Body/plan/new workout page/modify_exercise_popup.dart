@@ -8,19 +8,20 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:gymchimp/Firebase/exercise_container.dart';
+import 'package:gymchimp/Main%20App%20Body/plan/new%20workout%20page/exercise_container.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/main.dart';
 import 'package:numberpicker/numberpicker.dart';
-import '../custom_firebase_functions.dart';
+import '../../../Firebase/custom_firebase_functions.dart';
+import '../../../customReusableWidgets/DeleteConfirmPopup.dart';
 import '../../../objects/workout.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:searchable_listview/searchable_listview.dart';
 
 import '../../app_bar.dart';
 import 'new_workout_page.dart';
-import '../plan_page.dart';
-import '../setChooser.dart';
+import '../plan page/plan_page.dart';
+import 'setChooser.dart';
 
 void modifyExercise({
   required BuildContext ctx,
@@ -38,7 +39,7 @@ void modifyExercise({
   TextEditingController exerciseNameField = new TextEditingController(text: "");
   exerciseNameField.text = name;
   List<int> reps =
-      changeIndex == -1 ? <int>[3] : newWorkout.getRepsForExercise(changeIndex);
+      changeIndex == -1 ? <int>[8] : newWorkout.getRepsForExercise(changeIndex);
 
   //sets numReps to a default 3 if making a new workout, or to the current value if modifying workout
   //int numReps = changeIndex == -1 ? 3 : newWorkout.getReps(changeIndex)[0];
@@ -135,38 +136,46 @@ void modifyExercise({
                         child: ListView.builder(
                           itemCount: exerciseTempList.length,
                           itemBuilder: (context, index) {
+                            bool selected = false;
                             return Container(
                               decoration: BoxDecoration(
                                 border: Border(
                                     bottom: BorderSide(
                                         color: accentColor, width: 2)),
                               ),
-                              child: ListTile(
-                                title: Text(
-                                  exerciseTempList[index],
-                                  style: TextStyle(color: textColor),
-                                ),
-                                // ignore: prefer_interpolation_to_compose_strings
-                                subtitle: Text(
-                                  difficultyTempList[index] +
-                                      "   |   "
-                                          '${muscleTempList[index]}',
-                                  style: TextStyle(color: textColor),
-                                ),
-                                onTap: () {
-                                  setModalState(
-                                    () {
-                                      choosingExercise = false;
-                                      newName = exerciseNameField.text =
-                                          exerciseTempList[index];
-                                      setState(() {});
-                                    },
-                                  );
-                                },
-                                trailing: IconButton(
-                                  color: textColor,
-                                  icon: const Icon(Icons.info_outline),
-                                  onPressed: () {},
+                              child: Material(
+                                color: Colors.transparent,
+                                child: ListTile(
+                                  selectedTileColor: Colors.blue,
+                                  selectedColor: Colors.blue,
+                                  tileColor: Colors.transparent,
+                                  selected: selected,
+                                  title: Text(
+                                    exerciseTempList[index],
+                                    style: TextStyle(color: textColor),
+                                  ),
+                                  // ignore: prefer_interpolation_to_compose_strings
+                                  subtitle: Text(
+                                    difficultyTempList[index] +
+                                        "   |   "
+                                            '${muscleTempList[index]}',
+                                    style: TextStyle(color: textColor),
+                                  ),
+                                  onTap: () {
+                                    setModalState(
+                                      () {
+                                        choosingExercise = false;
+                                        newName = exerciseNameField.text =
+                                            exerciseTempList[index];
+                                        setState(() {});
+                                      },
+                                    );
+                                  },
+                                  trailing: IconButton(
+                                    color: textColor,
+                                    icon: const Icon(Icons.info_outline),
+                                    onPressed: () {},
+                                  ),
                                 ),
                               ),
                             );
@@ -310,14 +319,20 @@ void modifyExercise({
                       Spacer(
                         flex: 3,
                       ),
-                      NewWorkoutDeleteButton(context, () {
-                        Navigator.of(context).pop();
-                        Navigator.pop(ctx);
-                        if (changeIndex != -1) {
-                          firebaseRemoveExercise(changeIndex, false, setState);
-                        }
-                        setState(() {});
-                      }),
+                      NewWorkoutDeleteButton(
+                        context,
+                        () {
+                          if (changeIndex != -1) {
+                            setState(() {
+                              newWorkout.removeExercise(0);
+                            });
+                            firebaseRemoveExercise(
+                                changeIndex, false, setState);
+                          }
+
+                          Navigator.pop(ctx);
+                        },
+                      ),
                       Spacer(),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -368,5 +383,23 @@ void modifyExercise({
         }),
       );
     },
+  );
+}
+
+Widget NewWorkoutDeleteButton(BuildContext context, Function onPressed) {
+  return ElevatedButton(
+    style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15))),
+        padding: EdgeInsets.all(25),
+        primary: Colors.red,
+        minimumSize: Size(150, 75)),
+    onPressed: () {
+      return deleteConfirmPopup(
+          'Are you sure you want to delete this exewefwefwercise?',
+          context,
+          onPressed);
+    },
+    child: Text("Delete"),
   );
 }

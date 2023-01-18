@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
+import 'package:gymchimp/login-signup/Sign%20up/sign_up_page.dart';
 
 import '../../main.dart';
 import 'askActive_page.dart';

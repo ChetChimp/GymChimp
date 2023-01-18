@@ -8,12 +8,13 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:gymchimp/Firebase/exercise_container.dart';
+import 'package:gymchimp/Main%20App%20Body/plan/new%20workout%20page/exercise_container.dart';
 import 'package:gymchimp/Main%20App%20Body/plan/new%20workout%20page/modify_exercise_popup.dart';
-import 'package:gymchimp/Main%20App%20Body/plan/custom_firebase_functions.dart';
+import 'package:gymchimp/Firebase/custom_firebase_functions.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/main.dart';
 import 'package:numberpicker/numberpicker.dart';
+import '../../../customReusableWidgets/DeleteConfirmPopup.dart';
 import '../../app_bar.dart';
 import '../../../objects/workout.dart';
 import 'package:reorderables/reorderables.dart';
@@ -54,7 +55,6 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
 
   @override
   void initState() {
-    //modExercise = modifyExercise;
     workoutIndex = index;
     newWorkout = currentUser.userWorkouts[index];
     getWorkoutID(setState);
@@ -62,14 +62,17 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     super.initState();
   }
 
-  void removeWorkout(
+  Future<void> removeWorkout(
     BuildContext ctx,
   ) async {
+    print("Test");
+
     int i = 0;
     while (i < newWorkout.exercises.length) {
       firebaseRemoveExercise(i, true, setState);
       i++;
     }
+
     await firestore.runTransaction((Transaction myTransaction) async {
       myTransaction.delete(firestore
           .collection('users')
@@ -78,7 +81,6 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
           .doc(workoutIDFirebase));
     });
     widget.callback(widget.index);
-    Navigator.of(ctx).pop();
   }
 
   void getWorkoutID(setState) async {
@@ -161,7 +163,10 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           padding: EdgeInsets.all(8),
                           children: <Widget>[
                             for (int index = 0;
-                                index < newWorkout.getNumExercises();
+                                index <
+                                    newWorkout
+                                        .getExercisesList()
+                                        .length; //use other getlength function
                                 index += 1)
                               ExerciseContainer(Key('$index'), ctx, index),
                           ],
@@ -176,6 +181,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           child: Column(
                             children: [
                               Spacer(),
+                              //Add new exercise button
                               OutlinedButton(
                                   style: OutlinedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
@@ -184,9 +190,6 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                     backgroundColor: foregroundGrey,
                                   ),
                                   onPressed: () {
-                                    print(currentUser.getUserWorkouts[0]
-                                        .getExercisesList()
-                                        .toString());
                                     modifyExercise(
                                       ctx: ctx,
                                       name: "",
@@ -207,9 +210,19 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                               BorderRadius.circular(10.0),
                                         )),
                                     onPressed: () {
-                                      setState(() {
-                                        removeWorkout(context);
-                                      });
+                                      deleteConfirmPopup(
+                                        'Are you sure you want to delete this exercise?',
+                                        context,
+                                        () {
+                                          removeWorkout(context).then((value) {
+                                            Navigator.of(context).pop();
+                                          });
+                                        },
+                                      );
+
+                                      // setState(() {
+                                      //   removeWorkout(context);
+                                      // });
                                     },
                                     child: Row(
                                       children: const [

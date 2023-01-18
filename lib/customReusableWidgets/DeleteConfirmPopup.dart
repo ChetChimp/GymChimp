@@ -22,6 +22,7 @@ deleteConfirmPopup(String text, BuildContext context, Function onPressed) {
               style: TextStyle(color: Colors.red),
             ),
             onPressed: () {
+              Navigator.of(context).pop();
               onPressed();
             },
           )
