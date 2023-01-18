@@ -321,6 +321,12 @@ class _MyAppBarState extends State<MyAppBar>
               ),
             ),
           ),
+        if (screenName == "stats_page")
+          Center(
+              child: Text(
+            "${currentUser.getName}'s Stats",
+            style: TextStyle(color: textColor, fontSize: 20),
+          )),
         if (screenName == "plan_page")
           Center(
               child: Text(

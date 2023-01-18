@@ -24,7 +24,7 @@ class _LoadingPageState extends State<LoadingPage> {
   }
 
   void checkLoading() {
-    Timer.periodic(const Duration(seconds: 1), (Timer t) {
+    Timer.periodic(const Duration(milliseconds: 500), (Timer t) {
       if (isLoading) {
         // Navigator.pop(context);
         Navigator.pushReplacement(
