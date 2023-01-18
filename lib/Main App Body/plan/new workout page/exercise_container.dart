@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../main.dart';
-import 'modify_exercise_popup.dart';
 import 'new_workout_page.dart';
 
 //Container for each exercise in new workout page

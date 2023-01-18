@@ -7,6 +7,8 @@ import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
 import 'package:gymchimp/main.dart';
 import 'package:gymchimp/objects/workout.dart';
 
+import '../plan/new workout page/new_workout_page.dart';
+
 class StatsPage extends StatefulWidget {
   const StatsPage({Key? key}) : super(key: key);
 
@@ -17,8 +19,45 @@ class StatsPage extends StatefulWidget {
 Radius radius = Radius.circular(30);
 String selectedWorkoutName = "";
 Workout workoutStats = Workout("empty");
+TextEditingController exerciseSearchController =
+    TextEditingController(text: "");
+List<String> exerciseTempL = [];
+List<String> exerciseSearchList = [];
 
 class _StatsPageState extends State<StatsPage> {
+  @override
+  void initState() {
+    exerciseTempL = currentUser.userExerciseList.toList();
+    exerciseSearchList = currentUser.userExerciseList.toList();
+    filterResults("");
+    super.initState();
+  }
+
+  void filterResults(String query) {
+    if (query.isNotEmpty) {
+      List<String> dummyListData = [];
+
+      exerciseSearchList.forEach((element) {
+        if (element.toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(element);
+
+          setState(() {
+            exerciseTempL.clear();
+            exerciseTempL.addAll(dummyListData);
+          });
+          print(exerciseTempL);
+          return;
+        }
+      });
+    } else {
+      setState(() {
+        print(exerciseTempL);
+        exerciseTempL.clear();
+        exerciseTempL = currentUser.userExerciseList.toList();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -29,87 +68,79 @@ class _StatsPageState extends State<StatsPage> {
             home: Scaffold(
               backgroundColor: backgroundGrey,
               appBar: MyAppBar(context, false, "stats_page"),
-              body: Column(
-                children: [
-                  Center(
-                    child: AnimatedContainer(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
-                            bottomLeft: radius,
-                            bottomRight: radius),
-                        color: accentColor,
-                      ),
-                      duration: Duration(milliseconds: 200),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2(
-                          onMenuStateChange: (isOpen) {
-                            if (isOpen) {
-                              setState(() {
-                                radius = Radius.circular(0);
-                              });
-                            } else {
-                              setState(() {
-                                radius = Radius.circular(30);
-                              });
-                            }
-                          },
-                          buttonWidth: size.width - 10,
-                          buttonHeight: size.height / 14,
-                          scrollbarAlwaysShow: true,
-                          scrollbarRadius: Radius.circular(5),
-                          scrollbarThickness: 5,
-                          iconSize: 50,
-                          dropdownMaxHeight: size.height / 3,
-                          iconEnabledColor: foregroundGrey,
-                          isExpanded: true,
-                          barrierColor: Color.fromARGB(45, 0, 0, 0),
-                          hint: Text(selectedWorkoutName,
-                              style: TextStyle(
-                                  color: foregroundGrey,
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.w500)),
-                          items: currentUser
-                              .getUserWorkoutsString()
-                              .map((item) => DropdownMenuItem<String>(
-                                    value: item,
-                                    child: Text(
-                                      item,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ))
-                              .toList(),
-                          onChanged: (String? value) {
-                            setState(() {
-                              selectedWorkoutName = value!;
-                              workoutStats = currentUser
-                                  .getWorkoutByName(selectedWorkoutName);
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: size.height / 3,
-                    child: ListView.builder(
-                      itemCount: workoutStats.exercises.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.only(left: 30, right: 30),
-                          child: ElevatedButton(
-                              onPressed: () {},
-                              child: Text(workoutStats.exercises[index])),
-                        );
+              body: Container(
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: exerciseSearchController,
+                      style: TextStyle(color: textColor),
+                      onChanged: (value) {
+                        setState(() {
+                          filterResults(value);
+                        });
                       },
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25)),
+                          borderSide: BorderSide(
+                            width: 2,
+                            color: accentColor,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(25)),
+                            borderSide:
+                                BorderSide(width: 2, color: accentColor)),
+                        //fillColor: textColor,
+                        labelText: "Search",
+                        labelStyle: TextStyle(color: Colors.white),
+                        hintText: "Search",
+                        hintStyle: TextStyle(color: Colors.white),
+                        focusColor: textColor,
+                        floatingLabelStyle: TextStyle(color: textColor),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: accentColor,
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0))),
+                      ),
                     ),
-                  )
-                ],
+                    AnimatedContainer(
+                      duration: Duration(seconds: 1),
+                      curve: Curves.ease,
+                      //live list of execises
+                      height: size.height / 3.75,
+                      child: ListView.builder(
+                        itemCount: exerciseTempL.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            // decoration: BoxDecoration(
+                            //   border: Border(
+                            //       bottom: BorderSide(color: accentColor, width: 2)),
+                            // ),
+                            child: Material(
+                              color: index % 2 == 0
+                                  ? backgroundGrey
+                                  : foregroundGrey,
+                              child: ListTile(
+                                title: Text(
+                                  exerciseTempL[index],
+                                  style: TextStyle(color: textColor),
+                                ),
+                                // ignore: prefer_interpolation_to_compose_strings
+                                onTap: () {
+                                  setState(() {});
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

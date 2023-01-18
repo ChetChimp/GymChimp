@@ -179,6 +179,7 @@ void readWorkoutsFirebase() async {
             repetitions.add(rep);
             exerciseIndex = value.get('index');
           });
+          currentUser.userExerciseList.add(exerciseName);
           workout.exercises[exerciseIndex] = exerciseName;
           workout.reps[exerciseIndex] = repetitions;
         },

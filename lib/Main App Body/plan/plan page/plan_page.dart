@@ -159,6 +159,7 @@ class _PlanPage extends State<PlanPage> {
                   floatingActionButton: FloatingActionButton(
                     backgroundColor: foregroundGrey,
                     onPressed: () async {
+                      print(currentUser.userExerciseList);
                       await pushWorkoutToDatabase(context);
                       setState(() {
                         currentUser.addWorkout(Workout(workoutName));

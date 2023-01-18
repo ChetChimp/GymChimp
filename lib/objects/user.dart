@@ -5,10 +5,10 @@ class CurrentUser {
   var name;
   var email;
   var gender;
-
   var units;
   var level;
 
+  Set<String> userExerciseList = <String>{};
   List<Workout> userWorkouts = <Workout>[];
 
   void moveWorkout(int oldIndex, int newIndex) {
@@ -76,6 +76,11 @@ class CurrentUser {
 
   void removeWorkout(Workout newWorkout) {
     userWorkouts.remove(newWorkout);
+  }
+
+  String getExerciseFromList(int index) {
+    List<String> list = userExerciseList.toList();
+    return list[index];
   }
 
   @override
