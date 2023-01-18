@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -250,6 +251,15 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
               ));
     });
   }
+  /*
+  ------------------------------------------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------------------------------------------
+  */
 
   void modifyExercise({
     required BuildContext ctx,
@@ -275,6 +285,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     //int numReps = changeIndex == -1 ? 3 : newWorkout.getReps(changeIndex)[0];
 
     showModalBottomSheet<void>(
+      enableDrag: false,
       backgroundColor: backgroundGrey,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
@@ -282,7 +293,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
       context: ctx,
       builder: (BuildContext context) {
         return FractionallySizedBox(
-          heightFactor: 0.9,
+          heightFactor: 1,
           child: StatefulBuilder(
               builder: (BuildContext context2, StateSetter setModalState) {
             updateState() {
@@ -557,7 +568,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(15))),
                               padding: EdgeInsets.all(25),
-                              primary: Colors.red,
+                              primary: foregroundGrey,
                               minimumSize: Size(150, 75)),
                           onPressed: () {
                             return deleteConfirmPopup(
@@ -574,7 +585,10 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               Navigator.pop(ctx);
                             });
                           },
-                          child: Text("Delete"),
+                          child: Text(
+                            "Delete",
+                            style: TextStyle(color: Colors.red, fontSize: 20),
+                          ),
                         ),
                         Spacer(),
                         ElevatedButton(
@@ -583,7 +597,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(15))),
                               padding: EdgeInsets.all(25),
-                              primary: Colors.blue,
+                              primary: foregroundGrey,
                               minimumSize: Size(150, 75)),
                           onPressed: () {
                             if (currentWorkout.getName() ==
@@ -613,7 +627,10 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                             }
                             setState(() {});
                           },
-                          child: Text("Save"),
+                          child: Text(
+                            "Save",
+                            style: TextStyle(color: textColor, fontSize: 20),
+                          ),
                         ),
                         Spacer(
                           flex: 3,
