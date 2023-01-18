@@ -8,15 +8,21 @@ import 'new_workout_page.dart';
 class ExerciseContainer extends StatefulWidget {
   final ctx;
   final ind;
-  const ExerciseContainer(Key? key, this.ctx, this.ind) : super(key: key);
+  final modifyExercise;
+  const ExerciseContainer(Key? key, this.ctx, this.ind, this.modifyExercise)
+      : super(key: key);
 
   @override
-  State<ExerciseContainer> createState() => _ExerciseContainerState();
+  State<ExerciseContainer> createState() =>
+      _ExerciseContainerState(modifyExercise);
 }
 
 class _ExerciseContainerState extends State<ExerciseContainer> {
   bool changeHeight = false;
   late String _title;
+
+  Function modifyExercise;
+  _ExerciseContainerState(this.modifyExercise);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -60,10 +66,10 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
                   child: Icon(Icons.edit, color: accentColor),
                   onPressed: () {
                     modifyExercise(
-                        ctx: widget.ctx,
-                        name: '${newWorkout.getExercise(widget.ind)}',
-                        changeIndex: widget.ind,
-                        setState: setState);
+                      ctx: widget.ctx,
+                      name: '${newWorkout.getExercise(widget.ind)}',
+                      changeIndex: widget.ind,
+                    );
                   },
                 ),
                 const Spacer(),
