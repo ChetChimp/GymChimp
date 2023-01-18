@@ -1,15 +1,14 @@
 class Exercise {
   var name;
-  var difficulty;
   var index;
 
-  Exercise(this.name, this.difficulty, this.index);
+  Exercise(this.name, this.index);
 
   String getName() {
     return name;
   }
 
-  String getDifficulty() {
-    return difficulty;
+  int getIndex() {
+    return index;
   }
 }

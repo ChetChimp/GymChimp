@@ -6,6 +6,7 @@ import 'package:gymchimp/Main%20App%20Body/home_page.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/countdown.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/stopwatch.dart';
 import 'package:gymchimp/main.dart';
+import 'package:gymchimp/objects/exercise.dart';
 import '../app_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -34,6 +35,7 @@ bool checkVal = false;
 ScrollController scrollController = ScrollController();
 Radius radius = Radius.circular(20);
 bool unit = true;
+List<Exercise> exerciseList = [];
 
 TextStyle fontstyle(double size) {
   return TextStyle(
@@ -48,7 +50,8 @@ class _WorkoutPage extends State<WorkoutPage>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
-    getRows(selectedExercise);
+    fillExerciseList(currentWorkout);
+    getRows();
     updateProgress();
     workoutState = setWorkout;
     unitState = setUnit;
@@ -56,21 +59,32 @@ class _WorkoutPage extends State<WorkoutPage>
     super.initState();
   }
 
+  void fillExerciseList(Workout w) {
+    for (int i = 0; i < w.exercises.length; i++) {
+      setState(() {
+        exerciseList.add(Exercise(w.exercises[i], i));
+        updateDropdown();
+      });
+    }
+  }
+
   void setWorkout(Workout w) {
     setState(() {
       currentWorkout = w;
       index = 0;
-      getRows(currentWorkout.getExercise(0));
+      exerciseList = [];
+      fillExerciseList(w);
+      selectedExercise = exerciseList.isEmpty ? "" : exerciseList[0].getName();
+      getRows();
       updateProgress();
     });
   }
 
   void setUnit(bool w) {
-    print(w);
     setState(() {
       unit = w;
     });
-    getRows(selectedExercise);
+    getRows();
   }
 
   void updateDropdown() {
@@ -136,14 +150,13 @@ class _WorkoutPage extends State<WorkoutPage>
   }
 
   List<Widget> returnRows = [];
-  void getRows(String exercise) {
-    selectedExercise = exercise;
+  void getRows() {
     returnRows = [];
     controllers = [];
-    if (exercise == "") {
+    if (selectedExercise == "") {
       return;
     }
-    int exerciseIndex = currentWorkout.exercises.indexOf(exercise);
+    int exerciseIndex = index;
 
     for (int i = 0; i < currentWorkout.reps[exerciseIndex].length; i++) {
       TextEditingController? newController = TextEditingController(text: "");
@@ -161,22 +174,10 @@ class _WorkoutPage extends State<WorkoutPage>
           ),
           child: Row(
             children: [
-              // Spacer(),
-              // Container(
-              //   padding: const EdgeInsets.all(5.0),
-              //   child: Text(
-              //     (i + 1).toString(),
-              //     style: TextStyle(fontSize: 28),
-              //   ),
-              // ),  //       Spacer(),
               Text(
                 "Reps:  ",
                 style: TextStyle(fontSize: 24, color: Colors.white),
               ),
-              //       Spacer(),
-
-              //       Spacer(),
-              // Spacer(),
               Text(
                 currentWorkout.reps[exerciseIndex][i].toString(),
                 style: TextStyle(fontSize: 24, color: accentColor),
@@ -241,9 +242,8 @@ class _WorkoutPage extends State<WorkoutPage>
             onRefresh: (() {
               return Future.delayed(Duration(milliseconds: 1), (() {
                 setState(() {
-                  getRows(currentWorkout.exercises.isEmpty
-                      ? ""
-                      : currentWorkout.exercises[0]);
+                  fillExerciseList(currentWorkout);
+                  getRows();
                   index = 0;
                   updateProgress();
                 });
@@ -357,7 +357,7 @@ class _WorkoutPage extends State<WorkoutPage>
                                   ),
                                   duration: Duration(milliseconds: 200),
                                   child: DropdownButtonHideUnderline(
-                                    child: DropdownButton2(
+                                    child: DropdownButton2<Exercise>(
                                       onMenuStateChange: (isOpen) {
                                         if (isOpen) {
                                           setState(() {
@@ -383,12 +383,12 @@ class _WorkoutPage extends State<WorkoutPage>
                                               color: foregroundGrey,
                                               fontSize: 21,
                                               fontWeight: FontWeight.w500)),
-                                      items: currentWorkout.exercises
+                                      items: exerciseList
                                           .map((item) =>
-                                              DropdownMenuItem<String>(
+                                              DropdownMenuItem<Exercise>(
                                                 value: item,
                                                 child: Text(
-                                                  item,
+                                                  item.getName(),
                                                   style: const TextStyle(
                                                     fontSize: 20,
                                                     color: Color.fromARGB(
@@ -399,13 +399,12 @@ class _WorkoutPage extends State<WorkoutPage>
                                                 ),
                                               ))
                                           .toList(),
-                                      onChanged: (String? value) {
+                                      onChanged: (Exercise? value) {
                                         setState(
                                           () {
-                                            index = currentWorkout.exercises
-                                                .indexOf(value!);
-                                            selectedExercise = value;
-                                            getRows(selectedExercise);
+                                            index = value!.getIndex();
+                                            selectedExercise = value.getName();
+                                            getRows();
                                             updateProgress();
                                           },
                                         );
@@ -449,7 +448,7 @@ class _WorkoutPage extends State<WorkoutPage>
                                       updateLateIndex();
                                       selectedExercise =
                                           currentWorkout.exercises[index];
-                                      getRows(selectedExercise);
+                                      getRows();
                                       updateProgress();
                                     }
                                   });
@@ -472,7 +471,7 @@ class _WorkoutPage extends State<WorkoutPage>
                                       updateLateIndex();
                                       selectedExercise =
                                           currentWorkout.exercises[index];
-                                      getRows(selectedExercise);
+                                      getRows();
                                       updateProgress();
                                     }
                                   });
