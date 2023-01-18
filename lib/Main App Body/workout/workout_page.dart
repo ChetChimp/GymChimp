@@ -231,7 +231,6 @@ class _WorkoutPage extends State<WorkoutPage>
     }
 
     GlobalKey nextKey = GlobalKey();
-
     GlobalKey previousKey = GlobalKey();
     super.build(context);
     Size size = MediaQuery.of(context).size;
@@ -258,367 +257,374 @@ class _WorkoutPage extends State<WorkoutPage>
               child: Scrollbar(
                 child: ListView(
                   children: [
-                    //Container(
-                    Column(
-                      children: [
-                        Stack(
-                          children: [
-                            Container(
-                              height: size.height / 3.5,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(0, 255, 255, 255),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                child: CarouselSlider(
-                                  carouselController: carouselController,
-                                  items: [
-                                    Container(
-                                        decoration: BoxDecoration(
-                                          color: foregroundGrey,
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                          // boxShadow: shadow
-                                        ),
-                                        margin: EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        child: countdown()),
-                                    Container(
-                                        margin: EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        decoration: BoxDecoration(
-                                          color: foregroundGrey,
-                                          // gradient: LinearGradient(
-                                          //     colors: primaryGradient),
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        child: StopWatch()),
-                                  ],
-                                  options: CarouselOptions(
-                                    height: size.height / 4,
-                                    enableInfiniteScroll: false,
-                                    onPageChanged: ((index, reason) {
-                                      setState(() {
-                                        activepage = index;
-                                      });
-                                    }),
-                                    viewportFraction: .92,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: size.width / 2 - (size.width / 8),
-                              top: size.height / 4.55,
-                              child: Container(
-                                padding: EdgeInsets.all(5),
-                                width: size.width / 4,
-                                decoration: const BoxDecoration(
-                                  // color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(8),
-                                      topRight: Radius.circular(8),
-                                      bottomLeft: Radius.circular(8),
-                                      bottomRight: Radius.circular(8)),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: indicators(activepage),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              top: 5, bottom: 5, left: 17, right: 17),
-                          child: GradientProgressIndicator(
-                            gradient: LinearGradient(
-                                colors: [foregroundGrey, accentColor]),
-                            value: progress,
-                          ),
-                        ),
-                        Container(
-                          height: size.height / 3,
-                          margin: const EdgeInsets.only(
-                              top: 10, bottom: 10, left: 20, right: 20),
-                          decoration: BoxDecoration(
-                            color: foregroundGrey,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: Column(
+                    Container(
+                      child: Column(
+                        children: [
+                          Stack(
                             children: [
-                              AnimatedContainer(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
-                                      bottomLeft: radius,
-                                      bottomRight: radius),
-                                  color: accentColor,
-                                ),
-                                duration: Duration(milliseconds: 200),
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton2(
-                                    onMenuStateChange: (isOpen) {
-                                      if (isOpen) {
-                                        setState(() {
-                                          radius = Radius.circular(0);
-                                        });
-                                      } else {
-                                        setState(() {
-                                          radius = Radius.circular(20);
-                                        });
-                                      }
-                                    },
-                                    buttonHeight: size.height / 14,
-                                    scrollbarAlwaysShow: true,
-                                    scrollbarRadius: Radius.circular(5),
-                                    scrollbarThickness: 5,
-                                    iconSize: 50,
-                                    dropdownMaxHeight: size.height / 3,
-                                    iconEnabledColor: foregroundGrey,
-                                    isExpanded: true,
-                                    barrierColor: Color.fromARGB(45, 0, 0, 0),
-                                    hint: Text(selectedExercise,
-                                        style: TextStyle(
+                              Container(
+                                height: size.height / 3.5,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(0, 255, 255, 255),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: CarouselSlider(
+                                    carouselController: carouselController,
+                                    items: [
+                                      Container(
+                                          decoration: BoxDecoration(
                                             color: foregroundGrey,
-                                            fontSize: 21,
-                                            fontWeight: FontWeight.w500)),
-                                    items: currentWorkout.exercises
-                                        .map((item) => DropdownMenuItem<String>(
-                                              value: item,
-                                              child: Text(
-                                                item,
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                  color: Color.fromARGB(
-                                                      255, 0, 0, 0),
-                                                ),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ))
-                                        .toList(),
-                                    onChanged: (String? value) {
-                                      setState(
-                                        () {
-                                          index = currentWorkout.exercises
-                                              .indexOf(value!);
-                                          selectedExercise = value;
-                                          getRows();
-                                          updateProgress();
-                                        },
-                                      );
-                                    },
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                            // boxShadow: shadow
+                                          ),
+                                          margin: EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: countdown()),
+                                      Container(
+                                          margin: EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          decoration: BoxDecoration(
+                                            color: foregroundGrey,
+                                            // gradient: LinearGradient(
+                                            //     colors: primaryGradient),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          child: StopWatch()),
+                                    ],
+                                    options: CarouselOptions(
+                                      height: size.height / 4,
+                                      enableInfiniteScroll: false,
+                                      onPageChanged: ((index, reason) {
+                                        setState(() {
+                                          activepage = index;
+                                        });
+                                      }),
+                                      viewportFraction: .92,
+                                    ),
                                   ),
                                 ),
                               ),
-                              Container(
-                                height: size.height / 5,
-                                child: Scrollbar(
-                                  //thumbVisibility: true,
-                                  child: ListView(
-                                    //physics: BouncingScrollPhysics(),
-                                    children: returnRows,
+                              Positioned(
+                                left: size.width / 2 - (size.width / 8),
+                                top: size.height / 4.55,
+                                child: Container(
+                                  padding: EdgeInsets.all(5),
+                                  width: size.width / 4,
+                                  decoration: const BoxDecoration(
+                                    // color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(8),
+                                        topRight: Radius.circular(8),
+                                        bottomLeft: Radius.circular(8),
+                                        bottomRight: Radius.circular(8)),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: indicators(activepage),
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        SizedBox(height: size.height / 75),
-
-                        GestureDetector(
-                          onTapDown: (details) {
-                            var position = details.globalPosition;
-                            if (nextKey.currentContext != null) {
-                              var box = nextKey.currentContext
-                                  ?.findRenderObject() as RenderBox;
-                              var position2 = box.localToGlobal(Offset.zero);
-                              var x1 = position.dx;
-                              var y1 = position.dy;
-                              var x2 = position2.dx + size.width / 6;
-                              var y2 = position2.dy + size.height / 40;
-                              if (sqrt(pow(x2 - x1, 2) + 8 * pow(y2 - y1, 2)) <
-                                  75) {
-                                setState(() {
-                                  if (index <
-                                      currentWorkout.getNumExercises() - 1) {
-                                    index++;
-                                    updateLateIndex(true);
-                                    selectedExercise =
-                                        currentWorkout.exercises[index];
-                                    getRows();
-                                    updateProgress();
-                                  }
-                                });
-                              }
-                            }
-                            if (previousKey.currentContext != null) {
-                              var box = previousKey.currentContext
-                                  ?.findRenderObject() as RenderBox;
-                              var position2 = box.localToGlobal(Offset.zero);
-                              var x1 = position.dx;
-                              var y1 = position.dy;
-                              var x2 = position2.dx + size.width / 6;
-                              var y2 = position2.dy + size.height / 40;
-                              if (sqrt(pow(x2 - x1, 2) + 8 * pow(y2 - y1, 2)) <
-                                  75) {
-                                setState(() {
-                                  if (index > 0) {
-                                    index--;
-                                    updateLateIndex(false);
-                                    selectedExercise =
-                                        currentWorkout.exercises[index];
-                                    getRows();
-                                    updateProgress();
-                                  }
-                                });
-                              }
-                            }
-                          },
-                          child: SizedBox(
-                            width: size.width,
-                            height: size.height / 10,
-                            child: Stack(
-                              children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(
+                                top: 5, bottom: 5, left: 17, right: 17),
+                            child: GradientProgressIndicator(
+                              gradient: LinearGradient(
+                                  colors: [foregroundGrey, accentColor]),
+                              value: progress,
+                            ),
+                          ),
+                          Container(
+                            height: size.height / 3,
+                            margin: const EdgeInsets.only(
+                                top: 10, bottom: 10, left: 20, right: 20),
+                            decoration: BoxDecoration(
+                              color: foregroundGrey,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Column(
+                              children: [
                                 AnimatedContainer(
-                                  curve: Curves.ease,
-                                  width: size.width,
-                                  height: size.height / 10,
-                                  color: Colors.transparent,
-                                  alignment: index ==
-                                              currentWorkout.getNumExercises() -
-                                                  1 ||
-                                          index <= 0
-                                      ? Alignment.center
-                                      : Alignment(1.5, 0),
-                                  duration: Duration(milliseconds: 500),
-                                  padding: EdgeInsets.only(
-                                      left: size.width / 5,
-                                      right: size.width / 5),
-                                  child: Visibility(
-                                    //maintainInteractivity: false,
-                                    visible: nextOnTop &&
-                                        (lateIndex <
-                                                currentWorkout
-                                                        .getNumExercises() -
-                                                    1 ||
-                                            index <
-                                                currentWorkout
-                                                        .getNumExercises() -
-                                                    1),
-                                    child: MaterialButton(
-                                      key: nextKey,
-                                      disabledColor: foregroundGrey,
-                                      color: foregroundGrey,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                      height: size.height / 20,
-                                      minWidth: size.width / 3,
-                                      onPressed: null,
-                                      child: Text(
-                                        style: TextStyle(
-                                            fontSize: 26, color: accentColor),
-                                        "Next",
-                                        textAlign: TextAlign.center,
-                                      ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                        bottomLeft: radius,
+                                        bottomRight: radius),
+                                    color: accentColor,
+                                  ),
+                                  duration: Duration(milliseconds: 200),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton2<Exercise>(
+                                      onMenuStateChange: (isOpen) {
+                                        if (isOpen) {
+                                          setState(() {
+                                            radius = Radius.circular(0);
+                                          });
+                                        } else {
+                                          setState(() {
+                                            radius = Radius.circular(20);
+                                          });
+                                        }
+                                      },
+                                      buttonHeight: size.height / 14,
+                                      scrollbarAlwaysShow: true,
+                                      scrollbarRadius: Radius.circular(5),
+                                      scrollbarThickness: 5,
+                                      iconSize: 50,
+                                      dropdownMaxHeight: size.height / 3,
+                                      iconEnabledColor: foregroundGrey,
+                                      isExpanded: true,
+                                      barrierColor: Color.fromARGB(45, 0, 0, 0),
+                                      hint: Text(selectedExercise,
+                                          style: TextStyle(
+                                              color: foregroundGrey,
+                                              fontSize: 21,
+                                              fontWeight: FontWeight.w500)),
+                                      items: exerciseList
+                                          .map((item) =>
+                                              DropdownMenuItem<Exercise>(
+                                                value: item,
+                                                child: Text(
+                                                  item.getName(),
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
+                                                    color: Color.fromARGB(
+                                                        255, 0, 0, 0),
+                                                  ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ))
+                                          .toList(),
+                                      onChanged: (Exercise? value) {
+                                        setState(
+                                          () {
+                                            index = value!.getIndex();
+                                            selectedExercise = value.getName();
+                                            getRows();
+                                            updateProgress();
+                                          },
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),
-                                AnimatedContainer(
-                                  curve: Curves.ease,
-                                  width: size.width,
-                                  height: size.height / 10,
-                                  color: Colors.transparent,
-                                  alignment: index ==
-                                              currentWorkout.getNumExercises() -
-                                                  1 ||
-                                          index <= 0
-                                      ? Alignment.center
-                                      : Alignment(-1.5, 0),
-                                  duration: Duration(milliseconds: 500),
-                                  padding: EdgeInsets.only(
-                                      left: size.width / 5,
-                                      right: size.width / 5),
-                                  child: Visibility(
-                                    //maintainInteractivity: false,
-                                    visible: lateIndex > 0 || index > 0,
-                                    child: MaterialButton(
-                                      key: previousKey,
-                                      disabledColor: foregroundGrey,
-                                      color: foregroundGrey,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                      height: size.height / 20,
-                                      minWidth: size.width / 3,
-                                      onPressed: null,
-                                      child: Text(
-                                        style: TextStyle(
-                                            fontSize: 26, color: accentColor),
-                                        "Previous",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                AnimatedContainer(
-                                  curve: Curves.ease,
-                                  width: size.width,
-                                  height: size.height / 10,
-                                  color: Colors.transparent,
-                                  alignment: index ==
-                                              currentWorkout.getNumExercises() -
-                                                  1 ||
-                                          index <= 0
-                                      ? Alignment.center
-                                      : Alignment(1.5, 0),
-                                  duration: Duration(milliseconds: 500),
-                                  padding: EdgeInsets.only(
-                                      left: size.width / 5,
-                                      right: size.width / 5),
-                                  child: Visibility(
-                                    //maintainInteractivity: false,
-                                    visible: !nextOnTop &&
-                                        (lateIndex <
-                                                currentWorkout
-                                                        .getNumExercises() -
-                                                    1 ||
-                                            index <
-                                                currentWorkout
-                                                        .getNumExercises() -
-                                                    1),
-                                    child: MaterialButton(
-                                      key: nextKey,
-                                      disabledColor: foregroundGrey,
-                                      color: foregroundGrey,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                      height: size.height / 20,
-                                      minWidth: size.width / 3,
-                                      onPressed: null,
-                                      child: Text(
-                                        style: TextStyle(
-                                            fontSize: 26, color: accentColor),
-                                        "Next",
-                                        textAlign: TextAlign.center,
-                                      ),
+                                Container(
+                                  height: size.height / 5,
+                                  child: Scrollbar(
+                                    //thumbVisibility: true,
+                                    child: ListView(
+                                      //physics: BouncingScrollPhysics(),
+                                      children: returnRows,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                        // ),
-                      ],
+                          SizedBox(height: size.height / 75),
+
+                          GestureDetector(
+                            onTapDown: (details) {
+                              var position = details.globalPosition;
+                              if (nextKey.currentContext != null) {
+                                var box = nextKey.currentContext
+                                    ?.findRenderObject() as RenderBox;
+                                var position2 = box.localToGlobal(Offset.zero);
+                                var x1 = position.dx;
+                                var y1 = position.dy;
+                                var x2 = position2.dx + size.width / 6;
+                                var y2 = position2.dy + size.height / 40;
+                                if (sqrt(
+                                        pow(x2 - x1, 2) + 8 * pow(y2 - y1, 2)) <
+                                    75) {
+                                  setState(() {
+                                    if (index <
+                                        currentWorkout.getNumExercises() - 1) {
+                                      index++;
+                                      updateLateIndex(true);
+                                      selectedExercise =
+                                          currentWorkout.exercises[index];
+                                      getRows();
+                                      updateProgress();
+                                    }
+                                  });
+                                }
+                              }
+                              if (previousKey.currentContext != null) {
+                                var box = previousKey.currentContext
+                                    ?.findRenderObject() as RenderBox;
+                                var position2 = box.localToGlobal(Offset.zero);
+                                var x1 = position.dx;
+                                var y1 = position.dy;
+                                var x2 = position2.dx + size.width / 6;
+                                var y2 = position2.dy + size.height / 40;
+                                if (sqrt(
+                                        pow(x2 - x1, 2) + 8 * pow(y2 - y1, 2)) <
+                                    75) {
+                                  setState(() {
+                                    if (index > 0) {
+                                      index--;
+                                      updateLateIndex(false);
+                                      selectedExercise =
+                                          currentWorkout.exercises[index];
+                                      getRows();
+                                      updateProgress();
+                                    }
+                                  });
+                                }
+                              }
+                            },
+                            child: SizedBox(
+                              width: size.width,
+                              height: size.height / 10,
+                              child: Stack(
+                                children: <Widget>[
+                                  AnimatedContainer(
+                                    curve: Curves.ease,
+                                    width: size.width,
+                                    height: size.height / 10,
+                                    color: Colors.transparent,
+                                    alignment: index ==
+                                                currentWorkout
+                                                        .getNumExercises() -
+                                                    1 ||
+                                            index <= 0
+                                        ? Alignment.center
+                                        : Alignment(1.5, 0),
+                                    duration: Duration(milliseconds: 500),
+                                    padding: EdgeInsets.only(
+                                        left: size.width / 5,
+                                        right: size.width / 5),
+                                    child: Visibility(
+                                      //maintainInteractivity: false,
+                                      visible: nextOnTop &&
+                                          (lateIndex <
+                                                  currentWorkout
+                                                          .getNumExercises() -
+                                                      1 ||
+                                              index <
+                                                  currentWorkout
+                                                          .getNumExercises() -
+                                                      1),
+                                      child: MaterialButton(
+                                        key: nextKey,
+                                        disabledColor: foregroundGrey,
+                                        color: foregroundGrey,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30.0),
+                                        ),
+                                        height: size.height / 20,
+                                        minWidth: size.width / 3,
+                                        onPressed: null,
+                                        child: Text(
+                                          style: TextStyle(
+                                              fontSize: 26, color: accentColor),
+                                          "Next",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  AnimatedContainer(
+                                    curve: Curves.ease,
+                                    width: size.width,
+                                    height: size.height / 10,
+                                    color: Colors.transparent,
+                                    alignment: index ==
+                                                currentWorkout
+                                                        .getNumExercises() -
+                                                    1 ||
+                                            index <= 0
+                                        ? Alignment.center
+                                        : Alignment(-1.5, 0),
+                                    duration: Duration(milliseconds: 500),
+                                    padding: EdgeInsets.only(
+                                        left: size.width / 5,
+                                        right: size.width / 5),
+                                    child: Visibility(
+                                      //maintainInteractivity: false,
+                                      visible: lateIndex > 0 || index > 0,
+                                      child: MaterialButton(
+                                        key: previousKey,
+                                        disabledColor: foregroundGrey,
+                                        color: foregroundGrey,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30.0),
+                                        ),
+                                        height: size.height / 20,
+                                        minWidth: size.width / 3,
+                                        onPressed: null,
+                                        child: Text(
+                                          style: TextStyle(
+                                              fontSize: 26, color: accentColor),
+                                          "Previous",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  AnimatedContainer(
+                                    curve: Curves.ease,
+                                    width: size.width,
+                                    height: size.height / 10,
+                                    color: Colors.transparent,
+                                    alignment: index ==
+                                                currentWorkout
+                                                        .getNumExercises() -
+                                                    1 ||
+                                            index <= 0
+                                        ? Alignment.center
+                                        : Alignment(1.5, 0),
+                                    duration: Duration(milliseconds: 500),
+                                    padding: EdgeInsets.only(
+                                        left: size.width / 5,
+                                        right: size.width / 5),
+                                    child: Visibility(
+                                      //maintainInteractivity: false,
+                                      visible: !nextOnTop &&
+                                          (lateIndex <
+                                                  currentWorkout
+                                                          .getNumExercises() -
+                                                      1 ||
+                                              index <
+                                                  currentWorkout
+                                                          .getNumExercises() -
+                                                      1),
+                                      child: MaterialButton(
+                                        key: nextKey,
+                                        disabledColor: foregroundGrey,
+                                        color: foregroundGrey,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30.0),
+                                        ),
+                                        height: size.height / 20,
+                                        minWidth: size.width / 3,
+                                        onPressed: null,
+                                        child: Text(
+                                          style: TextStyle(
+                                              fontSize: 26, color: accentColor),
+                                          "Next",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          // ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

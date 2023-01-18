@@ -218,7 +218,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                         )),
                                     onPressed: () {
                                       deleteConfirmPopup(
-                                        'Are you sure you want to delete this exercise?',
+                                        'Are you sure you want to delete this workout?',
                                         context,
                                         () {
                                           removeWorkout(context).then((value) {
