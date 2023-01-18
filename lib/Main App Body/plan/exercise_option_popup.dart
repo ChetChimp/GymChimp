@@ -83,7 +83,8 @@ void modifyExercise({
                     children: [
                       TextField(
                         controller: exerciseNameField,
-                        style: TextStyle(color: textColor),
+                        style: TextStyle(
+                            color: textColor, fontSize: size.height / 50),
                         onChanged: (value) {
                           setModalState(() {
                             filterSearchResults(value, setState);
@@ -136,38 +137,47 @@ void modifyExercise({
                         child: ListView.builder(
                           itemCount: exerciseTempList.length,
                           itemBuilder: (context, index) {
+                            bool selected = false;
                             return Container(
                               decoration: BoxDecoration(
                                 border: Border(
-                                    bottom: BorderSide(
-                                        color: accentColor, width: 2)),
+                                  bottom:
+                                      BorderSide(color: accentColor, width: 2),
+                                ),
                               ),
-                              child: ListTile(
-                                title: Text(
-                                  exerciseTempList[index],
-                                  style: TextStyle(color: textColor),
-                                ),
-                                // ignore: prefer_interpolation_to_compose_strings
-                                subtitle: Text(
-                                  difficultyTempList[index] +
-                                      "   |   "
-                                          '${muscleTempList[index]}',
-                                  style: TextStyle(color: textColor),
-                                ),
-                                onTap: () {
-                                  setModalState(
-                                    () {
-                                      choosingExercise = false;
-                                      newName = exerciseNameField.text =
-                                          exerciseTempList[index];
-                                      setState(() {});
-                                    },
-                                  );
-                                },
-                                trailing: IconButton(
-                                  color: textColor,
-                                  icon: const Icon(Icons.info_outline),
-                                  onPressed: () {},
+                              child: Material(
+                                color: Colors.transparent,
+                                child: ListTile(
+                                  selectedTileColor: Colors.blue,
+                                  selectedColor: Colors.blue,
+                                  tileColor: Colors.transparent,
+                                  selected: selected,
+                                  title: Text(
+                                    exerciseTempList[index],
+                                    style: TextStyle(color: textColor),
+                                  ),
+                                  // ignore: prefer_interpolation_to_compose_strings
+                                  subtitle: Text(
+                                    difficultyTempList[index] +
+                                        "   |   "
+                                            '${muscleTempList[index]}',
+                                    style: TextStyle(color: textColor),
+                                  ),
+                                  onTap: () {
+                                    setModalState(
+                                      () {
+                                        choosingExercise = false;
+                                        newName = exerciseNameField.text =
+                                            exerciseTempList[index];
+                                        setState(() {});
+                                      },
+                                    );
+                                  },
+                                  trailing: IconButton(
+                                    color: textColor,
+                                    icon: const Icon(Icons.info_outline),
+                                    onPressed: () {},
+                                  ),
                                 ),
                               ),
                             );

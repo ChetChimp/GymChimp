@@ -107,6 +107,7 @@ class _MyAppBarState extends State<MyAppBar>
   Widget build(BuildContext context) {
     super.build(context);
     return AppBar(
+      automaticallyImplyLeading: false,
       elevation: 0,
       backgroundColor: Colors.transparent,
       actions: <Widget>[

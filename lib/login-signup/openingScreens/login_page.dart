@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gymchimp/Sign%20up/sign_up_page.dart';
+import 'package:gymchimp/Main%20App%20Body/loading_page.dart';
 import 'package:gymchimp/main.dart';
 import 'package:gymchimp/Main%20App%20Body/start_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -63,7 +63,10 @@ class _LoginPage extends State<LoginPage> {
         email: email,
         password: password,
       );
-      changePage(ctx, StartPage());
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoadingPage()),
+      );
     } catch (err) {
       //if there is an error with the user's input, return the error String to the user as a popup
       //pop up duration lasts for 2 seconds
