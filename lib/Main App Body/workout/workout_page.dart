@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/Main%20App%20Body/home_page.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/countdown.dart';
+import 'package:gymchimp/Main%20App%20Body/workout/main_carousel.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/next_previous_done_button.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/stopwatch.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workoutSummaryPopup.dart';
@@ -93,54 +94,8 @@ class _WorkoutPage extends State<WorkoutPage>
     dropdownListUpdate();
   }
 
-  int activepage = 0;
   double progress = 0;
   CarouselController carouselController = CarouselController();
-
-  List<Widget> indicators(currentIndex) {
-    return List<Widget>.generate(2, (index) {
-      if (index == 0) {
-        return Container(
-          // margin: EdgeInsets.only(left: 5, right: 5),
-          child: IconButton(
-            splashRadius: 1,
-            onPressed: () {
-              carouselController.animateToPage(0);
-              setState(() {
-                indicators(0);
-              });
-            },
-            icon: Icon(
-              Icons.schedule,
-              color: currentIndex == index ? Colors.white : Colors.grey,
-            ),
-          ),
-        );
-      } else if (index == 1) {
-        return Container(
-          // margin: EdgeInsets.only(left: 5, right: 5),
-          child: IconButton(
-            splashRadius: 1,
-            onPressed: () {
-              carouselController.animateToPage(1);
-              setState(() {
-                indicators(1);
-              });
-            },
-            icon: Icon(
-              Icons.timer,
-              color: currentIndex == index ? Colors.white : Colors.grey,
-            ),
-          ),
-        );
-      } else {
-        return Icon(
-          Icons.schedule,
-          color: currentIndex == index ? Colors.white : Colors.grey,
-        );
-      }
-    });
-  }
 
   void updateProgress() {
     setState(() {
@@ -214,6 +169,7 @@ class _WorkoutPage extends State<WorkoutPage>
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     GlobalKey nextKey = GlobalKey();
     GlobalKey previousKey = GlobalKey();
@@ -250,74 +206,10 @@ class _WorkoutPage extends State<WorkoutPage>
                   Column(
                     children: [
                       //stack for carousel + hints
-                      Stack(
-                        children: [
-                          Container(
-                            height: size.height / 3.5,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(0, 255, 255, 255),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: CarouselSlider(
-                                carouselController: carouselController,
-                                items: [
-                                  Container(
-                                      decoration: BoxDecoration(
-                                        color: foregroundGrey,
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                        // boxShadow: shadow
-                                      ),
-                                      margin:
-                                          EdgeInsets.only(left: 10, right: 10),
-                                      child: countdown()),
-                                  Container(
-                                      margin:
-                                          EdgeInsets.only(left: 10, right: 10),
-                                      decoration: BoxDecoration(
-                                        color: foregroundGrey,
-                                        // gradient: LinearGradient(
-                                        //     colors: primaryGradient),
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      ),
-                                      child: StopWatch()),
-                                ],
-                                options: CarouselOptions(
-                                  height: size.height / 4,
-                                  enableInfiniteScroll: false,
-                                  onPageChanged: ((index, reason) {
-                                    setState(() {
-                                      activepage = index;
-                                    });
-                                  }),
-                                  viewportFraction: .92,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: size.width / 2 - (size.width / 8),
-                            top: size.height / 4.55,
-                            child: Container(
-                              padding: EdgeInsets.all(5),
-                              width: size.width / 4,
-                              decoration: const BoxDecoration(
-                                // color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(8),
-                                    topRight: Radius.circular(8),
-                                    bottomLeft: Radius.circular(8),
-                                    bottomRight: Radius.circular(8)),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: indicators(activepage),
-                              ),
-                            ),
-                          ),
-                        ],
+                      MainCarousel(
+                        size: size,
+                        carouselController: carouselController,
+                        setState: setState,
                       ),
                       //Progress bar
                       Container(
@@ -461,7 +353,7 @@ class _WorkoutPage extends State<WorkoutPage>
                           if (index > 0 &&
                               nextHasNotBeenClicked &&
                               previousKey.currentContext != null) {
-                            pressButton(nextKey, "Previous");
+                            pressButton(previousKey, "Previous");
                           }
                           if (index == currentWorkout.getNumExercises() - 1 &&
                               nextHasNotBeenClicked &&
