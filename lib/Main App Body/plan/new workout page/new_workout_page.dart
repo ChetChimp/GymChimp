@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,19 +7,14 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/plan/new%20workout%20page/exercise_container.dart';
 import 'package:gymchimp/Firebase/custom_firebase_functions.dart';
 import 'package:gymchimp/Main%20App%20Body/plan/new%20workout%20page/setChooser.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/main.dart';
-import 'package:numberpicker/numberpicker.dart';
 import '../../../customReusableWidgets/DeleteConfirmPopup.dart';
 import '../../app_bar.dart';
 import '../../../objects/workout.dart';
-import 'package:reorderables/reorderables.dart';
-import 'package:searchable_listview/searchable_listview.dart';
-import 'package:gymchimp/objects/user.dart';
 
 class NewWorkoutPage extends StatefulWidget {
   final String workoutName;
@@ -615,7 +609,6 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               Navigator.pop(context);
                               if (changeIndex == -1) {
                                 newWorkout.addExercise(newName, reps);
-                                exerciseLength = newWorkout.getNumExercises();
                                 pushExerciseToWorkoutFirebase(changeIndex == -1
                                     ? newWorkout.getNumExercises() - 1
                                     : changeIndex + 1);
@@ -648,9 +641,3 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     );
   }
 }
-
-// Widget NewWorkoutDeleteButton(BuildContext context, Function onPressed) {
-//   return
-// }
-
-int exerciseLength = 0;
