@@ -31,14 +31,15 @@ Function dropdownUpdate = () {};
 
 Workout currentWorkout = Workout("Select Workout");
 String selectedExercise = "";
-List<TextEditingController> controllers = [];
 int index = 0;
 double multiplier = 0;
 bool checkVal = false;
 ScrollController scrollController = ScrollController();
-Radius radius = Radius.circular(20);
+Radius radius = const Radius.circular(20);
 bool unit = true;
 List<Exercise> exerciseList = [];
+double progress = 0;
+List<List<TextEditingController>> workoutTextControllers = [];
 
 TextStyle fontstyle(double size) {
   return TextStyle(
@@ -72,6 +73,13 @@ class _WorkoutPage extends State<WorkoutPage>
   }
 
   void setWorkout(Workout w) {
+    //reset workoutTextControllers
+    for (int i = 0; i < w.getLength(); i++) {
+      workoutTextControllers.add(<TextEditingController>[]);
+      for (int j = 0; j < w.getRepsForExercise(i).length; j++) {
+        workoutTextControllers[i].add(TextEditingController());
+      }
+    }
     setState(() {
       currentWorkout = w;
       index = 0;
@@ -94,9 +102,6 @@ class _WorkoutPage extends State<WorkoutPage>
     dropdownListUpdate();
   }
 
-  double progress = 0;
-  CarouselController carouselController = CarouselController();
-
   void updateProgress() {
     setState(() {
       multiplier = currentWorkout.exercises.isEmpty
@@ -109,24 +114,24 @@ class _WorkoutPage extends State<WorkoutPage>
   List<Widget> returnRows = [];
   void getRows() {
     returnRows = [];
-    controllers = [];
+    //controllers = [];
     if (selectedExercise == "") {
       return;
     }
     int exerciseIndex = index;
 
     for (int i = 0; i < currentWorkout.reps[exerciseIndex].length; i++) {
-      TextEditingController? newController = TextEditingController(text: "");
-      controllers.add(newController);
+      //TextEditingController? newController = TextEditingController(text: "");
+      //controllers.add(newController);
       returnRows.add(
         Container(
-          margin: EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 5),
+          margin: const EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 5),
           decoration: BoxDecoration(
             border: Border(bottom: BorderSide(color: accentColor, width: 2)),
           ),
           child: Row(
             children: [
-              Text(
+              const Text(
                 "Reps:  ",
                 style: TextStyle(fontSize: 24, color: Colors.white),
               ),
@@ -134,18 +139,18 @@ class _WorkoutPage extends State<WorkoutPage>
                 currentWorkout.reps[exerciseIndex][i].toString(),
                 style: TextStyle(fontSize: 24, color: accentColor),
               ),
-              Spacer(
+              const Spacer(
                 flex: 2,
               ),
               Container(
                 decoration: BoxDecoration(
                   color: backgroundGrey,
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
                 ),
                 width: 40,
                 //padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                    controller: controllers[i],
+                    controller: workoutTextControllers[index][i],
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -159,9 +164,9 @@ class _WorkoutPage extends State<WorkoutPage>
               ),
               Text(
                 unit ? " Lbs" : " Kgs",
-                style: TextStyle(fontSize: 24, color: Colors.white),
+                style: const TextStyle(fontSize: 24, color: Colors.white),
               ),
-              Spacer(),
+              const Spacer(),
             ],
           ),
         ),
@@ -187,7 +192,7 @@ class _WorkoutPage extends State<WorkoutPage>
           body: RefreshIndicator(
             displacement: 0,
             onRefresh: (() {
-              return Future.delayed(Duration(milliseconds: 1), (() {
+              return Future.delayed(const Duration(milliseconds: 1), (() {
                 setState(() {
                   fillExerciseList(currentWorkout);
                   getRows();
@@ -208,12 +213,12 @@ class _WorkoutPage extends State<WorkoutPage>
                       //stack for carousel + hints
                       MainCarousel(
                         size: size,
-                        carouselController: carouselController,
+                        carouselController: CarouselController(),
                         setState: setState,
                       ),
                       //Progress bar
                       Container(
-                        margin: EdgeInsets.only(
+                        margin: const EdgeInsets.only(
                             top: 5, bottom: 5, left: 17, right: 17),
                         child: GradientProgressIndicator(
                           gradient: LinearGradient(
@@ -234,35 +239,36 @@ class _WorkoutPage extends State<WorkoutPage>
                             AnimatedContainer(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20),
+                                    topLeft: const Radius.circular(20),
+                                    topRight: const Radius.circular(20),
                                     bottomLeft: radius,
                                     bottomRight: radius),
                                 color: accentColor,
                               ),
-                              duration: Duration(milliseconds: 200),
+                              duration: const Duration(milliseconds: 200),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton2<Exercise>(
                                   onMenuStateChange: (isOpen) {
                                     if (isOpen) {
                                       setState(() {
-                                        radius = Radius.circular(0);
+                                        radius = const Radius.circular(0);
                                       });
                                     } else {
                                       setState(() {
-                                        radius = Radius.circular(20);
+                                        radius = const Radius.circular(20);
                                       });
                                     }
                                   },
                                   buttonHeight: size.height / 14,
                                   scrollbarAlwaysShow: true,
-                                  scrollbarRadius: Radius.circular(5),
+                                  scrollbarRadius: const Radius.circular(5),
                                   scrollbarThickness: 5,
                                   iconSize: 50,
                                   dropdownMaxHeight: size.height / 3,
                                   iconEnabledColor: foregroundGrey,
                                   isExpanded: true,
-                                  barrierColor: Color.fromARGB(45, 0, 0, 0),
+                                  barrierColor:
+                                      const Color.fromARGB(45, 0, 0, 0),
                                   hint: Text(selectedExercise,
                                       style: TextStyle(
                                           color: foregroundGrey,
@@ -346,7 +352,7 @@ class _WorkoutPage extends State<WorkoutPage>
                             }
                           }
 
-                          if (index < currentWorkout.getNumExercises() - 1 &&
+                          if (index < currentWorkout.getLength() - 1 &&
                               nextKey.currentContext != null) {
                             pressButton(nextKey, "Next");
                           }
@@ -355,10 +361,10 @@ class _WorkoutPage extends State<WorkoutPage>
                               previousKey.currentContext != null) {
                             pressButton(previousKey, "Previous");
                           }
-                          if (index == currentWorkout.getNumExercises() - 1 &&
+                          if (index == currentWorkout.getLength() - 1 &&
                               nextHasNotBeenClicked &&
                               doneKey.currentContext != null) {
-                            pressButton(doneKey, "Previous");
+                            pressButton(doneKey, "Done");
                           }
                         },
                         child: SizedBox(

@@ -3,6 +3,7 @@ import 'dart:collection';
 class Workout {
   var name;
   var index;
+
   List<String> exercises = <String>[];
   List<List<int>> reps = <List<int>>[];
 
@@ -11,6 +12,10 @@ class Workout {
   void addExercise(String name, List<int> reps) {
     exercises.add(name);
     this.reps.add(reps);
+  }
+
+  int getLength() {
+    return exercises.length;
   }
 
   void setReps(int index, List<int> reps) {
@@ -28,10 +33,6 @@ class Workout {
 
   String getName() {
     return name;
-  }
-
-  int getNumExercises() {
-    return exercises.length;
   }
 
   List<String> getExercisesList() {
@@ -69,5 +70,9 @@ class Workout {
 
   void setIndex(int input) {
     index = input;
+  }
+
+  int getIndex() {
+    return index;
   }
 }

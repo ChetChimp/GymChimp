@@ -5,109 +5,30 @@ import 'package:gymchimp/customReusableWidgets/DeleteConfirmPopup.dart';
 import 'package:gymchimp/main.dart';
 import '../Main App Body/plan/new workout page/new_workout_page.dart';
 
-//Used for removing the shadow when re-ordering exercises
-Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
-  return AnimatedBuilder(
-    animation: animation,
-    builder: (BuildContext context, Widget? child) {
-      return Material(
-        color: Colors.transparent,
-        child: child,
-      );
-    },
-    child: child,
-  );
-}
-
-void filterSearchResults(String query, Function setState) {
-  if (query.isNotEmpty) {
-    List<String> dummyListData = [];
-    List<String> dummyMuscleListData = [];
-    List<String> dummyDifficultyList = [];
-
-    searchList.forEach((element) {
-      int ind = searchList.indexOf(element);
-      if (element.toLowerCase().contains(query.toLowerCase()) ||
-          muscleList[ind].toLowerCase().contains(query.toLowerCase())) {
-        dummyListData.add(element);
-        dummyMuscleListData.add(muscleList[ind]);
-        dummyDifficultyList.add(difficultyList[ind]);
-
-        setState(() {
-          exerciseTempList.clear();
-          muscleTempList.clear();
-          difficultyTempList.clear();
-
-          exerciseTempList.addAll(dummyListData);
-          muscleTempList.addAll(dummyMuscleListData);
-          difficultyTempList.addAll(dummyDifficultyList);
-        });
-        return;
-      }
-    });
-  } else {
-    setState(() {
-      exerciseTempList.clear();
-      muscleTempList.clear();
-      difficultyTempList.clear();
-
-      exerciseTempList.addAll(searchList);
-      muscleTempList.addAll(muscleList);
-      difficultyTempList.addAll(difficultyList);
-    });
-  }
-}
-
-void firebaseRemoveExercise(
-    int deleteIndex, bool removeAll, Function setState) async {
+Future<void> updateWorkoutIDFromFirebase() async {
+  String id = "";
   QuerySnapshot querySnapshot = await firestore
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('workouts')
-      .doc(workoutIDFirebase)
-      .collection('exercises')
       .get();
-
+  var doc;
+  bool found = false;
   List list = querySnapshot.docs;
-  list.forEach((element) async {
-    await firestore
+  for (var element in list) {
+    doc = await firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('workouts')
-        .doc(workoutIDFirebase)
-        .collection('exercises')
-        .doc(element.id)
-        .get()
-        .then((value) {
-      if (value.get('index') == deleteIndex) {
-        firestore
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('workouts')
-            .doc(workoutIDFirebase)
-            .collection('exercises')
-            .doc(element.id)
-            .delete();
-        WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
-              // if (removeAll) {
-              //   newWorkout.removeExercise(0);
-              // } else {
-              //   newWorkout.removeExercise(deleteIndex);
-              // }
-              // if (newWorkout.exercises.isNotEmpty) {
-              //   updateWorkoutFirebase();
-              // }
-
-              print(newWorkout.getNumExercises());
-              print(newWorkout.getExercisesList().toString());
-            }));
+        .doc(element.id);
+    doc.get().then((value) async {
+      if (value.get('name') == newWorkout.getName()) {
         //setState(() {
-        //newWorkout.removeExercise(0);
-        //});
-        return;
+        workoutIDFirebase = element.id;
+        // });
       }
     });
-  });
+  }
 }
 
 void updateWorkoutFirebase() async {
@@ -152,7 +73,42 @@ void updateWorkoutFirebase() async {
   }
 }
 
-void pushExerciseToWorkoutFirebase(int indx) async {
+void removeExerciseFromWorkoutFirebase(int deleteIndex) async {
+  QuerySnapshot querySnapshot = await firestore
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('workouts')
+      .doc(workoutIDFirebase)
+      .collection('exercises')
+      .get();
+
+  List list = querySnapshot.docs;
+  list.forEach((element) async {
+    await firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .doc(workoutIDFirebase)
+        .collection('exercises')
+        .doc(element.id)
+        .get()
+        .then((value) {
+      if (value.get('index') == deleteIndex) {
+        firestore
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('workouts')
+            .doc(workoutIDFirebase)
+            .collection('exercises')
+            .doc(element.id)
+            .delete();
+        return;
+      }
+    });
+  });
+}
+
+Future<void> pushExerciseToWorkoutFirebase(int indx) async {
   QuerySnapshot querySnapshot2 = await firestore
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -186,28 +142,48 @@ void pushExerciseToWorkoutFirebase(int indx) async {
   });
 }
 
-void getWorkoutID(Function setState) async {
-  String id = "";
+Future<void> removeWorkoutFromFirebase(
+    BuildContext ctx, Function widgetCallback) async {
+  int i = 0;
+  while (i < newWorkout.exercises.length) {
+    removeExerciseFromWorkoutFirebase(i);
+    i++;
+  }
+
+  await firestore.runTransaction((Transaction myTransaction) async {
+    myTransaction.delete(firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .doc(workoutIDFirebase));
+  });
+  widgetCallback();
+}
+
+Future<void> addWorkoutToFirebase(BuildContext ctx, String workoutName) async {
   QuerySnapshot querySnapshot = await firestore
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('workouts')
       .get();
-  var doc;
-  bool found = false;
+
   List list = querySnapshot.docs;
-  for (var element in list) {
-    doc = await firestore
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('workouts')
-        .doc(element.id);
-    doc.get().then((value) async {
-      if (value.get('name') == newWorkout.getName()) {
-        setState(() {
-          workoutIDFirebase = element.id;
-        });
-      }
-    });
+  List list2 = [];
+  list.forEach((element) {
+    list2.add(element.id);
+  });
+
+  int i = 0;
+  while (list2.contains("Untitled Workout [" + i.toString() + "]")) {
+    i++;
   }
+
+  workoutName = "Untitled Workout [" + i.toString() + "]";
+
+  await firestore
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('workouts')
+      .doc(workoutName)
+      .set({'name': workoutName});
 }

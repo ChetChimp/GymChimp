@@ -39,7 +39,7 @@ class NextPreviousDoneButton extends StatelessWidget {
     if (buttonText == "Next") {
       alignment = index == 0
           ? Alignment(0, 0)
-          : (index == currentWorkout.getNumExercises() - 1
+          : (index == currentWorkout.getLength() - 1
               ? Alignment(-1.5, 0)
               : Alignment(1.5, 0));
     } else if (buttonText == "Previous") {

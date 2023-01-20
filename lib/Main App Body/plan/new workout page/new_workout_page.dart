@@ -32,77 +32,31 @@ class NewWorkoutPage extends StatefulWidget {
   State<NewWorkoutPage> createState() => _NewWorkoutPage(index: this.index);
 }
 
-var workoutIndex;
-Workout newWorkout = Workout("");
-//Function modExercise = () {};
-List<String> exerciseTempList = [];
-List<String> difficultyTempList = [];
-List<String> muscleTempList = [];
-
-List<String> searchList = [];
-List<String> difficultyList = [];
-List<String> muscleList = [];
+var workoutIndex; //Do we need this? Cant we just use currentworkout.getindex everywhere?
 String workoutIDFirebase = "";
+
+Workout newWorkout = Workout("");
 
 class _NewWorkoutPage extends State<NewWorkoutPage> {
   int index;
   _NewWorkoutPage({required this.index});
   List<Map<String, String>> data = [];
 
+  List<String> exerciseTempList = [];
+  List<String> difficultyTempList = [];
+  List<String> muscleTempList = [];
+
+  List<String> searchList = [];
+  List<String> difficultyList = [];
+  List<String> muscleList = [];
+
   @override
   void initState() {
     workoutIndex = index;
     newWorkout = currentUser.userWorkouts[index];
-    getWorkoutID(setState);
+    updateWorkoutIDFromFirebase();
     readJson();
     super.initState();
-  }
-
-  Future<void> removeWorkout(
-    BuildContext ctx,
-  ) async {
-    print("Test");
-
-    int i = 0;
-    while (i < newWorkout.exercises.length) {
-      firebaseRemoveExercise(i, true, setState);
-      i++;
-    }
-
-    await firestore.runTransaction((Transaction myTransaction) async {
-      myTransaction.delete(firestore
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('workouts')
-          .doc(workoutIDFirebase));
-    });
-    widget.callback(widget.index);
-  }
-
-  void getWorkoutID(setState) async {
-    String id = "";
-    QuerySnapshot querySnapshot = await firestore
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('workouts')
-        .get();
-    var doc;
-    bool found = false;
-    List list = querySnapshot.docs;
-    for (var element in list) {
-      doc = await firestore
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('workouts')
-          .doc(element.id);
-      doc.get().then((value) async {
-        if (value.get('name') == newWorkout.getName()) {
-          setState(() {
-            workoutIDFirebase = element.id;
-          });
-        }
-      });
-    }
   }
 
   Future<void> readJson() async {
@@ -128,6 +82,45 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     );
   }
 
+  void filterSearchResults(String query) {
+    if (query.isNotEmpty) {
+      List<String> dummyListData = [];
+      List<String> dummyMuscleListData = [];
+      List<String> dummyDifficultyList = [];
+
+      searchList.forEach((element) {
+        int ind = searchList.indexOf(element);
+        if (element.toLowerCase().contains(query.toLowerCase()) ||
+            muscleList[ind].toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(element);
+          dummyMuscleListData.add(muscleList[ind]);
+          dummyDifficultyList.add(difficultyList[ind]);
+
+          setState(() {
+            exerciseTempList.clear();
+            muscleTempList.clear();
+            difficultyTempList.clear();
+
+            exerciseTempList.addAll(dummyListData);
+            muscleTempList.addAll(dummyMuscleListData);
+            difficultyTempList.addAll(dummyDifficultyList);
+          });
+          return;
+        }
+      });
+    } else {
+      setState(() {
+        exerciseTempList.clear();
+        muscleTempList.clear();
+        difficultyTempList.clear();
+
+        exerciseTempList.addAll(searchList);
+        muscleTempList.addAll(muscleList);
+        difficultyTempList.addAll(difficultyList);
+      });
+    }
+  }
+
   Widget build(BuildContext ctx) {
     Size size = MediaQuery.of(context).size;
     return Navigator(onGenerateRoute: (settings) {
@@ -147,7 +140,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               if (oldIndex < newIndex) {
                                 newIndex -= 1;
                               }
-                              if (newIndex >= newWorkout.getNumExercises()) {
+                              if (newIndex >= newWorkout.getLength()) {
                                 newIndex -= 1;
                               }
                               newWorkout.moveExercise(oldIndex, newIndex);
@@ -161,7 +154,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                             return ExerciseContainer(
                                 Key('$index'), ctx, index, modifyExercise);
                           },
-                          itemCount: newWorkout.getNumExercises(),
+                          itemCount: newWorkout.getLength(),
                           // children: <Widget>[
                           // for (int index = 0;
                           //     index <
@@ -215,7 +208,10 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                         'Are you sure you want to delete this workout?',
                                         context,
                                         () {
-                                          removeWorkout(context).then((value) {
+                                          removeWorkoutFromFirebase(
+                                              context,
+                                              () => widget.callback(
+                                                  widget.index)).then((value) {
                                             Navigator.of(context).pop();
                                           });
                                         },
@@ -325,7 +321,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           style: TextStyle(color: textColor),
                           onChanged: (value) {
                             setModalState(() {
-                              filterSearchResults(value, setState);
+                              filterSearchResults(value);
                             });
                           },
                           onTap: () {
@@ -572,8 +568,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                 setState(() {
                                   newWorkout.removeExercise(changeIndex);
                                 });
-                                firebaseRemoveExercise(
-                                    changeIndex, false, setState);
+                                removeExerciseFromWorkoutFirebase(changeIndex);
                               }
 
                               Navigator.pop(ctx);
@@ -602,7 +597,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                             if (newName.isNotEmpty) {
                               setModalState(
                                 () {
-                                  filterSearchResults("", setState);
+                                  filterSearchResults("");
                                   exerciseNameField.text = "";
                                 },
                               );
@@ -610,7 +605,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               if (changeIndex == -1) {
                                 newWorkout.addExercise(newName, reps);
                                 pushExerciseToWorkoutFirebase(changeIndex == -1
-                                    ? newWorkout.getNumExercises() - 1
+                                    ? newWorkout.getLength() - 1
                                     : changeIndex + 1);
                               } else {
                                 newWorkout.renameExercise(changeIndex, newName);
@@ -640,4 +635,18 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
       },
     );
   }
+}
+
+//Used for removing the shadow when re-ordering exercises
+Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
+  return AnimatedBuilder(
+    animation: animation,
+    builder: (BuildContext context, Widget? child) {
+      return Material(
+        color: Colors.transparent,
+        child: child,
+      );
+    },
+    child: child,
+  );
 }

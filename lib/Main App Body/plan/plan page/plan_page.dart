@@ -68,34 +68,6 @@ class _PlanPage extends State<PlanPage> {
     });
   }
 
-  Future<void> pushWorkoutToDatabase(BuildContext ctx) async {
-    QuerySnapshot querySnapshot = await firestore
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('workouts')
-        .get();
-
-    List list = querySnapshot.docs;
-    List list2 = [];
-    list.forEach((element) {
-      list2.add(element.id);
-    });
-
-    int i = 0;
-    while (list2.contains("Untitled Workout [" + i.toString() + "]")) {
-      i++;
-    }
-
-    workoutName = "Untitled Workout [" + i.toString() + "]";
-
-    await firestore
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('workouts')
-        .doc(workoutName)
-        .set({'name': workoutName});
-  }
-
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Navigator(
@@ -160,7 +132,7 @@ class _PlanPage extends State<PlanPage> {
                     backgroundColor: foregroundGrey,
                     onPressed: () async {
                       print(currentUser.userExerciseList);
-                      await pushWorkoutToDatabase(context);
+                      await addWorkoutToFirebase(context, workoutName);
                       setState(() {
                         currentUser.addWorkout(Workout(workoutName));
                       });
