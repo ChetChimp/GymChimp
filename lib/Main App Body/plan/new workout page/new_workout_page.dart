@@ -87,7 +87,17 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
       List<String> dummyListData = [];
       List<String> dummyMuscleListData = [];
       List<String> dummyDifficultyList = [];
+      if (!searchList.contains(query) || !muscleList.contains(query)) {
+        setState(() {
+          exerciseTempList.clear();
+          muscleTempList.clear();
+          difficultyTempList.clear();
 
+          exerciseTempList.add("Search Not Found");
+          muscleTempList.add("");
+          difficultyTempList.add("");
+        });
+      }
       searchList.forEach((element) {
         int ind = searchList.indexOf(element);
         if (element.toLowerCase().contains(query.toLowerCase()) ||
@@ -369,7 +379,6 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                           child: ListView.builder(
                             itemCount: exerciseTempList.length,
                             itemBuilder: (context, index) {
-                              bool selected = false;
                               return Container(
                                 decoration: BoxDecoration(
                                   border: Border(
@@ -379,21 +388,24 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                 child: Material(
                                   color: Colors.transparent,
                                   child: ListTile(
+                                    enabled: exerciseTempList[index] !=
+                                        "Search Not Found",
                                     selectedTileColor: Colors.blue,
                                     selectedColor: Colors.blue,
                                     tileColor: Colors.transparent,
-                                    selected: selected,
                                     title: Text(
                                       exerciseTempList[index],
                                       style: TextStyle(color: textColor),
                                     ),
                                     // ignore: prefer_interpolation_to_compose_strings
-                                    subtitle: Text(
-                                      difficultyTempList[index] +
-                                          "   |   "
-                                              '${muscleTempList[index]}',
-                                      style: TextStyle(color: textColor),
-                                    ),
+                                    subtitle: exerciseTempList[index] !=
+                                            "Search Not Found"
+                                        ? Text(
+                                            difficultyTempList[index] +
+                                                "   |   "
+                                                    '${muscleTempList[index]}',
+                                            style: TextStyle(color: textColor))
+                                        : Text(""),
                                     onTap: () {
                                       setModalState(
                                         () {
@@ -404,11 +416,11 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                         },
                                       );
                                     },
-                                    trailing: IconButton(
-                                      color: textColor,
-                                      icon: const Icon(Icons.info_outline),
-                                      onPressed: () {},
-                                    ),
+                                    // trailing: IconButton(
+                                    //   color: textColor,
+                                    //   icon: const Icon(Icons.info_outline),
+                                    //   onPressed: () {},
+                                    // ),
                                   ),
                                 ),
                               );

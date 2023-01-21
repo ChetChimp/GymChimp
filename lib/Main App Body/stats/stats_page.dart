@@ -36,7 +36,12 @@ class _StatsPageState extends State<StatsPage> {
   void filterResults(String query) {
     if (query.isNotEmpty) {
       List<String> dummyListData = [];
-
+      if (!exerciseSearchList.contains(query)) {
+        setState(() {
+          exerciseTempL.clear();
+          exerciseTempL.add("Search Not Found");
+        });
+      }
       exerciseSearchList.forEach((element) {
         if (element.toLowerCase().contains(query.toLowerCase())) {
           dummyListData.add(element);
@@ -45,13 +50,11 @@ class _StatsPageState extends State<StatsPage> {
             exerciseTempL.clear();
             exerciseTempL.addAll(dummyListData);
           });
-          print(exerciseTempL);
           return;
         }
       });
     } else {
       setState(() {
-        print(exerciseTempL);
         exerciseTempL.clear();
         exerciseTempL = currentUser.userExerciseList.toList();
       });
@@ -111,7 +114,7 @@ class _StatsPageState extends State<StatsPage> {
                       duration: Duration(seconds: 1),
                       curve: Curves.ease,
                       //live list of execises
-                      height: size.height / 3.75,
+                      height: size.height / 1.75,
                       child: ListView.builder(
                         itemCount: exerciseTempL.length,
                         itemBuilder: (context, index) {
@@ -125,6 +128,8 @@ class _StatsPageState extends State<StatsPage> {
                                   ? backgroundGrey
                                   : foregroundGrey,
                               child: ListTile(
+                                enabled:
+                                    exerciseTempL[index] != "Search Not Found",
                                 title: Text(
                                   exerciseTempL[index],
                                   style: TextStyle(color: textColor),
