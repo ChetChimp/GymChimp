@@ -6,7 +6,7 @@ import 'package:gymchimp/Main%20App%20Body/plan/plan%20page/plan_page.dart';
 import 'package:gymchimp/main.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import 'nutrition/nutrition_page.dart';
+import 'plan/nutrition/nutrition_page.dart';
 import 'stats/stats_page.dart';
 import 'workout/workout_page.dart';
 import 'package:path/path.dart' as Path;
