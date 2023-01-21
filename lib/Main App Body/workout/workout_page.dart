@@ -30,7 +30,7 @@ Function unitState = () {};
 Function dropdownUpdate = () {};
 
 Workout currentWorkout = Workout("Select Workout");
-String selectedExercise = "";
+
 int index = 0;
 double multiplier = 0;
 bool checkVal = false;
@@ -39,7 +39,6 @@ Radius radius = const Radius.circular(20);
 bool unit = true;
 List<Exercise> exerciseList = [];
 double progress = 0;
-List<List<TextEditingController>> workoutTextControllers = [];
 
 TextStyle fontstyle(double size) {
   return TextStyle(
@@ -63,10 +62,12 @@ class _WorkoutPage extends State<WorkoutPage>
     super.initState();
   }
 
+  //String selectedExerciseName = "";
+
   void fillExerciseList(Workout w) {
-    for (int i = 0; i < w.exercises.length; i++) {
+    for (int i = 0; i < w.getLength(); i++) {
       setState(() {
-        exerciseList.add(Exercise(w.exercises[i], i));
+        exerciseList.add(w.getExercise(i));
         updateDropdown();
       });
     }
@@ -74,18 +75,16 @@ class _WorkoutPage extends State<WorkoutPage>
 
   void setWorkout(Workout w) {
     //reset workoutTextControllers
-    for (int i = 0; i < w.getLength(); i++) {
-      workoutTextControllers.add(<TextEditingController>[]);
-      for (int j = 0; j < w.getRepsForExercise(i).length; j++) {
-        workoutTextControllers[i].add(TextEditingController());
-      }
-    }
+    w.goLive();
+    currentWorkout.endLive;
+
     setState(() {
       currentWorkout = w;
       index = 0;
       exerciseList = [];
       fillExerciseList(w);
-      selectedExercise = exerciseList.isEmpty ? "" : exerciseList[0].getName();
+      // selectedExerciseName =
+      //     exerciseList.isEmpty ? "" : exerciseList[0].getName();
       getRows();
       updateProgress();
     });
@@ -104,9 +103,8 @@ class _WorkoutPage extends State<WorkoutPage>
 
   void updateProgress() {
     setState(() {
-      multiplier = currentWorkout.exercises.isEmpty
-          ? 0
-          : 1 / currentWorkout.exercises.length;
+      multiplier =
+          currentWorkout.getLength() == 0 ? 0 : 1 / currentWorkout.getLength();
       progress = multiplier * (index + 1);
     });
   }
@@ -115,12 +113,14 @@ class _WorkoutPage extends State<WorkoutPage>
   void getRows() {
     returnRows = [];
     //controllers = [];
-    if (selectedExercise == "") {
+    if (currentWorkout.getLength() == 0) {
       return;
     }
     int exerciseIndex = index;
 
-    for (int i = 0; i < currentWorkout.reps[exerciseIndex].length; i++) {
+    for (int i = 0;
+        i < currentWorkout.getRepsForExercise(exerciseIndex).length;
+        i++) {
       //TextEditingController? newController = TextEditingController(text: "");
       //controllers.add(newController);
       returnRows.add(
@@ -136,7 +136,7 @@ class _WorkoutPage extends State<WorkoutPage>
                 style: TextStyle(fontSize: 24, color: Colors.white),
               ),
               Text(
-                currentWorkout.reps[exerciseIndex][i].toString(),
+                currentWorkout.getRepsForExercise(exerciseIndex)[i].toString(),
                 style: TextStyle(fontSize: 24, color: accentColor),
               ),
               const Spacer(
@@ -150,7 +150,8 @@ class _WorkoutPage extends State<WorkoutPage>
                 width: 40,
                 //padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                    controller: workoutTextControllers[index][i],
+                    controller:
+                        currentWorkout.getExercise(index).getController(i),
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -269,7 +270,12 @@ class _WorkoutPage extends State<WorkoutPage>
                                   isExpanded: true,
                                   barrierColor:
                                       const Color.fromARGB(45, 0, 0, 0),
-                                  hint: Text(selectedExercise,
+                                  hint: Text(
+                                      currentWorkout.getLength() > 0
+                                          ? currentWorkout
+                                              .getExercise(index)
+                                              .getName()
+                                          : "",
                                       style: TextStyle(
                                           color: foregroundGrey,
                                           fontSize: 21,
@@ -292,7 +298,7 @@ class _WorkoutPage extends State<WorkoutPage>
                                     setState(
                                       () {
                                         index = value!.getIndex();
-                                        selectedExercise = value.getName();
+                                        // selectedExerciseName = value.getName();
                                         getRows();
                                         updateProgress();
                                       },
@@ -341,8 +347,8 @@ class _WorkoutPage extends State<WorkoutPage>
                                     nextHasNotBeenClicked = false;
                                   }
                                   index += (button == "Next" ? 1 : -1);
-                                  selectedExercise =
-                                      currentWorkout.exercises[index];
+                                  // selectedExerciseName =
+                                  //     currentWorkout.exercises[index].getName();
                                   getRows();
                                   updateProgress();
                                 });

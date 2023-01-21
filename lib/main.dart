@@ -5,6 +5,7 @@ import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gymchimp/Main%20App%20Body/loading_page.dart';
 import 'package:gymchimp/Main%20App%20Body/start_page.dart';
+import 'package:gymchimp/objects/exercise.dart';
 import 'package:gymchimp/objects/user.dart';
 import 'package:sqflite/sqflite.dart';
 import 'login-signup/openingScreens/first_time_login.dart';
@@ -157,8 +158,7 @@ void readWorkoutsFirebase() async {
         .get();
 
     List list2 = querySnapshot.docs;
-    workout.exercises = List<String>.filled(list2.length, "", growable: true);
-    workout.reps = List<List<int>>.filled(list2.length, [], growable: true);
+    workout.initializeLists(list2.length);
 
     for (dynamic element in list2) {
       String exerciseName = "";
@@ -180,8 +180,9 @@ void readWorkoutsFirebase() async {
             exerciseIndex = value.get('index');
           });
           currentUser.userExerciseList.add(exerciseName);
-          workout.exercises[exerciseIndex] = exerciseName;
-          workout.reps[exerciseIndex] = repetitions;
+          workout.setExerciseAtIndex(
+              exerciseIndex, Exercise(exerciseName, exerciseIndex));
+          workout.setRepsAtIndex(exerciseIndex, repetitions);
         },
       );
     }

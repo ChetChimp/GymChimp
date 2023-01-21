@@ -23,9 +23,7 @@ Future<void> updateWorkoutIDFromFirebase() async {
         .doc(element.id);
     doc.get().then((value) async {
       if (value.get('name') == newWorkout.getName()) {
-        //setState(() {
         workoutIDFirebase = element.id;
-        // });
       }
     });
   }
@@ -52,7 +50,7 @@ void updateWorkoutFirebase() async {
         .doc(element.id)
         .get()
         .then((value) async {
-      if (i < newWorkout.exercises.length) {
+      if (i < newWorkout.getLength()) {
         firestore
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -62,8 +60,8 @@ void updateWorkoutFirebase() async {
             .doc(element.id)
             .update({
           'index': i,
-          'name': newWorkout.exercises[i],
-          'reps': newWorkout.reps[i]
+          'name': newWorkout.getExercise(i).getName(),
+          'reps': newWorkout.getRepsForExercise(i),
         });
         i++;
       } else {
@@ -136,16 +134,16 @@ Future<void> pushExerciseToWorkoutFirebase(int indx) async {
       .collection('exercises')
       .doc(exerciseName)
       .set({
-    'name': newWorkout.getExercise(indx),
+    'name': newWorkout.getExercise(indx).getName(),
     'reps': newWorkout.getRepsForExercise(indx),
-    'index': newWorkout.exercises.length - 1
+    'index': newWorkout.getLength() - 1,
   });
 }
 
 Future<void> removeWorkoutFromFirebase(
     BuildContext ctx, Function widgetCallback) async {
   int i = 0;
-  while (i < newWorkout.exercises.length) {
+  while (i < newWorkout.getLength()) {
     removeExerciseFromWorkoutFirebase(i);
     i++;
   }

@@ -55,7 +55,7 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
                     width: size.width / 2,
                     child: Text(
                       style: const TextStyle(color: Colors.white, fontSize: 16),
-                      newWorkout.getExercise(widget.ind),
+                      newWorkout.getExercise(widget.ind).getName(),
                     )),
                 const Spacer(),
                 OutlinedButton(
@@ -127,7 +127,9 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
                           SizedBox(
                             width: size.width / 12,
                             child: Text(
-                              newWorkout.reps[widget.ind][i].toString(),
+                              newWorkout
+                                  .getRepsForExercise(widget.ind)[i]
+                                  .toString(),
                               style:
                                   TextStyle(fontSize: 20, color: accentColor),
                             ),

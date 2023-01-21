@@ -144,7 +144,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                 newIndex -= 1;
                               }
                               newWorkout.moveExercise(oldIndex, newIndex);
-                              if (newWorkout.exercises.isNotEmpty) {
+                              if (newWorkout.getLength() > 0) {
                                 updateWorkoutFirebase();
                               }
                             });
@@ -603,13 +603,13 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               );
                               Navigator.pop(context);
                               if (changeIndex == -1) {
-                                newWorkout.addExercise(newName, reps);
+                                newWorkout.addExerciseByName(newName, reps);
                                 pushExerciseToWorkoutFirebase(changeIndex == -1
                                     ? newWorkout.getLength() - 1
                                     : changeIndex + 1);
                               } else {
                                 newWorkout.renameExercise(changeIndex, newName);
-                                newWorkout.setReps(changeIndex, reps);
+                                newWorkout.setRepsAtIndex(changeIndex, reps);
                               }
                               currentUser.userExerciseList.add(newName);
                               updateWorkoutFirebase();
