@@ -75,8 +75,8 @@ class _WorkoutPage extends State<WorkoutPage>
 
   void setWorkout(Workout w) {
     //reset workoutTextControllers
+    currentWorkout.endLive();
     w.goLive();
-    currentWorkout.endLive;
 
     setState(() {
       currentWorkout = w;
@@ -119,7 +119,7 @@ class _WorkoutPage extends State<WorkoutPage>
     int exerciseIndex = index;
 
     for (int i = 0;
-        i < currentWorkout.getRepsForExercise(exerciseIndex).length;
+        i < currentWorkout.getExercise(exerciseIndex).getReps().length;
         i++) {
       //TextEditingController? newController = TextEditingController(text: "");
       //controllers.add(newController);
@@ -136,7 +136,10 @@ class _WorkoutPage extends State<WorkoutPage>
                 style: TextStyle(fontSize: 24, color: Colors.white),
               ),
               Text(
-                currentWorkout.getRepsForExercise(exerciseIndex)[i].toString(),
+                currentWorkout
+                    .getExercise(exerciseIndex)
+                    .getReps()[i]
+                    .toString(),
                 style: TextStyle(fontSize: 24, color: accentColor),
               ),
               const Spacer(
@@ -150,8 +153,9 @@ class _WorkoutPage extends State<WorkoutPage>
                 width: 40,
                 //padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                    controller:
-                        currentWorkout.getExercise(index).getController(i),
+                    controller: currentWorkout
+                        .getExercise(index)
+                        .getController(i), /////////////
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),

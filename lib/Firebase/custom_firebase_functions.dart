@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gymchimp/Main%20App%20Body/plan/plan%20page/plan_page.dart';
 import 'package:gymchimp/customReusableWidgets/DeleteConfirmPopup.dart';
 import 'package:gymchimp/main.dart';
+import 'package:gymchimp/objects/workout.dart';
 import '../Main App Body/plan/new workout page/new_workout_page.dart';
 
-Future<void> updateWorkoutIDFromFirebase() async {
+Future<void> updateWorkoutIDFromFirebase(Workout workout) async {
   String id = "";
   QuerySnapshot querySnapshot = await firestore
       .collection('users')
@@ -22,14 +24,14 @@ Future<void> updateWorkoutIDFromFirebase() async {
         .collection('workouts')
         .doc(element.id);
     doc.get().then((value) async {
-      if (value.get('name') == newWorkout.getName()) {
+      if (value.get('name') == workout.getName()) {
         workoutIDFirebase = element.id;
       }
     });
   }
 }
 
-void updateWorkoutFirebase() async {
+void updateWorkoutFirebase(Workout workout) async {
   QuerySnapshot querySnapshot = await firestore
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -50,7 +52,7 @@ void updateWorkoutFirebase() async {
         .doc(element.id)
         .get()
         .then((value) async {
-      if (i < newWorkout.getLength()) {
+      if (i < workout.getLength()) {
         firestore
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -60,8 +62,8 @@ void updateWorkoutFirebase() async {
             .doc(element.id)
             .update({
           'index': i,
-          'name': newWorkout.getExercise(i).getName(),
-          'reps': newWorkout.getRepsForExercise(i),
+          'name': workout.getExercise(i).getName(),
+          'reps': workout.getExercise(i).getReps(),
         });
         i++;
       } else {
@@ -69,6 +71,24 @@ void updateWorkoutFirebase() async {
       }
     });
   }
+}
+
+Future<void> removeWorkoutFromFirebase(
+    BuildContext ctx, Workout workout) async {
+  int i = 0;
+  while (i < workout.getLength()) {
+    removeExerciseFromWorkoutFirebase(i);
+    i++;
+  }
+
+  await firestore.runTransaction((Transaction myTransaction) async {
+    myTransaction.delete(firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .doc(workoutIDFirebase));
+  });
+  planPageSetState(() => {});
 }
 
 void removeExerciseFromWorkoutFirebase(int deleteIndex) async {
@@ -106,7 +126,7 @@ void removeExerciseFromWorkoutFirebase(int deleteIndex) async {
   });
 }
 
-Future<void> pushExerciseToWorkoutFirebase(int indx) async {
+Future<void> pushExerciseToWorkoutFirebase(Workout workout, int indx) async {
   QuerySnapshot querySnapshot2 = await firestore
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -134,31 +154,13 @@ Future<void> pushExerciseToWorkoutFirebase(int indx) async {
       .collection('exercises')
       .doc(exerciseName)
       .set({
-    'name': newWorkout.getExercise(indx).getName(),
-    'reps': newWorkout.getRepsForExercise(indx),
-    'index': newWorkout.getLength() - 1,
+    'name': workout.getExercise(indx).getName(),
+    'reps': workout.getExercise(indx).getReps(),
+    'index': workout.getLength() - 1,
   });
 }
 
-Future<void> removeWorkoutFromFirebase(
-    BuildContext ctx, Function widgetCallback) async {
-  int i = 0;
-  while (i < newWorkout.getLength()) {
-    removeExerciseFromWorkoutFirebase(i);
-    i++;
-  }
-
-  await firestore.runTransaction((Transaction myTransaction) async {
-    myTransaction.delete(firestore
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('workouts')
-        .doc(workoutIDFirebase));
-  });
-  widgetCallback();
-}
-
-Future<void> addWorkoutToFirebase(BuildContext ctx, String workoutName) async {
+Future<void> addWorkoutToFirebase(BuildContext ctx, Workout workout) async {
   QuerySnapshot querySnapshot = await firestore
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -175,13 +177,39 @@ Future<void> addWorkoutToFirebase(BuildContext ctx, String workoutName) async {
   while (list2.contains("Untitled Workout [" + i.toString() + "]")) {
     i++;
   }
-
-  workoutName = "Untitled Workout [" + i.toString() + "]";
+  workout.setName("Untitled Workout [" + i.toString() + "]");
 
   await firestore
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('workouts')
-      .doc(workoutName)
-      .set({'name': workoutName});
+      .doc(workout.getName())
+      .set({'name': workout.getName()});
+}
+
+void updateWorkoutName(Workout workout, String newName) async {
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('workouts')
+      .get();
+
+  List list = querySnapshot.docs;
+
+  list.forEach((element) {
+    var doc = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('workouts')
+        .doc(element.id);
+    doc.get().then(
+      (value) {
+        if (value.get("name") == workout.getName()) {
+          doc.update({"name": newName});
+          planPageSetState(() => workout.setName(newName));
+          return;
+        }
+      },
+    );
+  });
 }

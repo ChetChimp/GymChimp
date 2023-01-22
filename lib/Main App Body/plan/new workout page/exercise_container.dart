@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gymchimp/objects/workout.dart';
 
 import '../../../main.dart';
 import 'new_workout_page.dart';
@@ -7,21 +8,24 @@ import 'new_workout_page.dart';
 class ExerciseContainer extends StatefulWidget {
   final ctx;
   final ind;
+  final newWorkout;
   final modifyExercise;
-  const ExerciseContainer(Key? key, this.ctx, this.ind, this.modifyExercise)
+  const ExerciseContainer(
+      Key? key, this.ctx, this.ind, this.modifyExercise, this.newWorkout)
       : super(key: key);
 
   @override
   State<ExerciseContainer> createState() =>
-      _ExerciseContainerState(modifyExercise);
+      _ExerciseContainerState(modifyExercise, newWorkout);
 }
 
 class _ExerciseContainerState extends State<ExerciseContainer> {
   bool changeHeight = false;
   late String _title;
+  Workout newWorkout;
 
   Function modifyExercise;
-  _ExerciseContainerState(this.modifyExercise);
+  _ExerciseContainerState(this.modifyExercise, this.newWorkout);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -33,7 +37,7 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
       height: changeHeight
           ? ((size.height / 16) +
               15 +
-              newWorkout.getRepsForExercise(widget.ind).length *
+              newWorkout.getExercise(widget.ind).getReps().length *
                   (size.height / 20))
           : size.height / 16,
       child: OutlinedButton(
@@ -87,7 +91,7 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
                   child: ListView(
                 children: <Widget>[
                   for (int i = 0;
-                      i < newWorkout.getRepsForExercise(widget.ind).length;
+                      i < newWorkout.getExercise(widget.ind).getReps().length;
                       i++)
                     SizedBox(
                       height: size.height / 20,
@@ -120,15 +124,12 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
                             "Reps:  ",
                             style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
-                          //       Spacer(),
-
-                          //       Spacer(),
-                          // Spacer(),
                           SizedBox(
                             width: size.width / 12,
                             child: Text(
                               newWorkout
-                                  .getRepsForExercise(widget.ind)[i]
+                                  .getExercise(widget.ind)
+                                  .getReps()[i]
                                   .toString(),
                               style:
                                   TextStyle(fontSize: 20, color: accentColor),

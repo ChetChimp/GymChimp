@@ -1,14 +1,10 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gymchimp/Firebase/custom_firebase_functions.dart';
 import 'package:gymchimp/Main%20App%20Body/account_settings.dart';
-import 'package:gymchimp/Main%20App%20Body/plan/new%20workout%20page/new_workout_page.dart';
-import 'package:gymchimp/Main%20App%20Body/plan/plan%20page/plan_page.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/main.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -31,12 +27,14 @@ class MyAppBar extends StatefulWidget with PreferredSizeWidget {
   final ctx;
   final arrowEnabled;
   final screenName;
+  Workout? workout;
 
-  MyAppBar(this.ctx, this.arrowEnabled, this.screenName) : super();
+  MyAppBar(this.ctx, this.arrowEnabled, this.screenName, {this.workout})
+      : super();
 
   @override
   _MyAppBarState createState() {
-    return _MyAppBarState(ctx, arrowEnabled, screenName);
+    return _MyAppBarState(ctx, arrowEnabled, screenName, workout);
   }
 
   @override
@@ -61,46 +59,19 @@ class _MyAppBarState extends State<MyAppBar>
   final ctx;
   final arrowEnabled;
   final screenName;
-  _MyAppBarState(this.ctx, this.arrowEnabled, this.screenName);
+  final Workout? workout;
+  _MyAppBarState(this.ctx, this.arrowEnabled, this.screenName, this.workout);
 
   Radius radius = Radius.circular(30);
 
   @override
   void initState() {
     if (screenName == "new_workout") {
-      workoutNameEditController.text =
-          currentUser.userWorkouts[workoutIndex].getName();
+      print(workout == null);
+      workoutNameEditController.text = workout!.getName();
     }
 
     super.initState();
-  }
-
-  void updateWorkoutName() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('workouts')
-        .get();
-
-    List list = querySnapshot.docs;
-
-    list.forEach((element) {
-      var doc = FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('workouts')
-          .doc(element.id);
-      doc.get().then(
-        (value) {
-          if (value.get("name") ==
-              currentUser.userWorkouts[workoutIndex].getName()) {
-            doc.update({"name": workoutNameEditController.text});
-            nameUpdater(workoutNameEditController.text);
-            return;
-          }
-        },
-      );
-    });
   }
 
   @override
@@ -194,7 +165,8 @@ class _MyAppBarState extends State<MyAppBar>
                                     .getName()
                                     .isEmpty &&
                                 workoutNameEditController.text != "") {
-                              updateWorkoutName();
+                              updateWorkoutName(
+                                  workout!, workoutNameEditController.text);
                               Navigator.of(context).pop();
                             } else {
                               showTopSnackBar(

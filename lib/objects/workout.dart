@@ -47,12 +47,12 @@ class Workout {
     return name;
   }
 
-  List<Exercise> getExercisesList() {
-    return _exercises;
+  void setName(String name) {
+    this.name = name;
   }
 
-  List<int> getRepsForExercise(int index) {
-    return _exercises[index].getReps();
+  List<Exercise> getExercisesList() {
+    return _exercises;
   }
 
   // String printReps(int index) {

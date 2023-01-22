@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymchimp/login-signup/questionnairePages/askName_page.dart';
 import 'package:gymchimp/main.dart';
 import '../../app_bar.dart';
 import '../../home_page.dart';
@@ -32,9 +33,8 @@ class PlanPage extends StatefulWidget {
   State<PlanPage> createState() => _PlanPage();
 }
 
-Function nameUpdater = () {};
+Function planPageSetState = () {};
 
-//List<Widget> workoutList = [];
 String workoutName = "";
 //final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
 int counter = 0;
@@ -43,28 +43,22 @@ Workout selectedWorkout = Workout("");
 class _PlanPage extends State<PlanPage> {
   @override
   void initState() {
-    nameUpdater = updateNameState;
+    planPageSetState = publicStateSetter;
     super.initState();
   }
 
-  void newWorkout(BuildContext ctx, int index) {
+  void newWorkout(BuildContext ctx, Workout newWorkoutObject) {
     Navigator.of(ctx).push(MaterialPageRoute(
         builder: (context) => NewWorkoutPage(
-              workoutName: workoutName,
-              index: index,
-              callback: mySetState,
+              workout: newWorkoutObject,
+              // index: index,
+              // callback: publicStateSetter,
             )));
   }
 
-  void updateNameState(String input) {
+  void publicStateSetter(Function func) {
     setState(() {
-      currentUser.userWorkouts[workoutIndex].name = input;
-    });
-  }
-
-  void mySetState(int index) {
-    setState(() {
-      currentUser.userWorkouts.removeAt(index);
+      func();
     });
   }
 
@@ -110,7 +104,8 @@ class _PlanPage extends State<PlanPage> {
                                       BorderRadius.all(Radius.circular(15))),
                             ),
                             onPressed: () {
-                              newWorkout(context, index);
+                              newWorkout(
+                                  context, currentUser.getUserWorkouts[index]);
                             },
                             child: Row(
                               children: [
@@ -131,12 +126,13 @@ class _PlanPage extends State<PlanPage> {
                   floatingActionButton: FloatingActionButton(
                     backgroundColor: foregroundGrey,
                     onPressed: () async {
-                      print(currentUser.userExerciseList);
-                      await addWorkoutToFirebase(context, workoutName);
+                      Workout newWorkoutObject = Workout(workoutName);
+                      await addWorkoutToFirebase(context, newWorkoutObject)
+                          .then((value) {});
                       setState(() {
-                        currentUser.addWorkout(Workout(workoutName));
+                        currentUser.addWorkout(newWorkoutObject);
                       });
-                      newWorkout(context, currentUser.getNumWorkouts - 1);
+                      newWorkout(context, newWorkoutObject);
                     },
                     child: Icon(
                       Icons.add,

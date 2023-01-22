@@ -17,29 +17,29 @@ import '../../app_bar.dart';
 import '../../../objects/workout.dart';
 
 class NewWorkoutPage extends StatefulWidget {
-  final String workoutName;
-  final int index;
-  final Function callback;
+  final Workout workout;
+  // final int index;
 
-  const NewWorkoutPage(
-      {Key? key,
-      required this.workoutName,
-      required this.index,
-      required this.callback})
-      : super(key: key);
+  const NewWorkoutPage({
+    Key? key,
+    required this.workout,
+    // required this.index,
+  }) : super(key: key);
 
   @override
-  State<NewWorkoutPage> createState() => _NewWorkoutPage(index: this.index);
+  State<NewWorkoutPage> createState() => _NewWorkoutPage(workout: this.workout);
 }
 
-var workoutIndex; //Do we need this? Cant we just use currentworkout.getindex everywhere?
+//var workoutIndex; //Do we need this? Cant we just use currentworkout.getindex everywhere?
 String workoutIDFirebase = "";
 
-Workout newWorkout = Workout("");
+// Workout newWorkout = Workout("");
 
 class _NewWorkoutPage extends State<NewWorkoutPage> {
-  int index;
-  _NewWorkoutPage({required this.index});
+  // int index;
+  Workout workout;
+
+  _NewWorkoutPage({required this.workout});
   List<Map<String, String>> data = [];
 
   List<String> exerciseTempList = [];
@@ -52,9 +52,10 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
 
   @override
   void initState() {
-    workoutIndex = index;
-    newWorkout = currentUser.userWorkouts[index];
-    updateWorkoutIDFromFirebase();
+    print(workout == null);
+    //workoutIndex = index;
+    //newWorkout = currentUser.userWorkouts[index];
+    updateWorkoutIDFromFirebase(workout);
     readJson();
     super.initState();
   }
@@ -137,7 +138,8 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
       return MaterialPageRoute(
           builder: (_) => Scaffold(
                 backgroundColor: backgroundGrey,
-                appBar: MyAppBar(context, true, "new_workout"),
+                appBar:
+                    MyAppBar(context, true, "new_workout", workout: workout),
                 body: Container(
                   child: Column(
                     children: [
@@ -150,21 +152,21 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               if (oldIndex < newIndex) {
                                 newIndex -= 1;
                               }
-                              if (newIndex >= newWorkout.getLength()) {
+                              if (newIndex >= workout.getLength()) {
                                 newIndex -= 1;
                               }
-                              newWorkout.moveExercise(oldIndex, newIndex);
-                              if (newWorkout.getLength() > 0) {
-                                updateWorkoutFirebase();
+                              workout.moveExercise(oldIndex, newIndex);
+                              if (workout.getLength() > 0) {
+                                updateWorkoutFirebase(workout);
                               }
                             });
                           },
                           padding: EdgeInsets.all(8),
                           itemBuilder: (BuildContext context, int index) {
-                            return ExerciseContainer(
-                                Key('$index'), ctx, index, modifyExercise);
+                            return ExerciseContainer(Key('$index'), ctx, index,
+                                modifyExercise, workout);
                           },
-                          itemCount: newWorkout.getLength(),
+                          itemCount: workout.getLength(),
                           // children: <Widget>[
                           // for (int index = 0;
                           //     index <
@@ -219,11 +221,12 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                         context,
                                         () {
                                           removeWorkoutFromFirebase(
-                                              context,
-                                              () => widget.callback(
-                                                  widget.index)).then((value) {
+                                                  context, workout)
+                                              .then((value) {
                                             Navigator.of(context).pop();
                                           });
+                                          currentUser.userWorkouts
+                                              .remove(workout);
                                         },
                                       );
 
@@ -279,7 +282,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     exerciseNameField.text = name;
     List<int> reps = changeIndex == -1
         ? <int>[8]
-        : newWorkout.getRepsForExercise(changeIndex);
+        : workout.getExercise(changeIndex).getReps();
 
     //sets numReps to a default 3 if making a new workout, or to the current value if modifying workout
     //int numReps = changeIndex == -1 ? 3 : newWorkout.getReps(changeIndex)[0];
@@ -578,7 +581,7 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                                 context, () {
                               if (changeIndex != -1) {
                                 setState(() {
-                                  newWorkout.removeExercise(changeIndex);
+                                  workout.removeExercise(changeIndex);
                                 });
                                 removeExerciseFromWorkoutFirebase(changeIndex);
                               }
@@ -601,9 +604,8 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               primary: foregroundGrey,
                               minimumSize: Size(150, 75)),
                           onPressed: () {
-                            if (currentWorkout.getName() ==
-                                newWorkout.getName()) {
-                              workoutState(newWorkout);
+                            if (currentWorkout.getName() == workout.getName()) {
+                              workoutState(workout);
                             }
 
                             if (newName.isNotEmpty) {
@@ -615,16 +617,18 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
                               );
                               Navigator.pop(context);
                               if (changeIndex == -1) {
-                                newWorkout.addExerciseByName(newName, reps);
-                                pushExerciseToWorkoutFirebase(changeIndex == -1
-                                    ? newWorkout.getLength() - 1
-                                    : changeIndex + 1);
+                                workout.addExerciseByName(newName, reps);
+                                pushExerciseToWorkoutFirebase(
+                                    workout,
+                                    changeIndex == -1
+                                        ? workout.getLength() - 1
+                                        : changeIndex + 1);
                               } else {
-                                newWorkout.renameExercise(changeIndex, newName);
-                                newWorkout.setRepsAtIndex(changeIndex, reps);
+                                workout.renameExercise(changeIndex, newName);
+                                workout.setRepsAtIndex(changeIndex, reps);
                               }
                               currentUser.userExerciseList.add(newName);
-                              updateWorkoutFirebase();
+                              updateWorkoutFirebase(workout);
                             }
                             setState(() {});
                           },
