@@ -59,7 +59,7 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
               //     : CrossAxisAlignment.start,
               children: [
                 Icon(Icons.drag_indicator, color: accentColor),
-                Container(
+                SizedBox(
                     width: size.width / 2,
                     child: Text(
                       style: const TextStyle(color: Colors.white, fontSize: 16),
