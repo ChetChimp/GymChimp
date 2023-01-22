@@ -67,7 +67,6 @@ class _MyAppBarState extends State<MyAppBar>
   @override
   void initState() {
     if (screenName == "new_workout") {
-      print(workout == null);
       workoutNameEditController.text = workout!.getName();
     }
 

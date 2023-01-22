@@ -51,8 +51,6 @@ class _PlanPage extends State<PlanPage> {
     Navigator.of(ctx).push(MaterialPageRoute(
         builder: (context) => NewWorkoutPage(
               workout: newWorkoutObject,
-              // index: index,
-              // callback: publicStateSetter,
             )));
   }
 

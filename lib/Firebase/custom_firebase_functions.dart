@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gymchimp/Main%20App%20Body/plan/plan%20page/plan_page.dart';
 import 'package:gymchimp/customReusableWidgets/DeleteConfirmPopup.dart';
 import 'package:gymchimp/main.dart';
+import 'package:gymchimp/objects/exercise.dart';
 import 'package:gymchimp/objects/workout.dart';
 import '../Main App Body/plan/new workout page/new_workout_page.dart';
 
@@ -26,6 +27,7 @@ Future<void> updateWorkoutIDFromFirebase(Workout workout) async {
     doc.get().then((value) async {
       if (value.get('name') == workout.getName()) {
         workoutIDFirebase = element.id;
+        print(workoutIDFirebase.toString());
       }
     });
   }
@@ -212,4 +214,46 @@ void updateWorkoutName(Workout workout, String newName) async {
       },
     );
   });
+}
+
+void pushCompletedWorkout(
+    Workout workout, Map<String, List<int>> actualWeights) async {
+  var querySnapshot = firestore
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('workout_history')
+      .add({
+    "name": workout.getName(),
+    "timestamp": FieldValue.serverTimestamp()
+  }).then((value) {
+    for (int i = 0; i < workout.getLength(); i++) {
+      value
+          .collection('exercises')
+          .add({workout.getExercise(i).name: actualWeights[i]});
+    }
+  });
+
+  // List list = querySnapshot.docs;
+  // int i = 0;
+  // List list2 = [];
+  // list.forEach((element) async {
+  //   list2.add(element.id);
+  // });
+
+  // int i = 0;
+  // while (list2.contains("Completed Workout $i")) {
+  //   i++;
+  // }
+
+  // String completedWorkoutName = "Completed Workout $i";
+  // firestore
+  //     .collection('users')
+  //     .doc(FirebaseAuth.instance.currentUser!.uid)
+  //     .collection('workout_history')
+  //     .doc(exerciseName)
+  //     .set({
+  //   'name': workout.getExercise(indx).getName(),
+  //   'reps': workout.getExercise(indx).getReps(),
+  //   'index': workout.getLength() - 1,
+  // });
 }

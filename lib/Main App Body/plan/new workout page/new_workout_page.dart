@@ -30,10 +30,7 @@ class NewWorkoutPage extends StatefulWidget {
   State<NewWorkoutPage> createState() => _NewWorkoutPage(workout: this.workout);
 }
 
-//var workoutIndex; //Do we need this? Cant we just use currentworkout.getindex everywhere?
 String workoutIDFirebase = "";
-
-// Workout newWorkout = Workout("");
 
 class _NewWorkoutPage extends State<NewWorkoutPage> {
   // int index;
@@ -52,9 +49,6 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
 
   @override
   void initState() {
-    print(workout == null);
-    //workoutIndex = index;
-    //newWorkout = currentUser.userWorkouts[index];
     updateWorkoutIDFromFirebase(workout);
     readJson();
     super.initState();
@@ -283,9 +277,6 @@ class _NewWorkoutPage extends State<NewWorkoutPage> {
     List<int> reps = changeIndex == -1
         ? <int>[8]
         : workout.getExercise(changeIndex).getReps();
-
-    //sets numReps to a default 3 if making a new workout, or to the current value if modifying workout
-    //int numReps = changeIndex == -1 ? 3 : newWorkout.getReps(changeIndex)[0];
 
     showModalBottomSheet<void>(
       enableDrag: false,

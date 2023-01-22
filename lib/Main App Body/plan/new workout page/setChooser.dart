@@ -24,7 +24,6 @@ class setChooser extends StatelessWidget {
     required GlobalKey<AnimatedListState> listKey,
     Key? key,
     required this.setStateParent,
-    //required this.removeItem,
     required this.reps,
     required this.index,
     required this.animation,
@@ -36,7 +35,6 @@ class setChooser extends StatelessWidget {
   final int tempValue;
   final List<int> reps;
   final Function setStateParent;
-  //final Function removeItem;
   final Animation<double> animation;
   final GlobalKey<AnimatedListState> _listKey;
 

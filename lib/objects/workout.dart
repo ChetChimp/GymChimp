@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:gymchimp/Firebase/custom_firebase_functions.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/objects/exercise.dart';
 
@@ -7,7 +8,6 @@ class Workout {
   String name;
 
   List<Exercise> _exercises = <Exercise>[];
-  //List<List<int>> _reps = <List<int>>[];
 
   Workout(this.name);
 
@@ -22,12 +22,10 @@ class Workout {
   void initializeLists(int length) {
     _exercises =
         List<Exercise>.filled(length, Exercise("Error", -1), growable: true);
-    // _reps = List<List<int>>.filled(length, [], growable: true);
   }
 
   void setRepsAtIndex(int index, List<int> reps) {
     _exercises[index].setReps(reps);
-    // _reps[index] = reps;
   }
 
   void setExerciseAtIndex(int index, Exercise exercise) {
@@ -36,7 +34,6 @@ class Workout {
 
   void removeExercise(int index) {
     _exercises.removeAt(index);
-    // _reps.removeAt(index);
   }
 
   void renameExercise(int index, String newExerciseName) {
@@ -73,8 +70,6 @@ class Workout {
   void moveExercise(int oldIndex, int newIndex) {
     Exercise tempExercise = _exercises.removeAt(oldIndex);
     _exercises.insert(newIndex, tempExercise);
-    // List<int> tempRep = _reps.removeAt(oldIndex);
-    // _reps.insert(newIndex, tempRep);
   }
 
   @override
@@ -96,9 +91,14 @@ class Workout {
 
   void endLive() {
     live = false;
+    Map<String, List<int>> actualWeightsForWorkout = {};
+
     for (Exercise exercise in _exercises) {
-      exercise.endLive();
+      List<int> actualWeightsForExercise = exercise.endLive();
+
+      actualWeightsForWorkout[exercise.getName()] = actualWeightsForExercise;
     }
+    pushCompletedWorkout(this, actualWeightsForWorkout);
   }
 
   bool isLive() {

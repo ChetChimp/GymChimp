@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:gymchimp/Firebase/custom_firebase_functions.dart';
 
 class Exercise {
   String name;
@@ -40,6 +41,7 @@ class Exercise {
   //***************************************************//
   //Live Workout functions
   bool live = false;
+
   List<TextEditingController> exerciseTextControllers = [];
 
   void goLive() {
@@ -47,9 +49,14 @@ class Exercise {
     buildTextControllers();
   }
 
-  void endLive() {
+  List<int> endLive() {
     live = false;
+    List<int> actualWeights = <int>[];
+    for (TextEditingController i in exerciseTextControllers) {
+      actualWeights.add(int.parse(i.text));
+    }
     exerciseTextControllers = [];
+    return actualWeights;
   }
 
   void buildTextControllers() {

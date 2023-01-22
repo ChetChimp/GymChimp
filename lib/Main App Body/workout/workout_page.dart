@@ -160,8 +160,6 @@ class _WorkoutPage extends State<WorkoutPage>
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       contentPadding: EdgeInsets.symmetric(vertical: 5),
-                      // hintText: test.exercises[listIndex]![i].toString(),
-                      //hintStyle: fontstyle(),
                     ),
                     style: fontstyle(20),
                     // When form is submitted routes to askLevel page
@@ -351,8 +349,6 @@ class _WorkoutPage extends State<WorkoutPage>
                                     nextHasNotBeenClicked = false;
                                   }
                                   index += (button == "Next" ? 1 : -1);
-                                  // selectedExerciseName =
-                                  //     currentWorkout.exercises[index].getName();
                                   getRows();
                                   updateProgress();
                                 });
