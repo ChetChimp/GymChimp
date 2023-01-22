@@ -279,8 +279,7 @@ class _MyAppBarState extends State<MyAppBar>
                       .toList(),
                   onChanged: ((String? value) {
                     setState(() {
-                      workoutState(
-                          currentWorkout = currentUser.getWorkoutByName(value));
+                      workoutState(currentUser.getWorkoutByName(value));
                     });
                   }),
                   dropdownDecoration: BoxDecoration(

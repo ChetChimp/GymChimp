@@ -8,6 +8,11 @@ import 'package:gymchimp/objects/exercise.dart';
 import 'package:gymchimp/objects/workout.dart';
 import '../Main App Body/plan/new workout page/new_workout_page.dart';
 
+double oneRepMax(double weight, int reps) {
+  double brzyckiEquation = weight / (1.0278 - (0.0278 * reps));
+  return brzyckiEquation;
+}
+
 Future<void> updateWorkoutIDFromFirebase(Workout workout) async {
   String id = "";
   QuerySnapshot querySnapshot = await firestore
@@ -27,7 +32,7 @@ Future<void> updateWorkoutIDFromFirebase(Workout workout) async {
     doc.get().then((value) async {
       if (value.get('name') == workout.getName()) {
         workoutIDFirebase = element.id;
-        print(workoutIDFirebase.toString());
+        // print(workoutIDFirebase.toString());
       }
     });
   }
@@ -218,20 +223,50 @@ void updateWorkoutName(Workout workout, String newName) async {
 
 void pushCompletedWorkout(
     Workout workout, Map<String, List<int>> actualWeights) async {
-  var querySnapshot = firestore
-      .collection('users')
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection('workout_history')
-      .add({
-    "name": workout.getName(),
-    "timestamp": FieldValue.serverTimestamp()
-  }).then((value) {
-    for (int i = 0; i < workout.getLength(); i++) {
-      value
-          .collection('exercises')
-          .add({workout.getExercise(i).name: actualWeights[i]});
-    }
-  });
+  for (Exercise exercise in workout.getExercisesList()) {
+    var querySnapshot = firestore
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('stats')
+        .doc(exercise.getName());
+
+    querySnapshot.set({"PR": 8});
+    querySnapshot.collection('history').add(
+      {
+        "timestamp": FieldValue.serverTimestamp(),
+        "weights": actualWeights[exercise.getName()]
+      },
+    );
+    // .then((value) {
+    //   value.parent.parent!.get().then((value) {
+
+    //   });
+    // });
+    // .then((value) {
+    //   // for (Exercise exercise in workout.getExercisesList()) {
+    //   //   value
+    //   //       .collection('exercises')
+    //   //       .add({"weights": actualWeights[exercise.getName()]});
+    //   // }
+    // }
+
+    //         // .then((value){
+    //         //     value
+    //         //     value.collection('exercises').add({
+    //         //       querySnapshot
+    //         //       "name": exercise.getName(),
+    //         //       "weights": actualWeights[exercise.getName()]
+    //         //     });
+    //         //   }
+    //         );
+  }
+}
+  //     .add({
+  //   "name": workout.getName(),
+  //   "timestamp": FieldValue.serverTimestamp()
+  // }).then((value) {
+  
+  // });
 
   // List list = querySnapshot.docs;
   // int i = 0;
@@ -256,4 +291,4 @@ void pushCompletedWorkout(
   //   'reps': workout.getExercise(indx).getReps(),
   //   'index': workout.getLength() - 1,
   // });
-}
+// }

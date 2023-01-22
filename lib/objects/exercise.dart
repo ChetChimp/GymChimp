@@ -53,7 +53,8 @@ class Exercise {
     live = false;
     List<int> actualWeights = <int>[];
     for (TextEditingController i in exerciseTextControllers) {
-      actualWeights.add(int.parse(i.text));
+      int actualWeight = i.text == "" ? 0 : int.parse(i.text);
+      actualWeights.add(actualWeight);
     }
     exerciseTextControllers = [];
     return actualWeights;

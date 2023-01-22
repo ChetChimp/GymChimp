@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymchimp/Main%20App%20Body/home_page.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/countdown.dart';
@@ -74,7 +75,6 @@ class _WorkoutPage extends State<WorkoutPage>
   }
 
   void setWorkout(Workout w) {
-    //reset workoutTextControllers
     currentWorkout.endLive();
     w.goLive();
 
@@ -112,7 +112,6 @@ class _WorkoutPage extends State<WorkoutPage>
   List<Widget> returnRows = [];
   void getRows() {
     returnRows = [];
-    //controllers = [];
     if (currentWorkout.getLength() == 0) {
       return;
     }
@@ -121,8 +120,6 @@ class _WorkoutPage extends State<WorkoutPage>
     for (int i = 0;
         i < currentWorkout.getExercise(exerciseIndex).getReps().length;
         i++) {
-      //TextEditingController? newController = TextEditingController(text: "");
-      //controllers.add(newController);
       returnRows.add(
         Container(
           margin: const EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 5),
@@ -146,13 +143,28 @@ class _WorkoutPage extends State<WorkoutPage>
                 flex: 2,
               ),
               Container(
+                margin: EdgeInsets.only(right: 5),
                 decoration: BoxDecoration(
                   color: backgroundGrey,
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                 ),
-                width: 40,
+                width: 60,
                 //padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                    keyboardType: TextInputType.numberWithOptions(
+                        decimal: true, signed: false),
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(5),
+                      FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
+                      TextInputFormatter.withFunction((oldValue, newValue) {
+                        try {
+                          final text = newValue.text;
+                          if (text.isNotEmpty) double.parse(text);
+                          return newValue;
+                        } catch (e) {}
+                        return oldValue;
+                      }),
+                    ],
                     controller: currentWorkout
                         .getExercise(index)
                         .getController(i), /////////////
@@ -161,13 +173,13 @@ class _WorkoutPage extends State<WorkoutPage>
                       border: UnderlineInputBorder(),
                       contentPadding: EdgeInsets.symmetric(vertical: 5),
                     ),
-                    style: fontstyle(20),
+                    style: TextStyle(fontSize: 20, color: accentColor),
                     // When form is submitted routes to askLevel page
                     onFieldSubmitted: (value) {}),
               ),
               Text(
                 unit ? " Lbs" : " Kgs",
-                style: const TextStyle(fontSize: 24, color: Colors.white),
+                style: const TextStyle(fontSize: 18, color: Colors.white),
               ),
               const Spacer(),
             ],
@@ -353,6 +365,10 @@ class _WorkoutPage extends State<WorkoutPage>
                                   updateProgress();
                                 });
                               } else {
+                                setState(() {
+                                  currentWorkout.endLive();
+                                });
+
                                 workoutSummary(ctx: context);
                               }
                             }
