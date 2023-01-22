@@ -46,7 +46,11 @@ class _ExerciseContainerState extends State<ExerciseContainer> {
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15))),
         ),
-        onPressed: () {},
+        onPressed: () {
+          setState(() {
+            changeHeight = !changeHeight;
+          });
+        },
         child: Column(
           children: [
             Row(
