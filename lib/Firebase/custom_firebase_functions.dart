@@ -222,7 +222,9 @@ void updateWorkoutName(Workout workout, String newName) async {
 }
 
 void pushCompletedWorkout(
-    Workout workout, Map<String, List<int>> actualWeights) async {
+    Workout workout,
+    Map<String, List<double>> actualWeights,
+    Map<String, List<double>> actualReps) async {
   for (Exercise exercise in workout.getExercisesList()) {
     var querySnapshot = firestore
         .collection('users')
@@ -234,7 +236,8 @@ void pushCompletedWorkout(
     querySnapshot.collection('history').add(
       {
         "timestamp": FieldValue.serverTimestamp(),
-        "weights": actualWeights[exercise.getName()]
+        "weights": actualWeights[exercise.getName()],
+        "reps": actualReps[exercise.getName()]
       },
     );
     // .then((value) {

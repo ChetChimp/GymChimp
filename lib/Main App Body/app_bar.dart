@@ -257,7 +257,7 @@ class _MyAppBarState extends State<MyAppBar>
                   icon: Visibility(
                       visible: false, child: Icon(Icons.arrow_downward)),
                   isExpanded: true,
-                  dropdownMaxHeight: 150,
+                  dropdownMaxHeight: 175,
                   barrierColor: Color.fromARGB(45, 0, 0, 0),
                   hint: Center(
                     child: Text(
@@ -268,11 +268,13 @@ class _MyAppBarState extends State<MyAppBar>
                   items: currentUser
                       .getUserWorkoutsString()
                       .map((item) => DropdownMenuItem<String>(
+                            alignment: Alignment.center,
                             value: item,
                             child: Text(
                               item,
+                              //textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color.fromARGB(255, 0, 0, 0),
+                                color: textColor,
                               ),
                             ),
                           ))
@@ -283,6 +285,7 @@ class _MyAppBarState extends State<MyAppBar>
                     });
                   }),
                   dropdownDecoration: BoxDecoration(
+                    color: foregroundGrey,
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30)),

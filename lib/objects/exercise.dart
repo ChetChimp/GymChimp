@@ -42,43 +42,64 @@ class Exercise {
   //Live Workout functions
   bool live = false;
 
-  List<TextEditingController> exerciseTextControllers = [];
+  List<TextEditingController> weightsTextControllers = [];
+  List<TextEditingController> repsTextControllers = [];
 
   void goLive() {
     live = true;
     buildTextControllers();
   }
 
-  List<int> endLive() {
+  List<List<double>> endLive() {
     live = false;
-    List<int> actualWeights = <int>[];
-    for (TextEditingController i in exerciseTextControllers) {
-      int actualWeight = i.text == "" ? 0 : int.parse(i.text);
-      actualWeights.add(actualWeight);
+    List<double> actualWeights = <double>[];
+    List<double> actualReps = <double>[];
+    for (int i = 0; i < _reps.length; i++) {
+      String actualWeightString = weightsTextControllers[i].text;
+      String actualRepsString = repsTextControllers[i].text == ""
+          ? _reps[i].toString()
+          : repsTextControllers[i].text;
+      if (actualWeightString != "") {
+        actualWeights.add(double.parse(actualWeightString));
+        actualReps.add(double.parse(actualRepsString));
+      }
     }
-    exerciseTextControllers = [];
-    return actualWeights;
+    weightsTextControllers = [];
+    repsTextControllers = [];
+
+    List<List<double>> actualWeightsAndReps = <List<double>>[];
+    actualWeightsAndReps.add(actualWeights);
+    actualWeightsAndReps.add(actualReps);
+
+    return actualWeightsAndReps;
   }
 
   void buildTextControllers() {
     for (int i = 0; i < _reps.length; i++) {
-      exerciseTextControllers.add(TextEditingController());
+      weightsTextControllers.add(TextEditingController());
+      repsTextControllers.add(TextEditingController());
     }
   }
 
   void updateTextControllers() {
-    int deltaReps = _reps.length - exerciseTextControllers.length;
+    int deltaReps = _reps.length - weightsTextControllers.length;
     while (deltaReps > 0) {
-      exerciseTextControllers.add(TextEditingController());
+      weightsTextControllers.add(TextEditingController());
+      repsTextControllers.add(TextEditingController());
       deltaReps--;
     }
     while (deltaReps < 0) {
-      exerciseTextControllers.removeLast();
+      weightsTextControllers.removeLast();
+      repsTextControllers.removeLast();
       deltaReps++;
     }
   }
 
-  TextEditingController getController(int index) {
-    return exerciseTextControllers[index];
+  TextEditingController getWeightsController(int index) {
+    return weightsTextControllers[index];
+  }
+
+  TextEditingController getRepsController(int index) {
+    return repsTextControllers[index];
   }
 }

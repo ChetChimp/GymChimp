@@ -50,6 +50,7 @@ dependencies:
   flushbar: ^1.10.4
   top_snackbar_flutter: ^3.0.0+1
   flutter_spinkit: ^5.1.0
+  keyboard_actions: ^4.1.0
  
 
 
