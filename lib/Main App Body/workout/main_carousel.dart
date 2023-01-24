@@ -133,7 +133,6 @@ class _MainCarouselState extends State<MainCarousel> {
             padding: EdgeInsets.all(5),
             width: widget.size.width / 4,
             decoration: const BoxDecoration(
-              // color: Colors.white,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(8),
                   topRight: Radius.circular(8),
