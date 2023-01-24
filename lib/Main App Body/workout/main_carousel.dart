@@ -17,17 +17,23 @@ import 'package:gradient_widgets/gradient_widgets.dart';
 
 import '../../objects/workout.dart';
 
-class MainCarousel extends StatelessWidget {
+class MainCarousel extends StatefulWidget {
   MainCarousel({
     Key? key,
     required this.size,
-    required this.carouselController,
     required this.setState,
   }) : super(key: key);
 
   final Size size;
   final Function setState;
-  final CarouselController carouselController;
+
+  @override
+  State<MainCarousel> createState() => _MainCarouselState();
+}
+
+class _MainCarouselState extends State<MainCarousel> {
+  final CarouselController carouselController = CarouselController();
+
   int activepage = 0;
 
   List<Widget> indicators(currentIndex) {
@@ -39,7 +45,7 @@ class MainCarousel extends StatelessWidget {
             splashRadius: 1,
             onPressed: () {
               carouselController.animateToPage(0);
-              setState(() {
+              widget.setState(() {
                 indicators(0);
               });
             },
@@ -56,7 +62,7 @@ class MainCarousel extends StatelessWidget {
             splashRadius: 1,
             onPressed: () {
               carouselController.animateToPage(1);
-              setState(() {
+              widget.setState(() {
                 indicators(1);
               });
             },
@@ -80,7 +86,7 @@ class MainCarousel extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: size.height / 3.5,
+          height: widget.size.height / 3.5,
           child: Container(
             decoration: BoxDecoration(
               color: Color.fromARGB(0, 255, 255, 255),
@@ -108,10 +114,10 @@ class MainCarousel extends StatelessWidget {
                     child: StopWatch()),
               ],
               options: CarouselOptions(
-                height: size.height / 4,
+                height: widget.size.height / 4,
                 enableInfiniteScroll: false,
                 onPageChanged: ((index, reason) {
-                  setState(() {
+                  widget.setState(() {
                     activepage = index;
                   });
                 }),
@@ -121,11 +127,11 @@ class MainCarousel extends StatelessWidget {
           ),
         ),
         Positioned(
-          left: size.width / 2 - (size.width / 8),
-          top: size.height / 4.55,
+          left: widget.size.width / 2 - (widget.size.width / 8),
+          top: widget.size.height / 4.55,
           child: Container(
             padding: EdgeInsets.all(5),
-            width: size.width / 4,
+            width: widget.size.width / 4,
             decoration: const BoxDecoration(
               // color: Colors.white,
               borderRadius: BorderRadius.only(
