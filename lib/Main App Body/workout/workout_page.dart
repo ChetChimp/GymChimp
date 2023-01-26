@@ -311,7 +311,6 @@ class _WorkoutPage extends State<WorkoutPage>
                         //stack for carousel + hints
                         MainCarousel(
                           size: size,
-                          carouselController: CarouselController(),
                           setState: setState,
                         ),
                         //Progress bar
