@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gymchimp/Firebase/custom_firebase_functions.dart';
 import 'package:gymchimp/Main%20App%20Body/loading_page.dart';
 import 'package:gymchimp/Main%20App%20Body/start_page.dart';
 import 'package:gymchimp/objects/exercise.dart';
@@ -18,6 +19,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 //initialize and connect to flutter firebase, run main function
 void main() async {
+  print(oneRepMax(50, 11));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

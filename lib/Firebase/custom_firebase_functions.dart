@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,8 +9,9 @@ import 'package:gymchimp/main.dart';
 import 'package:gymchimp/objects/exercise.dart';
 import 'package:gymchimp/objects/workout.dart';
 import '../Main App Body/plan/new workout page/new_workout_page.dart';
+import 'dart:math';
 
-double oneRepMax(double weight, int reps) {
+double oneRepMax(double reps, double weight) {
   double brzyckiEquation = weight / (1.0278 - (0.0278 * reps));
   return brzyckiEquation;
 }
@@ -221,77 +224,40 @@ void updateWorkoutName(Workout workout, String newName) async {
   });
 }
 
-void pushCompletedWorkout(
-    Workout workout,
-    Map<String, List<double>> actualWeights,
-    Map<String, List<double>> actualReps) async {
-  for (Exercise exercise in workout.getExercisesList()) {
-    var querySnapshot = firestore
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('stats')
-        .doc(exercise.getName());
+void pushCompletedWorkout(Workout workout, List<List<double>> actualWeights,
+    List<List<double>> actualReps) async {
+  for (int i = 0; i < workout.getLength(); i++) {
+    if (actualWeights[i].length > 0) {
+      List<double> oneRepMaxes = List<double>.generate(actualWeights[i].length,
+          (index) => oneRepMax(actualReps[i][index], actualWeights[i][index]));
 
-    querySnapshot.set({"PR": 8});
-    querySnapshot.collection('history').add(
-      {
-        "timestamp": FieldValue.serverTimestamp(),
-        "weights": actualWeights[exercise.getName()],
-        "reps": actualReps[exercise.getName()]
-      },
-    );
-    // .then((value) {
-    //   value.parent.parent!.get().then((value) {
+      double max1RM = oneRepMaxes.reduce(max);
 
-    //   });
-    // });
-    // .then((value) {
-    //   // for (Exercise exercise in workout.getExercisesList()) {
-    //   //   value
-    //   //       .collection('exercises')
-    //   //       .add({"weights": actualWeights[exercise.getName()]});
-    //   // }
-    // }
+      var querySnapshot = firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('stats')
+          .doc(workout.getExercise(i).getName());
 
-    //         // .then((value){
-    //         //     value
-    //         //     value.collection('exercises').add({
-    //         //       querySnapshot
-    //         //       "name": exercise.getName(),
-    //         //       "weights": actualWeights[exercise.getName()]
-    //         //     });
-    //         //   }
-    //         );
+      querySnapshot.get().then((DocumentSnapshot value) {
+        if (value.exists) {
+          final previousPR = value.get("PR");
+          if (previousPR < max1RM) {
+            querySnapshot.update({"PR": max1RM});
+          }
+        } else {
+          querySnapshot.set({"PR": max1RM});
+        }
+
+        querySnapshot.collection('history').add(
+          {
+            "timestamp": FieldValue.serverTimestamp(),
+            "weights": actualWeights[i],
+            "reps": actualReps[i],
+            "1RM": oneRepMaxes,
+          },
+        );
+      });
+    }
   }
 }
-  //     .add({
-  //   "name": workout.getName(),
-  //   "timestamp": FieldValue.serverTimestamp()
-  // }).then((value) {
-  
-  // });
-
-  // List list = querySnapshot.docs;
-  // int i = 0;
-  // List list2 = [];
-  // list.forEach((element) async {
-  //   list2.add(element.id);
-  // });
-
-  // int i = 0;
-  // while (list2.contains("Completed Workout $i")) {
-  //   i++;
-  // }
-
-  // String completedWorkoutName = "Completed Workout $i";
-  // firestore
-  //     .collection('users')
-  //     .doc(FirebaseAuth.instance.currentUser!.uid)
-  //     .collection('workout_history')
-  //     .doc(exerciseName)
-  //     .set({
-  //   'name': workout.getExercise(indx).getName(),
-  //   'reps': workout.getExercise(indx).getReps(),
-  //   'index': workout.getLength() - 1,
-  // });
-// }

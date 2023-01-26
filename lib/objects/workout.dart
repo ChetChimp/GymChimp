@@ -91,16 +91,17 @@ class Workout {
 
   void endLive() {
     live = false;
-    Map<String, List<double>> actualWeightsForWorkout = {};
-    Map<String, List<double>> actualRepsForWorkout = {};
+    List<List<double>> actualWeightsForWorkout = [];
+    List<List<double>> actualRepsForWorkout = [];
 
-    for (Exercise exercise in _exercises) {
-      List<List<double>> actualRepsAndWeightsForWorkout = exercise.endLive();
+    for (int i = 0; i < _exercises.length; i++) {
+      List<List<double>> actualWeightsAndRepsForWorkout =
+          getExercise(i).endLive();
 
-      actualWeightsForWorkout[exercise.getName()] =
-          actualRepsAndWeightsForWorkout[0];
-      actualRepsForWorkout[exercise.getName()] =
-          actualRepsAndWeightsForWorkout[1];
+      //if (actualWeightsAndRepsForWorkout[0].length != 0) {
+      actualWeightsForWorkout.add(actualWeightsAndRepsForWorkout[0]);
+      actualRepsForWorkout.add(actualWeightsAndRepsForWorkout[1]);
+      //}
     }
     pushCompletedWorkout(this, actualWeightsForWorkout, actualRepsForWorkout);
   }

@@ -1,10 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:gymchimp/Firebase/custom_firebase_functions.dart';
+import 'package:gymchimp/objects/live_exercise.dart';
 
 class Exercise {
   String name;
   int index;
   List<int> _reps = <int>[];
+  LiveExercise? _liveInstance;
+  bool live = false;
 
   List<int> getReps() {
     return _reps;
@@ -13,7 +16,7 @@ class Exercise {
   void setReps(List<int> reps) {
     _reps = reps;
     if (live) {
-      updateTextControllers();
+      _liveInstance!.updateTextControllers();
     }
   }
 
@@ -38,68 +41,19 @@ class Exercise {
     return name;
   }
 
-  //***************************************************//
-  //Live Workout functions
-  bool live = false;
-
-  List<TextEditingController> weightsTextControllers = [];
-  List<TextEditingController> repsTextControllers = [];
+  LiveExercise? getLiveInstance() {
+    return _liveInstance;
+  }
 
   void goLive() {
     live = true;
-    buildTextControllers();
+    _liveInstance = LiveExercise(this);
   }
 
   List<List<double>> endLive() {
     live = false;
-    List<double> actualWeights = <double>[];
-    List<double> actualReps = <double>[];
-    for (int i = 0; i < _reps.length; i++) {
-      String actualWeightString = weightsTextControllers[i].text;
-      String actualRepsString = repsTextControllers[i].text == ""
-          ? _reps[i].toString()
-          : repsTextControllers[i].text;
-      if (actualWeightString != "") {
-        actualWeights.add(double.parse(actualWeightString));
-        actualReps.add(double.parse(actualRepsString));
-      }
-    }
-    weightsTextControllers = [];
-    repsTextControllers = [];
-
-    List<List<double>> actualWeightsAndReps = <List<double>>[];
-    actualWeightsAndReps.add(actualWeights);
-    actualWeightsAndReps.add(actualReps);
-
-    return actualWeightsAndReps;
-  }
-
-  void buildTextControllers() {
-    for (int i = 0; i < _reps.length; i++) {
-      weightsTextControllers.add(TextEditingController());
-      repsTextControllers.add(TextEditingController());
-    }
-  }
-
-  void updateTextControllers() {
-    int deltaReps = _reps.length - weightsTextControllers.length;
-    while (deltaReps > 0) {
-      weightsTextControllers.add(TextEditingController());
-      repsTextControllers.add(TextEditingController());
-      deltaReps--;
-    }
-    while (deltaReps < 0) {
-      weightsTextControllers.removeLast();
-      repsTextControllers.removeLast();
-      deltaReps++;
-    }
-  }
-
-  TextEditingController getWeightsController(int index) {
-    return weightsTextControllers[index];
-  }
-
-  TextEditingController getRepsController(int index) {
-    return repsTextControllers[index];
+    List<List<double>> weightsAndReps = _liveInstance!.endLive();
+    _liveInstance = null;
+    return weightsAndReps;
   }
 }

@@ -165,8 +165,10 @@ class _WorkoutPage extends State<WorkoutPage>
                       return oldValue;
                     }),
                   ],
-                  controller:
-                      currentWorkout.getExercise(index).getRepsController(i),
+                  controller: currentWorkout
+                      .getExercise(index)
+                      .getLiveInstance()!
+                      .getRepsController(i),
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     hintText: currentWorkout
@@ -228,8 +230,10 @@ class _WorkoutPage extends State<WorkoutPage>
                       return oldValue;
                     }),
                   ],
-                  controller:
-                      currentWorkout.getExercise(index).getWeightsController(i),
+                  controller: currentWorkout
+                      .getExercise(index)
+                      .getLiveInstance()!
+                      .getWeightsController(i),
                   textAlign: TextAlign.center,
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
