@@ -97,7 +97,7 @@ class _SearchExerciseState extends State<SearchExercise> {
             duration: Duration(seconds: 1),
             curve: Curves.ease,
             //live list of execises
-            height: size.height / 1.75,
+            height: size.height / 3,
             child: ListView.builder(
               itemCount: exerciseTempL.length,
               itemBuilder: (context, index) {
