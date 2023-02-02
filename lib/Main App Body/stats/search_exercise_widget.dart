@@ -3,6 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:gymchimp/main.dart';
 import 'package:gymchimp/objects/workout.dart';
+import 'lineChartWidget.dart';
 
 class SearchExercise extends StatefulWidget {
   const SearchExercise({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class SearchExercise extends StatefulWidget {
   State<SearchExercise> createState() => _SearchExerciseState();
 }
 
-String selectedWorkoutName = "";
+String selectedExerciseName = "";
 Workout workoutStats = Workout("empty");
 TextEditingController exerciseSearchController =
     TextEditingController(text: "");
@@ -102,10 +103,6 @@ class _SearchExerciseState extends State<SearchExercise> {
               itemCount: exerciseTempL.length,
               itemBuilder: (context, index) {
                 return Container(
-                  // decoration: BoxDecoration(
-                  //   border: Border(
-                  //       bottom: BorderSide(color: accentColor, width: 2)),
-                  // ),
                   child: Material(
                     color: index % 2 == 0 ? backgroundGrey : foregroundGrey,
                     child: ListTile(
@@ -116,7 +113,10 @@ class _SearchExerciseState extends State<SearchExercise> {
                       ),
                       // ignore: prefer_interpolation_to_compose_strings
                       onTap: () {
-                        setState(() {});
+                        setState(() {
+                          selectedExerciseName = exerciseTempL[index];
+                          findExerciseDataConnect(selectedExerciseName);
+                        });
                       },
                     ),
                   ),

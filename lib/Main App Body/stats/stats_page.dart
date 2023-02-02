@@ -9,9 +9,9 @@ import 'package:gymchimp/main.dart';
 import 'package:gymchimp/objects/workout.dart';
 import '../plan/new workout page/new_workout_page.dart';
 import 'package:fl_chart/fl_chart.dart';
-
-import 'lineChart.dart';
-import 'weight_point.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+import 'lineChartWidget.dart';
 
 class StatsPage extends StatefulWidget {
   const StatsPage({Key? key}) : super(key: key);
@@ -19,8 +19,6 @@ class StatsPage extends StatefulWidget {
   @override
   State<StatsPage> createState() => _StatsPageState();
 }
-
-WeightPoint weightPoint = WeightPoint(x: 0, y: 0);
 
 class _StatsPageState extends State<StatsPage> {
   @override
@@ -46,7 +44,7 @@ class _StatsPageState extends State<StatsPage> {
                   SizedBox(
                     height: size.height / 3,
                     width: size.width - 20,
-                    child: LineChartWidget(weightPoint.weightPoints),
+                    child: LineChartWidget(),
                   ),
                 ],
               ),
