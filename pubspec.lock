@@ -105,6 +105,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  draggable_fab:
+    dependency: "direct main"
+    description:
+      name: draggable_fab
+      sha256: "5c4cc16fb61e44308c9f92a68bd12c127f1898b40a7baf31d75d27d019a591cc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.4"
   dropdown_button2:
     dependency: "direct main"
     description:

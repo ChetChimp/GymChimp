@@ -21,11 +21,13 @@ TextEditingController exerciseSearchController =
     TextEditingController(text: "");
 List<String> exerciseTempL = [];
 List<String> exerciseSearchList = [];
+bool focus = false;
 
 class _SearchExerciseState extends State<SearchExercise> {
   @override
   void initState() {
     filterResults("");
+    focus = false;
     super.initState();
   }
 
@@ -64,6 +66,14 @@ class _SearchExerciseState extends State<SearchExercise> {
       child: Column(
         children: [
           TextField(
+            onTap: () {
+              setState(() {
+                focus = !focus;
+              });
+            },
+            onTapOutside: (event) {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
             controller: exerciseSearchController,
             style: TextStyle(color: textColor),
             onChanged: (value) {
@@ -71,6 +81,7 @@ class _SearchExerciseState extends State<SearchExercise> {
                 filterResults(value);
               });
             },
+            autofocus: focus,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(25)),
@@ -106,8 +117,10 @@ class _SearchExerciseState extends State<SearchExercise> {
               itemCount: exerciseTempL.length,
               itemBuilder: (context, index) {
                 return Container(
+                  margin: EdgeInsets.all(3),
                   child: Material(
-                    color: index % 2 == 0 ? backgroundGrey : foregroundGrey,
+                    borderRadius: BorderRadius.circular(30),
+                    color: foregroundGrey,
                     child: ListTile(
                       enabled: exerciseTempL[index] != "Search Not Found",
                       title: Text(
@@ -116,6 +129,8 @@ class _SearchExerciseState extends State<SearchExercise> {
                       ),
                       // ignore: prefer_interpolation_to_compose_strings
                       onTap: () {
+                        FocusScope.of(context).requestFocus(FocusNode());
+
                         generalLoader(context);
                         setState(() {
                           selectedExerciseName = exerciseTempL[index];

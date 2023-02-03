@@ -103,9 +103,9 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
           selectedIndex = idx;
           if (idx == 0) {
             showTopSnackBar(
-              curve: Curves.easeIn,
-              animationDuration: Duration(milliseconds: 450),
-              displayDuration: Duration(milliseconds: 650),
+              curve: Curves.easeInCirc,
+              animationDuration: Duration(milliseconds: 225),
+              displayDuration: Duration(milliseconds: 400),
               Overlay.of(context)!,
               const CustomSnackBar.error(
                 message: 'Swipe down to reload',

@@ -8,8 +8,8 @@ void generalLoader(BuildContext context) {
       barrierDismissible: false,
       barrierColor: backgroundGrey,
       context: context,
-      builder: (BuildContext context) {
-        dialogContext = context;
+      builder: (BuildContext ctx) {
+        dialogContext = ctx;
         Future.delayed(Duration(milliseconds: 750), () {
           Navigator.pop(dialogContext);
         });

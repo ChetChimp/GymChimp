@@ -13,6 +13,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'lineChartWidget.dart';
+import 'package:draggable_fab/draggable_fab.dart';
 
 class StatsPage extends StatefulWidget {
   const StatsPage({Key? key}) : super(key: key);
@@ -20,8 +21,6 @@ class StatsPage extends StatefulWidget {
   @override
   State<StatsPage> createState() => _StatsPageState();
 }
-
-bool beginLoading = false;
 
 class _StatsPageState extends State<StatsPage> {
   @override
@@ -39,33 +38,33 @@ class _StatsPageState extends State<StatsPage> {
         return MaterialPageRoute(
           builder: (_) => MaterialApp(
             home: Scaffold(
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.startDocked,
+              floatingActionButton: DraggableFab(
+                child: FloatingActionButton(
+                  heroTag: "ResetButton",
+                  onPressed: () {
+                    zoomPanBehavior.reset();
+                  },
+                  child: const Icon(Icons.refresh, color: Colors.white),
+                  backgroundColor: Colors.blue,
+                ),
+              ),
+              resizeToAvoidBottomInset: false,
               backgroundColor: backgroundGrey,
               appBar: MyAppBar(context, false, "stats_page"),
               body: Column(
                 children: [
                   const SearchExercise(),
-                  if (beginLoading)
-                    Container(
-                      color: backgroundGrey,
-                      child: Center(
-                        child: SpinKitPouringHourGlassRefined(
-                          duration: const Duration(seconds: 1),
-                          color: accentColor,
-                          size: MediaQuery.of(context).size.height / 12,
-                        ),
-                      ),
-                    ),
-                  if (!beginLoading)
-                    SizedBox(
-                      height: size.height / 3,
-                      width: size.width - 20,
-                      child: LineChartWidget(),
-                    ),
+                  Expanded(
+                    child: LineChartWidget(),
+                  ),
                 ],
               ),
             ),
           ),
         );
+
         // WidgetBuilder builder;
         // builder = (BuildContext _) =>
       },

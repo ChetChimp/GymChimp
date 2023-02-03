@@ -28,16 +28,8 @@ class StartPage extends StatefulWidget {
 Widget HomeTile(BuildContext context, int index, String title, Widget icon,
     LinearGradient gradient) {
   return Container(
-    decoration: BoxDecoration(
-      gradient: gradient,
-      borderRadius: BorderRadius.circular(8.0),
-    ),
     child: ElevatedButton(
-        style: TextButton.styleFrom(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            minimumSize: Size(150, 150),
-            backgroundColor: Color.fromARGB(255, 25, 30, 42)),
+        style: TextButton.styleFrom(backgroundColor: foregroundGrey),
         onPressed: () {
           toHomePage(context, index);
           generalLoader(context);
@@ -45,10 +37,10 @@ Widget HomeTile(BuildContext context, int index, String title, Widget icon,
         child: Column(
           children: <Widget>[
             icon,
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 18,
                   color: Colors.white,
                   letterSpacing: .5,
@@ -71,8 +63,8 @@ void extraPopOut(BuildContext ctx) {
     return (PopupMenuButton(
       itemBuilder: (_) {
         return [
-          PopupMenuItem(child: Text("Item2")),
-          PopupMenuItem(child: Text("Item3"))
+          const PopupMenuItem(child: Text("Item2")),
+          const PopupMenuItem(child: Text("Item3"))
         ];
       },
     ));
@@ -117,7 +109,7 @@ class _StartPage extends State<StartPage> {
       child: Scaffold(
         appBar: MyAppBar(context, false, "start_page"),
         backgroundColor: backgroundGrey,
-        body: Container(
+        body: Center(
           child: Column(
             children: <Widget>[
               Spacer(flex: 1),
@@ -125,13 +117,13 @@ class _StartPage extends State<StartPage> {
                 "GymChimp",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width / 7,
+                    fontSize: MediaQuery.of(context).size.width / 6,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                     letterSpacing: .5,
                     decoration: TextDecoration.none),
               ),
-              Spacer(),
+              Spacer(flex: 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -150,10 +142,10 @@ class _StartPage extends State<StartPage> {
                             package: Icons.fitness_center_sharp.fontPackage,
                             color: accentColor,
                             fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.width / 3.5),
+                            fontSize: MediaQuery.of(context).size.width / 2.5),
                       ),
                       LinearGradient(colors: primaryGradient)),
-                  SizedBox(width: 15),
+                  const SizedBox(width: 5),
                   // Stats Button
                   HomeTile(
                       context,
@@ -167,7 +159,7 @@ class _StartPage extends State<StartPage> {
                             package: Icons.insights_sharp.fontPackage,
                             color: accentColor,
                             fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.width / 3.5),
+                            fontSize: MediaQuery.of(context).size.width / 2.5),
                       ),
                       LinearGradient(
                         colors: [primaryGradient[1], primaryGradient[0]],
@@ -175,7 +167,7 @@ class _StartPage extends State<StartPage> {
                   Spacer(flex: 1),
                 ],
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -185,17 +177,17 @@ class _StartPage extends State<StartPage> {
                       2,
                       "Nutrition",
                       Icon(Icons.fastfood_sharp,
-                          size: MediaQuery.of(context).size.width / 3.5,
+                          size: MediaQuery.of(context).size.width / 2.5,
                           color: accentColor),
                       LinearGradient(colors: primaryGradient)),
-                  SizedBox(width: 15),
+                  const SizedBox(width: 5),
                   // Plan Button
                   HomeTile(
                       context,
                       3,
                       "Plan",
                       Icon(Icons.edit_sharp,
-                          size: MediaQuery.of(context).size.width / 3.5,
+                          size: MediaQuery.of(context).size.width / 2.5,
                           color: accentColor),
                       LinearGradient(colors: primaryGradient))
                 ],
