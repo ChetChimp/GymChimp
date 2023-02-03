@@ -13,6 +13,7 @@ import 'package:gymchimp/Main%20App%20Body/account_settings.dart';
 import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
 import 'package:gymchimp/Main%20App%20Body/workout/workout_page.dart';
 import 'package:gymchimp/login-signup/Sign%20up/sign_up_page.dart';
+import 'package:gymchimp/objects/general_loader.dart';
 import '../Firebase/firebase_options.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -39,6 +40,7 @@ Widget HomeTile(BuildContext context, int index, String title, Widget icon,
             backgroundColor: Color.fromARGB(255, 25, 30, 42)),
         onPressed: () {
           toHomePage(context, index);
+          generalLoader(context);
         },
         child: Column(
           children: <Widget>[

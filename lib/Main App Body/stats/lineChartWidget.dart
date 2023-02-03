@@ -83,19 +83,22 @@ class _LineChartWidgetState extends State<LineChartWidget> {
         body: Center(
             child: Container(
                 child: SfCartesianChart(
+                    primaryXAxis: DateTimeAxis(
+                        borderColor: Colors.white,
+                        labelStyle: TextStyle(color: Colors.white)),
                     title: ChartTitle(
-                        text: selectedExerciseName,
+                        text: selectedExerciseName.isEmpty
+                            ? "Select An Exercise"
+                            : selectedExerciseName,
                         textStyle:
                             TextStyle(color: Colors.white, fontSize: 18)),
                     plotAreaBackgroundColor: foregroundGrey,
+                    enableAxisAnimation: true,
                     plotAreaBorderColor: Colors.transparent,
                     backgroundColor: backgroundGrey,
                     palette: [accentColor],
-                    enableAxisAnimation: true,
                     zoomPanBehavior: _zoomPanBehavior,
-                    primaryXAxis: DateTimeAxis(),
                     series: <ChartSeries<ChartData, DateTime>>[
-                      // Renders line chart
                       LineSeries<ChartData, DateTime>(
                           dataSource: chartData,
                           xValueMapper: (ChartData data, _) => data.x,

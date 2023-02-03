@@ -31,7 +31,6 @@ class WorkoutPage extends StatefulWidget {
 Function workoutState = () {};
 Function unitState = () {};
 Function dropdownUpdate = () {};
-
 Workout currentWorkout = Workout("Select Workout");
 
 int index = 0;
@@ -56,6 +55,7 @@ class _WorkoutPage extends State<WorkoutPage>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
+    currentWorkout = Workout("Select Workout");
     fillExerciseList(currentWorkout);
     getRows();
     updateProgress();
@@ -452,8 +452,7 @@ class _WorkoutPage extends State<WorkoutPage>
                                   setState(() {
                                     currentWorkout.endLive();
                                   });
-
-                                  workoutSummary(ctx: context);
+                                  Navigator.pop(context);
                                 }
                               }
                             }

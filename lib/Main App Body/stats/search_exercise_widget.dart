@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gymchimp/main.dart';
+import 'package:gymchimp/objects/general_loader.dart';
 import 'package:gymchimp/objects/workout.dart';
 import 'lineChartWidget.dart';
+import 'stats_page.dart';
 
 class SearchExercise extends StatefulWidget {
   const SearchExercise({Key? key}) : super(key: key);
@@ -98,7 +101,7 @@ class _SearchExerciseState extends State<SearchExercise> {
             duration: Duration(seconds: 1),
             curve: Curves.ease,
             //live list of execises
-            height: size.height / 3,
+            height: size.height / 4,
             child: ListView.builder(
               itemCount: exerciseTempL.length,
               itemBuilder: (context, index) {
@@ -113,6 +116,7 @@ class _SearchExerciseState extends State<SearchExercise> {
                       ),
                       // ignore: prefer_interpolation_to_compose_strings
                       onTap: () {
+                        generalLoader(context);
                         setState(() {
                           selectedExerciseName = exerciseTempL[index];
                           findExerciseDataConnect(selectedExerciseName);

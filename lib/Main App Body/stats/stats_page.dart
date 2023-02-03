@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gymchimp/Main%20App%20Body/app_bar.dart';
 import 'package:gymchimp/Main%20App%20Body/stats/search_exercise_widget.dart';
 import 'package:gymchimp/main.dart';
@@ -19,6 +20,8 @@ class StatsPage extends StatefulWidget {
   @override
   State<StatsPage> createState() => _StatsPageState();
 }
+
+bool beginLoading = false;
 
 class _StatsPageState extends State<StatsPage> {
   @override
@@ -41,11 +44,23 @@ class _StatsPageState extends State<StatsPage> {
               body: Column(
                 children: [
                   const SearchExercise(),
-                  SizedBox(
-                    height: size.height / 3,
-                    width: size.width - 20,
-                    child: LineChartWidget(),
-                  ),
+                  if (beginLoading)
+                    Container(
+                      color: backgroundGrey,
+                      child: Center(
+                        child: SpinKitPouringHourGlassRefined(
+                          duration: const Duration(seconds: 1),
+                          color: accentColor,
+                          size: MediaQuery.of(context).size.height / 12,
+                        ),
+                      ),
+                    ),
+                  if (!beginLoading)
+                    SizedBox(
+                      height: size.height / 3,
+                      width: size.width - 20,
+                      child: LineChartWidget(),
+                    ),
                 ],
               ),
             ),

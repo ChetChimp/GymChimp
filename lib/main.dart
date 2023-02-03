@@ -111,6 +111,7 @@ void updateInfo(String label, String text) async {
 CurrentUser currentUser = CurrentUser();
 
 Future<void> addUserInfo() async {
+  currentUser = CurrentUser();
   await firestore
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -196,7 +197,6 @@ void readWorkoutsFirebase() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  // This widget is the root of your application. Launches firstLogin page
   @override
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -209,15 +209,6 @@ class MyApp extends StatelessWidget {
     }
     return MaterialApp(
       theme: ThemeData(
-        // Define the default brightness and colors.
-
-/*
-          EXAMPLE USAGE:
-                  style: Theme.of(context).textTheme.titleLarge,
-
-                  To make color changes:
-                  ?.copyWith(color: Theme.of(context).colorScheme.primary)),
-          */
         colorScheme: ColorScheme.fromSeed(
             background: Color.fromARGB(255, 221, 221, 221),
             seedColor: Color.fromARGB(255, 157, 191, 255),

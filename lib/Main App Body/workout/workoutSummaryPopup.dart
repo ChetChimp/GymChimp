@@ -29,34 +29,41 @@ void workoutSummary({
         borderRadius: BorderRadius.all(Radius.circular(35))),
     context: ctx,
     builder: (BuildContext context) {
-      return FractionallySizedBox(
-        heightFactor: 1,
-        child: StatefulBuilder(
-            builder: (BuildContext context2, StateSetter setModalState) {
-          Size size = MediaQuery.of(context).size;
-          final ScrollController _animatedScrollController = ScrollController();
+      return GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        },
+        child: FractionallySizedBox(
+          heightFactor: 1,
+          child: StatefulBuilder(
+              builder: (BuildContext context2, StateSetter setModalState) {
+            Size size = MediaQuery.of(context).size;
+            final ScrollController _animatedScrollController =
+                ScrollController();
 
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.all(Radius.circular(35)),
-            ),
-            padding: EdgeInsets.all(15),
-            height: 400,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                //New/Edit Exercise Title
-                Container(
-                    margin: EdgeInsets.all(30),
-                    child: Text("testtest",
-                        style: TextStyle(color: Colors.black, fontSize: 35))),
-                //Exercise Chooser
-              ],
-            ),
-          );
-        }),
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.all(Radius.circular(35)),
+              ),
+              padding: EdgeInsets.all(15),
+              height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  //New/Edit Exercise Title
+                  Container(
+                      margin: EdgeInsets.all(30),
+                      child: Text("Workout Saved",
+                          style: TextStyle(color: Colors.black, fontSize: 35))),
+                  //Exercise Chooser
+                ],
+              ),
+            );
+          }),
+        ),
       );
     },
   );
